@@ -1,0 +1,1748 @@
+<!DOCTYPE html>
+<!--
+  ============================================================
+  Хімарій — Інтерактивний довідник з хімії | v.1.0.1
+  © 2026 Усі права належать автору: Хоменко Олексій Григорович.
+  Платформа/бренд: ITS_tiamushchy.
+  Контакти: itstiamushchy@gmail.com
+  ============================================================
+-->
+
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0f172a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="icon" href="./icons/icon-192.png" type="image/png">
+    <link rel="apple-touch-icon" href="./icons/icon-192.png">
+    <title>Хімарій — Інтерактивний довідник з хімії | v.1.0.1</title>
+    <style>
+        /* ============================================================
+         * Хімарій — Інтерактивний довідник з хімії
+         * © 2026 Усі права належать автору: Хоменко Олексій Григорович.
+         * Платформа/бренд: ITS_tiamushchy.
+         * Контакти: itstiamushchy@gmail.com
+         * ============================================================ */
+        :root {
+            --bg-main: #121418;
+            --bg-card: #1a1d24;
+            --bg-subcard: #1e222b;
+            --border-color: #2a2e39;
+            --text-main: #f0f2f5;
+            --text-muted: #9ba3af;
+            --accent-inorganic: #2563eb;
+            --accent-organic: #10b981;
+            --accent-search: #f59e0b;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 24px 12px;
+            min-height: 100vh;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+            width: 100%;
+            max-width: 1400px;
+        }
+
+        h1 { font-size: 28px; font-weight: 700; color: #ffffff; letter-spacing: 0.5px; margin-bottom: 6px; }
+        p.subtitle { font-size: 14px; color: var(--text-muted); margin-bottom: 16px; }
+
+        /* ===== SEARCH ===== */
+        .search-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 560px;
+            margin: 0 auto 8px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 16px 12px 42px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            color: var(--text-main);
+            font-size: 15px;
+            font-family: inherit;
+            outline: none;
+            transition: border-color .2s;
+        }
+        .search-input:focus { border-color: var(--accent-search); }
+        .search-input::placeholder { color: var(--text-muted); }
+
+        .search-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 16px;
+            pointer-events: none;
+        }
+
+        .search-results {
+            display: none;
+            position: absolute;
+            top: calc(100% + 4px);
+            left: 0;
+            right: 0;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            max-height: 380px;
+            overflow-y: auto;
+            z-index: 500;
+            box-shadow: 0 12px 32px rgba(0,0,0,.6);
+        }
+        .search-results.open { display: block; }
+
+        .sr-group-title {
+            padding: 8px 14px 4px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .6px;
+            color: var(--text-muted);
+        }
+        .sr-group-title.el { color: var(--accent-search); }
+        .sr-group-title.inorg { color: var(--accent-inorganic); }
+        .sr-group-title.org { color: var(--accent-organic); }
+
+        .sr-item {
+            padding: 8px 14px;
+            cursor: pointer;
+            font-size: 14px;
+            color: var(--text-main);
+            transition: background .15s;
+            border-bottom: 1px solid rgba(255,255,255,.04);
+        }
+        .sr-item:hover, .sr-item.focused { background: var(--bg-subcard); }
+        .sr-item .sr-sym { font-weight: 700; margin-right: 6px; }
+        .sr-item .sr-hint { color: var(--text-muted); font-size: 12px; margin-left: 6px; }
+
+        .sr-empty { padding: 16px; text-align: center; color: var(--text-muted); font-size: 14px; }
+
+        /* ===== TABS ===== */
+        .tab-nav {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 12px 16px;
+            background: var(--bg-card);
+            color: var(--text-muted);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+            font-family: inherit;
+        }
+        .tab-btn:hover { color: #fff; background: var(--bg-subcard); }
+        .tab-btn.active {
+            background: #2563eb;
+            color: #fff;
+            border-color: #3b82f6;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+
+        .tab-content { display: none; width: 100%; max-width: 1400px; }
+        .tab-content.active { display: block; }
+
+        /* ===== PERIODIC TABLE ===== */
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            padding: 10px;
+            background: var(--bg-card);
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border: 1px solid var(--border-color);
+        }
+
+        .periodic-grid {
+            display: grid;
+            grid-template-columns: repeat(18, minmax(68px, 1fr));
+            grid-template-rows: repeat(10, minmax(78px, auto));
+            gap: 5px;
+            min-width: 1250px;
+        }
+
+        .element-btn {
+            background-color: #f7d2be;
+            color: #111111;
+            border: 2px solid #e5b39a;
+            border-radius: 4px;
+            padding: 4px 6px;
+            cursor: pointer;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            text-align: left;
+            transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            user-select: none;
+            outline: none;
+            font-family: inherit;
+        }
+        .element-btn:hover, .element-btn:focus {
+            transform: scale(1.65);
+            z-index: 100;
+            box-shadow: 0 12px 25px rgba(0,0,0,.8), 0 0 15px rgba(255,255,255,.5);
+            border-color: #ffffff;
+        }
+        .element-btn.highlight-pulse {
+            animation: highlightPulse .8s ease 2;
+        }
+        @keyframes highlightPulse {
+            0%, 100% { box-shadow: 0 2px 4px rgba(0,0,0,.3); }
+            50% { box-shadow: 0 0 0 4px rgba(245,158,11,.6), 0 4px 16px rgba(245,158,11,.3); }
+        }
+
+        .top-row { display: flex; justify-content: space-between; align-items: flex-start; line-height: 1; }
+        .atomic-number { font-size: 13px; font-weight: 700; color: #000; }
+        .electron-shells { display: flex; flex-direction: column; align-items: flex-end; font-size: 9px; font-weight: 600; line-height: 1.05; color: #222; }
+        .symbol-name-container { margin-top: 1px; margin-bottom: 2px; }
+        .symbol { font-size: 22px; font-weight: 900; line-height: 1; color: #000000; letter-spacing: -0.5px; }
+        .name { font-size: 10px; font-weight: 600; line-height: 1.1; color: #111111; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .atomic-mass { font-size: 10px; font-weight: 700; color: #111111; line-height: 1; margin-top: auto; }
+
+        /* Element categories */
+        .cat-transition       { background-color: #f8cbb4; border-color: #e2a88e; }
+        .cat-alkali-metal     { background-color: #ffb3ba; border-color: #ea8a93; }
+        .cat-alkaline-earth   { background-color: #ffe5b4; border-color: #e5c386; }
+        .cat-nonmetal         { background-color: #baffc9; border-color: #8bd89d; }
+        .cat-noble-gas        { background-color: #e8baff; border-color: #c786e5; }
+        .cat-metalloid        { background-color: #bae1ff; border-color: #8bbce5; }
+        .cat-post-transition  { background-color: #c4faf8; border-color: #8fdcd9; }
+        .cat-halogen          { background-color: #ffffba; border-color: #d6d678; }
+        .cat-lanthanide       { background-color: #ffd3e0; border-color: #dca0b2; }
+        .cat-actinide         { background-color: #e2d1f9; border-color: #b59bd8; }
+
+        /* ===== MODAL ===== */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: rgba(0,0,0,0.75);
+            backdrop-filter: blur(5px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-overlay.active { display: flex; }
+
+        .modal-card {
+            background: #1e222b;
+            border: 1px solid #363c4e;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 520px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 24px;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            animation: popIn 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes popIn {
+            from { transform: scale(0.85); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .close-btn {
+            position: absolute; top: 16px; right: 16px;
+            background: none; border: none;
+            color: #9ba3af; font-size: 24px; cursor: pointer;
+        }
+        .close-btn:hover { color: #ffffff; }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            border-bottom: 1px solid #2d3342;
+            padding-bottom: 16px;
+            margin-bottom: 16px;
+        }
+
+        .modal-preview-box {
+            width: 80px; height: 90px;
+            border-radius: 6px;
+            padding: 6px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            color: #111;
+            flex-shrink: 0;
+        }
+
+        .modal-title h2 { font-size: 24px; color: #fff; margin-bottom: 4px; }
+        .modal-title span { font-size: 14px; color: #a0aec0; }
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        .detail-item {
+            background: #14171f;
+            padding: 10px 12px;
+            border-radius: 6px;
+            border: 1px solid #272c38;
+        }
+        .detail-item .label { font-size: 11px; color: #718096; text-transform: uppercase; margin-bottom: 4px; }
+        .detail-item .value { font-size: 14px; font-weight: 600; color: #e2e8f0; }
+
+        /* Related compounds in modal */
+        .related-section {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid #2d3342;
+        }
+        .related-section h3 {
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+        }
+        .related-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        .related-chip {
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            border: 1px solid;
+            transition: all .15s;
+            background: transparent;
+            font-family: inherit;
+        }
+        .related-chip.inorg {
+            color: #93b8f7;
+            border-color: rgba(37,99,235,.4);
+        }
+        .related-chip.inorg:hover {
+            background: rgba(37,99,235,.15);
+            border-color: var(--accent-inorganic);
+        }
+        .related-chip.org {
+            color: #6ee7b7;
+            border-color: rgba(16,185,129,.4);
+        }
+        .related-chip.org:hover {
+            background: rgba(16,185,129,.15);
+            border-color: var(--accent-organic);
+        }
+        .related-empty {
+            font-size: 13px;
+            color: #4a5568;
+            font-style: italic;
+        }
+
+        /* ===== ACCORDION ===== */
+        .accordion-container { max-width: 900px; margin: 0 auto; }
+        .section-card {
+            background: var(--bg-card);
+            border-radius: 8px;
+            margin-bottom: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+        .accordion-btn {
+            width: 100%;
+            text-align: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            font-family: inherit;
+            transition: background 0.2s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .section-btn {
+            padding: 16px 20px;
+            background: #1f242d;
+            color: white;
+            font-weight: 600;
+            font-size: 17px;
+        }
+        .section-btn:hover { background: #282e3a; }
+
+        .section-content {
+            display: none;
+            padding: 12px;
+            background: var(--bg-card);
+        }
+        .sub-btn {
+            padding: 12px 16px;
+            background: #252a34;
+            color: var(--text-main);
+            font-weight: 600;
+            font-size: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            margin-top: 8px;
+        }
+        .sub-btn:hover { background: #2e3442; }
+
+        .sub-content {
+            display: none;
+            padding: 12px 16px;
+            background: var(--bg-subcard);
+            border-left: 3px solid var(--accent-inorganic);
+            border-bottom: 1px solid var(--border-color);
+            border-right: 1px solid var(--border-color);
+            border-bottom-left-radius: 6px;
+            border-bottom-right-radius: 6px;
+            margin-bottom: 8px;
+        }
+        .organic-tree .sub-content { border-left-color: var(--accent-organic); }
+
+        .item-btn {
+            padding: 10px 14px;
+            background: #14171f;
+            color: #d1d5db;
+            font-size: 14px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            margin-top: 6px;
+        }
+        .item-btn:hover { background: #1c202b; border-color: #4b5563; }
+
+        .item-content {
+            display: none;
+            padding: 12px;
+            background: #0f1115;
+            border: 1px dashed var(--border-color);
+            border-top: none;
+            border-radius: 0 0 6px 6px;
+            font-size: 14px;
+            color: #9ca3af;
+        }
+
+        .arrow { font-size: 12px; transition: transform 0.2s ease; margin-left: 10px; }
+        .active > .accordion-btn .arrow,
+        .active > button .arrow { transform: rotate(180deg); }
+        .active > .section-content,
+        .active > .sub-content,
+        .active > .item-content { display: block; }
+
+        .formula { font-weight: 600; }
+        .inorganic-tree .formula { color: #60a5fa; }
+        .organic-tree .formula { color: #34d399; }
+        .placeholder { margin: 0; font-style: italic; color: #6b7280; }
+
+        /* Highlight for navigated item */
+        .acc-highlight > button.accordion-btn {
+            outline: 2px solid var(--accent-search);
+            outline-offset: -2px;
+            animation: accFlash .6s ease 2;
+        }
+        @keyframes accFlash {
+            0%, 100% { outline-color: var(--accent-search); }
+            50% { outline-color: transparent; }
+        }
+
+        /* ===== GRAPH FILTERS ===== */
+        .graph-filters {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding: 10px 0;
+        }
+        .graph-filter-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .graph-filter-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            min-width: 60px;
+        }
+        .graph-filter-group {
+            display: flex;
+            gap: 4px;
+            flex-wrap: wrap;
+        }
+        .graph-filter-btn {
+            padding: 5px 12px;
+            font-size: 12px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: var(--bg-subcard);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .graph-filter-btn:hover:not([disabled]) {
+            color: #fff;
+            border-color: var(--accent-primary);
+        }
+        .graph-filter-btn.active {
+            background: var(--accent-primary);
+            color: #fff;
+            border-color: var(--accent-primary);
+        }
+        .graph-filter-btn.disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        /* ===== GRAPH TAB LAYOUT ===== */
+        #tab-graph.active {
+            display: flex;
+            flex-direction: column;
+        }
+        .graph-tab-body {
+            display: flex;
+            gap: 12px;
+            flex: 1;
+            min-height: 0;
+        }
+        #graph-container {
+            flex: 1;
+            min-height: 400px;
+            height: 65vh;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+        }
+
+        /* ===== GAME PANEL (desktop: side-panel) ===== */
+        #game-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            width: 280px;
+            min-width: 280px;
+            padding: 12px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            align-self: flex-start;
+            max-height: 65vh;
+            overflow-y: auto;
+        }
+        .game-panel-top {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .game-mode-buttons {
+            display: flex;
+            gap: 4px;
+        }
+        .game-mode-btn {
+            padding: 6px 14px;
+            font-size: 13px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--bg-subcard);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s;
+            flex: 1;
+            text-align: center;
+        }
+        .game-mode-btn:hover { color: #fff; border-color: var(--accent-primary); }
+        .game-mode-btn.active {
+            background: var(--accent-primary);
+            color: #fff;
+            border-color: var(--accent-primary);
+        }
+        .game-score {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 15px;
+            font-weight: 700;
+            color: #facc15;
+        }
+        .game-score-label { color: var(--text-secondary); font-weight: 400; font-size: 13px; }
+        .game-task-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 14px;
+            background: var(--bg-subcard);
+            border: 1px solid var(--accent-primary);
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            color: #fff;
+        }
+        .game-task-icon { font-size: 18px; }
+        .game-task-close {
+            margin-left: auto;
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 16px;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+        .game-task-close:hover { color: #ef4444; background: rgba(239,68,68,0.15); }
+        .game-feedback {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            line-height: 1.4;
+        }
+        .game-feedback.success { background: rgba(34,197,94,0.12); color: #22c55e; border: 1px solid rgba(34,197,94,0.3); }
+        .game-feedback.error   { background: rgba(239,68,68,0.12); color: #f87171; border: 1px solid rgba(239,68,68,0.3); }
+        .game-feedback.hint    { background: rgba(250,204,21,0.12); color: #facc15; border: 1px solid rgba(250,204,21,0.3); }
+        .game-feedback.complete { background: rgba(59,130,246,0.12); color: #60a5fa; border: 1px solid rgba(59,130,246,0.3); }
+        .game-actions {
+            display: flex;
+            gap: 8px;
+        }
+        .game-action-btn {
+            padding: 6px 14px;
+            font-size: 13px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--bg-subcard);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s;
+            flex: 1;
+            text-align: center;
+        }
+        .game-action-btn:hover { color: #fff; border-color: var(--accent-primary); }
+        .game-hint-btn:hover { border-color: #facc15; color: #facc15; }
+        .game-retry-btn:hover { border-color: #22c55e; color: #22c55e; }
+        /* ── Bottom-sheet handle (mobile only) ── */
+        .game-panel-handle {
+            display: none;
+        }
+        .game-panel-body {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        /* ===== QUIZ INPUT ===== */
+        .quiz-input-wrap {
+            display: flex;
+            gap: 6px;
+        }
+        .quiz-answer-input {
+            flex: 1;
+            padding: 8px 12px;
+            font-size: 14px;
+            font-family: monospace;
+            background: var(--bg-subcard);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: #fff;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .quiz-answer-input:focus { border-color: var(--accent-primary); }
+        .quiz-submit-btn {
+            white-space: nowrap;
+            background: var(--accent-primary) !important;
+            color: #fff !important;
+            border-color: var(--accent-primary) !important;
+        }
+        .quiz-submit-btn:hover { opacity: 0.85; }
+
+        /* ===== GRAPH EXPORT ===== */
+        .graph-export { margin-top: 8px; border-top: 1px solid var(--border); padding-top: 10px; }
+        .graph-export-wrap { position: relative; display: inline-block; }
+        .graph-export-btn { width: 100%; }
+        .graph-export-dropdown {
+            position: absolute;
+            bottom: calc(100% + 6px);
+            left: 0;
+            right: 0;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+            z-index: 50;
+        }
+        .graph-export-option {
+            display: block;
+            width: 100%;
+            padding: 8px 14px;
+            font-size: 13px;
+            border: none;
+            background: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            text-align: left;
+        }
+        .graph-export-option:hover { background: var(--bg-subcard); color: #fff; }
+        .graph-export-option + .graph-export-option { border-top: 1px solid var(--border); }
+        .graph-export { display: flex; gap: 8px; flex-wrap: wrap; }
+        .graph-print-btn:hover { border-color: #60a5fa; color: #60a5fa; }
+
+        /* ===== COMPARE MODAL ===== */
+        .compare-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.25s;
+            backdrop-filter: blur(4px);
+        }
+        .compare-overlay.visible { opacity: 1; }
+        .compare-modal {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            width: 90%;
+            max-width: 700px;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+        }
+        .compare-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--border);
+        }
+        .compare-title { font-size: 16px; font-weight: 700; color: #fff; }
+        .compare-close {
+            background: none; border: none; color: var(--text-secondary);
+            font-size: 18px; cursor: pointer; padding: 4px 8px; border-radius: 6px;
+        }
+        .compare-close:hover { color: #ef4444; background: rgba(239,68,68,0.15); }
+        .compare-body { padding: 16px 18px; }
+        .compare-split {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+        .compare-card {
+            flex: 1;
+            background: var(--bg-subcard);
+            border-radius: 10px;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .compare-formula {
+            font-family: monospace;
+            font-size: 22px;
+            font-weight: 700;
+            color: #fff;
+            text-align: center;
+            padding-bottom: 8px;
+            border-bottom: 3px solid var(--border);
+            margin-bottom: 4px;
+        }
+        .compare-name {
+            text-align: center;
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+        }
+        .compare-vs {
+            display: flex;
+            align-items: center;
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--accent-primary);
+            padding: 0 4px;
+            align-self: center;
+        }
+        .compare-row { font-size: 13px; color: var(--text-secondary); }
+        .compare-label { font-weight: 600; color: #cbd5e1; }
+        .compare-tags { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 4px; }
+        .compare-tag {
+            font-size: 11px; padding: 2px 8px; border-radius: 4px;
+            background: rgba(99,102,241,0.15); color: #818cf8;
+        }
+        .compare-common {
+            margin-top: 16px;
+            padding-top: 12px;
+            border-top: 1px solid var(--border);
+        }
+        .compare-section-title {
+            font-size: 13px; font-weight: 700; color: #fff;
+            margin-bottom: 6px; margin-top: 8px;
+        }
+        .compare-section-title:first-child { margin-top: 0; }
+        .compare-equation {
+            font-family: monospace; font-size: 13px; color: #facc15;
+            padding: 6px 10px; background: var(--bg-subcard);
+            border-radius: 6px; margin-bottom: 4px;
+        }
+        .compare-neighbor-list { display: flex; gap: 6px; flex-wrap: wrap; }
+        .compare-neighbor {
+            font-family: monospace; font-size: 12px;
+            padding: 3px 10px; border-radius: 6px;
+            background: var(--bg-subcard); color: #60a5fa;
+            border: 1px solid rgba(96,165,250,0.2);
+        }
+        .compare-no-common { font-size: 13px; color: var(--text-secondary); font-style: italic; }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            body { padding: 12px 8px; }
+            h1 { font-size: 20px; }
+            p.subtitle { font-size: 12px; margin-bottom: 12px; }
+
+            .tab-nav { flex-direction: column; gap: 6px; }
+            .tab-btn { font-size: 14px; padding: 10px 12px; }
+            #graph-container { height: 50vh; min-height: 300px; }
+            .graph-filter-label { min-width: auto; }
+            .graph-filter-btn { padding: 4px 8px; font-size: 11px; }
+            .graph-tab-body { flex-direction: column; }
+            #game-panel {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                width: 100%;
+                min-width: unset;
+                max-height: 55vh;
+                border-radius: 16px 16px 0 0;
+                border-bottom: none;
+                z-index: 100;
+                box-shadow: 0 -4px 20px rgba(0,0,0,0.4);
+                padding: 8px 14px 14px;
+                transform: translateY(calc(100% - 56px));
+                transition: transform 0.3s ease;
+            }
+            #game-panel.expanded { transform: translateY(0); }
+            .game-panel-handle {
+                display: flex !important;
+                justify-content: center;
+                padding: 6px 0 8px;
+                cursor: grab;
+            }
+            .game-panel-handle span {
+                display: block;
+                width: 36px;
+                height: 4px;
+                border-radius: 2px;
+                background: var(--text-secondary);
+                opacity: 0.5;
+            }
+            .game-mode-btn { padding: 5px 10px; font-size: 12px; }
+            .game-task-badge { font-size: 13px; padding: 6px 10px; }
+            .compare-split { flex-direction: column; }
+            .compare-vs { align-self: center; padding: 4px 0; }
+            .compare-modal { width: 95%; max-height: 80vh; }
+
+            .periodic-grid {
+                grid-template-columns: repeat(18, 52px);
+                grid-template-rows: repeat(10, 62px);
+                gap: 3px;
+                min-width: 970px;
+            }
+            .atomic-number { font-size: 10px; }
+            .electron-shells { font-size: 7px; }
+            .symbol { font-size: 16px; }
+            .name { font-size: 8px; }
+            .atomic-mass { font-size: 8px; }
+            .element-btn { padding: 3px 4px; }
+            .element-btn:hover, .element-btn:focus { transform: scale(1.8); }
+
+            .modal-card {
+                width: 96%;
+                max-width: none;
+                max-height: 94vh;
+                padding: 16px;
+                border-radius: 10px;
+            }
+            .modal-title h2 { font-size: 18px; }
+            .details-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+
+            .section-btn { font-size: 15px; padding: 14px 14px; }
+            .sub-btn { font-size: 14px; }
+            .item-btn { font-size: 13px; }
+        }
+
+        @media (max-width: 480px) {
+            .periodic-grid {
+                grid-template-columns: repeat(18, 44px);
+                grid-template-rows: repeat(10, 54px);
+                gap: 2px;
+                min-width: 810px;
+            }
+            .atomic-number { font-size: 9px; }
+            .symbol { font-size: 14px; }
+            .name { font-size: 7px; }
+            .atomic-mass { font-size: 7px; }
+            .electron-shells { display: none; }
+
+            .details-grid { grid-template-columns: 1fr; }
+            .modal-preview-box { width: 64px; height: 74px; }
+        }
+        /* ===== PRINT (B&W, економія чорнила) ===== */
+        @media print {
+            /* Скинути кольори */
+            * {
+                color: #000 !important;
+                background: #fff !important;
+                box-shadow: none !important;
+                text-shadow: none !important;
+                -webkit-print-color-adjust: exact;
+            }
+
+            /* Сховати зайве */
+            .tab-nav,
+            .search-container,
+            #game-panel,
+            #graph-filter-panel,
+            .graph-export,
+            .compare-overlay,
+            .game-panel-handle {
+                display: none !important;
+            }
+
+            /* Показати лише активний таб */
+            body {
+                padding: 0 !important;
+                margin: 0 !important;
+                font-size: 10pt !important;
+            }
+            .tab-content { display: none !important; }
+            .tab-content.active { display: block !important; }
+
+            /* Періодична таблиця */
+            .element-card {
+                border: 1px solid #999 !important;
+                background: #fff !important;
+                color: #000 !important;
+                -webkit-print-color-adjust: exact;
+            }
+            .element-card .symbol { color: #000 !important; font-weight: 800 !important; }
+            .element-card .number,
+            .element-card .mass { color: #333 !important; }
+
+            /* Категорії — штриховані border замість кольорового фону */
+            .element-card[data-category="nonmetal"] { border-style: dashed !important; }
+            .element-card[data-category="noble-gas"] { border-style: dotted !important; }
+            .element-card[data-category="metalloid"] { border-width: 2px !important; border-style: double !important; }
+            .element-card[data-category="transition-metal"],
+            .element-card[data-category="alkali-metal"],
+            .element-card[data-category="alkaline-earth"] { border-style: solid !important; }
+
+            /* Акордеони */
+            .accordion { border: 1px solid #ccc !important; }
+            .accordion-header {
+                border-bottom: 1px solid #ccc !important;
+                font-weight: 700 !important;
+            }
+
+            /* Графік */
+            #graph-container {
+                border: 1px solid #999 !important;
+                height: auto !important;
+                min-height: 300px !important;
+            }
+
+            /* Таблиці */
+            table {
+                border-collapse: collapse !important;
+            }
+            td, th {
+                border: 1px solid #ccc !important;
+                padding: 3px 6px !important;
+            }
+
+            /* Посилання */
+            a { text-decoration: underline !important; }
+
+            /* Сторінка */
+            @page {
+                margin: 10mm;
+                size: A4;
+            }
+
+            /* Уникати розривів всередині карток */
+            .element-card,
+            .accordion,
+            .substance-section { page-break-inside: avoid; }
+        }
+
+    </style>
+  <script type="module" crossorigin src="./assets/index-B3u8nzYn.js"></script>
+<link rel="manifest" href="./manifest.webmanifest"><script id="vite-plugin-pwa:register-sw" src="./registerSW.js"></script></head>
+<body>
+
+    <header>
+        <h1>Інтерактивний довідник з хімії</h1>
+        <p class="subtitle">Оберіть потрібний розділ для роботи з матеріалами</p>
+        <div class="search-wrapper">
+            <span class="search-icon">🔍</span>
+            <input class="search-input" id="globalSearch" type="text" placeholder="Пошук: назва, символ, формула..." autocomplete="off">
+            <div class="search-results" id="searchResults"></div>
+        </div>
+    </header>
+
+    <nav class="tab-nav">
+        <button class="tab-btn active" onclick="switchTab('tab-periodic', this)">Періодична система</button>
+        <button class="tab-btn" onclick="switchTab('tab-inorganic', this)">Неорганічні речовини</button>
+        <button class="tab-btn" onclick="switchTab('tab-organic', this)">Органічні сполуки</button>
+        <button class="tab-btn" onclick="switchTab('tab-graph', this)">Граф перетворень</button>
+    </nav>
+
+    <!-- ============ TAB 1: Periodic Table ============ -->
+    <div id="tab-periodic" class="tab-content active">
+        <div class="table-container">
+            <div class="periodic-grid" id="periodicGrid"></div>
+        </div>
+    </div>
+
+    <!-- ============ TAB 2: Inorganic ============ -->
+    <div id="tab-inorganic" class="tab-content">
+        <div class="accordion-container inorganic-tree">
+
+            <div class="section-card">
+                <button class="accordion-btn section-btn" onclick="toggle(this)">
+                    <span>I. Прості речовини (складаються з одного елемента)</span>
+                    <span class="arrow">▼</span>
+                </button>
+                <div class="section-content">
+                    <div id="inorg-1" data-elements="Fe,Cu,Al,Na,K,Ca,Mg" data-label="Метали">
+                        <button class="accordion-btn item-btn" onclick="toggle(this)">
+                            <span><strong>1. Метали:</strong> <span class="formula">Fe, Cu, Al, Na, K, Ca, Mg</span></span>
+                            <span class="arrow">▼</span>
+                        </button>
+                        <div class="item-content">
+                            <p class="placeholder">Тут можна додати опис фізичних/хімічних властивостей металів.</p>
+                        </div>
+                    </div>
+                    <div id="inorg-2" data-elements="H,O,N,Cl,S,C,P,Si" data-label="Неметали">
+                        <button class="accordion-btn item-btn" onclick="toggle(this)">
+                            <span><strong>2. Неметали:</strong> <span class="formula">H₂, O₂, N₂, Cl₂, S, C, P, Si</span></span>
+                            <span class="arrow">▼</span>
+                        </button>
+                        <div class="item-content">
+                            <p class="placeholder">Інформація про неметали та їх особливості.</p>
+                        </div>
+                    </div>
+                    <div id="inorg-3" data-elements="He,Ne,Ar,Kr,Xe,Rn" data-label="Інертні гази">
+                        <button class="accordion-btn item-btn" onclick="toggle(this)">
+                            <span><strong>3. Благородні (інертні) гази:</strong> <span class="formula">He, Ne, Ar, Kr, Xe, Rn</span></span>
+                            <span class="arrow">▼</span>
+                        </button>
+                        <div class="item-content">
+                            <p class="placeholder">Інформація про інертні гази.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <button class="accordion-btn section-btn" onclick="toggle(this)">
+                    <span>II. Складні речовини: 4 основні класи</span>
+                    <span class="arrow">▼</span>
+                </button>
+                <div class="section-content">
+                    <div>
+                        <button class="accordion-btn sub-btn" onclick="toggle(this)">
+                            <span>4. Оксиди (бінарні сполуки з Оксигеном -2)</span>
+                            <span class="arrow">▼</span>
+                        </button>
+                        <div class="sub-content">
+                            <div id="inorg-4-1" data-elements="Na,Ca,Cu,O" data-label="Основні оксиди">
+                                <button class="accordion-btn item-btn" onclick="toggle(this)">
+                                    <span>Основні оксиди: <span class="formula">Na₂O, CaO, CuO</span></span>
+                                    <span class="arrow">▼</span>
+                                </button>
+                                <div class="item-content">
+                                    <p class="placeholder">Взаємодіють з кислотами та водою (якщо оксид лужного/лужноземельного металу).</p>
+                                </div>
+                            </div>
+                            <div id="inorg-4-2" data-elements="C,S,P,O" data-label="Кислотні оксиди">
+                                <button class="accordion-btn item-btn" onclick="toggle(this)">
+                                    <span>Кислотні оксиди (ангідриди): <span class="formula">CO₂, SO₃, P₂O₅</span></span>
+                                    <span class="arrow">▼</span>
+                                </button>
+                                <div class="item-content">
+                                    <p class="placeholder">Реагують з основами та водою з утворенням кислот.</p>
+                                </div>
+                            </div>
+                            <div id="inorg-4-3" data-elements="Zn,Al,Cr,O" data-label="Амфотерні оксиди">
+                                <button class="accordion-btn item-btn" onclick="toggle(this)">
+                                    <span>Амфотерні оксиди: <span class="formula">ZnO, Al₂O₃, Cr₂O₃</span></span>
+                                    <span class="arrow">▼</span>
+                                </button>
+                                <div class="item-content">
+                                    <p class="placeholder">Реагують і з кислотами, і з лугами.</p>
+                                </div>
+                            </div>
+                            <div id="inorg-4-4" data-elements="C,N,O" data-label="Несолетворні оксиди">
+                                <button class="accordion-btn item-btn" onclick="toggle(this)">
+                                    <span>Несолетворні оксиди: <span class="formula">CO, NO, N₂O</span></span>
+                                    <span class="arrow">▼</span>
+                                </button>
+                                <div class="item-content">
+                                    <p class="placeholder">Не утворюють солей у звичайних умовах.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <button class="accordion-btn sub-btn" onclick="toggle(this)">
+                            <span>5. Кислоти</span>
+                            <span class="arrow">▼</span>
+                        </button>
+                        <div class="sub-content">
+                            <div id="inorg-5-1" data-elements="H,Cl,S,Br" data-label="Безоксигенові кислоти">
+                                <button class="accordion-btn item-btn" onclick="toggle(this)">
+                                    <span>Безоксигенові кислоти: <span class="formula">HCl, H₂S, HBr</span></span>
+                                    <span class="arrow">▼</span>
+                                </button>
+                                <div class="item-content">
+                                    <p class="placeholder">Інформація про безоксигенові кислоти.</p>
+                                </div>
+                            </div>
+                            <div id="inorg-5-2" data-elements="H,S,N,P,O" data-label="Оксигеновмісні кислоти">
+                                <button class="accordion-btn item-btn" onclick="toggle(this)">
+                                    <span>Оксигеновмісні кислоти: <span class="formula">H₂SO₄, HNO₃, H₃PO₄</span></span>
+                                    <span class="arrow">▼</span>
+                                </button>
+                                <div class="item-content">
+                                    <p class="placeholder">Інформація про оксигеновмісні кислоти.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <button class="accordion-btn sub-btn" onclick="toggle(this)">
+                            <span>6. Основи та амфотерні гідроксиди</span>
+                            <span class="arrow">▼</span>
+                        </button>
+                        <div class="sub-content">
+                            <div id="inorg-6-1" data-elements="Na,K,Ca,Ba,O,H" data-label="Луги">
+                                <button class="accordion-btn item-btn" onclick="toggle(this)">
+                                    <span>Розчинні основи (луги): <span class="formula">NaOH, KOH, Ca(OH)₂, Ba(OH)₂</span></span>
+                                    <span class="arrow">▼</span>
+                                </button>
+                                <div class="item-content">
+                                    <p class="placeholder">Змінюють забарвлення індикаторів, реагують з кислотами.</p>
+                                </div>
+                            </div>
+                            <div id="inorg-6-2" data-elements="Cu,Fe,O,H" data-label="Нерозчинні основи">
+                                <button class="accordion-btn item-btn" onclick="toggle(this)">
+                                    <span>Нерозчинні основи: <span class="formula">Cu(OH)₂, Fe(OH)₂</span></span>
+                                    <span class="arrow">▼</span>
+                                </button>
+                                <div class="item-content">
+                                    <p class="placeholder">Розкладаються при нагріванні.</p>
+                                </div>
+                            </div>
+                            <div id="inorg-6-3" data-elements="Zn,Al,O,H" data-label="Амфотерні гідроксиди">
+                                <button class="accordion-btn item-btn" onclick="toggle(this)">
+                                    <span>Амфотерні гідроксиди: <span class="formula">Zn(OH)₂, Al(OH)₃</span></span>
+                                    <span class="arrow">▼</span>
+                                </button>
+                                <div class="item-content">
+                                    <p class="placeholder">Виявляють подвійні властивості.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <button class="accordion-btn sub-btn" onclick="toggle(this)">
+                            <span>7. Солі</span>
+                            <span class="arrow">▼</span>
+                        </button>
+                        <div class="sub-content">
+                            <div id="inorg-7-1" data-elements="Na,Cl,Ca,C,K,S,O" data-label="Середні солі">
+                                <button class="accordion-btn item-btn" onclick="toggle(this)">
+                                    <span>Середні (нормальні) солі: <span class="formula">NaCl, CaCO₃, K₂SO₄</span></span>
+                                    <span class="arrow">▼</span>
+                                </button>
+                                <div class="item-content">
+                                    <p class="placeholder">Опис середніх солей.</p>
+                                </div>
+                            </div>
+                            <div id="inorg-7-2" data-elements="Na,H,C,K,P,O" data-label="Кислі солі">
+                                <button class="accordion-btn item-btn" onclick="toggle(this)">
+                                    <span>Кислі солі: <span class="formula">NaHCO₃ (сода), KH₂PO₄</span></span>
+                                    <span class="arrow">▼</span>
+                                </button>
+                                <div class="item-content">
+                                    <p class="placeholder">Містять незаміщені атоми Гідрогену.</p>
+                                </div>
+                            </div>
+                            <div id="inorg-7-3" data-elements="Al,Cu,Cl,C,O,H" data-label="Основні солі">
+                                <button class="accordion-btn item-btn" onclick="toggle(this)">
+                                    <span>Основні солі: <span class="formula">Al(OH)Cl₂, (CuOH)₂CO₃ (малахіт)</span></span>
+                                    <span class="arrow">▼</span>
+                                </button>
+                                <div class="item-content">
+                                    <p class="placeholder">Містять гідроксильні групи.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <button class="accordion-btn section-btn" onclick="toggle(this)">
+                    <span>III. Складні речовини: Специфічні класи</span>
+                    <span class="arrow">▼</span>
+                </button>
+                <div class="section-content">
+                    <div id="inorg-8" data-elements="H,Na,O" data-label="Пероксиди">
+                        <button class="accordion-btn item-btn" onclick="toggle(this)">
+                            <span><strong>8. Пероксиди:</strong> <span class="formula">H₂O₂, Na₂O₂</span></span>
+                            <span class="arrow">▼</span>
+                        </button>
+                        <div class="item-content">
+                            <p class="placeholder">Містять пероксидний місток (-O-O-).</p>
+                        </div>
+                    </div>
+                    <div id="inorg-9" data-elements="Na,Ca,H" data-label="Гідриди">
+                        <button class="accordion-btn item-btn" onclick="toggle(this)">
+                            <span><strong>9. Гідриди:</strong> <span class="formula">NaH, CaH₂</span></span>
+                            <span class="arrow">▼</span>
+                        </button>
+                        <div class="item-content">
+                            <p class="placeholder">Сполуки металів з Гідрогеном (-1).</p>
+                        </div>
+                    </div>
+                    <div>
+                        <button class="accordion-btn sub-btn" onclick="toggle(this)">
+                            <span>10. Інші бінарні сполуки металів з неметалами</span>
+                            <span class="arrow">▼</span>
+                        </button>
+                        <div class="sub-content">
+                            <div id="inorg-10-1" data-elements="Ca,Al,C" data-label="Карбіди">
+                                <button class="accordion-btn item-btn" onclick="toggle(this)">
+                                    <span>Карбіди (з C): <span class="formula">CaC₂, Al₄C₃</span></span>
+                                    <span class="arrow">▼</span>
+                                </button>
+                                <div class="item-content"><p class="placeholder">Інформація про карбіди.</p></div>
+                            </div>
+                            <div id="inorg-10-2" data-elements="Al,Mg,N" data-label="Нітриди">
+                                <button class="accordion-btn item-btn" onclick="toggle(this)">
+                                    <span>Нітриди (з N): <span class="formula">AlN, Mg₃N₂</span></span>
+                                    <span class="arrow">▼</span>
+                                </button>
+                                <div class="item-content"><p class="placeholder">Інформація про нітриди.</p></div>
+                            </div>
+                            <div id="inorg-10-3" data-elements="Zn,Ca,P" data-label="Фосфіди">
+                                <button class="accordion-btn item-btn" onclick="toggle(this)">
+                                    <span>Фосфіди (з P): <span class="formula">Zn₃P₂, Ca₃P₂</span></span>
+                                    <span class="arrow">▼</span>
+                                </button>
+                                <div class="item-content"><p class="placeholder">Інформація про фосфіди.</p></div>
+                            </div>
+                            <div id="inorg-10-4" data-elements="Mg,Si" data-label="Силіциди">
+                                <button class="accordion-btn item-btn" onclick="toggle(this)">
+                                    <span>Силіциди (з Si): <span class="formula">Mg₂Si</span></span>
+                                    <span class="arrow">▼</span>
+                                </button>
+                                <div class="item-content"><p class="placeholder">Інформація про силіциди.</p></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="inorg-11" data-elements="K,Fe,C,N,Na,Al,O,H" data-label="Комплексні сполуки">
+                        <button class="accordion-btn item-btn" onclick="toggle(this)">
+                            <span><strong>11. Комплексні сполуки:</strong> <span class="formula">K₄[Fe(CN)₆], Na[Al(OH)₄]</span></span>
+                            <span class="arrow">▼</span>
+                        </button>
+                        <div class="item-content">
+                            <p class="placeholder">Складні солі з внутрішньою та зовнішньою сферами.</p>
+                        </div>
+                    </div>
+                    <div id="inorg-12" data-elements="Cu,S,Fe,O,H" data-label="Кристалогідрати">
+                        <button class="accordion-btn item-btn" onclick="toggle(this)">
+                            <span><strong>12. Кристалогідрати:</strong> <span class="formula">CuSO₄·5H₂O, FeSO₄·7H₂O</span></span>
+                            <span class="arrow">▼</span>
+                        </button>
+                        <div class="item-content">
+                            <p class="placeholder">Солі, до складу яких входить кристалізаційна вода.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <button class="accordion-btn section-btn" onclick="toggle(this)">
+                    <span>IV. Фізико-хімічні системи (Суміші)</span>
+                    <span class="arrow">▼</span>
+                </button>
+                <div class="section-content">
+                    <div id="inorg-13" data-elements="" data-label="Істинні розчини">
+                        <button class="accordion-btn item-btn" onclick="toggle(this)">
+                            <span><strong>13. Істинні розчини:</strong> <span class="formula">розчини солей, кислот, лугів у воді</span></span>
+                            <span class="arrow">▼</span>
+                        </button>
+                        <div class="item-content">
+                            <p class="placeholder">Однорідні системи з розміром частинок менше 1 нм.</p>
+                        </div>
+                    </div>
+                    <div>
+                        <button class="accordion-btn sub-btn" onclick="toggle(this)">
+                            <span>14. Дисперсні системи (неоднорідні суміші)</span>
+                            <span class="arrow">▼</span>
+                        </button>
+                        <div class="sub-content">
+                            <div id="inorg-14-1" data-elements="Si,O" data-label="Колоїдні розчини">
+                                <button class="accordion-btn item-btn" onclick="toggle(this)">
+                                    <span>Колоїдні розчини (золі, гелі): <span class="formula">силікатний клей, клейстер</span></span>
+                                    <span class="arrow">▼</span>
+                                </button>
+                                <div class="item-content"><p class="placeholder">Розмір частинок від 1 до 100 нм.</p></div>
+                            </div>
+                            <div id="inorg-14-2" data-elements="Ca" data-label="Суспензії">
+                                <button class="accordion-btn item-btn" onclick="toggle(this)">
+                                    <span>Суспензії (тверде в рідині): <span class="formula">крейда у воді, глина у воді</span></span>
+                                    <span class="arrow">▼</span>
+                                </button>
+                                <div class="item-content"><p class="placeholder">Завись твердих частинок у рідині.</p></div>
+                            </div>
+                            <div id="inorg-14-3" data-elements="" data-label="Емульсії">
+                                <button class="accordion-btn item-btn" onclick="toggle(this)">
+                                    <span>Емульсії (рідина в рідині): <span class="formula">олія у воді, молоко</span></span>
+                                    <span class="arrow">▼</span>
+                                </button>
+                                <div class="item-content"><p class="placeholder">Суміш нерозчинних рідин.</p></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ============ TAB 3: Organic ============ -->
+    <div id="tab-organic" class="tab-content">
+        <div class="accordion-container organic-tree">
+
+            <div class="section-card">
+                <button class="accordion-btn section-btn" onclick="toggle(this)">
+                    <span>I. Вуглеводні (складаються лише з C та H)</span>
+                    <span class="arrow">▼</span>
+                </button>
+                <div class="section-content">
+                    <div id="org-1" data-elements="C,H" data-label="Алкани">
+                        <button class="accordion-btn item-btn" onclick="toggle(this)">
+                            <span><strong>1. Алкани</strong> (насичені): <span class="formula">CH₄ (метан), C₃H₈ (пропан)</span></span>
+                            <span class="arrow">▼</span>
+                        </button>
+                        <div class="item-content">
+                            <p class="placeholder">Загальна формула CₙH₂ₙ₊₂. Реакції заміщення (галогенування).</p>
+                        </div>
+                    </div>
+                    <div id="org-2" data-elements="C,H" data-label="Алкени">
+                        <button class="accordion-btn item-btn" onclick="toggle(this)">
+                            <span><strong>2. Алкени</strong> (один подвійний зв'язок): <span class="formula">C₂H₄ (етен/етилен)</span></span>
+                            <span class="arrow">▼</span>
+                        </button>
+                        <div class="item-content">
+                            <p class="placeholder">Загальна формула CₙH₂ₙ. Реакції приєднання та полімеризації.</p>
+                        </div>
+                    </div>
+                    <div id="org-3" data-elements="C,H" data-label="Алкіни">
+                        <button class="accordion-btn item-btn" onclick="toggle(this)">
+                            <span><strong>3. Алкіни</strong> (один потрійний зв'язок): <span class="formula">C₂H₂ (етин/ацетилен)</span></span>
+                            <span class="arrow">▼</span>
+                        </button>
+                        <div class="item-content">
+                            <p class="placeholder">Загальна формула CₙH₂ₙ₋₂. Характерні реакції приєднання.</p>
+                        </div>
+                    </div>
+                    <div id="org-4" data-elements="C,H" data-label="Алкадієни">
+                        <button class="accordion-btn item-btn" onclick="toggle(this)">
+                            <span><strong>4. Алкадієни</strong> (два подвійні зв'язки): <span class="formula">C₄H₆ (бутадієн)</span></span>
+                            <span class="arrow">▼</span>
+                        </button>
+                        <div class="item-content">
+                            <p class="placeholder">Загальна формула CₙH₂ₙ₋₂. Використовуються для синтезу каучуків.</p>
+                        </div>
+                    </div>
+                    <div id="org-5" data-elements="C,H" data-label="Циклоалкани">
+                        <button class="accordion-btn item-btn" onclick="toggle(this)">
+                            <span><strong>5. Циклоалкани</strong> (замкнені, одинарні зв'язки): <span class="formula">C₆H₁₂ (циклогексан)</span></span>
+                            <span class="arrow">▼</span>
+                        </button>
+                        <div class="item-content">
+                            <p class="placeholder">Насичені цикли. Загальна формула CₙH₂ₙ.</p>
+                        </div>
+                    </div>
+                    <div id="org-6" data-elements="C,H" data-label="Арени">
+                        <button class="accordion-btn item-btn" onclick="toggle(this)">
+                            <span><strong>6. Арени (ароматичні)</strong> (бензольне кільце): <span class="formula">C₆H₆ (бензол), C₇H₈ (толуол)</span></span>
+                            <span class="arrow">▼</span>
+                        </button>
+                        <div class="item-content">
+                            <p class="placeholder">Стійка сопряжена π-система. Вступають у реакції заміщення.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <button class="accordion-btn section-btn" onclick="toggle(this)">
+                    <span>II. Оксигеновмісні сполуки (C, H та O)</span>
+                    <span class="arrow">▼</span>
+                </button>
+                <div class="section-content">
+                    <div>
+                        <button class="accordion-btn sub-btn" onclick="toggle(this)">
+                            <span>7. Спирти (містять групу -OH)</span>
+                            <span class="arrow">▼</span>
+                        </button>
+                        <div class="sub-content">
+                            <div id="org-7-1" data-elements="C,H,O" data-label="Одноатомні спирти">
+                                <button class="accordion-btn item-btn" onclick="toggle(this)">
+                                    <span>Одноатомні: <span class="formula">CH₃OH (метанол), C₂H₅OH (етанол)</span></span>
+                                    <span class="arrow">▼</span>
+                                </button>
+                                <div class="item-content"><p class="placeholder">Реагують з активними металами, вступають у реакцію етерифікації.</p></div>
+                            </div>
+                            <div id="org-7-2" data-elements="C,H,O" data-label="Багатоатомні спирти">
+                                <button class="accordion-btn item-btn" onclick="toggle(this)">
+                                    <span>Багатоатомні: <span class="formula">C₃H₅(OH)₃ (гліцерол/гліцерин)</span></span>
+                                    <span class="arrow">▼</span>
+                                </button>
+                                <div class="item-content"><p class="placeholder">Реагують з Cu(OH)₂ з утворенням яскраво-синього розчину.</p></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="org-8" data-elements="C,H,O" data-label="Феноли">
+                        <button class="accordion-btn item-btn" onclick="toggle(this)">
+                            <span><strong>8. Феноли</strong> (-OH зв'язана з бензольним кільцем): <span class="formula">C₆H₅OH (фенол)</span></span>
+                            <span class="arrow">▼</span>
+                        </button>
+                        <div class="item-content">
+                            <p class="placeholder">Проявляє слабкі кислотні властивості (реагує з лугами).</p>
+                        </div>
+                    </div>
+                    <div id="org-9" data-elements="C,H,O" data-label="Альдегіди">
+                        <button class="accordion-btn item-btn" onclick="toggle(this)">
+                            <span><strong>9. Альдегіди</strong> (група -CHO): <span class="formula">HCHO (формальдегід), CH₃CHO</span></span>
+                            <span class="arrow">▼</span>
+                        </button>
+                        <div class="item-content">
+                            <p class="placeholder">Дають реакцію «срібного дзеркала» та окиснення гідроксидом купруму(II).</p>
+                        </div>
+                    </div>
+                    <div id="org-10" data-elements="C,H,O" data-label="Кетони">
+                        <button class="accordion-btn item-btn" onclick="toggle(this)">
+                            <span><strong>10. Кетони</strong> (група =C=O): <span class="formula">CH₃-CO-CH₃ (ацетон)</span></span>
+                            <span class="arrow">▼</span>
+                        </button>
+                        <div class="item-content">
+                            <p class="placeholder">Популярні органічні розчинники.</p>
+                        </div>
+                    </div>
+                    <div>
+                        <button class="accordion-btn sub-btn" onclick="toggle(this)">
+                            <span>11. Карбонові кислоти (група -COOH)</span>
+                            <span class="arrow">▼</span>
+                        </button>
+                        <div class="sub-content">
+                            <div id="org-11-1" data-elements="C,H,O" data-label="Одноосновні карбонові кислоти">
+                                <button class="accordion-btn item-btn" onclick="toggle(this)">
+                                    <span>Одноосновні: <span class="formula">HCOOH (мурашина), CH₃COOH (оцтова)</span></span>
+                                    <span class="arrow">▼</span>
+                                </button>
+                                <div class="item-content"><p class="placeholder">Виявляють загальні властивості кислот.</p></div>
+                            </div>
+                            <div id="org-11-2" data-elements="C,H,O" data-label="Вищі жирні кислоти">
+                                <button class="accordion-btn item-btn" onclick="toggle(this)">
+                                    <span>Вищі жирні кислоти (ВЖК): <span class="formula">C₁₇H₃₅COOH (стеаринова)</span></span>
+                                    <span class="arrow">▼</span>
+                                </button>
+                                <div class="item-content"><p class="placeholder">Входять до складу жирів, використовуються для виробництва мила.</p></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="org-12" data-elements="C,H,O" data-label="Естери">
+                        <button class="accordion-btn item-btn" onclick="toggle(this)">
+                            <span><strong>12. Естери (складні ефіри):</strong> <span class="formula">CH₃COOC₂H₅ (етилацетат)</span></span>
+                            <span class="arrow">▼</span>
+                        </button>
+                        <div class="item-content">
+                            <p class="placeholder">Мають приємні фруктові запахи. Зазнають гідролізу.</p>
+                        </div>
+                    </div>
+                    <div>
+                        <button class="accordion-btn sub-btn" onclick="toggle(this)">
+                            <span>13. Жири (естери гліцерину та ВЖК)</span>
+                            <span class="arrow">▼</span>
+                        </button>
+                        <div class="sub-content">
+                            <div id="org-13" data-elements="C,H,O" data-label="Жири">
+                                <button class="accordion-btn item-btn" onclick="toggle(this)">
+                                    <span>Рідкі (олії) та Тверді (тваринні жири)</span>
+                                    <span class="arrow">▼</span>
+                                </button>
+                                <div class="item-content"><p class="placeholder">Рідкі містять залишки ненасичених кислот, тверді — насичених. Зазнають омилення.</p></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <button class="accordion-btn sub-btn" onclick="toggle(this)">
+                            <span>14. Вуглеводи (цукри)</span>
+                            <span class="arrow">▼</span>
+                        </button>
+                        <div class="sub-content">
+                            <div id="org-14-1" data-elements="C,H,O" data-label="Моносахариди">
+                                <button class="accordion-btn item-btn" onclick="toggle(this)">
+                                    <span>Моносахариди: <span class="formula">C₆H₁₂O₆ (глюкоза, фруктоза)</span></span>
+                                    <span class="arrow">▼</span>
+                                </button>
+                                <div class="item-content"><p class="placeholder">Прості цукри, альдегідоспирти/кетоноспирти.</p></div>
+                            </div>
+                            <div id="org-14-2" data-elements="C,H,O" data-label="Дисахариди">
+                                <button class="accordion-btn item-btn" onclick="toggle(this)">
+                                    <span>Дисахариди: <span class="formula">C₁₂H₂₂O₁₁ (сахароза, лактоза)</span></span>
+                                    <span class="arrow">▼</span>
+                                </button>
+                                <div class="item-content"><p class="placeholder">При гідролізі розпадаються на два моносахариди.</p></div>
+                            </div>
+                            <div id="org-14-3" data-elements="C,H,O" data-label="Полісахариди">
+                                <button class="accordion-btn item-btn" onclick="toggle(this)">
+                                    <span>Полісахариди: <span class="formula">(C₆H₁₀O₅)ₙ (крохмаль, целюлоза)</span></span>
+                                    <span class="arrow">▼</span>
+                                </button>
+                                <div class="item-content"><p class="placeholder">Природні полімери. Крохмаль дає синє забарвлення з йодом.</p></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <button class="accordion-btn section-btn" onclick="toggle(this)">
+                    <span>III. Нітрогеновмісні сполуки (містять N)</span>
+                    <span class="arrow">▼</span>
+                </button>
+                <div class="section-content">
+                    <div id="org-15" data-elements="C,H,N" data-label="Аміни">
+                        <button class="accordion-btn item-btn" onclick="toggle(this)">
+                            <span><strong>15. Аміни:</strong> <span class="formula">CH₃NH₂, C₆H₅NH₂ (анілін)</span></span>
+                            <span class="arrow">▼</span>
+                        </button>
+                        <div class="item-content">
+                            <p class="placeholder">Органічні основи. Анілін — сировина для анілінових барвників.</p>
+                        </div>
+                    </div>
+                    <div id="org-16" data-elements="C,H,O,N" data-label="Амінокислоти">
+                        <button class="accordion-btn item-btn" onclick="toggle(this)">
+                            <span><strong>16. Амінокислоти:</strong> <span class="formula">NH₂-CH₂-COOH (гліцин)</span></span>
+                            <span class="arrow">▼</span>
+                        </button>
+                        <div class="item-content">
+                            <p class="placeholder">Амфотерні органічні сполуки. Мономери для білків.</p>
+                        </div>
+                    </div>
+                    <div id="org-17" data-elements="C,H,O,N,S" data-label="Білки">
+                        <button class="accordion-btn item-btn" onclick="toggle(this)">
+                            <span><strong>17. Білки (протеїни):</strong> <span class="formula">природні полімери</span></span>
+                            <span class="arrow">▼</span>
+                        </button>
+                        <div class="item-content">
+                            <p class="placeholder">Мають первинну, вторинну, третинну та четвертинну структури.</p>
+                        </div>
+                    </div>
+                    <div id="org-18" data-elements="C,H,O,N,P" data-label="Нуклеїнові кислоти">
+                        <button class="accordion-btn item-btn" onclick="toggle(this)">
+                            <span><strong>18. Нуклеїнові кислоти:</strong> <span class="formula">ДНК та РНК</span></span>
+                            <span class="arrow">▼</span>
+                        </button>
+                        <div class="item-content">
+                            <p class="placeholder">Зберігають та передають спадкову інформацію.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <button class="accordion-btn section-btn" onclick="toggle(this)">
+                    <span>IV. Високомолекулярні сполуки (Полімери)</span>
+                    <span class="arrow">▼</span>
+                </button>
+                <div class="section-content">
+                    <div id="org-19" data-elements="C,H,Cl" data-label="Пластмаси">
+                        <button class="accordion-btn item-btn" onclick="toggle(this)">
+                            <span><strong>19. Пластмаси:</strong> <span class="formula">поліетилен, поліпропілен, ПВХ</span></span>
+                            <span class="arrow">▼</span>
+                        </button>
+                        <div class="item-content">
+                            <p class="placeholder">Матеріали на основі синтетичних або природних полімерів.</p>
+                        </div>
+                    </div>
+                    <div id="org-20" data-elements="C,H,S" data-label="Каучуки та гума">
+                        <button class="accordion-btn item-btn" onclick="toggle(this)">
+                            <span><strong>20. Каучуки та гума:</strong> <span class="formula">натуральний та синтетичні каучуки</span></span>
+                            <span class="arrow">▼</span>
+                        </button>
+                        <div class="item-content">
+                            <p class="placeholder">Еластомери. Гуму отримують вулканізацією каучуку сіркою.</p>
+                        </div>
+                    </div>
+                    <div id="org-21" data-elements="C,H,O,N" data-label="Волокна">
+                        <button class="accordion-btn item-btn" onclick="toggle(this)">
+                            <span><strong>21. Волокна:</strong> <span class="formula">природні, штучні, синтетичні</span></span>
+                            <span class="arrow">▼</span>
+                        </button>
+                        <div class="item-content">
+                            <p class="placeholder">Гнучкі міцні нитки, що використовуються для виготовлення текстилю.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ============ MODAL ============ -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-card">
+            <button class="close-btn" onclick="closeModal()">&times;</button>
+            <div class="modal-header">
+                <div class="modal-preview-box" id="modalPreview">
+                    <div class="top-row">
+                        <span class="atomic-number" id="mNum"></span>
+                        <div class="electron-shells" id="mShells"></div>
+                    </div>
+                    <div class="symbol-name-container">
+                        <div class="symbol" id="mSym"></div>
+                        <div class="name" id="mName"></div>
+                    </div>
+                    <div class="atomic-mass" id="mMass"></div>
+                </div>
+                <div class="modal-title">
+                    <h2 id="modalTitle"></h2>
+                    <span id="modalCat"></span>
+                </div>
+            </div>
+
+            <div class="details-grid">
+                <div class="detail-item"><div class="label">Атомний номер</div><div class="value" id="dNum"></div></div>
+                <div class="detail-item"><div class="label">Атомна маса</div><div class="value" id="dMass"></div></div>
+                <div class="detail-item"><div class="label">Електронні рівні</div><div class="value" id="dShells"></div></div>
+                <div class="detail-item"><div class="label">Агрегатний стан</div><div class="value" id="dState"></div></div>
+                <div class="detail-item"><div class="label">Електронегативність</div><div class="value" id="dElectroneg"></div></div>
+                <div class="detail-item"><div class="label">Рік відкриття</div><div class="value" id="dDisc"></div></div>
+            </div>
+
+            <div class="related-section" id="relatedSection">
+                <h3>Пов'язані сполуки</h3>
+                <div class="related-chips" id="relatedChips"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============ TAB 4: Graph ============ -->
+    <div id="tab-graph" class="tab-content">
+        <div id="graph-filter-panel"></div>
+
+        <div class="graph-tab-body">
+            <div id="graph-container"></div>
+
+            <!-- Game Panel -->
+            <div id="game-panel">
+                <div class="game-panel-handle"><span></span></div>
+                <div class="game-panel-body">
+                    <div class="game-panel-top">
+                        <div class="game-mode-buttons">
+                            <button class="game-mode-btn active" data-mode="EXPLORE">🔍 Огляд</button>
+                            <button class="game-mode-btn" data-mode="ROUTE">🔗 Маршрут</button>
+                            <button class="game-mode-btn" data-mode="QUIZ">🎯 Квіз</button>
+                        </div>
+                        <div id="game-score" class="game-score" hidden>
+                            <span class="game-score-label">Бали:</span>
+                            <span id="game-score-value">100</span>
+                        </div>
+                    </div>
+
+                    <div id="game-task-badge" class="game-task-badge" hidden>
+                        <span class="game-task-icon">🧪</span>
+                        <span id="game-task-text">Ca → CaCO₃</span>
+                        <button id="game-task-close" class="game-task-close" title="Скасувати завдання">✕</button>
+                    </div>
+
+                    <div id="game-feedback" class="game-feedback" hidden>
+                        <span id="game-feedback-icon"></span>
+                        <span id="game-feedback-text"></span>
+                    </div>
+
+                    <div id="quiz-input-wrap" class="quiz-input-wrap" hidden>
+                        <input type="text" id="quiz-answer-input" class="quiz-answer-input" placeholder="Введіть формулу..." autocomplete="off" spellcheck="false">
+                        <button id="quiz-submit-btn" class="game-action-btn quiz-submit-btn">Відповісти</button>
+                    </div>
+
+                    <div class="game-actions" id="game-actions" hidden>
+                        <button id="game-hint-btn" class="game-action-btn game-hint-btn">💡 Підказка</button>
+                        <button id="game-retry-btn" class="game-action-btn game-retry-btn" hidden>🔄 Заново</button>
+                    </div>
+                </div>
+                <div class="graph-export">
+                    <div class="graph-export-wrap">
+                        <button class="game-action-btn graph-export-btn" id="graph-export-toggle">📥 Завантажити</button>
+                        <div class="graph-export-dropdown" id="graph-export-dropdown" hidden>
+                            <button class="graph-export-option" data-format="png">PNG (растр)</button>
+                            <button class="graph-export-option" data-format="svg">SVG (вектор)</button>
+                        </div>
+                    </div>
+                    <button class="game-action-btn graph-print-btn" id="graph-print-card" title="Обери вузол, потім натисни">🖨️ Картка речовини</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============ DATA (окремий блок) ============ -->
+
+    <!-- ============ APP LOGIC ============ -->
+</body>
+</html>
