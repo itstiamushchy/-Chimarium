@@ -3,7 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Хімарій v1.1.4 · ITS_tiamushchy</title>
+<title>Хімарій v1.1.5 · ITS_tiamushchy</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0d0e1a">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Oxanium:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap');
 *{box-sizing:border-box;margin:0;padding:0}
@@ -681,6 +686,115 @@ select{color-scheme:dark}select option{background:#111224;color:#ffffff}
 .red-flag-banner.vis{display:block}
 .red-flag-banner b{color:#FF5252}
 .rf-close{position:absolute;top:8px;right:12px;background:none;border:none;color:#c0d0f0;font-size:16px;cursor:pointer}
+
+/* ====== GLOBAL SEARCH v1.1.5 ====== */
+.gsearch-wrap{position:relative;margin-left:auto}
+.gsearch-btn{background:none;border:0.5px solid #1e2240;border-radius:6px;padding:6px 12px;color:#90a0cc;cursor:pointer;font-size:12px;font-family:'Inter',sans-serif;display:flex;align-items:center;gap:6px;transition:all .15s;white-space:nowrap}
+.gsearch-btn:hover{border-color:#4FC3F7;color:#c0d0f0}
+.gsearch-shortcut{font-size:10px;opacity:.6;font-family:'Oxanium',monospace}
+#gsearch-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(3,4,14,.92);z-index:9000;align-items:flex-start;justify-content:center;padding-top:80px}
+#gsearch-overlay.open{display:flex}
+.gsearch-box{background:#16182e;border:0.5px solid rgba(79,195,247,0.3);border-radius:14px;width:640px;max-width:92vw;max-height:70vh;display:flex;flex-direction:column;box-shadow:0 16px 48px rgba(0,0,0,.6)}
+.gsearch-input-row{display:flex;align-items:center;gap:12px;padding:16px 20px;border-bottom:0.5px solid #1e2240}
+.gsearch-icon{font-size:18px;opacity:.6;flex-shrink:0}
+#gsearch-input{flex:1;background:none;border:none;outline:none;font-size:16px;color:#ffffff;font-family:'Inter',sans-serif}
+#gsearch-input::placeholder{color:#7080b8}
+.gsearch-close{background:none;border:none;color:#7080b8;font-size:20px;cursor:pointer;padding:4px;flex-shrink:0}
+.gsearch-results{overflow-y:auto;padding:8px}
+.gsearch-section{margin-bottom:8px}
+.gsearch-section-label{font-size:9px;letter-spacing:2px;color:#7080b8;font-family:'Oxanium',monospace;text-transform:uppercase;padding:8px 12px 4px}
+.gsearch-item{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:8px;cursor:pointer;transition:background .1s}
+.gsearch-item:hover,.gsearch-item.active{background:#1a1f3a}
+.gsearch-item-icon{font-size:18px;flex-shrink:0;width:28px;text-align:center}
+.gsearch-item-text{flex:1;min-width:0}
+.gsearch-item-title{font-size:13px;color:#ffffff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gsearch-item-sub{font-size:11px;color:#7080b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gsearch-item-badge{font-size:9px;font-family:'Oxanium',monospace;background:#0f1632;border:0.5px solid #4FC3F7;border-radius:3px;padding:1px 6px;color:#4FC3F7;flex-shrink:0}
+.gsearch-empty{text-align:center;padding:40px 20px;color:#7080b8;font-size:12px}
+.gsearch-hint{padding:10px 20px;border-top:0.5px solid #1e2240;font-size:10px;color:#7080b8;display:flex;gap:16px}
+.gsearch-hint kbd{background:#1a1f3a;border-radius:3px;padding:1px 5px;font-family:'Oxanium',monospace;font-size:10px;color:#c0d0f0}
+
+/* ====== FAVORITES v1.1.5 ====== */
+.fav-btn{background:none;border:none;cursor:pointer;font-size:16px;padding:2px 5px;opacity:.5;transition:opacity .2s;flex-shrink:0}
+.fav-btn:hover,.fav-btn.on{opacity:1}
+.fm-card{position:relative}.fm-card .fav-btn{position:absolute;top:10px;right:10px}
+.gl-card{position:relative}.gl-card .fav-btn{position:absolute;top:10px;right:10px}
+
+/* ====== FAVORITES PANEL ====== */
+#panel-favorites .fav-empty{text-align:center;padding:60px 20px;color:#7080b8;font-size:12px}
+#panel-favorites .fav-empty div:first-child{font-size:32px;margin-bottom:12px}
+
+/* ====== PROGRESS TRACKER v1.1.5 ====== */
+.progress-bar-wrap{display:flex;align-items:center;gap:10px;padding:8px 40px;border-bottom:0.5px solid rgba(79,195,247,.06);background:#0a0b14}
+.progress-label{font-size:10px;color:#7080b8;font-family:'Oxanium',monospace;letter-spacing:1px;white-space:nowrap}
+.progress-bar{flex:1;height:3px;background:#1e2240;border-radius:2px;max-width:200px}
+.progress-fill{height:100%;background:linear-gradient(90deg,#4FC3F7,#00E5CC);border-radius:2px;transition:width .4s ease}
+.progress-count{font-size:10px;color:#4FC3F7;font-family:'Oxanium',monospace;white-space:nowrap}
+.topic-done-btn{margin-left:auto;background:#0f1632;border:0.5px solid #4FC3F7;border-radius:5px;padding:4px 12px;font-size:11px;color:#4FC3F7;cursor:pointer;font-family:'Inter',sans-serif;transition:all .15s}
+.topic-done-btn:hover{background:#4FC3F7;color:#0d0e1a}
+.topic-done-btn.done{border-color:#00E5CC;color:#00E5CC;background:#061510}
+
+/* ====== HAMBURGER / MOBILE NAV v1.1.5 ====== */
+.hamburger{display:none;background:none;border:0.5px solid #1e2240;border-radius:6px;width:38px;height:38px;cursor:pointer;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:0;flex-shrink:0}
+.hamburger span{display:block;width:18px;height:1.5px;background:#c0d0f0;border-radius:1px;transition:all .3s}
+.hamburger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+.hamburger.open span:nth-child(2){opacity:0}
+.hamburger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+/* Mobile-only elements — ЗАВЖДИ приховані на десктопі */
+.nav-mobile-menu{display:none}
+.nav-mobile-backdrop{display:none}
+
+/* ====== MEDIA QUERIES v1.1.5 ====== */
+@media(max-width:768px){
+  .hero{padding:16px 20px;gap:14px}
+  .brand-title{font-size:28px}
+  .mol{width:52px;height:52px}
+  .ver{top:8px;right:12px;font-size:8px}
+  .nav{padding:0 12px;overflow-x:auto;flex-wrap:nowrap;position:relative}
+  .nav-divider{display:none}
+  .gsearch-wrap{display:none}
+  /* Hamburger mode */
+  .hamburger{display:flex}
+  /* Mobile menu — видимий лише на мобільному, і лише коли .open */
+  .nav-mobile-menu{position:fixed;top:0;left:0;width:80vw;max-width:320px;height:100vh;background:#111224;border-right:0.5px solid rgba(79,195,247,.2);z-index:200;overflow-y:auto;padding:20px 0;box-shadow:4px 0 24px rgba(0,0,0,.5)}
+  .nav-mobile-menu.open{display:block}
+  .nav-mobile-backdrop{position:fixed;top:0;left:0;width:100%;height:100%;z-index:199;background:rgba(0,0,0,.4)}
+  .nav-mobile-backdrop.open{display:block}
+  .nav-mobile-item{display:block;width:100%;padding:12px 20px;font-size:14px;color:#c0d0f0;cursor:pointer;background:none;border:none;font-family:'Inter',sans-serif;text-align:left;transition:background .15s;border-bottom:0.5px solid #1a1f30}
+  .nav-mobile-item:hover{background:#1a1f3a;color:#ffffff}
+  .nav-mobile-item.active-section{color:#4FC3F7}
+  .nav-mobile-section-label{padding:12px 20px 4px;font-size:9px;letter-spacing:2px;color:#7080b8;font-family:'Oxanium',monospace;text-transform:uppercase;border-top:0.5px solid #1e2240;margin-top:8px}
+  .nav-mobile-section-label:first-child{margin-top:0;border-top:none}
+  /* Hide desktop nav groups on mobile, show mobile menu trigger */
+  .nav-group,.nav-btn#nav-test-btn{display:none}
+  .content{padding:16px 12px}
+  .progress-bar-wrap{padding:8px 12px}
+  .footer{padding:10px 12px}
+  /* Touch-friendly sizes */
+  .dd-item,.fb,.ph-tab,.bal-tab,.ex-chip,.ph-preset{min-height:36px;display:flex;align-items:center}
+  .el{min-height:28px}
+  .calc-input,.ph-num,.bal-input{font-size:16px}/* prevent zoom on iOS */
+  input[type=text],input[type=number],select{font-size:16px!important}
+  .modal{width:96vw;max-height:90vh}
+  .modal-body{grid-template-columns:1fr}
+  .mfield.wide{grid-column:span 1}
+  .sol-inp-grid{grid-template-columns:1fr}
+  .sol-prep-fields{grid-template-columns:1fr 1fr}
+  .gsearch-shortcut{display:none}
+}
+@media(max-width:480px){
+  .hero{padding:12px 14px}
+  .brand-title{font-size:22px}
+  .brand-sub{font-size:10px}
+  .content{padding:12px 10px}
+  .ptg{gap:1px}
+  .pts{gap:1px}
+  .el{padding:2px 1px}
+  .es{font-size:9px}
+  .sol-prep-fields{grid-template-columns:1fr}
+  .tc-fields{grid-template-columns:1fr 1fr}
+  .fm-grid,.gl-grid{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
@@ -688,7 +802,7 @@ select{color-scheme:dark}select option{background:#111224;color:#ffffff}
 
 <!-- HERO -->
 <div class="hero">
-  <div class="ver">v1.1.4</div>
+  <div class="ver">v1.1.5</div>
   <div class="mol">
     <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
       <defs><filter id="glow"><feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
@@ -709,8 +823,58 @@ select{color-scheme:dark}select option{background:#111224;color:#ffffff}
   </div>
 </div>
 
+<!-- MOBILE NAV BACKDROP -->
+<div class="nav-mobile-backdrop" id="nav-backdrop" onclick="closeMobileNav()"></div>
+
+<!-- MOBILE MENU -->
+<div class="nav-mobile-menu" id="nav-mobile-menu">
+  <div class="nav-mobile-section-label">Довідник</div>
+  <button class="nav-mobile-item" onclick="showPanel('elements');closeMobileNav()">⚛️ Елементи</button>
+  <button class="nav-mobile-item" onclick="showPanel('formulas');closeMobileNav()">📐 Формули</button>
+  <button class="nav-mobile-item" onclick="showPanel('reactions');closeMobileNav()">⚗️ Реакції</button>
+  <button class="nav-mobile-item" onclick="showPanel('glossary');closeMobileNav()">📚 Глосарій</button>
+  <div class="nav-mobile-section-label">Калькулятори</div>
+  <button class="nav-mobile-item" onclick="showPanel('molar');closeMobileNav()">⚗️ Молярні маси</button>
+  <button class="nav-mobile-item" onclick="showPanel('ph');closeMobileNav()">🧪 Калькулятор pH</button>
+  <button class="nav-mobile-item" onclick="showPanel('phplus');closeMobileNav()">🌡️ Розширення pH</button>
+  <button class="nav-mobile-item" onclick="showPanel('balance');closeMobileNav()">⚖️ Балансування</button>
+  <div class="nav-mobile-section-label">Розчини</div>
+  <button class="nav-mobile-item" onclick="showPanel('sol_table');closeMobileNav()">📋 Таблиця розчинності</button>
+  <button class="nav-mobile-item" onclick="showPanel('sol_conc');closeMobileNav()">💧 Концентрація</button>
+  <button class="nav-mobile-item" onclick="showPanel('sol_prep');closeMobileNav()">🔬 Приготування розчину</button>
+  <button class="nav-mobile-item" onclick="showPanel('sol_gas');closeMobileNav()">🫧 Розчинення газів</button>
+  <button class="nav-mobile-item" onclick="showPanel('sol_prinad');closeMobileNav()">🪝 Принада</button>
+  <div class="nav-mobile-section-label">Блок 1 — Будова речовини</div>
+  <button class="nav-mobile-item" onclick="loadTopicJson('1-1-atom');closeMobileNav()">⚛️ Будова атому</button>
+  <button class="nav-mobile-item" onclick="loadTopicJson('1-2-periodic');closeMobileNav()">🔬 Періодичний закон</button>
+  <button class="nav-mobile-item" onclick="loadTopicJson('1-3-bond');closeMobileNav()">🔗 Хімічний зв'язок</button>
+  <button class="nav-mobile-item" onclick="loadTopicJson('1-4-states');closeMobileNav()">🌡️ Агрегатні стани</button>
+  <button class="nav-mobile-item" onclick="loadTopicJson('1-5-gases');closeMobileNav()">💨 Газові закони</button>
+  <div class="nav-mobile-section-label">Блок 2 — Неорганіка</div>
+  <button class="nav-mobile-item" onclick="loadTopicJson('2-1-inorganic-classes');closeMobileNav()">🧪 Класи сполук</button>
+  <button class="nav-mobile-item" onclick="loadTopicJson('2-2-s-elements');closeMobileNav()">🔥 s-Елементи</button>
+  <button class="nav-mobile-item" onclick="loadTopicJson('2-3-p-elements');closeMobileNav()">⚗️ p-Елементи</button>
+  <button class="nav-mobile-item" onclick="loadTopicJson('2-4-d-f-elements');closeMobileNav()">🔩 d- і f-елементи</button>
+  <div class="nav-mobile-section-label">Блок 3–6</div>
+  <button class="nav-mobile-item" onclick="loadTopicJson('3-1-thermodynamics');closeMobileNav()">🔥 Термодинаміка</button>
+  <button class="nav-mobile-item" onclick="loadTopicJson('3-2-kinetics');closeMobileNav()">⚡ Кінетика</button>
+  <button class="nav-mobile-item" onclick="loadTopicJson('3-3-equilibrium');closeMobileNav()">🔄 Рівновага</button>
+  <button class="nav-mobile-item" onclick="loadTopicJson('3-4-electrochemistry');closeMobileNav()">⚗️ Електрохімія</button>
+  <button class="nav-mobile-item" onclick="loadTopicJson('4-1-dissolving');closeMobileNav()">💧 Розчинність</button>
+  <button class="nav-mobile-item" onclick="loadTopicJson('4-3-electrolytes');closeMobileNav()">🧪 pH. Буфери</button>
+  <button class="nav-mobile-item" onclick="loadTopicJson('5-1-organic-basics');closeMobileNav()">🧬 Органіка</button>
+  <button class="nav-mobile-item" onclick="loadTopicJson('5-2-hydrocarbons');closeMobileNav()">🔥 Вуглеводні</button>
+  <button class="nav-mobile-item" onclick="loadTopicJson('6-1-qualitative');closeMobileNav()">🔍 Якісні реакції</button>
+  <div class="nav-mobile-section-label">Інше</div>
+  <button class="nav-mobile-item" onclick="showPanel('test');closeMobileNav()">🎯 Тренажер</button>
+  <button class="nav-mobile-item" onclick="showPanel('favorites');closeMobileNav()">⭐ Обрані</button>
+</div>
+
 <!-- NAV -->
 <div class="nav">
+  <button class="hamburger" id="hamburger-btn" onclick="toggleMobileNav()" aria-label="Меню">
+    <span></span><span></span><span></span>
+  </button>
   <div class="nav-group" id="ng-ref">
     <button class="nav-btn" onclick="toggleGroup('ng-ref')">Довідник <span class="nav-arrow">▾</span></button>
     <div class="dropdown">
@@ -783,6 +947,40 @@ select{color-scheme:dark}select option{background:#111224;color:#ffffff}
   </div>
   <div class="nav-divider"></div>
   <button class="nav-btn" id="nav-test-btn" onclick="showPanel('test');closeGroups()">🎯 Тренажер</button>
+  <div class="nav-divider"></div>
+  <button class="nav-btn" onclick="showPanel('favorites');closeGroups()">⭐ Обрані</button>
+  <div class="gsearch-wrap">
+    <button class="gsearch-btn" onclick="openGSearch()" title="Глобальний пошук (/)">
+      🔍 Пошук <span class="gsearch-shortcut">/</span>
+    </button>
+  </div>
+</div>
+
+<!-- GLOBAL SEARCH OVERLAY -->
+<div id="gsearch-overlay" onclick="if(event.target===this)closeGSearch()">
+  <div class="gsearch-box">
+    <div class="gsearch-input-row">
+      <span class="gsearch-icon">🔍</span>
+      <input id="gsearch-input" type="text" placeholder="Пошук по всьому Хімарію..." oninput="runGSearch(this.value)" onkeydown="gSearchKey(event)" autocomplete="off">
+      <button class="gsearch-close" onclick="closeGSearch()">✕</button>
+    </div>
+    <div class="gsearch-results" id="gsearch-results">
+      <div class="gsearch-empty">Почніть вводити для пошуку по елементах, формулах, реакціях, темах, глосарії...</div>
+    </div>
+    <div class="gsearch-hint">
+      <span><kbd>↑↓</kbd> навігація</span>
+      <span><kbd>Enter</kbd> перейти</span>
+      <span><kbd>Esc</kbd> закрити</span>
+    </div>
+  </div>
+</div>
+
+<!-- PROGRESS BAR -->
+<div class="progress-bar-wrap" id="progress-bar-wrap" style="display:none">
+  <span class="progress-label">ТЕМИ</span>
+  <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+  <span class="progress-count" id="progress-count">0 / 18</span>
+  <button class="topic-done-btn" id="topic-done-btn" onclick="toggleTopicDone()">✓ Вивчено</button>
 </div>
 
 <div class="content">
@@ -1538,11 +1736,17 @@ select{color-scheme:dark}select option{background:#111224;color:#ffffff}
     <div id="sol-prinad-list"></div>
   </div>
 
+  <!-- FAVORITES PANEL -->
+  <div class="panel" id="panel-favorites">
+    <div class="sec-title">⭐ Обрані</div>
+    <div id="favorites-content"></div>
+  </div>
+
 </div>
 
 <div class="footer">
   <span class="fcopy">© 2026 Хоменко Олексій Григорович · itstiamushchy@gmail.com</span>
-  <span class="fplat">ITS_tiamushchy</span>
+  <span class="fplat">ITS_tiamushchy · v1.1.5</span>
 </div>
 </div>
 
@@ -1596,6 +1800,91 @@ const EL_DATA=[
  {n:80,s:'Hg',ua:'Меркурій',cat:'transition',mass:'200.59',state:'liquid',p:6,g:12,yr:'давн.',en:2.00,levels:'2, 8, 18, 32, 18, 2',val:'I, II',ox:'+1, +2',ion:'+1 або +2',ionHint:'Ртуть +1(Hg₂Cl₂-каломель) або +2(HgCl₂-сулема). Обидві токсичні!',valHint:'I або II.',desc:'Єдиний рідкий метал за кімнатної температури (ртуть). Дуже токсичний.'},
  {n:82,s:'Pb',ua:'Плюмбум',cat:'posttrans',mass:'207.2',state:'solid',p:6,g:14,yr:'давн.',en:2.33,levels:'2, 8, 18, 32, 18, 4',val:'II, IV',ox:'+2, +4',ion:'+2 або +4',ionHint:'Свинець — +2(PbO) або +4(PbO₂). Найчастіше +2.',valHint:'II або IV.',desc:'Свинець — важкий, м\'який, токсичний. Захист від радіації.'},
  {n:92,s:'U',ua:'Уран',cat:'actinide',mass:'238.03',state:'solid',p:7,g:null,yr:1789,en:1.38,levels:'2, 8, 18, 32, 21, 9, 2',val:'III, IV, V, VI',ox:'+3, +4, +5, +6',ion:'+6',ionHint:'Актиноїд зі змінним ступенем. Найчастіше +6.',valHint:'Найчастіше VI.',desc:'Найважчий природний елемент. Основне ядерне паливо. U-235 — ланцюгова реакція.'},
+ {n:21,s:'Sc',ua:'Скандій',cat:'transition',mass:'44.956',state:'solid',p:4,g:3,yr:1879,en:1.36,levels:'2,8,9,2',val:'III',ox:'+3',ion:'+3',ionHint:'Sc³⁺ — єдиний стабільний стан.',valHint:'3 зв\'язки, d¹s².',desc:'М\'який сріблястий метал. Застосовується в алюмінієвих сплавах для авіації та спортивного обладнання.'},
+ {n:22,s:'Ti',ua:'Титан',cat:'transition',mass:'47.867',state:'solid',p:4,g:4,yr:1791,en:1.54,levels:'2,8,10,2',val:'IV',ox:'+2,+3,+4',ion:'+4',ionHint:'Ti⁴⁺ — найбільш стабільний.',valHint:'До 4 зв\'язків.',desc:'Легкий міцний метал, стійкий до корозії. Широко застосовується в аерокосмічній промисловості та медичних імплантах.'},
+ {n:23,s:'V',ua:'Ванадій',cat:'transition',mass:'50.942',state:'solid',p:4,g:5,yr:1801,en:1.63,levels:'2,8,11,2',val:'V',ox:'+2,+3,+4,+5',ion:'+5',ionHint:'Кілька ступенів окиснення.',valHint:'До 5 зв\'язків.',desc:'Сталевий метал. Застосовується як легуючий елемент у виробництві сталі та каталізатор.'},
+ {n:27,s:'Co',ua:'Кобальт',cat:'transition',mass:'58.933',state:'solid',p:4,g:9,yr:1735,en:1.88,levels:'2,8,15,2',val:'II,III',ox:'+2,+3',ion:'+2',ionHint:'Co²⁺ — синє забарвлення.',valHint:'2–3 зв\'язки.',desc:'Синьо-сріблястий твердий метал. Застосовується у магнітах, акумуляторах і синіх пігментах.'},
+ {n:28,s:'Ni',ua:'Нікель',cat:'transition',mass:'58.693',state:'solid',p:4,g:10,yr:1751,en:1.91,levels:'2,8,16,2',val:'II',ox:'+2',ion:'+2',ionHint:'Ni²⁺ — зелений колір у розчинах.',valHint:'2 зв\'язки.',desc:'Сріблясто-білий метал, стійкий до корозії. Використовується у монетах, сплавах, нержавіючій сталі.'},
+ {n:31,s:'Ga',ua:'Галій',cat:'posttrans',mass:'69.723',state:'solid',p:4,g:13,yr:1875,en:1.81,levels:'2,8,18,3',val:'III',ox:'+3',ion:'+3',ionHint:'Ga³⁺ у сполуках.',valHint:'3 зв\'язки.',desc:'М\'який метал, плавиться при 29.8°C (у долоні). Застосовується у напівпровідниках GaAs і GaN.'},
+ {n:32,s:'Ge',ua:'Германій',cat:'metalloid',mass:'72.630',state:'solid',p:4,g:14,yr:1886,en:2.01,levels:'2,8,18,4',val:'IV',ox:'+2,+4',ion:'+4',ionHint:'Ge⁴⁺ у сполуках.',valHint:'4 зв\'язки.',desc:'Напівметал-напівпровідник. Передбачений Менделєєвим (екасиліцій). Використовується в оптиці та транзисторах.'},
+ {n:33,s:'As',ua:'Арсен',cat:'metalloid',mass:'74.922',state:'solid',p:4,g:15,yr:1250,en:2.18,levels:'2,8,18,5',val:'III,V',ox:'-3,+3,+5',ion:'-3',ionHint:'As³⁻ у арсенідах.',valHint:'3–5 зв\'язків.',desc:'Сірий напівметал, відомий як отрута. Сполуки As₂O₃ використовувались у медицині і є небезпечними.'},
+ {n:34,s:'Se',ua:'Селен',cat:'nonmetal',mass:'78.971',state:'solid',p:4,g:16,yr:1817,en:2.55,levels:'2,8,18,6',val:'II,IV,VI',ox:'-2,+4,+6',ion:'-2',ionHint:'Se²⁻ у селенідах.',valHint:'2–6 зв\'язків.',desc:'Необхідний мікроелемент. Фотопровідник — використовується у сонячних батареях і ксерографії.'},
+ {n:35,s:'Br',ua:'Бром',cat:'halogen',mass:'79.904',state:'liquid',p:4,g:17,yr:1826,en:2.96,levels:'2,8,18,7',val:'I',ox:'-1,+1,+5',ion:'-1',ionHint:'Br⁻ — бромід.',valHint:'1 зв\'язок (як галоген).',desc:'Єдиний рідкий неметал за кімнатної температури. Червоно-бура важка рідина з різким запахом.'},
+ {n:36,s:'Kr',ua:'Криптон',cat:'noble',mass:'83.798',state:'gas',p:4,g:18,yr:1898,en:3.00,levels:'2,8,18,8',val:'0',ox:'0',ion:'—',ionHint:'Інертний газ, іони не утворює.',valHint:'Зазвичай 0.',desc:'Інертний газ без кольору та запаху. Використовується у флуоресцентних лампах і лазерах.'},
+ {n:37,s:'Rb',ua:'Рубідій',cat:'alkali',mass:'85.468',state:'solid',p:5,g:1,yr:1861,en:0.82,levels:'2,8,18,8,1',val:'I',ox:'+1',ion:'+1',ionHint:'Rb⁺ у сполуках.',valHint:'1 зв\'язок.',desc:'М\'який лужний метал, спалахує на повітрі. Використовується в атомних годинниках та фотоелементах.'},
+ {n:38,s:'Sr',ua:'Стронцій',cat:'alkaline',mass:'87.620',state:'solid',p:5,g:2,yr:1790,en:0.95,levels:'2,8,18,8,2',val:'II',ox:'+2',ion:'+2',ionHint:'Sr²⁺ у сполуках.',valHint:'2 зв\'язки.',desc:'Сріблястий лужноземельний метал. Sr-90 — небезпечний радіоактивний ізотоп. SrCO₃ дає червоний колір феєрверкам.'},
+ {n:39,s:'Y',ua:'Ітрій',cat:'transition',mass:'88.906',state:'solid',p:5,g:3,yr:1794,en:1.22,levels:'2,8,18,9,2',val:'III',ox:'+3',ion:'+3',ionHint:'Y³⁺ у сполуках.',valHint:'3 зв\'язки.',desc:'Сріблястий метал. Застосовується у надпровідниках YBa₂Cu₃O₇ та у виробництві YAG-лазерів.'},
+ {n:40,s:'Zr',ua:'Цирконій',cat:'transition',mass:'91.224',state:'solid',p:5,g:4,yr:1789,en:1.33,levels:'2,8,18,10,2',val:'IV',ox:'+4',ion:'+4',ionHint:'Zr⁴⁺ у сполуках.',valHint:'4 зв\'язки.',desc:'Сріблясто-білий метал. Стійкий до нейтронного випромінювання — широко застосовується в ядерних реакторах.'},
+ {n:41,s:'Nb',ua:'Ніобій',cat:'transition',mass:'92.906',state:'solid',p:5,g:5,yr:1801,en:1.60,levels:'2,8,18,12,1',val:'V',ox:'+2,+3,+4,+5',ion:'+5',ionHint:'Кілька ступенів окиснення.',valHint:'До 5 зв\'язків.',desc:'Твердий метал. Надпровідник при низьких температурах. Легуючий елемент у сталях.'},
+ {n:42,s:'Mo',ua:'Молібден',cat:'transition',mass:'95.950',state:'solid',p:5,g:6,yr:1778,en:2.16,levels:'2,8,18,13,1',val:'VI',ox:'+2,+3,+4,+5,+6',ion:'+6',ionHint:'Mo⁶⁺ у молібдатах.',valHint:'До 6 зв\'язків.',desc:'Сріблясто-білий метал із надзвичайно високою температурою плавлення (2623°C). Легуючий елемент у сталях.'},
+ {n:43,s:'Tc',ua:'Технецій',cat:'transition',mass:'98',state:'solid',p:5,g:7,yr:1937,en:1.90,levels:'2,8,18,13,2',val:'VII',ox:'+4,+7',ion:'+7',ionHint:'TcO₄⁻ — пертехнетат.',valHint:'До 7 зв\'язків.',desc:'Перший штучно отриманий елемент. Всі ізотопи радіоактивні. ⁹⁹mTc широко використовується у ядерній медицині.'},
+ {n:44,s:'Ru',ua:'Рутеній',cat:'transition',mass:'101.07',state:'solid',p:5,g:8,yr:1844,en:2.20,levels:'2,8,18,15,1',val:'IV',ox:'+2,+3,+4,+6,+8',ion:'+4',ionHint:'Кілька ступенів окиснення.',valHint:'До 8 зв\'язків.',desc:'Твердий рідкісний метал платинової групи. Каталізатор. Додається до сплавів платини і паладію.'},
+ {n:45,s:'Rh',ua:'Родій',cat:'transition',mass:'102.91',state:'solid',p:5,g:9,yr:1803,en:2.28,levels:'2,8,18,16,1',val:'III',ox:'+3',ion:'+3',ionHint:'Rh³⁺ у сполуках.',valHint:'3 зв\'язки.',desc:'Дуже рідкісний срібно-білий метал. Застосовується у каталітичних нейтралізаторах автомобілів.'},
+ {n:46,s:'Pd',ua:'Паладій',cat:'transition',mass:'106.42',state:'solid',p:5,g:10,yr:1803,en:2.20,levels:'2,8,18,18',val:'II',ox:'+2,+4',ion:'+2',ionHint:'Pd²⁺ у сполуках.',valHint:'2–4 зв\'язки.',desc:'Сріблястий метал платинової групи. Поглинає водень до 900 обсягів. Каталізатор і матеріал ювелірних виробів.'},
+ {n:48,s:'Cd',ua:'Кадмій',cat:'transition',mass:'112.41',state:'solid',p:5,g:12,yr:1817,en:1.69,levels:'2,8,18,18,2',val:'II',ox:'+2',ion:'+2',ionHint:'Cd²⁺ у сполуках.',valHint:'2 зв\'язки.',desc:'М\'який блакитно-білий метал. Токсичний. Використовується у Ni-Cd акумуляторах, пігментах і ядерних реакторах.'},
+ {n:49,s:'In',ua:'Індій',cat:'posttrans',mass:'114.82',state:'solid',p:5,g:13,yr:1863,en:1.78,levels:'2,8,18,18,3',val:'III',ox:'+3',ion:'+3',ionHint:'In³⁺ у сполуках.',valHint:'3 зв\'язки.',desc:'М\'який сріблястий метал. ITO (оксид індій-олово) — прозорий провідник у дисплеях та сенсорних екранах.'},
+ {n:50,s:'Sn',ua:'Олово',cat:'posttrans',mass:'118.71',state:'solid',p:5,g:14,yr:-3000,en:1.96,levels:'2,8,18,18,4',val:'II,IV',ox:'+2,+4',ion:'+2',ionHint:'Sn²⁺ (станум) і Sn⁴⁺.',valHint:'2–4 зв\'язки.',desc:'М\'який пластичний метал, відомий з давнини. Входить до складу бронзи (Cu+Sn). Покриття консервних банок.'},
+ {n:51,s:'Sb',ua:'Стибій',cat:'metalloid',mass:'121.76',state:'solid',p:5,g:15,yr:-3000,en:2.05,levels:'2,8,18,18,5',val:'III,V',ox:'-3,+3,+5',ion:'+3',ionHint:'Sb³⁺ у сполуках.',valHint:'3–5 зв\'язків.',desc:'Сріблясто-білий крихкий напівметал. Застосовується у сплавах для підвищення твердості та вогнестійких матеріалах.'},
+ {n:52,s:'Te',ua:'Телур',cat:'metalloid',mass:'127.60',state:'solid',p:5,g:16,yr:1782,en:2.10,levels:'2,8,18,18,6',val:'II,IV,VI',ox:'-2,+4,+6',ion:'-2',ionHint:'Te²⁻ у телуридах.',valHint:'2–6 зв\'язків.',desc:'Срібно-білий напівметал із часниковим запахом. Застосовується у напівпровідниках CdTe для сонячних батарей.'},
+ {n:53,s:'I',ua:'Йод',cat:'halogen',mass:'126.90',state:'solid',p:5,g:17,yr:1811,en:2.66,levels:'2,8,18,18,7',val:'I',ox:'-1,+1,+5,+7',ion:'-1',ionHint:'I⁻ — йодид.',valHint:'1 зв\'язок.',desc:'Темно-фіолетові кристали з характерним запахом. Необхідний мікроелемент для синтезу гормонів щитоподібної залози.'},
+ {n:54,s:'Xe',ua:'Ксенон',cat:'noble',mass:'131.29',state:'gas',p:5,g:18,yr:1898,en:2.60,levels:'2,8,18,18,8',val:'0',ox:'0,+2,+4,+6',ion:'—',ionHint:'Рідко утворює сполуки (XeF₂, XeO₃).',valHint:'Зазвичай 0.',desc:'Інертний газ. Попри назву «чужий» (грецьк.), утворює сполуки з F та O. Застосовується у ксенонових лампах і наркозі.'},
+ {n:58,s:'Ce',ua:'Церій',cat:'lanthanide',mass:'140.12',state:'solid',p:6,g:null,yr:1803,en:1.12,levels:'2,8,18,19,9,2',val:'III,IV',ox:'+3,+4',ion:'+3',ionHint:'Ce³⁺ і Ce⁴⁺.',valHint:'3–4 зв\'язки.',desc:'Найпоширеніший лантаноїд. Застосовується у каталітичних нейтралізаторах, скловарінні та запальних каменях.'},
+ {n:59,s:'Pr',ua:'Празеодим',cat:'lanthanide',mass:'140.91',state:'solid',p:6,g:null,yr:1885,en:1.13,levels:'2,8,18,21,8,2',val:'III',ox:'+3',ion:'+3',ionHint:'Pr³⁺ у сполуках.',valHint:'3 зв\'язки.',desc:'Жовто-зелений лантаноїд. Застосовується у магнітах NdFeB (разом з Nd), скловарінні та захисних окулярах.'},
+ {n:60,s:'Nd',ua:'Неодим',cat:'lanthanide',mass:'144.24',state:'solid',p:6,g:null,yr:1885,en:1.14,levels:'2,8,18,22,8,2',val:'III',ox:'+3',ion:'+3',ionHint:'Nd³⁺ у сполуках.',valHint:'3 зв\'язки.',desc:'Ключовий компонент найсильніших постійних магнітів NdFeB. Застосовується у двигунах електромобілів і вітрогенераторах.'},
+ {n:61,s:'Pm',ua:'Прометій',cat:'lanthanide',mass:'145',state:'solid',p:6,g:null,yr:1945,en:1.13,levels:'2,8,18,23,8,2',val:'III',ox:'+3',ion:'+3',ionHint:'Pm³⁺ у сполуках.',valHint:'3 зв\'язки.',desc:'Єдиний радіоактивний лантаноїд. Не зустрічається у природі у стабільному стані. Застосовується у ядерних батареях.'},
+ {n:62,s:'Sm',ua:'Самарій',cat:'lanthanide',mass:'150.36',state:'solid',p:6,g:null,yr:1879,en:1.17,levels:'2,8,18,24,8,2',val:'II,III',ox:'+2,+3',ion:'+3',ionHint:'Sm³⁺ у сполуках.',valHint:'3 зв\'язки.',desc:'Лантаноїд. SmCo₅ — матеріал для сильних постійних магнітів, стійких до нагрівання. Поглинач нейтронів у реакторах.'},
+ {n:63,s:'Eu',ua:'Європій',cat:'lanthanide',mass:'151.96',state:'solid',p:6,g:null,yr:1901,en:1.20,levels:'2,8,18,25,8,2',val:'II,III',ox:'+2,+3',ion:'+3',ionHint:'Eu²⁺ і Eu³⁺.',valHint:'2–3 зв\'язки.',desc:'М\'який лантаноїд. Eu³⁺ — яскраво-червоний люмінофор у телевізорах та захисних марках євробанкнот.'},
+ {n:64,s:'Gd',ua:'Гадоліній',cat:'lanthanide',mass:'157.25',state:'solid',p:6,g:null,yr:1880,en:1.20,levels:'2,8,18,25,9,2',val:'III',ox:'+3',ion:'+3',ionHint:'Gd³⁺ — парамагнетик.',valHint:'3 зв\'язки.',desc:'Контрастний засіб для МРТ (гадоліній-хелати). Має унікальні магнітні властивості. Поглинач нейтронів у реакторах.'},
+ {n:65,s:'Tb',ua:'Тербій',cat:'lanthanide',mass:'158.93',state:'solid',p:6,g:null,yr:1843,en:1.20,levels:'2,8,18,27,8,2',val:'III',ox:'+3',ion:'+3',ionHint:'Tb³⁺ у сполуках.',valHint:'3 зв\'язки.',desc:'Лантаноїд. Зелений люмінофор у тривалентних лампах і дисплеях. Входить до складу магнітних матеріалів.'},
+ {n:66,s:'Dy',ua:'Диспрозій',cat:'lanthanide',mass:'162.50',state:'solid',p:6,g:null,yr:1886,en:1.22,levels:'2,8,18,28,8,2',val:'III',ox:'+3',ion:'+3',ionHint:'Dy³⁺ у сполуках.',valHint:'3 зв\'язки.',desc:'Лантаноїд із найвищою магнітною сприйнятливістю. Додається до NdFeB магнітів для підвищення термостабільності.'},
+ {n:67,s:'Ho',ua:'Гольмій',cat:'lanthanide',mass:'164.93',state:'solid',p:6,g:null,yr:1878,en:1.23,levels:'2,8,18,29,8,2',val:'III',ox:'+3',ion:'+3',ionHint:'Ho³⁺ у сполуках.',valHint:'3 зв\'язки.',desc:'Лантаноїд із найбільшим магнітним моментом серед елементів. Ho:YAG — медичний лазер (хірургія каменів нирок).'},
+ {n:68,s:'Er',ua:'Ербій',cat:'lanthanide',mass:'167.26',state:'solid',p:6,g:null,yr:1843,en:1.24,levels:'2,8,18,30,8,2',val:'III',ox:'+3',ion:'+3',ionHint:'Er³⁺ у сполуках.',valHint:'3 зв\'язки.',desc:'Рожевий лантаноїд. Er³⁺ — активний іон у волоконно-оптичних підсилювачах EDFA. Er:YAG — косметичний лазер.'},
+ {n:69,s:'Tm',ua:'Тулій',cat:'lanthanide',mass:'168.93',state:'solid',p:6,g:null,yr:1879,en:1.25,levels:'2,8,18,31,8,2',val:'III',ox:'+3',ion:'+3',ionHint:'Tm³⁺ у сполуках.',valHint:'3 зв\'язки.',desc:'Один з найрідкісніших лантаноїдів. Tm²⁰⁰-джерела рентгенівського випромінювання для переносних апаратів.'},
+ {n:70,s:'Yb',ua:'Ітербій',cat:'lanthanide',mass:'173.04',state:'solid',p:6,g:null,yr:1878,en:1.10,levels:'2,8,18,32,8,2',val:'II,III',ox:'+2,+3',ion:'+3',ionHint:'Yb³⁺ у сполуках.',valHint:'2–3 зв\'язки.',desc:'Лантаноїд. Yb:YAG і Yb:fiber — лазери для промислової обробки матеріалів. Атомний годинник на Yb є найточнішим.'},
+ {n:71,s:'Lu',ua:'Лютецій',cat:'lanthanide',mass:'174.97',state:'solid',p:6,g:null,yr:1907,en:1.27,levels:'2,8,18,32,9,2',val:'III',ox:'+3',ion:'+3',ionHint:'Lu³⁺ у сполуках.',valHint:'3 зв\'язки.',desc:'Найважчий і найтвердіший лантаноїд. Кристали Lu₂SiO₅:Ce — сцинтилятори для ПЕТ-сканерів.'},
+ {n:72,s:'Hf',ua:'Гафній',cat:'transition',mass:'178.49',state:'solid',p:6,g:4,yr:1923,en:1.30,levels:'2,8,18,32,10,2',val:'IV',ox:'+4',ion:'+4',ionHint:'Hf⁴⁺ у сполуках.',valHint:'4 зв\'язки.',desc:'Сріблясто-сірий метал, дуже схожий на цирконій. Поглинач нейтронів. Застосовується у керуючих стрижнях реакторів.'},
+ {n:73,s:'Ta',ua:'Тантал',cat:'transition',mass:'180.95',state:'solid',p:6,g:5,yr:1802,en:1.50,levels:'2,8,18,32,11,2',val:'V',ox:'+5',ion:'+5',ionHint:'Ta⁵⁺ у сполуках.',valHint:'5 зв\'язків.',desc:'Надзвичайно корозійностійкий метал. Ta₂O₅ — діелектрик у конденсаторах телефонів. Біосумісний для медичних імплантів.'},
+ {n:74,s:'W',ua:'Вольфрам',cat:'transition',mass:'183.84',state:'solid',p:6,g:6,yr:1783,en:2.36,levels:'2,8,18,32,12,2',val:'VI',ox:'+4,+6',ion:'+6',ionHint:'W⁶⁺ у вольфраматах.',valHint:'До 6 зв\'язків.',desc:'Найвища точка плавлення серед металів (3422°C). Нитки розжарювання ламп, тверді сплави для різання металів.'},
+ {n:75,s:'Re',ua:'Реній',cat:'transition',mass:'186.21',state:'solid',p:6,g:7,yr:1925,en:1.90,levels:'2,8,18,32,13,2',val:'VII',ox:'+4,+7',ion:'+7',ionHint:'ReO₄⁻ — перренат.',valHint:'До 7 зв\'язків.',desc:'Один з найрідкісніших і найдорожчих металів. Каталізатор у нафтопереробці. Суперсплави для авіаційних турбін.'},
+ {n:76,s:'Os',ua:'Осмій',cat:'transition',mass:'190.23',state:'solid',p:6,g:8,yr:1803,en:2.20,levels:'2,8,18,32,14,2',val:'IV',ox:'+4,+8',ion:'+4',ionHint:'OsO₄ — надзвичайно токсичний тетраоксид.',valHint:'До 8 зв\'язків.',desc:'Найщільніший елемент (22.59 г/см³). OsO₄ — реагент для фарбування біологічних тканин (дуже токсичний!).'},
+ {n:77,s:'Ir',ua:'Іридій',cat:'transition',mass:'192.22',state:'solid',p:6,g:9,yr:1803,en:2.20,levels:'2,8,18,32,15,2',val:'III',ox:'+3,+4',ion:'+3',ionHint:'Ir³⁺ і Ir⁴⁺.',valHint:'3–4 зв\'язки.',desc:'Найбільш корозійностійкий метал. Іридієво-осмієвий сплав — матеріал еталону метра і кілограма. Індикатор падіння метеорита К/Т.'},
+ {n:78,s:'Pt',ua:'Платина',cat:'transition',mass:'195.08',state:'solid',p:6,g:10,yr:1748,en:2.28,levels:'2,8,18,32,17,1',val:'II,IV',ox:'+2,+4',ion:'+2',ionHint:'Pt²⁺ у тетрахлороплатинатах.',valHint:'2–4 зв\'язки.',desc:'Дорогоцінний сріблясто-білий метал. Каталізатор у нейтралізаторах і хімії. Цисплатин Pt — протипухлинний препарат.'},
+ {n:81,s:'Tl',ua:'Талій',cat:'posttrans',mass:'204.38',state:'solid',p:6,g:13,yr:1861,en:1.62,levels:'2,8,18,32,18,3',val:'I,III',ox:'+1,+3',ion:'+1',ionHint:'Tl⁺ і Tl³⁺.',valHint:'1–3 зв\'язки.',desc:'М\'який сріблястий метал, дуже токсичний. Сполуки Tl застосовуються у детекторах випромінювання.'},
+ {n:83,s:'Bi',ua:'Вісмут',cat:'posttrans',mass:'208.98',state:'solid',p:6,g:15,yr:1753,en:2.02,levels:'2,8,18,32,18,5',val:'III,V',ox:'+3,+5',ion:'+3',ionHint:'Bi³⁺ у сполуках.',valHint:'3–5 зв\'язків.',desc:'Рожево-сріблясто-білий метал. Найважчий стабільний елемент. Де-Нол (субцитрат вісмуту) — ліки від виразки шлунка.'},
+ {n:84,s:'Po',ua:'Полоній',cat:'metalloid',mass:'209',state:'solid',p:6,g:16,yr:1898,en:2.00,levels:'2,8,18,32,18,6',val:'II,IV',ox:'-2,+4',ion:'+2',ionHint:'Po²⁺ і Po⁴⁺.',valHint:'2–4 зв\'язки.',desc:'Відкрито Марією Кюрі. Радіоактивний. Po-210 — джерело альфа-частинок, надзвичайно токсичний (1 мкг = смертельна доза).'},
+ {n:85,s:'At',ua:'Астат',cat:'halogen',mass:'210',state:'solid',p:6,g:17,yr:1940,en:2.20,levels:'2,8,18,32,18,7',val:'I',ox:'-1,+1,+5',ion:'-1',ionHint:'At⁻ у сполуках.',valHint:'1 зв\'язок.',desc:'Найрідкісніший природний елемент (< 30 г на Землі). Радіоактивний. At-211 — перспективний для цільової альфа-терапії раку.'},
+ {n:86,s:'Rn',ua:'Радон',cat:'noble',mass:'222',state:'gas',p:6,g:18,yr:1900,en:2.20,levels:'2,8,18,32,18,8',val:'0',ox:'0',ion:'—',ionHint:'Інертний газ.',valHint:'Зазвичай 0.',desc:'Радіоактивний інертний газ. Утворюється при розпаді радію. Накопичення в підвалах — причина до 10% випадків раку легень.'},
+ {n:87,s:'Fr',ua:'Францій',cat:'alkali',mass:'223',state:'solid',p:7,g:1,yr:1939,en:0.70,levels:'2,8,18,32,18,8,1',val:'I',ox:'+1',ion:'+1',ionHint:'Fr⁺ у сполуках.',valHint:'1 зв\'язок.',desc:'Найнестабільніший природний елемент. Найбільший атомний радіус. Практично не застосовується через надзвичайну рідкісність.'},
+ {n:88,s:'Ra',ua:'Радій',cat:'alkaline',mass:'226',state:'solid',p:7,g:2,yr:1898,en:0.90,levels:'2,8,18,32,18,8,2',val:'II',ox:'+2',ion:'+2',ionHint:'Ra²⁺ у сполуках.',valHint:'2 зв\'язки.',desc:'Відкрито Марією та П\'єром Кюрі. Радіоактивний. Ra-226 — джерело радону. Раніше застосовувався у лікуванні раку.'},
+ {n:89,s:'Ac',ua:'Актиній',cat:'actinide',mass:'227',state:'solid',p:7,g:null,yr:1899,en:1.10,levels:'2,8,18,32,18,9,2',val:'III',ox:'+3',ion:'+3',ionHint:'Ac³⁺ у сполуках.',valHint:'3 зв\'язки.',desc:'Перший актиноїд. Радіоактивний. Ac-225 — перспективне ядро для цільової альфа-терапії онкологічних захворювань.'},
+ {n:90,s:'Th',ua:'Торій',cat:'actinide',mass:'232.04',state:'solid',p:7,g:null,yr:1828,en:1.30,levels:'2,8,18,32,18,10,2',val:'IV',ox:'+4',ion:'+4',ionHint:'Th⁴⁺ у сполуках.',valHint:'4 зв\'язки.',desc:'Слабко радіоактивний актиноїд. Торієвий ядерний цикл Th-232→U-233 — перспективне паливо майбутнього.'},
+ {n:91,s:'Pa',ua:'Протактиній',cat:'actinide',mass:'231.04',state:'solid',p:7,g:null,yr:1913,en:1.50,levels:'2,8,18,32,20,9,2',val:'V',ox:'+4,+5',ion:'+5',ionHint:'Pa⁵⁺ у сполуках.',valHint:'4–5 зв\'язків.',desc:'Рідкісний радіоактивний актиноїд. Проміжний продукт розпаду урану-235. Практичного застосування майже немає.'},
+ {n:93,s:'Np',ua:'Нептуній',cat:'actinide',mass:'237',state:'solid',p:7,g:null,yr:1940,en:1.36,levels:'2,8,18,32,22,9,2',val:'V',ox:'+3,+4,+5,+6',ion:'+5',ionHint:'NpO₂⁺ — neptunyl.',valHint:'3–6 зв\'язків.',desc:'Перший трансурановий елемент. Np-237 — проміжний продукт у виробництві Pu-238 для РТГ космічних апаратів.'},
+ {n:94,s:'Pu',ua:'Плутоній',cat:'actinide',mass:'244',state:'solid',p:7,g:null,yr:1940,en:1.28,levels:'2,8,18,32,24,8,2',val:'IV',ox:'+3,+4,+5,+6',ion:'+4',ionHint:'Pu⁴⁺ — найстабільніший стан.',valHint:'3–6 зв\'язків.',desc:'Найважливіший трансурановий елемент. Pu-239 — паливо ядерної зброї та реакторів. Pu-238 — джерело енергії космічних зондів.'},
+ {n:95,s:'Am',ua:'Америцій',cat:'actinide',mass:'243',state:'solid',p:7,g:null,yr:1944,en:1.30,levels:'2,8,18,32,25,8,2',val:'III',ox:'+2,+3,+4',ion:'+3',ionHint:'Am³⁺ у сполуках.',valHint:'2–4 зв\'язки.',desc:'Am-241 — джерело альфа-частинок і гамма-випромінювання у побутових детекторах диму.'},
+ {n:96,s:'Cm',ua:'Кюрій',cat:'actinide',mass:'247',state:'solid',p:7,g:null,yr:1944,en:1.30,levels:'2,8,18,32,25,9,2',val:'III',ox:'+3',ion:'+3',ionHint:'Cm³⁺ у сполуках.',valHint:'3 зв\'язки.',desc:'Названо на честь Марії і П\'єра Кюрі. Cm-244 застосовується як джерело нейтронів і у рентгенівських аналізаторах марсоходів.'},
+ {n:97,s:'Bk',ua:'Берклій',cat:'actinide',mass:'247',state:'solid',p:7,g:null,yr:1949,en:1.30,levels:'2,8,18,32,27,8,2',val:'III',ox:'+3,+4',ion:'+3',ionHint:'Bk³⁺ у сполуках.',valHint:'3–4 зв\'язки.',desc:'Названо на честь Берклі (Каліфорнія). Радіоактивний трансурановий елемент. Застосовується лише для наукових досліджень.'},
+ {n:98,s:'Cf',ua:'Каліфорній',cat:'actinide',mass:'251',state:'solid',p:7,g:null,yr:1950,en:1.30,levels:'2,8,18,32,28,8,2',val:'III',ox:'+2,+3',ion:'+3',ionHint:'Cf³⁺ у сполуках.',valHint:'2–3 зв\'язки.',desc:'Cf-252 — потужне нейтронне джерело для запуску ядерних реакторів і лікування раку нейтронним опроміненням.'},
+ {n:99,s:'Es',ua:'Ейнштейній',cat:'actinide',mass:'252',state:'solid',p:7,g:null,yr:1952,en:1.30,levels:'2,8,18,32,29,8,2',val:'III',ox:'+2,+3',ion:'+3',ionHint:'Es³⁺ у сполуках.',valHint:'2–3 зв\'язки.',desc:'Відкрито у продуктах першого випробування водневої бомби Ivy Mike (1952). Лише для наукових досліджень.'},
+ {n:100,s:'Fm',ua:'Фермій',cat:'actinide',mass:'257',state:'solid',p:7,g:null,yr:1952,en:1.30,levels:'2,8,18,32,30,8,2',val:'III',ox:'+2,+3',ion:'+3',ionHint:'Fm³⁺ у сполуках.',valHint:'2–3 зв\'язки.',desc:'Названо на честь Енріко Фермі. Отримано при термоядерному вибуху. Вивчається лише у мікрокількостях.'},
+ {n:101,s:'Md',ua:'Менделєвій',cat:'actinide',mass:'258',state:'solid',p:7,g:null,yr:1955,en:1.30,levels:'2,8,18,32,31,8,2',val:'II,III',ox:'+2,+3',ion:'+3',ionHint:'Md³⁺ у сполуках.',valHint:'2–3 зв\'язки.',desc:'Названо на честь Дмитра Менделєєва. Перший елемент, отриманий по одному атому за раз на циклотроні.'},
+ {n:102,s:'No',ua:'Нобелій',cat:'actinide',mass:'259',state:'solid',p:7,g:null,yr:1958,en:1.30,levels:'2,8,18,32,32,8,2',val:'II,III',ox:'+2,+3',ion:'+2',ionHint:'No²⁺ — переважаючий стан.',valHint:'2–3 зв\'язки.',desc:'Названо на честь Альфреда Нобеля. Надзвичайно короткоживучий елемент. Синтезується у ядерних реакціях.'},
+ {n:103,s:'Lr',ua:'Лоуренсій',cat:'actinide',mass:'266',state:'solid',p:7,g:null,yr:1961,en:1.30,levels:'2,8,18,32,32,8,3',val:'III',ox:'+3',ion:'+3',ionHint:'Lr³⁺ у сполуках.',valHint:'3 зв\'язки.',desc:'Останній актиноїд. Названо на честь Ернеста Лоуренса. Синтезується у лабораторії, вивчається у мікрокількостях.'},
+ {n:104,s:'Rf',ua:'Резерфордій',cat:'transition',mass:'267',state:'solid',p:7,g:4,yr:1964,en:null,levels:'2,8,18,32,32,10,2',val:'IV',ox:'+4',ion:'+4',ionHint:'Rf⁴⁺ у сполуках.',valHint:'4 зв\'язки.',desc:'Перший трансактиноїд. Названо на честь Ернеста Резерфорда. Синтезується у ядерних реакціях, має дуже короткий час життя.'},
+ {n:105,s:'Db',ua:'Дубній',cat:'transition',mass:'268',state:'solid',p:7,g:5,yr:1968,en:null,levels:'2,8,18,32,32,11,2',val:'V',ox:'+5',ion:'+5',ionHint:'Db⁵⁺ у сполуках.',valHint:'5 зв\'язків.',desc:'Названо на честь Дубни (Росія). Синтезується у важкоіонних реакторах. Хімічно схожий на тантал.'},
+ {n:106,s:'Sg',ua:'Сіборгій',cat:'transition',mass:'269',state:'solid',p:7,g:6,yr:1974,en:null,levels:'2,8,18,32,32,12,2',val:'VI',ox:'+6',ion:'+6',ionHint:'Sg⁶⁺ у сполуках.',valHint:'До 6 зв\'язків.',desc:'Названо на честь Гленна Сіборга. Надважкий елемент. Хімічно схожий на вольфрам. Синтезується у мікрокількостях.'},
+ {n:107,s:'Bh',ua:'Борій',cat:'transition',mass:'270',state:'solid',p:7,g:7,yr:1981,en:null,levels:'2,8,18,32,32,13,2',val:'VII',ox:'+7',ion:'+7',ionHint:'BhO₃Cl — аналог ReO₃Cl.',valHint:'До 7 зв\'язків.',desc:'Названо на честь Нільса Бора. Схожий на реній. Синтезується одиничними атомами, час напіврозпаду ~ секунди.'},
+ {n:108,s:'Hs',ua:'Хасій',cat:'transition',mass:'277',state:'solid',p:7,g:8,yr:1984,en:null,levels:'2,8,18,32,32,14,2',val:'VIII',ox:'+8',ion:'+8',ionHint:'HsO₄ — аналог OsO₄.',valHint:'До 8 зв\'язків.',desc:'Названо на честь землі Гессен (Hessen). HsO₄ — найважчий оксид, отриманий і охарактеризований у ядерній хімії.'},
+ {n:109,s:'Mt',ua:'Мейтнерій',cat:'transition',mass:'278',state:'solid',p:7,g:9,yr:1982,en:null,levels:'2,8,18,32,32,15,2',val:'—',ox:'—',ion:'—',ionHint:'Дані відсутні.',valHint:'Теоретично схожий на Ir.',desc:'Названо на честь Ліз Майтнер. Синтезовано лише декілька атомів. Хімія не досліджена через наднизький вихід синтезу.'},
+ {n:110,s:'Ds',ua:'Дармштадтій',cat:'transition',mass:'281',state:'solid',p:7,g:10,yr:1994,en:null,levels:'2,8,18,32,32,17,1',val:'—',ox:'—',ion:'—',ionHint:'Дані відсутні.',valHint:'Теоретично схожий на Pt.',desc:'Названо на честь Дармштадта. Синтезовано у GSI (Германія). Надважкий елемент з дуже коротким часом напіврозпаду.'},
+ {n:111,s:'Rg',ua:'Рентгеній',cat:'transition',mass:'282',state:'solid',p:7,g:11,yr:1994,en:null,levels:'2,8,18,32,32,18,1',val:'—',ox:'+1,+3',ion:'+1',ionHint:'Теоретично схожий на Au.',valHint:'Теоретично 1–3 зв\'язки.',desc:'Названо на честь Вільгельма Рентгена. Надважкий елемент. Теоретично схожий на золото, але значно реактивніший.'},
+ {n:112,s:'Cn',ua:'Коперніцій',cat:'transition',mass:'285',state:'gas',p:7,g:12,yr:1996,en:null,levels:'2,8,18,32,32,18,2',val:'—',ox:'+2',ion:'+2',ionHint:'Теоретично схожий на Hg.',valHint:'Теоретично 2 зв\'язки.',desc:'Названо на честь Миколи Коперника. Теоретично поводиться як газ за кімнатної температури через релятивістські ефекти.'},
+ {n:113,s:'Nh',ua:'Ніхоній',cat:'posttrans',mass:'286',state:'solid',p:7,g:13,yr:2004,en:null,levels:'2,8,18,32,32,18,3',val:'—',ox:'+1,+3',ion:'+1',ionHint:'Теоретично схожий на Tl.',valHint:'1–3 зв\'язки.',desc:'Перший елемент, синтезований в Азії (Японія, RIKEN). Nihon — японська назва Японії. 113-й елемент відкритий у 2004.'},
+ {n:114,s:'Fl',ua:'Флеровій',cat:'posttrans',mass:'289',state:'solid',p:7,g:14,yr:1999,en:null,levels:'2,8,18,32,32,18,4',val:'—',ox:'+2',ion:'+2',ionHint:'Теоретично схожий на Pb.',valHint:'2 зв\'язки.',desc:'Названо на честь ФЛАРН (Флерова). Синтезовано у Дубні. Теоретично поводиться як благородний газ через релятивістські ефекти.'},
+ {n:115,s:'Mc',ua:'Московій',cat:'posttrans',mass:'290',state:'solid',p:7,g:15,yr:2003,en:null,levels:'2,8,18,32,32,18,5',val:'—',ox:'+1,+3',ion:'+1',ionHint:'Теоретично схожий на Bi.',valHint:'1–3 зв\'язки.',desc:'Названо на честь Московської області. Синтезовано у Дубні у 2003. Офіційно підтверджено IUPAC у 2015.'},
+ {n:116,s:'Lv',ua:'Лівермор',cat:'posttrans',mass:'293',state:'solid',p:7,g:16,yr:2000,en:null,levels:'2,8,18,32,32,18,6',val:'—',ox:'+2',ion:'+2',ionHint:'Теоретично схожий на Po.',valHint:'2 зв\'язки.',desc:'Названо на честь Ліверморської національної лабораторії (США). Синтезовано спільно Дубна+Лівермор.'},
+ {n:117,s:'Ts',ua:'Теннессін',cat:'halogen',mass:'294',state:'solid',p:7,g:17,yr:2010,en:null,levels:'2,8,18,32,32,18,7',val:'—',ox:'+1,-1',ion:'-1',ionHint:'Теоретично схожий на At.',valHint:'1 зв\'язок.',desc:'Другий елемент, синтезований у США. Названо на честь штату Теннессі. Синтезований у 2010, підтверджений у 2015.'},
+ {n:118,s:'Og',ua:'Оганесон',cat:'noble',mass:'294',state:'gas',p:7,g:18,yr:2002,en:null,levels:'2,8,18,32,32,18,8',val:'0',ox:'0',ion:'—',ionHint:'Теоретично може утворювати сполуки.',valHint:'Теоретично 0.',desc:'Названо на честь Юрія Оганесяна. Найважчий відомий елемент. Синтезовано 5 атомів. Може бути твердим через релятивістські ефекти.'},
 ];
 
 const ELEM_SYMS=['','H','He','Li','Be','B','C','N','O','F','Ne','Na','Mg','Al','Si','P','S','Cl','Ar','K','Ca','Sc','Ti','V','Cr','Mn','Fe','Co','Ni','Cu','Zn','Ga','Ge','As','Se','Br','Kr','Rb','Sr','Y','Zr','Nb','Mo','Tc','Ru','Rh','Pd','Ag','Cd','In','Sn','Sb','Te','I','Xe','Cs','Ba','La','Ce','Pr','Nd','Pm','Sm','Eu','Gd','Tb','Dy','Ho','Er','Tm','Yb','Lu','Hf','Ta','W','Re','Os','Ir','Pt','Au','Hg','Tl','Pb','Bi','Po','At','Rn','Fr','Ra','Ac','Th','Pa','U','Np','Pu','Am','Cm','Bk','Cf','Es','Fm','Md','No','Lr','Rf','Db','Sg','Bh','Hs','Mt','Ds','Rg','Cn','Nh','Fl','Mc','Lv','Ts','Og'];
@@ -1616,6 +1905,9 @@ for(let n=1;n<=118;n++){
   }
 }
 FULL.sort((a,b)=>a.n-b.n);
+// Expose for global search
+window._ELEMENTS = FULL.map(e=>({number:e.n, symbol:e.s, name:e.ua, category:e.cat}));
+function openElementModal(e){ openModal(e.number); }
 
 // ============ ТАБЛИЦЯ ============
 let activeCat='all', searchQ='';
@@ -1642,7 +1934,7 @@ function openModal(n){
   const e=FULL.find(x=>x.n===n);if(!e)return;
   const c=CC[e.cat]||'#78909C';const r=parseInt(c.slice(1,3),16),g2=parseInt(c.slice(3,5),16),b=parseInt(c.slice(5,7),16);
   document.getElementById('mhead').innerHTML=`<div class="modal-el-card" style="background:rgba(${r},${g2},${b},0.12);border-color:rgba(${r},${g2},${b},0.35)"><span class="modal-el-num">${e.n}</span><span class="modal-el-sym" style="color:${c}">${e.s}</span><span class="modal-el-name">${e.ua}</span><span class="modal-el-mass">${e.mass} а.о.м.</span></div><div class="modal-head-info"><div class="modal-title">${e.ua} (${e.s})</div><div class="modal-cat-line" style="color:${c}">${CU[e.cat]||e.cat} · ${e.cat==='lanthanide'||e.cat==='actinide'?'f-блок':(e.g?e.g+' група':'—')} · ${e.p} період</div><div class="modal-desc">${e.desc}</div></div>`;
-  document.getElementById('mbody').innerHTML=`<div class="mfield"><span class="mf-label">⚡ Електронні рівні</span><span class="mf-value">${e.levels}</span><span class="mf-hint">Скільки електронів на кожній орбіті. <b>Останнє число</b> — зовнішній рівень, він визначає хімічні властивості.</span></div><div class="mfield"><span class="mf-label">🔗 Валентність</span><span class="mf-value">${e.val}</span><span class="mf-hint">${e.valHint}</span></div><div class="mfield wide"><span class="mf-label">⚛️ Ступені окиснення</span><span class="mf-value">${e.ox}</span><span class="mf-hint">Скільки електронів елемент <b>віддає</b> (+) або <b>приймає</b> (−) у реакції. Потрібно для розстановки коефіцієнтів.</span></div><div class="mfield wide"><span class="mf-label">🔋 Заряд іона</span><span class="mf-value" style="color:${c}">${e.ion}</span><span class="mf-hint">${e.ionHint}</span></div><div class="mfield"><span class="mf-label">🌡️ Агрегатний стан</span><span class="mf-value">${SU[e.state]||e.state}</span><span class="mf-hint">При температурі 25°C і нормальному тиску.</span></div><div class="mfield"><span class="mf-label">🧲 Електронегативність</span><span class="mf-value">${e.en!=='-'?e.en:'—'}</span><span class="mf-hint">Шкала Полінга. Наскільки сильно атом <b>притягує електрони</b>. Найвища у Флуору — 3,98.</span></div><div class="mfield"><span class="mf-label">📅 Відкрито</span><span class="mf-value">${e.yr}</span><span class="mf-hint">Рік першого виділення або синтезу елемента.</span></div><div class="mfield"><span class="mf-label">📍 Положення в таблиці</span><span class="mf-value">${e.p} період · ${e.cat==='lanthanide'||e.cat==='actinide'?'f-блок':(e.g?e.g+' група':'—')}</span><span class="mf-hint"><b>Період</b> — горизонтальний рядок. <b>Група</b> — вертикальний стовпець. Номер групи підказує заряд іона для простих металів і неметалів.</span></div>`;
+  document.getElementById('mbody').innerHTML=`<div class="mfield"><span class="mf-label">⚡ Електронні рівні</span><span class="mf-value">${e.levels}</span><span class="mf-hint">Скільки електронів на кожній орбіті. <b>Останнє число</b> — зовнішній рівень, він визначає хімічні властивості.</span></div><div class="mfield"><span class="mf-label">🔗 Валентність</span><span class="mf-value">${e.val}</span><span class="mf-hint">${e.valHint}</span></div><div class="mfield wide"><span class="mf-label">⚛️ Ступені окиснення</span><span class="mf-value">${e.ox}</span><span class="mf-hint">Скільки електронів елемент <b>віддає</b> (+) або <b>приймає</b> (−) у реакції. Потрібно для розстановки коефіцієнтів.</span></div><div class="mfield wide"><span class="mf-label">🔋 Заряд іона</span><span class="mf-value" style="color:${c}">${e.ion}</span><span class="mf-hint">${e.ionHint}</span></div><div class="mfield"><span class="mf-label">🌡️ Агрегатний стан</span><span class="mf-value">${SU[e.state]||e.state}</span><span class="mf-hint">При температурі 25°C і нормальному тиску.</span></div><div class="mfield"><span class="mf-label">🧲 Електронегативність</span><span class="mf-value">${e.en!=null&&e.en!=='-'?e.en:'—'}</span><span class="mf-hint">Шкала Полінга. Наскільки сильно атом <b>притягує електрони</b>. Найвища у Флуору — 3,98.</span></div><div class="mfield"><span class="mf-label">📅 Відкрито</span><span class="mf-value">${e.yr}</span><span class="mf-hint">Рік першого виділення або синтезу елемента.</span></div><div class="mfield"><span class="mf-label">📍 Положення в таблиці</span><span class="mf-value">${e.p} період · ${e.cat==='lanthanide'||e.cat==='actinide'?'f-блок':(e.g?e.g+' група':'—')}</span><span class="mf-hint"><b>Період</b> — горизонтальний рядок. <b>Група</b> — вертикальний стовпець. Номер групи підказує заряд іона для простих металів і неметалів.</span></div>`;
   document.getElementById('overlay').classList.add('open');
 }
 function closeModal(e){if(e.target===document.getElementById('overlay'))closeModalDirect();}
@@ -1880,22 +2172,414 @@ function balTab(tab,btn){document.getElementById('bal-auto').style.display=tab==
 // ============ НАВІГАЦІЯ ============
 function showPanel(id){
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
-  document.getElementById('panel-'+id).classList.add('active');
+  const panel = document.getElementById('panel-'+id);
+  if(!panel) return;
+  panel.classList.add('active');
   const refP=['elements','formulas','reactions','glossary'];
   const calcP=['molar','ph','phplus','balance','sol_table','sol_conc','sol_prep','sol_gas','sol_prinad','topic-calc'];
   const topicP=['topic','topic-calc'];
-  document.querySelector('#ng-ref .nav-btn').className='nav-btn'+(refP.includes(id)?' group-active':'');
-  document.querySelector('#ng-calc .nav-btn').className='nav-btn'+(calcP.includes(id)?' group-active':'');
-  document.getElementById('nav-test-btn').className='nav-btn'+(id==='test'?' group-active':'');
+  const ngRef = document.querySelector('#ng-ref .nav-btn');
+  const ngCalc = document.querySelector('#ng-calc .nav-btn');
+  if(ngRef) ngRef.className='nav-btn'+(refP.includes(id)?' group-active':'');
+  if(ngCalc) ngCalc.className='nav-btn'+(calcP.includes(id)?' group-active':'');
+  const navTestBtn = document.getElementById('nav-test-btn');
+  if(navTestBtn) navTestBtn.className='nav-btn'+(id==='test'?' group-active':'');
   const ngTopics=document.querySelector('#ng-topics .nav-btn');
   if(ngTopics)ngTopics.className='nav-btn'+(topicP.includes(id)?' group-active':'');
   if(id==='sol_table')initSolTable();
   if(id==='sol_conc')initSolConc();
   if(id==='sol_prinad')renderSolPrinad();
+  if(id==='formulas')initFormulasPanel();
+  if(id==='glossary')initGlossaryPanel();
+  if(id==='reactions')initReactionsPanel();
+  if(id==='favorites')renderFavoritesPanel();
+  // Save last panel to localStorage
+  try{ localStorage.setItem('khim_lastPanel', id); }catch(e){}
+  // Update progress bar visibility
+  updateProgressBar(id);
 }
 function toggleGroup(id){const g=document.getElementById(id);const was=g.classList.contains('open');closeGroups();if(!was)g.classList.add('open');}
 function closeGroups(){document.querySelectorAll('.nav-group').forEach(g=>g.classList.remove('open'));}
 document.addEventListener('click',e=>{if(!e.target.closest('.nav-group'))closeGroups();});
+
+// ============================================================
+// MOBILE NAV v1.1.5
+// ============================================================
+function toggleMobileNav(){
+  const btn = document.getElementById('hamburger-btn');
+  const menu = document.getElementById('nav-mobile-menu');
+  const bd = document.getElementById('nav-backdrop');
+  const isOpen = menu.classList.contains('open');
+  if(isOpen){ closeMobileNav(); } else {
+    menu.classList.add('open');
+    btn.classList.add('open');
+    bd.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+}
+function closeMobileNav(){
+  document.getElementById('nav-mobile-menu').classList.remove('open');
+  document.getElementById('hamburger-btn').classList.remove('open');
+  document.getElementById('nav-backdrop').classList.remove('open');
+  document.body.style.overflow = '';
+}
+// Закривати мобільне меню при повороті екрану / зміні розміру вікна
+window.addEventListener('resize', ()=>{
+  if(window.innerWidth > 768) closeMobileNav();
+});
+
+// ============================================================
+// LOCALSTORAGE: PROGRESS + FAVORITES v1.1.5
+// ============================================================
+const ALL_TOPICS = ['1-1-atom','1-2-periodic','1-3-bond','1-4-states','1-5-gases',
+  '2-1-inorganic-classes','2-2-s-elements','2-3-p-elements','2-4-d-f-elements',
+  '3-1-thermodynamics','3-2-kinetics','3-3-equilibrium','3-4-electrochemistry','3-5-phase',
+  '4-1-dissolving','4-2-concentration','4-3-electrolytes','4-4-colligative','4-5-colloids',
+  '5-1-organic-basics','5-2-hydrocarbons','5-3-aromatics','5-4-oxygen-compounds','5-5-nitrogen-compounds','5-6-polymers',
+  '6-1-qualitative','6-2-titrimetry','6-3-instrumental'];
+
+let _doneTitles = {};
+try{ _doneTitles = JSON.parse(localStorage.getItem('khim_done')||'{}'); }catch(e){ _doneTitles = {}; }
+let _currentTopicId = null;
+
+function updateProgressBar(panelId){
+  const wrap = document.getElementById('progress-bar-wrap');
+  const fill = document.getElementById('progress-fill');
+  const count = document.getElementById('progress-count');
+  const btn = document.getElementById('topic-done-btn');
+  if(panelId === 'topic'){
+    wrap.style.display = 'flex';
+    const done = Object.keys(_doneTitles).length;
+    const total = ALL_TOPICS.length;
+    const pct = total > 0 ? Math.round(done/total*100) : 0;
+    fill.style.width = pct + '%';
+    count.textContent = done + ' / ' + total;
+    if(_currentTopicId){
+      const isDone = !!_doneTitles[_currentTopicId];
+      btn.textContent = isDone ? '✓ Вивчено' : 'Відмітити вивченою';
+      btn.className = 'topic-done-btn' + (isDone ? ' done' : '');
+    }
+  } else {
+    wrap.style.display = 'none';
+  }
+}
+
+function toggleTopicDone(){
+  if(!_currentTopicId) return;
+  if(_doneTitles[_currentTopicId]){
+    delete _doneTitles[_currentTopicId];
+  } else {
+    _doneTitles[_currentTopicId] = true;
+  }
+  try{ localStorage.setItem('khim_done', JSON.stringify(_doneTitles)); }catch(e){}
+  updateProgressBar('topic');
+}
+
+// FAVORITES
+let _favorites = {};
+try{ _favorites = JSON.parse(localStorage.getItem('khim_favorites')||'{}'); }catch(e){ _favorites = {}; }
+
+function saveFavorites(){ try{ localStorage.setItem('khim_favorites', JSON.stringify(_favorites)); }catch(e){} }
+
+function toggleFav(type, id, title, extra){
+  const key = type + ':' + id;
+  if(_favorites[key]){ delete _favorites[key]; }
+  else { _favorites[key] = {type, id, title, extra, ts: Date.now()}; }
+  saveFavorites();
+  return !!_favorites[type + ':' + id];
+}
+function isFav(type, id){ return !!_favorites[type + ':' + id]; }
+
+function renderFavoritesPanel(){
+  const keys = Object.keys(_favorites);
+  const el = document.getElementById('favorites-content');
+  if(!keys.length){
+    el.innerHTML = '<div class="fav-empty"><div>⭐</div><div>Поки немає обраних<br>Натисніть ⭐ на формулах, термінах або темах щоб додати</div></div>';
+    return;
+  }
+  const byType = {};
+  for(const k of keys){
+    const f = _favorites[k];
+    if(!byType[f.type]) byType[f.type] = [];
+    byType[f.type].push(f);
+  }
+  const typeLabels = {formula:'📐 Формули', glossary:'📚 Глосарій', topic:'📗 Теми', element:'⚛️ Елементи'};
+  let html = '';
+  for(const [type, items] of Object.entries(byType)){
+    html += `<div class="sec-title" style="margin-top:16px">${typeLabels[type]||type}</div>`;
+    if(type==='formula') html += `<div class="fm-grid">` + items.map(f=>`
+      <div class="fm-card">
+        <div class="fm-cat-badge">${f.extra||''}</div>
+        <div class="fm-expr">${f.title}</div>
+        <div class="fm-name">${f.id}</div>
+        <button class="fav-btn on" onclick="removeFavAndRefresh('${type}','${f.id}')" title="Видалити з обраних">⭐</button>
+      </div>`).join('') + `</div>`;
+    else if(type==='glossary') html += `<div class="gl-grid">` + items.map(f=>`
+      <div class="gl-card">
+        <div class="gl-cat-badge">${f.extra||''}</div>
+        <div class="gl-term">${f.title}</div>
+        <div class="gl-def">${f.id}</div>
+        <button class="fav-btn on" onclick="removeFavAndRefresh('${type}','${CSS.escape ? CSS.escape(f.id) : f.id}')" title="Видалити з обраних">⭐</button>
+      </div>`).join('') + `</div>`;
+    else html += `<div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px">` + items.map(f=>`
+      <div style="background:#141528;border:0.5px solid #1e2240;border-radius:8px;padding:10px 14px;cursor:pointer;position:relative" onclick="favItemClick('${type}','${f.id}')">
+        <div style="font-size:13px;color:#fff">${f.title}</div>
+        <button class="fav-btn on" onclick="event.stopPropagation();removeFavAndRefresh('${type}','${f.id}')" style="position:absolute;top:4px;right:4px">⭐</button>
+      </div>`).join('') + `</div>`;
+  }
+  el.innerHTML = html;
+}
+
+function removeFavAndRefresh(type, id){
+  const key = type + ':' + id;
+  delete _favorites[key];
+  saveFavorites();
+  renderFavoritesPanel();
+}
+function favItemClick(type, id){
+  if(type==='topic'){ loadTopicJson(id); }
+}
+
+// Inject fav button into rendered formula cards
+function injectFavFormulas(){
+  document.querySelectorAll('.fm-card').forEach(card=>{
+    if(card.querySelector('.fav-btn')) return;
+    const exprEl = card.querySelector('.fm-expr');
+    const nameEl = card.querySelector('.fm-name');
+    const badgeEl = card.querySelector('.fm-cat-badge');
+    if(!exprEl) return;
+    const expr = exprEl.textContent;
+    const name = nameEl ? nameEl.textContent : '';
+    const badge = badgeEl ? badgeEl.textContent : '';
+    const fid = 'formula_' + expr.replace(/[^a-zA-Z0-9]/g,'_').substring(0,30);
+    const on = isFav('formula', fid) ? ' on' : '';
+    const btn = document.createElement('button');
+    btn.className = 'fav-btn' + on;
+    btn.title = 'Додати до обраних';
+    btn.textContent = '⭐';
+    btn.onclick = function(){
+      const nowOn = toggleFav('formula', fid, expr, badge);
+      btn.className = 'fav-btn' + (nowOn ? ' on' : '');
+    };
+    card.style.position = 'relative';
+    card.appendChild(btn);
+  });
+}
+function injectFavGlossary(){
+  document.querySelectorAll('.gl-card').forEach(card=>{
+    if(card.querySelector('.fav-btn')) return;
+    const termEl = card.querySelector('.gl-term');
+    const defEl = card.querySelector('.gl-def');
+    const badgeEl = card.querySelector('.gl-cat-badge');
+    if(!termEl) return;
+    const term = termEl.textContent;
+    const def = defEl ? defEl.textContent.substring(0,80) : '';
+    const badge = badgeEl ? badgeEl.textContent : '';
+    const fid = term;
+    const on = isFav('glossary', fid) ? ' on' : '';
+    const btn = document.createElement('button');
+    btn.className = 'fav-btn' + on;
+    btn.title = 'Додати до обраних';
+    btn.textContent = '⭐';
+    btn.onclick = function(){
+      const nowOn = toggleFav('glossary', fid, term, badge);
+      btn.className = 'fav-btn' + (nowOn ? ' on' : '');
+    };
+    card.style.position = 'relative';
+    card.appendChild(btn);
+  });
+}
+
+// ============================================================
+// GLOBAL SEARCH v1.1.5
+// ============================================================
+let _gsearchActive = -1;
+let _gsearchItems = [];
+
+function openGSearch(){
+  const ov = document.getElementById('gsearch-overlay');
+  ov.classList.add('open');
+  const inp = document.getElementById('gsearch-input');
+  inp.value = '';
+  document.getElementById('gsearch-results').innerHTML = '<div class="gsearch-empty">Почніть вводити для пошуку по елементах, формулах, реакціях, темах, глосарії...</div>';
+  setTimeout(()=>inp.focus(), 50);
+  _gsearchActive = -1;
+  _gsearchItems = [];
+}
+function closeGSearch(){
+  document.getElementById('gsearch-overlay').classList.remove('open');
+  _gsearchActive = -1;
+  _gsearchItems = [];
+}
+document.addEventListener('keydown', e=>{
+  if(e.key==='/' && !e.ctrlKey && !e.metaKey){
+    const tag = (document.activeElement||{}).tagName;
+    if(tag!=='INPUT' && tag!=='TEXTAREA' && tag!=='SELECT'){
+      e.preventDefault(); openGSearch();
+    }
+  }
+  if(e.key==='Escape') closeGSearch();
+});
+
+function gSearchKey(e){
+  if(e.key==='ArrowDown'){ e.preventDefault(); moveGSearch(1); }
+  else if(e.key==='ArrowUp'){ e.preventDefault(); moveGSearch(-1); }
+  else if(e.key==='Enter'){ e.preventDefault(); execGSearch(); }
+  else if(e.key==='Escape'){ closeGSearch(); }
+}
+function moveGSearch(dir){
+  const items = document.querySelectorAll('.gsearch-item');
+  if(!items.length) return;
+  items.forEach(i=>i.classList.remove('active'));
+  _gsearchActive = Math.max(0, Math.min(items.length-1, _gsearchActive + dir));
+  items[_gsearchActive].classList.add('active');
+  items[_gsearchActive].scrollIntoView({block:'nearest'});
+}
+function execGSearch(){
+  const items = document.querySelectorAll('.gsearch-item');
+  if(_gsearchActive >= 0 && items[_gsearchActive]) items[_gsearchActive].click();
+  else if(items.length) items[0].click();
+}
+
+function runGSearch(q){
+  const res = document.getElementById('gsearch-results');
+  _gsearchActive = -1;
+  q = q.trim().toLowerCase();
+  if(!q){ res.innerHTML='<div class="gsearch-empty">Почніть вводити для пошуку...</div>'; return; }
+
+  let sections = [];
+
+  // Elements
+  if(window._ELEMENTS){
+    const elHits = window._ELEMENTS.filter(e =>
+      e.symbol.toLowerCase().includes(q) ||
+      e.name.toLowerCase().includes(q) ||
+      String(e.number).includes(q)
+    ).slice(0,5);
+    if(elHits.length) sections.push({label:'⚛️ Елементи', items: elHits.map(e=>({
+      icon: e.symbol, title: e.name + ' · ' + e.symbol, sub: '№' + e.number + ' · ' + e.category,
+      badge: 'Елемент', action: ()=>{ closeGSearch(); openElementModal(e); }
+    }))});
+  }
+
+  // Formulas
+  const fmHits = FORMULAS_DATA.filter(f =>
+    f.expr.toLowerCase().includes(q) ||
+    f.name.toLowerCase().includes(q) ||
+    f.desc.toLowerCase().includes(q)
+  ).slice(0,5);
+  if(fmHits.length) sections.push({label:'📐 Формули', items: fmHits.map(f=>({
+    icon:'📐', title: f.expr, sub: f.name,
+    badge: FM_CAT_LABELS[f.category]||f.catLabel,
+    action: ()=>{ closeGSearch(); showPanel('formulas'); setTimeout(()=>{ document.getElementById('fm-search').value=f.name; renderFormulas(); },100); }
+  }))});
+
+  // Glossary
+  const glHits = GLOSSARY_DATA.filter(g =>
+    g.term.toLowerCase().includes(q) ||
+    g.def.toLowerCase().includes(q)
+  ).slice(0,5);
+  if(glHits.length) sections.push({label:'📚 Глосарій', items: glHits.map(g=>({
+    icon:'📚', title: g.term, sub: g.def.substring(0,60)+'…',
+    badge: GL_CAT_LABELS[g.category]||g.catLabel,
+    action: ()=>{ closeGSearch(); showPanel('glossary'); setTimeout(()=>{ document.getElementById('gl-search').value=g.term; renderGlossary(); },100); }
+  }))});
+
+  // Topics (by JSON filename topics list)
+  const topicNameMap = {
+    '1-1-atom':'Будова атому','1-2-periodic':'Періодичний закон','1-3-bond':'Хімічний зв\'язок',
+    '1-4-states':'Агрегатні стани','1-5-gases':'Газові закони',
+    '2-1-inorganic-classes':'Класи неорганічних сполук','2-2-s-elements':'s-Елементи',
+    '2-3-p-elements':'p-Елементи','2-4-d-f-elements':'d- і f-елементи',
+    '3-1-thermodynamics':'Термодинаміка','3-2-kinetics':'Кінетика',
+    '3-3-equilibrium':'Рівновага','3-4-electrochemistry':'Електрохімія','3-5-phase':'Фазові рівноваги',
+    '4-1-dissolving':'Розчинність','4-2-concentration':'Концентрація',
+    '4-3-electrolytes':'pH. Буфери','4-4-colligative':'Колігативні властивості','4-5-colloids':'Колоїди',
+    '5-1-organic-basics':'Основи органіки','5-2-hydrocarbons':'Вуглеводні','5-3-aromatics':'Арени',
+    '5-4-oxygen-compounds':'Кисневмісні сполуки','5-5-nitrogen-compounds':'Амінокислоти',
+    '5-6-polymers':'Полімери','6-1-qualitative':'Якісні реакції',
+    '6-2-titrimetry':'Титриметрія','6-3-instrumental':'Інструментальні методи'
+  };
+  const topicHits = Object.entries(topicNameMap).filter(([id,name])=>
+    name.toLowerCase().includes(q) || id.toLowerCase().includes(q)
+  ).slice(0,4);
+  if(topicHits.length) sections.push({label:'📗 Теми', items: topicHits.map(([id,name])=>({
+    icon:'📗', title: name, sub: id,
+    badge: 'Тема',
+    action: ()=>{ closeGSearch(); loadTopicJson(id); }
+  }))});
+
+  // Reactions (inline search from reactions DB)
+  if(window._RX_DATA){
+    const rxHits = [];
+    for(const cat of window._RX_DATA){
+      for(const sec of cat.subsections){
+        for(const r of sec.reactions){
+          if(r.eq.toLowerCase().replace(/\s/g,'').includes(q.replace(/\s/g,''))){
+            rxHits.push({eq:r.eq, catTitle:sec.title.replace(/^#\s*\d+[\.\d]*\s*/,''), danger:r.danger});
+            if(rxHits.length>=5) break;
+          }
+        }
+        if(rxHits.length>=5) break;
+      }
+      if(rxHits.length>=5) break;
+    }
+    if(rxHits.length) sections.push({label:'⚗️ Реакції', items: rxHits.map(r=>({
+      icon: r.danger?'⚠️':'⚗️', title: r.eq, sub: r.catTitle,
+      badge: r.danger?'RED FLAG':'',
+      action: ()=>{ closeGSearch(); showPanel('reactions'); setTimeout(()=>{ document.getElementById('rx-search').value=r.eq.substring(0,15); renderReactions(); },100); }
+    }))});
+  }
+
+  if(!sections.length){ res.innerHTML='<div class="gsearch-empty">Нічого не знайдено по «'+q+'»</div>'; return; }
+
+  let html = '';
+  for(const sec of sections){
+    html += `<div class="gsearch-section"><div class="gsearch-section-label">${sec.label}</div>`;
+    for(let i=0;i<sec.items.length;i++){
+      const item = sec.items[i];
+      const idx = html.split('gsearch-item').length - 1; // approximate count
+      html += `<div class="gsearch-item" data-action="${i}" data-sec="${sections.indexOf(sec)}">
+        <div class="gsearch-item-icon">${item.icon}</div>
+        <div class="gsearch-item-text">
+          <div class="gsearch-item-title">${item.title}</div>
+          <div class="gsearch-item-sub">${item.sub||''}</div>
+        </div>
+        ${item.badge ? `<span class="gsearch-item-badge">${item.badge}</span>` : ''}
+      </div>`;
+    }
+    html += '</div>';
+  }
+  res.innerHTML = html;
+
+  // Attach click handlers
+  const allItems = res.querySelectorAll('.gsearch-item');
+  let flatActions = [];
+  for(const sec of sections) for(const item of sec.items) flatActions.push(item.action);
+  allItems.forEach((el,i)=>{ el.onclick = ()=>{ if(flatActions[i]) flatActions[i](); }; });
+}
+
+// ============================================================
+// LOCALSTORAGE: RESTORE LAST PANEL v1.1.5
+// ============================================================
+(function restoreSession(){
+  try{
+    const last = localStorage.getItem('khim_lastPanel');
+    const lastTopic = localStorage.getItem('khim_lastTopic');
+    if(last && last !== 'elements'){
+      // Відновлення після buildTable — з затримкою щоб DOM був готовий
+      setTimeout(()=>{
+        const panel = document.getElementById('panel-'+last);
+        if(!panel) return;
+        if(last === 'topic' && lastTopic){
+          loadTopicJson(lastTopic);
+        } else {
+          showPanel(last);
+        }
+      }, 0);
+    }
+  }catch(e){}
+})();
 
 // ============ СТАРТ ============
 buildTable();
@@ -4644,10 +5328,14 @@ async function loadTopic(topicId) {
 // Спочатку шукає в window._TOPIC_DATA_EXT (вбудовані нові теми),
 // потім у window._TOPIC_DATA (старі), потім через fetch.
 async function loadTopicJson(topicId) {
+  _currentTopicId = topicId;
   showPanel('topic');
   document.getElementById('topic-loading').style.display = 'block';
   document.getElementById('topic-error').style.display = 'none';
   document.getElementById('topic-content').style.display = 'none';
+  updateProgressBar('topic');
+  // Save last topic
+  try{ localStorage.setItem('khim_lastTopic', topicId); }catch(e){}
 
   if (_topicCache[topicId]) {
     _renderTopic(_topicCache[topicId]);
@@ -5255,6 +5943,7 @@ function renderFormulas() {
       <div class="fm-desc">${f.desc}</div>
       <div class="fm-example">📌 ${f.example}</div>
     </div>`).join('');
+  setTimeout(injectFavFormulas, 0);
 }
 
 function initFormulasPanel() {
@@ -5546,6 +6235,7 @@ function renderGlossary() {
       <div class="gl-def">${g.def}</div>
       <div class="gl-tip">💡 ${g.tip}</div>
     </div>`).join('');
+  setTimeout(injectFavGlossary, 0);
 }
 
 function initGlossaryPanel() {
@@ -5688,6 +6378,17 @@ window._TOPIC_DATA_EXT = {"1-1-atom":{"id":"1-1-atom","title":"Будова ат
 
 // ---- INLINE FALLBACK DATA (якщо fetch недоступний) ----
 // Встановлюється через window._TOPIC_DATA, якщо потрібно вбудувати JSON в HTML
+// ============================================================
+// SERVICE WORKER REGISTRATION v1.1.5
+// ============================================================
+if('serviceWorker' in navigator){
+  window.addEventListener('load', ()=>{
+    navigator.serviceWorker.register('service-worker.js')
+      .then(r=>console.log('[SW] Registered:', r.scope))
+      .catch(e=>console.log('[SW] Registration failed:', e));
+  });
+}
+
 window._TOPIC_DATA = {
   "ph": {"id":"ph","title":"Кислотність розчину (pH)","icon":"🧪","color":"#69F0AE","version":"1.0","logic":{"title":"Теорія","icon":"📖","accentColor":"#4FC3F7","sections":[{"heading":"Що таке pH?","text":"pH (водневий показник) — міра кислотності або лужності розчину. Він визначає концентрацію іонів водню H⁺ у розчині. Шкала pH — від 0 до 14."},{"heading":"Дисоціація води","text":"Чиста вода частково дисоціює: H₂O ⇌ H⁺ + OH⁻. При 25°C: [H⁺] = [OH⁻] = 10⁻⁷ моль/л. Це і є нейтральне середовище — pH = 7."},{"heading":"Сильні та слабкі електроліти","text":"Сильні кислоти (HCl, HNO₃, H₂SO₄) повністю дисоціюють — [H⁺] = C. Слабкі кислоти (CH₃COOH, HCN) дисоціюють частково — потрібна константа дисоціації Ka."},{"heading":"Зв'язок pH та pOH","text":"При 25°C: pH + pOH = 14 (іонний добуток води Kw = 10⁻¹⁴). Якщо відомий pOH — pH знайти легко: pH = 14 − pOH."},{"heading":"Середовища за pH","items":["pH < 7 — кисле (надлишок H⁺)","pH = 7 — нейтральне","pH > 7 — лужне (надлишок OH⁻)"]}]},"formula":{"title":"Формули","icon":"📐","accentColor":"#00E5CC","expressions":[{"expr":"pH = −lg[H⁺]","name":"Основне визначення pH","desc":"[H⁺] — молярна концентрація іонів водню (моль/л). lg — десятковий логарифм.","example":"Якщо [H⁺] = 0.01 моль/л → pH = −lg(0.01) = −(−2) = 2"},{"expr":"[H⁺] = 10^(−pH)","name":"Концентрація H⁺ через pH","desc":"Зворотна формула — дозволяє знайти концентрацію, якщо відомий pH.","example":"pH = 3 → [H⁺] = 10⁻³ = 0.001 моль/л"},{"expr":"pH (сильна кислота) = −lg(C)","name":"Сильна кислота (повна дисоціація)","desc":"Сильна кислота повністю дисоціює, тому [H⁺] = C (концентрація кислоти).","example":"0.1 M HCl → pH = −lg(0.1) = 1"},{"expr":"pH (слабка кислота) = ½(pKa − lgC)","name":"Слабка кислота (наближена формула)","desc":"Ka — константа дисоціації кислоти. pKa = −lg(Ka). Формула точна при C/Ka > 100.","example":"0.1 M CH₃COOH, Ka=1.8×10⁻⁵ → pH ≈ ½(4.74 + 1) = 2.87"},{"expr":"pOH = −lg[OH⁻]; pH = 14 − pOH","name":"Основи (через pOH)","desc":"Для основ зручно спочатку знайти pOH, потім перейти до pH через суму 14.","example":"0.01 M NaOH → [OH⁻]=0.01 → pOH=2 → pH=12"},{"expr":"pH (буфер) = pKa + lg([A⁻]/[HA])","name":"Рівняння Гендерсона—Гасельбаха","desc":"[A⁻] — концентрація солі (спряженої основи), [HA] — концентрація слабкої кислоти.","example":"Ацетатний буфер: [CH₃COO⁻]=0.1, [CH₃COOH]=0.1 → pH = 4.74 + lg(1) = 4.74"}]},"calculator":{"title":"Калькулятор","icon":"⚙️","accentColor":"#FFB300","targetPanel":"ph","description":"Розрахуйте pH для різних типів кислот, основ та буферних розчинів у вбудованому калькуляторі.","modes":[{"id":"acid","label":"Сильна кислота","hint":"HCl, HNO₃, H₂SO₄ — повна дисоціація","example":{"label":"0.01 M HCl","value":0.01}},{"id":"weak_acid","label":"Слабка кислота","hint":"CH₃COOH, HCN — часткова дисоціація","example":{"label":"0.1 M CH₃COOH","value":0.1}},{"id":"base","label":"Сильна основа","hint":"NaOH, KOH — повна дисоціація","example":{"label":"0.001 M NaOH","value":0.001}}],"quickValues":[{"label":"0.001 моль/л","value":0.001,"comment":"pH = 3 (HCl)"},{"label":"0.01 моль/л","value":0.01,"comment":"pH = 2 (HCl)"},{"label":"0.1 моль/л","value":0.1,"comment":"pH = 1 (HCl)"}]},"reference":{"title":"Довідник","icon":"📚","accentColor":"#CE93D8","knownValues":[{"name":"Шлунковий сік","ph":"1.5–2.0","color":"#e53935"},{"name":"Лимонний сік","ph":"2.0–3.0","color":"#e57335"},{"name":"Оцет (9%)","ph":"2.9","color":"#e5a535"},{"name":"Кава","ph":"5.0","color":"#c5e535"},{"name":"Дощова вода","ph":"5.6","color":"#c5e535"},{"name":"Чиста вода","ph":"7.0","color":"#35c5e5"},{"name":"Кров людини","ph":"7.35–7.45","color":"#3574e5"},{"name":"Мило","ph":"9.0–10.0","color":"#7335e5"},{"name":"Аміак (побут.)","ph":"11.0","color":"#b535e5"},{"name":"Відбілювач","ph":"12.5","color":"#b535e5"}],"indicators":[{"name":"Лакмус","acidColor":"Червоний","baseColor":"Синій","range":"pH < 7 / pH > 7"},{"name":"Фенолфталеїн","acidColor":"Безбарвний","baseColor":"Малиновий","range":"pH 8.2–10"},{"name":"Метилоранж","acidColor":"Червоний","baseColor":"Жовтий","range":"pH 3.1–4.4"}],"facts":["Кров людини підтримує pH у вузькому діапазоні 7.35–7.45 завдяки трьом буферним системам.","Зменшення pH океану з 8.2 до 8.1 — це зростання [H⁺] на 25%. Загроза для коралів.","Свіжий лимонний сік має pH ~2 — майже як шлунковий сік!","Людська шкіра має pH ~4.5–5.5 (слабко кисла). Це захисний «кислотний мантель»."]}},
   "gas": {"id":"gas","title":"Ідеальний газ (PV = nRT)","icon":"💨","color":"#4FC3F7","version":"1.0","logic":{"title":"Теорія","icon":"📖","accentColor":"#4FC3F7","sections":[{"heading":"Що таке ідеальний газ?","text":"Ідеальний газ — теоретична модель газу, в якому: (1) молекули не взаємодіють одна з одною між зіткненнями; (2) об'єм самих молекул нехтовно малий порівняно з об'ємом посудини; (3) зіткнення пружні (енергія не губиться)."},{"heading":"Кінетична теорія","text":"Тиск газу — це результат ударів молекул об стінки посудини. Чим вища температура, тим вища середня кінетична енергія молекул: E = (3/2)kT, де k — стала Больцмана = 1.38×10⁻²³ Дж/К."},{"heading":"Стала R","text":"Газова стала R = 8.314 Дж/(моль·К). У формулі PV=nRT: якщо P в Па, V в м³, T в Кельвінах. Для хімічних задач зручніша форма: R = 0.08206 л·атм/(моль·К)."},{"heading":"Де модель не працює","text":"При дуже високому тиску або низькій температурі реальні гази відхиляються від закону PV=nRT. Для них використовують рівняння Ван-дер-Ваальса: (P + a/V²)(V − b) = nRT, де a і b — поправки на взаємодію і об'єм молекул."},{"heading":"Закони, що випливають з PV = nRT","items":["Закон Бойля–Маріотта: PV = const (T = const)","Закон Шарля: V/T = const (P = const)","Закон Гей-Люссака: P/T = const (V = const)","Закон Авогадро: рівні об'єми газів при однакових P, T мають рівну кількість молів"]}]},"formula":{"title":"Формули","icon":"📐","accentColor":"#00E5CC","expressions":[{"expr":"PV = nRT","name":"Рівняння стану ідеального газу","desc":"P — тиск (атм або Па), V — об'єм (л або м³), n — кількість молів, R — газова стала, T — температура в Кельвінах (T = t°C + 273.15).","example":"1 моль газу при 0°C, 1 атм: V = nRT/P = 1×0.08206×273.15/1 = 22.4 л"},{"expr":"V = nRT / P","name":"Об'єм газу","desc":"Визначаємо об'єм, якщо відомі n, T, P. Пам'ятай: T в Кельвінах!","example":"2 моль CO₂ при 27°C (300 K) і 2 атм: V = 2×0.08206×300/2 = 24.6 л"},{"expr":"P = nRT / V","name":"Тиск газу","desc":"Визначаємо тиск, якщо відомі n, T, V. Результат — в атм (при R = 0.08206).","example":"0.5 моль N₂ в посудині 10 л при 25°C: P = 0.5×0.08206×298/10 = 1.22 атм"},{"expr":"n = PV / RT","name":"Кількість речовини","desc":"Визначаємо кількість молів газу у посудині за заданими умовами.","example":"5 л O₂ при 1 атм і 20°C (293 K): n = 1×5/(0.08206×293) = 0.208 моль"},{"expr":"T = PV / nR","name":"Температура","desc":"Результат — в Кельвінах. Щоб отримати °C: t = T − 273.15.","example":"1 моль газу, 5 л, 3 атм: T = 3×5/(1×0.08206) = 182.8 K = −90.3°C"},{"expr":"P₁V₁/T₁ = P₂V₂/T₂","name":"Об'єднаний газовий закон","desc":"Для одного і того ж газу при зміні умов. Всі T — в Кельвінах.","example":"Газ: 2 л, 1 атм, 300 K → нагрівають до 600 K при 2 атм: V₂ = 2×1×600/(300×2) = 2 л"}]},"calculator":{"title":"Калькулятор","icon":"⚙️","accentColor":"#FFB300","targetPanel":"sol_gas","description":"Скористайся калькулятором газових законів для розрахунку тиску, об'єму, кількості молів і температури за рівнянням PV = nRT.","modes":[{"id":"V","label":"Знайти об'єм V","hint":"Задай n, T, P → отримай V","example":{"label":"1 моль при 0°C, 1 атм","n":1,"T_C":0,"P":1}},{"id":"P","label":"Знайти тиск P","hint":"Задай n, T, V → отримай P","example":{"label":"0.5 моль, 10 л, 25°C","n":0.5,"T_C":25,"V":10}},{"id":"n","label":"Знайти кількість молів n","hint":"Задай P, V, T → отримай n","example":{"label":"1 атм, 22.4 л, 0°C","P":1,"V":22.4,"T_C":0}}],"quickValues":[{"label":"НУ (0°C, 1 атм)","P":1,"T_C":0,"comment":"Нормальні умови — 22.4 л/моль"},{"label":"СТУ (25°C, 1 атм)","P":1,"T_C":25,"comment":"Стандартні умови — 24.5 л/моль"},{"label":"Кімнатна (20°C, 1 атм)","P":1,"T_C":20,"comment":"~24.0 л/моль"}]},"reference":{"title":"Довідник","icon":"📚","accentColor":"#CE93D8","constants":[{"symbol":"R","value":"8.314 Дж/(моль·К)","desc":"Газова стала (одиниці СІ)"},{"symbol":"R","value":"0.08206 л·атм/(моль·К)","desc":"Газова стала (зручна для хімії)"},{"symbol":"NA","value":"6.022 × 10²³ моль⁻¹","desc":"Число Авогадро"},{"symbol":"kB","value":"1.381 × 10⁻²³ Дж/К","desc":"Стала Больцмана (R/NA)"},{"symbol":"Vm","value":"22.414 л/моль","desc":"Молярний об'єм при НУ (0°C, 1 атм)"},{"symbol":"Vm","value":"24.465 л/моль","desc":"Молярний об'єм при СТУ (25°C, 1 атм)"}],"pressureUnits":[{"unit":"1 атм","si":"101 325 Па","note":"Стандартна атмосфера"},{"unit":"1 бар","si":"100 000 Па","note":"Майже = 1 атм"},{"unit":"1 мм рт.ст.","si":"133.322 Па","note":"1 атм = 760 мм рт.ст."},{"unit":"1 кПа","si":"1000 Па","note":"1 атм ≈ 101.3 кПа"}],"facts":["1 моль будь-якого ідеального газу при 0°C і 1 атм займає рівно 22.414 л (молярний об'єм).","Рівняння PV=nRT виводиться з трьох законів: Бойля–Маріотта, Шарля та Гей-Люссака.","Молекули повітря при 25°C рухаються із середньою швидкістю ~500 м/с (швидше кулі!).","Реальні гази поводяться як ідеальні при малих тисках (< 10 атм) і високих температурах."]}}

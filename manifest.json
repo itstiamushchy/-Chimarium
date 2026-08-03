@@ -1,0 +1,45 @@
+{
+  "name": "Хімарій — Інтерактивний довідник",
+  "short_name": "Хімарій",
+  "description": "Хімія стає зрозумілою — від елементів до реакцій. Таблиця Менделєєва, формули, реакції, калькулятори pH та молярних мас.",
+  "start_url": "./khimariy.html",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0d0e1a",
+  "theme_color": "#0d0e1a",
+  "lang": "uk",
+  "categories": [
+    "education",
+    "science"
+  ],
+  "icons": [
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' fill='%230d0e1a'/%3E%3Ccircle cx='96' cy='96' r='30' fill='%237c4dff'/%3E%3Ccircle cx='96' cy='40' r='12' fill='%2300E5CC'/%3E%3Ccircle cx='143' cy='124' r='12' fill='%234FC3F7'/%3E%3Ccircle cx='49' cy='124' r='12' fill='%2300E5CC'/%3E%3Cline x1='96' y1='96' x2='96' y2='52' stroke='%234FC3F7' stroke-width='2' opacity='0.5'/%3E%3Cline x1='96' y1='96' x2='131' y2='118' stroke='%234FC3F7' stroke-width='2' opacity='0.5'/%3E%3Cline x1='96' y1='96' x2='61' y2='118' stroke='%234FC3F7' stroke-width='2' opacity='0.5'/%3E%3Ctext x='96' y='102' text-anchor='middle' fill='white' font-size='22' font-weight='bold' font-family='sans-serif'%3EX%3C/text%3E%3C/svg%3E",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' fill='%230d0e1a'/%3E%3Ccircle cx='256' cy='256' r='80' fill='%237c4dff'/%3E%3Ccircle cx='256' cy='100' r='32' fill='%2300E5CC'/%3E%3Ccircle cx='382' cy='328' r='32' fill='%234FC3F7'/%3E%3Ccircle cx='130' cy='328' r='32' fill='%2300E5CC'/%3E%3Cline x1='256' y1='256' x2='256' y2='132' stroke='%234FC3F7' stroke-width='3' opacity='0.5'/%3E%3Cline x1='256' y1='256' x2='350' y2='308' stroke='%234FC3F7' stroke-width='3' opacity='0.5'/%3E%3Cline x1='256' y1='256' x2='162' y2='308' stroke='%234FC3F7' stroke-width='3' opacity='0.5'/%3E%3Ctext x='256' y='272' text-anchor='middle' fill='white' font-size='60' font-weight='bold' font-family='sans-serif'%3EX%3C/text%3E%3C/svg%3E",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "Таблиця елементів",
+      "short_name": "Елементи",
+      "description": "Таблиця Менделєєва",
+      "url": "./index.html#elements"
+    },
+    {
+      "name": "Калькулятор pH",
+      "short_name": "pH",
+      "description": "Розрахунок кислотності",
+      "url": "./index.html#ph"
+    }
+  ],
+  "scope": "./"
+}
