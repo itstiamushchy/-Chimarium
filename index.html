@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Хімарій v1.1.5 · ITS_tiamushchy</title>
+<title>Хімарій v1.1.8 · ITS_tiamushchy</title>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0d0e1a">
 <meta name="mobile-web-app-capable" content="yes">
@@ -497,6 +497,16 @@ body{background:#0d0e1a;color:#ffffff;font-family:'Inter',sans-serif;min-height:
 .sol-prinad-text{font-size:12px;color:#ffffff;line-height:1.75}
 .sol-prinad-text b{color:#ffffff}
 .sol-prinad-text .term{background:#0a0f1a;border-bottom:1px solid #4FC3F7;padding:0 2px;color:#4FC3F7}
+.prinad-head-text{flex:1}
+.prinad-title{font-size:14px;color:#fff;font-weight:600;margin-bottom:3px}
+.prinad-cat{font-size:10px;letter-spacing:1px;text-transform:uppercase}
+.prinad-short{font-size:11px;color:#7080b8;flex:2;line-height:1.4}
+.prinad-chevron{font-size:12px;color:#4FC3F7;flex-shrink:0;margin-left:8px}
+.khim-prinad-body{padding:0 16px 16px 56px}
+.prinad-formula{font-family:'Oxanium',monospace;font-size:11px;color:#FFB300;background:#0a0b15;border-left:2px solid #FFB300;padding:6px 12px;border-radius:0 4px 4px 0;margin-bottom:10px}
+.prinad-link-btn{font-size:11px;color:#4FC3F7;background:transparent;border:0.5px solid #4FC3F7;padding:4px 12px;border-radius:5px;cursor:pointer}
+.prinad-link-btn:hover{background:#0a1a2a}
+#sol-prinad-list .prinad-head{align-items:flex-start}
 .sol-prop-card{background:#0f1020;border:0.5px solid #1e2240;border-radius:7px;padding:10px 12px;text-align:center}
 .sol-prop-label{font-size:10px;color:#c0d0f0;margin-bottom:4px}
 .sol-prop-val{font-family:'Oxanium',monospace;font-size:14px;font-weight:700;color:#4FC3F7}
@@ -565,6 +575,18 @@ body{background:#0d0e1a;color:#ffffff;font-family:'Inter',sans-serif;min-height:
 .tb-pres-unit{font-family:'Oxanium',monospace;color:var(--tb-accent,#CE93D8);font-weight:700}
 .tb-pres-si{color:#ffffff}
 .tb-pres-note{color:#b0c0e8;text-align:right}
+/* ====== В КАЛЬКУЛЯТОР v1.1.8 ====== */
+.tb-const-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.tb-inject-btn{font-size:9px;padding:2px 6px;border:0.5px solid #4FC3F7;background:transparent;color:#4FC3F7;border-radius:4px;cursor:pointer;flex-shrink:0;white-space:nowrap}
+.tb-inject-btn:hover{background:#0a1a2a}
+.tc-how{font-size:11px;color:#b0c0e8;background:#0a0f1a;border-left:2px solid #4FC3F7;padding:6px 10px;margin:6px 0;border-radius:0 4px 4px 0;line-height:1.55;display:flex;gap:6px}
+.tc-warn{font-size:11px;color:#FF8A65;background:#1a0808;border-left:2px solid #FF5252;padding:6px 10px;margin:6px 0;border-radius:0 4px 4px 0;line-height:1.55;display:flex;gap:6px}
+.tc-how-icon{flex-shrink:0}
+.tc-qv-card{background:#0a0f1a;border:0.5px solid #1e2240;border-radius:6px;padding:8px 12px;cursor:pointer;transition:border-color .15s;display:flex;flex-direction:column;gap:2px}
+.tc-qv-card:hover{border-color:#4FC3F7}
+.tc-qv-label{font-size:11px;color:#ffffff}
+.tc-qv-comment{font-size:10px;color:#7080b8}
+.tc-qv-arrow{font-size:10px;color:#4FC3F7;align-self:flex-end}
 
 /* ====== TOPIC CALC PANEL ====== */
 .tc-wrap{max-width:700px}
@@ -583,8 +605,7 @@ body{background:#0d0e1a;color:#ffffff;font-family:'Inter',sans-serif;min-height:
 .tc-field-hint{font-size:10px;color:#7080b8}
 .tc-quick-label{font-size:10px;color:#90a0cc;font-family:'Oxanium',monospace;letter-spacing:1px;margin-bottom:6px}
 .tc-quick-row{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:16px}
-.tc-quick-chip{background:#0f1020;border:0.5px solid #1e2240;border-radius:5px;padding:5px 10px;font-size:11px;color:#c0d0f0;cursor:pointer;font-family:'Oxanium',monospace;transition:all .15s;white-space:nowrap}
-.tc-quick-chip:hover{border-color:#FFB300;color:#FFB300}
+
 .tc-calc-btn{background:#0f1632;border:0.5px solid #FFB300;border-radius:8px;padding:11px 28px;color:#FFB300;font-size:13px;font-weight:500;cursor:pointer;font-family:'Inter',sans-serif;transition:all .15s;margin-bottom:14px}
 .tc-calc-btn:hover{background:#FFB300;color:#0d0e1a}
 .tc-result{display:none;background:#0a0f1a;border:0.5px solid #FFB300;border-radius:10px;padding:16px 20px;margin-top:6px}
@@ -650,6 +671,15 @@ select{color-scheme:dark}select option{background:#111224;color:#ffffff}
 .rx-eq{flex:1;word-break:break-word}
 .rx-rev-tag{font-size:8px;color:#00E5CC;background:#071f1a;border:0.5px solid #00E5CC;border-radius:3px;padding:1px 5px;flex-shrink:0;font-family:'Inter',sans-serif;letter-spacing:0}
 .rx-danger-badge{background:#1a0808;border:0.5px solid #FF5252;border-radius:3px;padding:1px 6px;font-size:9px;color:#FF5252;flex-shrink:0;font-family:'Inter',sans-serif}
+/* ====== REACTIONS ENRICHED v1.1.8 ====== */
+.rx-item{flex-direction:column;align-items:flex-start}
+.rx-item-top{display:flex;align-items:center;gap:8px;width:100%}
+.rx-name{font-size:11px;color:#b0c0e8;margin-top:2px;font-family:'Inter',sans-serif;font-weight:normal}
+.rx-meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px;font-size:10px;font-family:'Inter',sans-serif}
+.rx-cond{color:#FFB300}
+.rx-type-exo{color:#FF5252}
+.rx-type-endo{color:#4FC3F7}
+.rx-pdesc{font-size:11px;color:#7080b8;margin-top:3px;line-height:1.5;font-family:'Inter',sans-serif}
 /* Red Flag popup */
 .rx-popup{display:none;position:fixed;bottom:24px;right:24px;width:320px;background:#1a0a0a;border:1px solid #FF5252;border-radius:12px;padding:16px 18px;z-index:9999;box-shadow:0 8px 32px rgba(0,0,0,.5)}
 .rx-popup.vis{display:block}
@@ -802,7 +832,7 @@ select{color-scheme:dark}select option{background:#111224;color:#ffffff}
 
 <!-- HERO -->
 <div class="hero">
-  <div class="ver">v1.1.5</div>
+  <div class="ver">v1.1.8</div>
   <div class="mol">
     <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
       <defs><filter id="glow"><feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
@@ -894,8 +924,17 @@ select{color-scheme:dark}select option{background:#111224;color:#ffffff}
       <button class="dd-item" onclick="showPanel('ph');closeGroups()">🧪 Калькулятор pH</button>
       <button class="dd-item" onclick="showPanel('phplus');closeGroups()">🌡️ Розширення pH</button>
       <button class="dd-item" onclick="showPanel('balance');closeGroups()">⚖️ Балансування рівнянь</button>
+      <div class="dd-label">Калькулятори тем</div>
+      <button class="dd-item" onclick="loadTopicJson('1-1-atom');closeGroups();setTimeout(()=>_topicGoCalcById('1-1-atom'),400)">⚛️ Будова атому</button>
+      <button class="dd-item" onclick="loadTopicJson('1-5-gases');closeGroups();setTimeout(()=>_topicGoCalcById('1-5-gases'),400)">💨 Газові закони (PV=nRT)</button>
+      <button class="dd-item" onclick="loadTopicJson('3-1-thermodynamics');closeGroups();setTimeout(()=>_topicGoCalcById('3-1-thermodynamics'),400)">🔥 Термодинаміка (ΔG, Гесс)</button>
+      <button class="dd-item" onclick="loadTopicJson('3-2-kinetics');closeGroups();setTimeout(()=>_topicGoCalcById('3-2-kinetics'),400)">⚡ Кінетика (Арреніус)</button>
+      <button class="dd-item" onclick="loadTopicJson('3-4-electrochemistry');closeGroups();setTimeout(()=>_topicGoCalcById('3-4-electrochemistry'),400)">⚗️ Електрохімія (Фарадей)</button>
+      <button class="dd-item" onclick="loadTopicJson('4-1-dissolving');closeGroups();setTimeout(()=>_topicGoCalcById('4-1-dissolving'),400)">💧 Розчинність (Ksp)</button>
+      <button class="dd-item" onclick="loadTopicJson('4-3-electrolytes');closeGroups();setTimeout(()=>_topicGoCalcById('4-3-electrolytes'),400)">🧪 pH. Буфери</button>
+      <button class="dd-item" onclick="loadTopicJson('4-4-colligative');closeGroups();setTimeout(()=>_topicGoCalcById('4-4-colligative'),400)">🌡️ Колігативні властивості</button>
+      <button class="dd-item" onclick="loadTopicJson('6-3-instrumental');closeGroups();setTimeout(()=>_topicGoCalcById('6-3-instrumental'),400)">📡 Закон БЛБ (спектр)</button>
       <div class="dd-label">Розчини</div>
-      <button class="dd-item" onclick="showPanel('sol_table');closeGroups()">📋 Таблиця розчинності</button>
       <button class="dd-item" onclick="showPanel('sol_conc');closeGroups()">💧 Концентрація</button>
       <button class="dd-item" onclick="showPanel('sol_prep');closeGroups()">🔬 Приготування розчину</button>
       <button class="dd-item" onclick="showPanel('sol_gas');closeGroups()">🫧 Розчинення газів</button>
@@ -1732,7 +1771,7 @@ select{color-scheme:dark}select option{background:#111224;color:#ffffff}
 
   <!-- РОЗЧИНИ: ПРИНАДА -->
   <div class="panel" id="panel-sol_prinad">
-    <div class="sec-title">🪝 Принада — розчини у житті</div>
+    <div class="sec-title">🪝 Принада — хімія навколо нас</div>
     <div id="sol-prinad-list"></div>
   </div>
 
@@ -1746,7 +1785,7 @@ select{color-scheme:dark}select option{background:#111224;color:#ffffff}
 
 <div class="footer">
   <span class="fcopy">© 2026 Хоменко Олексій Григорович · itstiamushchy@gmail.com</span>
-  <span class="fplat">ITS_tiamushchy · v1.1.5</span>
+  <span class="fplat">ITS_tiamushchy · v1.1.8</span>
 </div>
 </div>
 
@@ -2515,7 +2554,7 @@ function runGSearch(q){
     for(const cat of window._RX_DATA){
       for(const sec of cat.subsections){
         for(const r of sec.reactions){
-          if(r.eq.toLowerCase().replace(/\s/g,'').includes(q.replace(/\s/g,''))){
+          if(r.eq.toLowerCase().replace(/\s/g,'').includes(q.replace(/\s/g,''))||(r.name||'').toLowerCase().includes(q)||(r.conditions||'').toLowerCase().includes(q)){
             rxHits.push({eq:r.eq, catTitle:sec.title.replace(/^#\s*\d+[\.\d]*\s*/,''), danger:r.danger});
             if(rxHits.length>=5) break;
           }
@@ -4971,63 +5010,103 @@ function calcPrep(){
 }
 
 // ---- ПРИНАДА РОЗЧИНИ ----
-const SOL_PRINAD_DATA=[
-  {icon:'🩺',q:`Що таке фізіологічний розчин і чому він "фізіологічний"?`,hint:'0.9% NaCl — точно підбирається до осмотичного тиску крові',
-   sections:[
-     {title:'Що це таке',text:`<span class="term">Фізіологічний розчин</span> — це 0.9% водний розчин NaCl (кухонної солі). Звучить просто, але ця концентрація підібрана дуже точно: вона відповідає <span class="term">осмотичному тиску</span> плазми крові людини (285–295 мОсм/л).`},
-     {title:'Що таке осмотичний тиск',text:`Клітини крові оточені напівпроникними мембранами. Якщо помістити клітини в розчин з концентрацією НИЖЧЕ 0.9% — вода починає надходити ВСЕРЕДИНУ клітини через мембрану (<span class="term">осмос</span>). Клітина набухає і лопається (<span class="term">гемоліз</span>). Якщо концентрація ВИЩА — вода виходить, клітина зморщується (<span class="term">плазмоліз</span>). При 0.9% — рівновага. Клітини живуть нормально.`},
-     {title:'Навіщо його використовують',text:`Внутрішньовенне введення рідини, промивання ран, очей, носа, зберігання трансплантатів — скрізь потрібна рідина, безпечна для клітин. Глюкоза (5% розчин) теж ізотонічна — це ще один "фізіологічний" розчин для харчування клітин.`},
-   ]},
-  {icon:'🌊',q:'Чому морська вода — не питна, хоча виглядає як вода?',hint:'Солоність Чорного моря ~17‰, Середземного ~38‰',
-   sections:[
-     {title:'Що є в морській воді',text:`Морська вода — це <span class="term">розчин</span> різних солей: NaCl (кухонна сіль, ~77%), MgCl₂ (~10%), MgSO₄ (~6%), CaSO₄ (~3%) та ін. Загальна мінералізація океанічної води — близько 35 г солей на 1 л (35‰). У Чорному морі — ~17‰, у Мертвому — ~280‰!`},
-     {title:'Чому вона не втамовує спрагу',text:`При вживанні морської води нирки мають виводити надлишок солей. Але для виведення 35 г солей потрібно більше 1 л сечі, а ми випили лише 1 л морської води. <b>Дефіцит!</b> Для виведення надлишку солей нирки беруть воду з організму — і людина зневоднюється ще більше. Чим більше п'єш морської води, тим більше хочеш пити.`},
-     {title:'Хімія деміралізації',text:`Опріснення морської води: <span class="term">дистиляція</span> (кипятіння → пар → конденсація), <span class="term">зворотний осмос</span> (вода продавлюється через мембрану, солі не проходять), або <span class="term">електродіаліз</span> (іони солей рухаються до електродів). Саудівська Аравія, ОАЕ — 70% питної води звідти.`},
-   ]},
-  {icon:'🥒',q:"Чому огірки у розсолі скорочуються, а стають хрусткими?",hint:'Розсіл — гіпертонічний розчин: осмос витягує воду з огірка',
-   sections:[
-     {title:'Розсіл і осмос',text:`Розсіл для засолювання — 5–10% розчин NaCl. Це <span class="term">гіпертонічний розчин</span> — концентрація солей у ньому вища, ніж всередині клітин огірка (~0.5–1%). За законами осмосу, вода рухається з розчину менш концентрованого в більш концентрований. Тобто — з огірка в розсіл.`},
-     {title:'Що відбувається з огірком',text:`Клітини огірка втрачають воду → об'єм зменшується → шкіра морщиться. Але! Разом з водою виходять і цукри, які заміщуються іонами Na⁺ і Cl⁻. Клітинна стінка (целюлоза) залишається міцною. Результат: огірок ущільнюється і стає <b>хрустким</b>. Саме тому при засолюванні кажуть «огірки взяли сіль».`},
-     {title:'Молочнокисле бродіння',text:`При квашенні (не просто засолюванні!) бактерії <span class="term">Lactobacillus</span> переробляють цукри огірка на <span class="term">молочну кислоту</span> (C₃H₆O₃). Кислота ще більше змінює смак і є природним консервантом (pH ~3.5 — більшість бактерій не виживає). Квашені огірки — більш корисні для кишківника, ніж мариновані у оцті.`},
-   ]},
-  {icon:'❄️',q:"Чому антифриз не замерзає при −40°C, якщо містить воду?",hint:'Етиленгліколь знижує температуру замерзання через кріоскопічний ефект',
-   sections:[
-     {title:'Що таке антифриз',text:`Антифриз — суміш води і <span class="term">етиленгліколю</span> (HOCH₂CH₂OH) або пропіленгліколю. Наприклад, 50% суміш етиленгліколю і води замерзає при −36°C (чиста вода замерзає при 0°C, чистий гліколь — при −13°C, а суміш — при набагато нижчій температурі!).`},
-     {title:'Кріоскопічний ефект',text:`Коли у воді розчинені частинки (молекули або іони), вони <b>заважають кристалізації</b>. Молекули льоду намагаються утворити кристалічну решітку, але чужорідні молекулярні включення заважають цьому. Для замерзання потрібна нижча температура. Математично: ΔTзам = Kкр × Cm, де Kкр для води = 1.86°C·кг/моль, Cm — моляльна концентрація.`},
-     {title:'Чому не просто сіль або цукор',text:`Сіль (NaCl) теж знижує точку замерзання (саме тому посипають дороги) — але при концентрації 25% лише до −21°C, і вона корозійна. Цукор — зниження незначне. Гліколь дає глибоке зниження, не корозійний для металу, не кипить при нормальній роботі двигуна. Але <b>надзвичайно отруйний</b> — одна ложка смертельна для кішки.`},
-   ]},
+const KHIM_PRINAD_DATA=[
+  {
+    id:'rust',icon:'🔩',title:'Чому іржа руйнує, а золото — ні?',category:'Електрохімія',color:'#FF7043',
+    short:'Залізо і золото — сусіди в таблиці, але поводяться як чужинці.',
+    content:`Корозія заліза — це електрохімічна реакція: Fe → Fe²⁺ + 2e⁻. Вода виступає електролітом. Стандартний потенціал Fe²⁺/Fe = −0.44 В (негативний → залізо охоче віддає електрони). У золота E°(Au³⁺/Au) = +1.50 В — найвищий серед металів, тому воно «не хоче» окиснюватись. Спосіб захисту: цинкове покриття (E°(Zn²⁺/Zn) = −0.76 В < E°(Fe) → цинк «жертвує» собою, залізо ціле).`,
+    formula:'Fe → Fe²⁺ + 2e⁻ (анод корозії)',link_topic:'3-4-electrochemistry',link_label:'Електрохімія →'
+  },
+  {
+    id:'tears',icon:'😢',title:'Чому цибуля змушує плакати?',category:'Органіка',color:'#A5D6A7',
+    short:'Газ, що утворюється за мікросекунди і атакує очі.',
+    content:`При різанні цибулі руйнуються клітини і вивільняється фермент аліїназа, який перетворює аліїн на пропантіал-S-оксид (CH₃CH₂CH=O→S). Цей газ при контакті з водою ока утворює сірчану кислоту H₂SO₄ — звідси сльози і відчуття печіння. Охолоджена цибуля «плаче» менше: нижча T° уповільнює фермент.`,
+    formula:'Аліїн → [аліїназа] → пропантіал-S-оксид + H₂O → H₂SO₃',link_topic:'5-4-oxygen-compounds',link_label:'Сульфуровмісні сполуки →'
+  },
+  {
+    id:'dry_ice',icon:'❄️',title:'Сухий лід: твердий газ, що «тане» у нічого',category:'Фазові рівноваги',color:'#80DEEA',
+    short:'CO₂ при атмосферному тиску не має рідкої фази.',
+    content:`Потрійна точка CO₂: T = −56.6°C, P = 5.17 атм. При атмосферному тиску (1 атм) CO₂ неможливо розплавити — він одразу сублімує при −78.5°C. Тому «сухий лід» «тане» без калюжі. Для рідкого CO₂ потрібен балон під тиском. У надкритичному стані (T > 31°C, P > 72.8 атм) CO₂ — чудовий «зелений» розчинник, яким декофеїнізують каву.`,
+    formula:'CO₂(тв) → CO₂(г) при −78.5°C, 1 атм (сублімація)',link_topic:'3-5-phase',link_label:'Фазові діаграми →'
+  },
+  {
+    id:'silver_mirror',icon:'🪞',title:'Срібне дзеркало за хвилину',category:'Органіка',color:'#CE93D8',
+    short:'Якісна реакція, яка буквально блищить.',
+    content:`Реакція Толленса: альдегід відновлює Ag⁺ до металічного Ag. R-CHO + 2[Ag(NH₃)₂]OH → R-COONH₄ + 2Ag↓ + 3NH₃ + H₂O. На чистому склі утворюється рівний шар срібла — дзеркало! Саме так виготовляли дзеркала до XX ст. Кетони (наприклад, ацетон) цю реакцію НЕ дають — так їх відрізняють від альдегідів.`,
+    formula:'RCHO + 2[Ag(NH₃)₂]⁺ → RCOO⁻ + 2Ag↓ + 4NH₃ + H⁺',link_topic:'5-4-oxygen-compounds',link_label:'Альдегіди та кетони →'
+  },
+  {
+    id:'buffer_blood',icon:'🩸',title:'Чому pH крові не змінюється, коли ви їсте лимон?',category:'Електроліти',color:'#69F0AE',
+    short:'Буферні системи — найелегантніший хімічний механізм.',
+    content:`Кров підтримує pH 7.35–7.45 трьома буферними системами. Бікарбонатна (основна): H₂CO₃/HCO₃⁻ (pKa = 6.1). При додаванні H⁺: H⁺ + HCO₃⁻ → H₂CO₃ → H₂O + CO₂ (видихається). При додаванні OH⁻: OH⁻ + H₂CO₃ → HCO₃⁻ + H₂O. Відхилення pH крові на ±0.4 — смертельне. При pH 6.8 настає ацидоз, при pH 7.8 — алкалоз.`,
+    formula:'pH = pKa + lg([HCO₃⁻]/[H₂CO₃]) = 6.1 + lg(20) ≈ 7.4',link_topic:'4-3-electrolytes',link_label:'Буферні розчини →'
+  },
+  {
+    id:'soap',icon:'🧼',title:'Чому мило змиває жир: амфіфільна молекула',category:'Органіка',color:'#F48FB1',
+    short:'Один кінець — гідрофільний, інший — гідрофобний.',
+    content:`Молекула мила: RCOONa (R = C₁₁–C₁₇). Гідрофобний хвіст (−CH₂−)ₙ занурюється в жир, гідрофільна голова (−COO⁻) — у воду. Жирова крапля оточується молекулами мила → міцела → «їде» з водою. Жорстка вода (Ca²⁺, Mg²⁺) осаджує мило: 2RCOONa + CaCl₂ → (RCOO)₂Ca↓. Тому в жорсткій воді мило не пінить, а синтетичні ПАР (сульфонати) — пінять.`,
+    formula:'(RCOO)₂Ca↓ + 2NaCl — реакція мила з жорсткою водою',link_topic:'5-4-oxygen-compounds',link_label:'Естери та жири →'
+  },
+  {
+    id:'luminol',icon:'🔦',title:'Хемілюмінесценція: холодне світло',category:'Органіка',color:'#FFB300',
+    short:'Речовина, що світиться без нагрівання.',
+    content:`Люмінол C₈H₇N₃O₂ окиснюється H₂O₂ у лужному середовищі (кат. Fe²⁺/Fe³⁺). Проміжний продукт — збуджений 3-аміно-фталат-іон — при поверненні в основний стан випромінює фотон λ = 425 нм (блакитний). Ефективність: ~1 квант на 100 молекул, але видимий і в темряві. Застосування: криміналістика (сліди крові — Fe у гемоглобіні), хімічні ліхтарики (glow sticks).`,
+    formula:'Люмінол + H₂O₂ → [Fe²⁺] → збуджений аміно-фталат → hν + продукт',link_topic:'5-1-organic-basics',link_label:'Основи органіки →'
+  },
+  {
+    id:'neon_signs',icon:'💡',title:'Неон світить, але не горить — чому?',category:'Атом',color:'#4FC3F7',
+    short:'Благородні гази і квантовий стрибок електронів.',
+    content:`У неоновій лампі електрони прискорюються полем і збуджують атоми Ne до вищих енергетичних рівнів. При поверненні e⁻ випромінюється фотон: E = hν = E₂ − E₁. Для Ne λ ≈ 640 нм → червоне свічення. «Голубий неон» — насправді аргон (λ = 696 нм). Різні гази = різний спектр: He (рожевий), Kr (жовто-зелений), Xe (блакитно-білий). Ne не реагує ні з чим — зовнішній рівень повністю заповнений (2s²2p⁶).`,
+    formula:'E(фотона) = E₂ − E₁ = hν; λ(Ne) ≈ 640 нм (червоний)',link_topic:'1-1-atom',link_label:'Будова атома →'
+  },
+  {
+    id:'aspirin',icon:'💊',title:'Аспірин: від кори верби до синтезу',category:'Органіка',color:'#FF8A65',
+    short:'Одна з найдосліджуваніших молекул в історії.',
+    content:`Ацетилсаліцилова кислота C₉H₈O₄ (DBE=6). Синтез: саліцилова кислота + оцтовий ангідрид → аспірин + оцтова кислота. C₇H₆O₃ + (CH₃CO)₂O → C₉H₈O₄ + CH₃COOH. У шлунку гідролізується до саліцилової кислоти (подразнення слизової). Механізм дії: незворотне ацилювання COX-1/COX-2 (простагландини ↓ → менше болю). Одна таблетка містить 500 мг = ~1.7×10²¹ молекул.`,
+    formula:'C₇H₆O₃ + (CH₃CO)₂O → C₉H₈O₄ + CH₃COOH',link_topic:'5-4-oxygen-compounds',link_label:'Кисневмісні сполуки →'
+  },
+  {
+    id:'supercrit',icon:'☕',title:'Надкритичний CO₂: кава без кофеїну',category:'Фазові рівноваги',color:'#80DEEA',
+    short:'Між рідиною і газом: стан без меж.',
+    content:`При T > 31°C і P > 72.8 атм CO₂ переходить у надкритичний стан: в'язкість як у газу, густота як у рідини. Видатний розчинник для неполярних органічних молекул (кофеїн, жири, ефірні олії). Процес декофеїнізації: CO₂(нкр) + зерна кави під тиском → кофеїн розчиняється → стравлення тиску → CO₂ випаровується, кофеїн залишається. Зерна смакують чисто, без залишків розчинника.`,
+    formula:'Tc(CO₂) = 31.0°C; Pc(CO₂) = 72.8 атм → надкрит. флюїд',link_topic:'3-5-phase',link_label:'Фазові рівноваги →'
+  }
 ];
-let solPrinadInited=false;
+let prinadInited=false;
 function renderSolPrinad(){
-  if(solPrinadInited)return;
-  solPrinadInited=true;
-  const list=document.getElementById('sol-prinad-list');
-  list.innerHTML=SOL_PRINAD_DATA.map((p,i)=>`
-    <div class="sol-prinad-card">
-      <div class="sol-prinad-head" onclick="toggleSolPrinad(${i})">
-        <div class="sol-prinad-icon">${p.icon}</div>
-        <div>
-          <div class="sol-prinad-q">${p.q}</div>
-          <div class="sol-prinad-hint">${p.hint}</div>
+  if(prinadInited)return;
+  prinadInited=true;
+  const container=document.getElementById('sol-prinad-list');
+  if(!container)return;
+  container.innerHTML=KHIM_PRINAD_DATA.map(p=>`
+    <div class="prinad-card" id="prinad-${p.id}">
+      <div class="prinad-head" onclick="toggleKhimPrinad('${p.id}')">
+        <span class="prinad-icon">${p.icon}</span>
+        <div class="prinad-head-text">
+          <div class="prinad-title">${p.title}</div>
+          <div class="prinad-cat" style="color:${p.color}">${p.category}</div>
         </div>
-        <div class="sol-prinad-arrow" id="spa-${i}">▼</div>
+        <span class="prinad-short">${p.short}</span>
+        <span class="prinad-chevron" id="pchev-${p.id}">▼</span>
       </div>
-      <div class="sol-prinad-body" id="spb-${i}">
-        ${p.sections.map(s=>`
-          <div class="sol-prinad-section">
-            <div class="sol-prinad-section-title">${s.title}</div>
-            <div class="sol-prinad-text">${s.text}</div>
-          </div>`).join('<hr style="border:none;border-top:0.5px solid #1e2240;margin:10px 0">')}
+      <div class="khim-prinad-body" id="pbody-${p.id}" style="display:none">
+        <p class="prinad-text" style="font-size:12px;color:#b0c0e8;line-height:1.7;margin-bottom:10px">${p.content}</p>
+        <div class="prinad-formula">${p.formula}</div>
+        ${p.link_topic?`<button class="prinad-link-btn" onclick="showTopic('${p.link_topic}')">${p.link_label}</button>`:''}
       </div>
     </div>`).join('');
 }
-
-function toggleSolPrinad(i){
-  const body=document.getElementById('spb-'+i);
-  const arrow=document.getElementById('spa-'+i);
-  const isOpen=body.classList.contains('open');
-  body.classList.toggle('open',!isOpen);
-  arrow.style.transform=isOpen?'':'rotate(180deg)';
+function toggleKhimPrinad(id){
+  const body=document.getElementById('pbody-'+id);
+  const chev=document.getElementById('pchev-'+id);
+  if(!body)return;
+  const open=body.style.display!=='none';
+  body.style.display=open?'none':'block';
+  chev.textContent=open?'▼':'▲';
+}
+function showTopic(topicId){
+  if(typeof loadTopicJson==='function'){loadTopicJson(topicId);}
+  else{const data=window._TOPIC_DATA_EXT?.[topicId];if(data){showPanel('topic');_renderTopic(data);}}
 }
 
 // ============ РОЗЧИНЕННЯ ГАЗІВ v1.0.8 ============
@@ -5396,6 +5475,24 @@ function _tcInit(calc, topicId) {
   document.getElementById('tc-title').textContent = (calc.icon || '⚙️') + ' ' + (calc.title || 'Калькулятор');
   document.getElementById('tc-desc').textContent = calc.description || '';
 
+  // Покрокова інструкція v1.1.8
+  const topicData = window._TOPIC_DATA_EXT?.[topicId];
+  const howText = topicData?.reference?.popup?.how || '';
+  const warnText = topicData?.reference?.popup?.warning || '';
+  let howBlock = document.getElementById('tc-howto');
+  if (!howBlock) {
+    howBlock = document.createElement('div');
+    howBlock.id = 'tc-howto';
+    document.getElementById('tc-desc').insertAdjacentElement('afterend', howBlock);
+  }
+  howBlock.innerHTML = '';
+  if (howText) {
+    howBlock.innerHTML += `<div class="tc-how"><span class="tc-how-icon">📋</span><span>${howText}</span></div>`;
+  }
+  if (warnText) {
+    howBlock.innerHTML += `<div class="tc-warn"><span class="tc-how-icon">⚠️</span><span>${warnText}</span></div>`;
+  }
+
   // Кнопки режимів
   const modesEl = document.getElementById('tc-modes');
   modesEl.innerHTML = _tcState.modes.map(m => `
@@ -5430,8 +5527,10 @@ function _tcBuildQuick() {
   if (!_tcState.quickValues.length) { qs.style.display = 'none'; return; }
   qs.style.display = 'block';
   qr.innerHTML = _tcState.quickValues.map((q, i) => `
-    <div class="tc-quick-chip" onclick="_tcInjectQuick(${i})" title="${q.comment || ''}">
-      ↗ ${q.label}
+    <div class="tc-qv-card" onclick="_tcInjectQuick(${i})">
+      <span class="tc-qv-label">${q.label}</span>
+      ${q.comment ? `<span class="tc-qv-comment">${q.comment}</span>` : ''}
+      <span class="tc-qv-arrow">↗</span>
     </div>`).join('');
 }
 
@@ -5777,7 +5876,7 @@ function _renderTopic(data) {
       ${_renderLogicBlock(data.logic, acc1)}
       ${_renderFormulaBlock(data.formula, acc2)}
       ${_renderCalculatorBlock(data.calculator, acc3, data.id)}
-      ${_renderReferenceBlock(data.reference, acc4)}
+      ${_renderReferenceBlock(data.reference, acc4, data.id)}
     </div>`;
 
   document.getElementById('topic-content').innerHTML = html;
@@ -5829,23 +5928,29 @@ function _renderFormulaBlock(formula, accent) {
 function _renderCalculatorBlock(calc, accent, topicId) {
   const isTopicCalc = calc.targetPanel === 'topic-calc';
 
+  // Зберігаємо calc у глобальному словнику щоб уникнути проблем зі спецсимволами в onclick
+  if (isTopicCalc) {
+    window._tcCalcMap = window._tcCalcMap || {};
+    window._tcCalcMap[topicId] = calc;
+  }
+
   const modeButtons = calc.modes.map(m => `
     <button class="tb-calc-mode-btn" onclick="${isTopicCalc
-      ? `_topicGoCalcUniversal(${JSON.stringify(calc)}, '${topicId}', '${m.id}')`
+      ? `_topicGoCalcById('${topicId}', '${m.id}')`
       : `_topicGoCalc('${calc.targetPanel}','${m.id}')`}">
       ${m.label}<br><span style="font-size:9px;opacity:.7">${m.hint}</span>
     </button>`).join('');
 
-  const quickChips = calc.quickValues ? calc.quickValues.map(q => `
+  const quickChips = calc.quickValues ? calc.quickValues.map((q, qi) => `
     <div class="tb-quick-chip" onclick="${isTopicCalc
-      ? `_topicGoCalcUniversal(${JSON.stringify(calc)}, '${topicId}', null, ${JSON.stringify(q)})`
+      ? `_topicGoCalcByIdQ('${topicId}', null, ${qi})`
       : `_topicInjectValue('${calc.targetPanel}','${topicId}',${JSON.stringify(q)})`}" title="${q.comment || ''}">
       ↗ ${q.label}
     </div>`).join('') : '';
 
   const gotoLabel = isTopicCalc ? 'Відкрити калькулятор теми →' : 'Відкрити калькулятор →';
   const gotoClick = isTopicCalc
-    ? `_topicGoCalcUniversal(${JSON.stringify(calc)}, '${topicId}')`
+    ? `_topicGoCalcById('${topicId}')`
     : `showPanel('${calc.targetPanel}')`;
 
   return `<div class="topic-block" style="--tb-accent:${accent}">
@@ -5953,6 +6058,19 @@ function _topicInjectValue(panelId, topicId, q) {
 }
 
 // Відкрити universal topic-calc і (опційно) встановити режим / підставити значення
+// Безпечні обгортки: беруть calc зі словника, уникають проблем зі спецсимволами в onclick
+function _topicGoCalcById(topicId, modeId) {
+  const calc = (window._tcCalcMap || {})[topicId];
+  if (!calc) return;
+  _topicGoCalcUniversal(calc, topicId, modeId || null);
+}
+function _topicGoCalcByIdQ(topicId, modeId, quickIdx) {
+  const calc = (window._tcCalcMap || {})[topicId];
+  if (!calc) return;
+  const q = (calc.quickValues || [])[quickIdx];
+  _topicGoCalcUniversal(calc, topicId, modeId || null, q);
+}
+
 function _topicGoCalcUniversal(calc, topicId, modeId, quickVal) {
   // Ініціалізуємо панель даними з поточної теми
   _tcInit(calc, topicId);
@@ -5976,7 +6094,38 @@ function _topicGoCalcUniversal(calc, topicId, modeId, quickVal) {
 }
 
 // ---- БЛОК 4: Довідник ----
-function _renderReferenceBlock(ref, accent) {
+// ====== В КАЛЬКУЛЯТОР v1.1.8 ======
+function extractNumericValue(str) {
+  if (!str) return null;
+  const m = str.match(/-?\d+\.?\d*(?:[eE][+-]?\d+)?/);
+  return m ? parseFloat(m[0]) : null;
+}
+
+function injectToCalc(data, topicId) {
+  const mode = _tcState?.currentMode;
+  if (!mode) {
+    showPanel('topic-calc');
+    setTimeout(() => {
+      const firstInput = document.querySelector('#tc-fields .tc-field-input:not([readonly])');
+      if (firstInput) { firstInput.value = data.val; firstInput.focus(); }
+    }, 100);
+    return;
+  }
+  const firstFree = document.querySelector('#tc-fields .tc-field-input:not([readonly])');
+  if (firstFree) {
+    firstFree.value = data.val;
+    const hint = document.createElement('div');
+    hint.className = 'inject-hint';
+    hint.textContent = `↗ Підставлено: ${data.label} = ${data.val}`;
+    hint.style.cssText = 'font-size:10px;color:#4FC3F7;margin-top:4px;';
+    firstFree.parentNode.appendChild(hint);
+    setTimeout(() => hint.remove(), 2000);
+    firstFree.focus();
+    showPanel('topic-calc');
+  }
+}
+
+function _renderReferenceBlock(ref, accent, topicId) {
   let inner = '';
 
   // Відомі значення pH
@@ -6009,13 +6158,21 @@ function _renderReferenceBlock(ref, accent) {
 
   // Константи (газові закони)
   if (ref.constants) {
-    const rows = ref.constants.map(c => `
-      <div class="tb-const-sym">${c.symbol}</div>
-      <div class="tb-const-val">${c.value}</div>
-      <div class="tb-const-desc">${c.desc}</div>`).join('');
+    const rows = ref.constants.map(c => {
+      const numVal = extractNumericValue(c.value);
+      const btnHtml = numVal !== null
+        ? `<button class="tb-inject-btn" onclick="injectToCalc(${JSON.stringify({val: numVal, label: c.symbol})}, '${topicId || ''}')">↗</button>`
+        : '';
+      return `<div class="tb-const-row">
+        <span class="tb-const-sym">${c.symbol}</span>
+        <span class="tb-const-val">${c.value}</span>
+        <span class="tb-const-desc">${c.desc}</span>
+        ${btnHtml}
+      </div>`;
+    }).join('');
     inner += `<div>
       <div class="tb-ref-known-title">Константи</div>
-      <div class="tb-constants-grid">${rows}</div>
+      <div>${rows}</div>
     </div>`;
   }
 
@@ -6232,16 +6389,26 @@ function setRxCat(cat, btn) {
   renderReactions();
 }
 
+function formatRxEq(eq) {
+  const s = eq.replace(/->/g,'→').replace(/<=>/g,'⇌');
+  return s.replace(/([A-Z][a-z]?\d*(?:\([A-Za-z0-9]+\)\d*)*[A-Za-z0-9]*)+/g, m => `<b>${m}</b>`);
+}
+
 function renderReactions() {
   if (!window._RX_DATA) { renderReactionsInline(); return; }
   const q = (document.getElementById('rx-search').value || '').toLowerCase().replace(/\s/g,'');
+  const qRaw = (document.getElementById('rx-search').value || '').toLowerCase();
   const data = window._RX_DATA;
   const filtered = data.filter(cat => rxCurCat === 'all' || cat.id === rxCurCat);
   let total = 0, html = '';
   for (const cat of filtered) {
     const catColor = cat.color || '#4FC3F7';
     for (const sec of cat.subsections) {
-      const rxs = sec.reactions.filter(r => !q || r.eq.toLowerCase().replace(/\s/g,'').includes(q));
+      const rxs = sec.reactions.filter(r => !q ||
+        r.eq.toLowerCase().replace(/\s/g,'').includes(q) ||
+        (r.name||'').toLowerCase().includes(qRaw) ||
+        (r.conditions||'').toLowerCase().includes(qRaw)
+      );
       if (!rxs.length) continue;
       total += rxs.length;
       html += `<div class="rx-section">
@@ -6251,10 +6418,19 @@ function renderReactions() {
         </div>
         <div class="rx-list">
           ${rxs.map(r => `<div class="rx-item${r.reversible?' rev':''}" onclick="rxClick('${r.eq.replace(/'/g,"\\'")}',${r.danger})">
-            <span class="rx-flag">${r.danger ? '⚠️' : '⚗️'}</span>
-            <span class="rx-eq">${r.eq.replace(/->/,'→').replace(/<=>/,'⇌')}</span>
-            ${r.reversible ? '<span class="rx-rev-tag">⇌ оборотна</span>' : ''}
-            ${r.danger ? '<span class="rx-danger-badge">RED FLAG</span>' : ''}
+            <div class="rx-item-top">
+              <span class="rx-flag">${r.danger ? '⚠️' : '⚗️'}</span>
+              <span class="rx-eq">${formatRxEq(r.eq)}</span>
+              ${r.reversible ? '<span class="rx-rev-tag">⇌ оборотна</span>' : ''}
+              ${r.danger ? '<span class="rx-danger-badge">RED FLAG</span>' : ''}
+            </div>
+            ${r.name ? `<div class="rx-name">${r.name}</div>` : ''}
+            <div class="rx-meta">
+              ${r.conditions ? `<span class="rx-cond">⚙️ ${r.conditions}</span>` : ''}
+              ${r.type==='exo' ? '<span class="rx-type-exo">↓ екзо</span>' : ''}
+              ${r.type==='endo' ? '<span class="rx-type-endo">↑ ендо</span>' : ''}
+            </div>
+            ${r.products_desc ? `<div class="rx-pdesc">${r.products_desc}</div>` : ''}
           </div>`).join('')}
         </div>
       </div>`;
