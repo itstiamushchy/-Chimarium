@@ -647,6 +647,15 @@ select{color-scheme:dark}select option{background:#111224;color:#ffffff}
 .fm-cats{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:14px}
 .fm-cat{background:#141528;border:0.5px solid #1e2240;border-radius:4px;padding:4px 10px;font-size:10px;color:#c0d0f0;cursor:pointer;transition:all .15s;white-space:nowrap}
 .fm-cat:hover{color:#ffffff}.fm-cat.on{background:#0f1632;border-color:#4FC3F7;color:#4FC3F7}
+.tb-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin-bottom:18px}
+.tb-group-label{font-family:'Oxanium',monospace;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#4FC3F7;padding:8px 0 10px;border-bottom:0.5px solid #1e2240;margin-bottom:14px}
+.tb-card{background:#0f1632;border:0.5px solid #1e2240;border-radius:12px;padding:18px 20px;cursor:pointer;transition:border-color .15s}
+.tb-card:hover{border-color:#4FC3F7}
+.tb-card-icon{font-size:26px;margin-bottom:8px}
+.tb-card-title{font-family:'Oxanium',monospace;font-size:13px;font-weight:700;color:#4FC3F7;margin-bottom:6px}
+.tb-card-desc{font-size:12px;color:#7080b8;line-height:1.5}
+.tb-card-btn{margin-top:12px}
+.tb-empty{text-align:center;color:#4a5480;font-size:13px;padding:40px 0}
 .fm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:10px}
 .fm-card{background:#141528;border:0.5px solid #1e2240;border-radius:10px;padding:14px 18px;transition:border-color .2s;cursor:default}
 .fm-card:hover{border-color:#4FC3F7}
@@ -1640,9 +1649,12 @@ select{color-scheme:dark}select option{background:#111224;color:#ffffff}
   <!-- РОЗЧИНИ: ТАБЛИЦЯ РОЗЧИННОСТІ -->
   <div class="panel" id="panel-tables">
     <div class="sec-title">📊 Таблиці</div>
-    <div id="tables-content">
-      <!-- Картки таблиць рендеряться через initTablesPanel() -->
+    <div class="fm-search-row">
+      <input class="fm-search" id="tb-search" type="text" placeholder="Пошук таблиці..." oninput="renderTablesGrid()">
+      <span style="font-size:10px;color:#7080b8">Показано <b id="tb-count" style="color:#4FC3F7">—</b></span>
     </div>
+    <div class="fm-cats" id="tb-cats"></div>
+    <div id="tables-content"></div>
   </div>
 
   <!-- РОЗЧИНИ: КОНЦЕНТРАЦІЯ -->
@@ -5184,36 +5196,74 @@ const TABLES_REGISTRY=[
 },
 ];
 
+const TB_GROUPS=[
+  {name:'Будова речовини',icon:'⚛️'},
+  {name:'Фізична хімія',icon:'🌡️'},
+  {name:'Розчини',icon:'🧪'},
+  {name:'Електрохімія',icon:'⚡'},
+  {name:'Органічна хімія',icon:'🧬'},
+  {name:'Аналітична хімія',icon:'🔬'},
+  {name:'Інше',icon:'📚'},
+];
+let tbCurCat='all';
+
 function initTablesPanel(){
-  const c=document.getElementById('tables-content');
-  const groups=[
-    {name:'Будова речовини',icon:'⚛️'},
-    {name:'Фізична хімія',icon:'🌡️'},
-    {name:'Розчини',icon:'🧪'},
-    {name:'Електрохімія',icon:'⚡'},
-    {name:'Органічна хімія',icon:'🧬'},
-    {name:'Аналітична хімія',icon:'🔬'},
-    {name:'Інше',icon:'📚'},
-  ];
-  let html='';
-  groups.forEach(grp=>{
-    const grpTables=TABLES_REGISTRY.filter(t=>t.group===grp.name);
-    if(!grpTables.length)return;
-    html+=`<div style="margin-bottom:28px">`;
-    html+=`<div style="font-family:'Oxanium',monospace;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#4FC3F7;padding:8px 0 10px;border-bottom:0.5px solid #1e2240;margin-bottom:14px">${grp.icon} ${grp.name} <span style="color:#4a5480;font-size:10px;margin-left:6px">(${grpTables.length})</span></div>`;
-    html+=`<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px">`;
-    grpTables.forEach(t=>{
-      const i=TABLES_REGISTRY.indexOf(t);
-      html+=`<div style="background:#0f1632;border:0.5px solid #1e2240;border-radius:12px;padding:18px 20px;cursor:pointer;transition:border-color .15s" onmouseover="this.style.borderColor='#4FC3F7'" onmouseout="this.style.borderColor='#1e2240'" onclick="TABLES_REGISTRY[${i}].action()">
-      <div style="font-size:28px;margin-bottom:8px">${t.icon}</div>
-      <div style="font-family:'Oxanium',monospace;font-size:13px;font-weight:700;color:#4FC3F7;margin-bottom:6px">${t.title}</div>
-      <div style="font-size:12px;color:#7080b8;line-height:1.5">${t.desc}</div>
-      <div style="margin-top:12px"><button class="sol-mode-btn" style="font-size:11px;padding:5px 14px">Відкрити →</button></div>
-    </div>`;
-    });
-    html+='</div></div>';
+  const catsEl=document.getElementById('tb-cats');
+  if(catsEl.innerHTML===''){
+    const cats=[['all','Усі'],...TB_GROUPS.map(g=>[g.name,`${g.icon} ${g.name}`])];
+    catsEl.innerHTML=cats.map(([id,label])=>
+      `<button class="fm-cat${id==='all'?' on':''}" onclick="setTbCat('${id.replace(/'/g,"\\'").replace(/\//g,'\\/')}',this)">${label}</button>`
+    ).join('');
+  }
+  renderTablesGrid();
+}
+
+function setTbCat(cat,btn){
+  tbCurCat=cat;
+  document.querySelectorAll('#tb-cats .fm-cat').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  renderTablesGrid();
+}
+
+function renderTablesGrid(){
+  const q=(document.getElementById('tb-search').value||'').toLowerCase();
+  const filtered=TABLES_REGISTRY.filter(t=>{
+    const matchCat=tbCurCat==='all'||t.group===tbCurCat;
+    const matchQ=!q||t.title.toLowerCase().includes(q)||(t.desc&&t.desc.toLowerCase().includes(q))||(t.id&&t.id.toLowerCase().includes(q));
+    return matchCat&&matchQ;
   });
+  document.getElementById('tb-count').textContent=filtered.length;
+  const c=document.getElementById('tables-content');
+  if(!filtered.length){
+    c.innerHTML=`<div class="tb-empty">Нічого не знайдено</div>`;
+    return;
+  }
+  // Group by section (skip section headers in search mode)
+  const useGroups=!q&&tbCurCat==='all';
+  let html='';
+  if(useGroups){
+    TB_GROUPS.forEach(grp=>{
+      const grpTables=filtered.filter(t=>t.group===grp.name);
+      if(!grpTables.length)return;
+      html+=`<div style="margin-bottom:28px">`;
+      html+=`<div class="tb-group-label">${grp.icon} ${grp.name} <span style="color:#4a5480;font-size:10px;margin-left:6px">(${grpTables.length})</span></div>`;
+      html+=`<div class="tb-grid">${grpTables.map(t=>tbCard(t)).join('')}</div>`;
+      html+='</div>';
+    });
+  } else {
+    html=`<div class="tb-grid">${filtered.map(t=>tbCard(t)).join('')}</div>`;
+  }
   c.innerHTML=html;
+}
+
+function tbCard(t){
+  const i=TABLES_REGISTRY.indexOf(t);
+  return `<div class="tb-card" onclick="TABLES_REGISTRY[${i}].action()">
+    <div class="tb-card-icon">${t.icon}</div>
+    <div class="tb-card-title">${t.title}</div>
+    <div class="tb-card-desc">${t.desc||''}</div>
+    <div class="tb-card-btn"><button class="sol-mode-btn" style="font-size:11px;padding:5px 14px">Відкрити →</button></div>
+  </div>`;
 }
 
 function showTableFromTopic(tableId){
