@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Хімарій v1.1.8 · ITS_tiamushchy</title>
+<title>Хімарій v1.1.9 · ITS_tiamushchy</title>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0d0e1a">
 <meta name="mobile-web-app-capable" content="yes">
@@ -671,7 +671,7 @@ select{color-scheme:dark}select option{background:#111224;color:#ffffff}
 .rx-eq{flex:1;word-break:break-word}
 .rx-rev-tag{font-size:8px;color:#00E5CC;background:#071f1a;border:0.5px solid #00E5CC;border-radius:3px;padding:1px 5px;flex-shrink:0;font-family:'Inter',sans-serif;letter-spacing:0}
 .rx-danger-badge{background:#1a0808;border:0.5px solid #FF5252;border-radius:3px;padding:1px 6px;font-size:9px;color:#FF5252;flex-shrink:0;font-family:'Inter',sans-serif}
-/* ====== REACTIONS ENRICHED v1.1.8 ====== */
+/* ====== REACTIONS CARD VIEW v1.1.9 ====== */
 .rx-item{flex-direction:column;align-items:flex-start}
 .rx-item-top{display:flex;align-items:center;gap:8px;width:100%}
 .rx-name{font-size:11px;color:#b0c0e8;margin-top:2px;font-family:'Inter',sans-serif;font-weight:normal}
@@ -680,6 +680,21 @@ select{color-scheme:dark}select option{background:#111224;color:#ffffff}
 .rx-type-exo{color:#FF5252}
 .rx-type-endo{color:#4FC3F7}
 .rx-pdesc{font-size:11px;color:#7080b8;margin-top:3px;line-height:1.5;font-family:'Inter',sans-serif}
+/* Картки реакцій */
+.rx-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:10px}
+.rx-card{background:#141528;border:0.5px solid #1e2240;border-radius:10px;padding:14px 18px;cursor:pointer;transition:border-color .2s,background .2s;position:relative}
+.rx-card:hover{border-color:var(--rx-color,#4FC3F7);background:#141a2e}
+.rx-card.rev{border-left:2px solid #00E5CC}
+.rx-card.danger-rx{border-left:2px solid #FF5252}
+.rx-card-badge{display:inline-flex;align-items:center;gap:5px;margin-bottom:7px}
+.rx-card-cat{display:inline-block;background:#0f1632;border:0.5px solid var(--rx-color,#4FC3F7);border-radius:3px;padding:1px 7px;font-size:9px;color:var(--rx-color,#4FC3F7);font-family:'Oxanium',monospace;letter-spacing:1px}
+.rx-card-rev{font-size:8px;color:#00E5CC;background:#071f1a;border:0.5px solid #00E5CC;border-radius:3px;padding:1px 5px;font-family:'Inter',sans-serif}
+.rx-card-danger{font-size:8px;color:#FF5252;background:#1a0808;border:0.5px solid #FF5252;border-radius:3px;padding:1px 5px;font-family:'Inter',sans-serif}
+.rx-card-eq{font-family:'Oxanium',monospace;font-size:14px;font-weight:700;color:#4FC3F7;margin-bottom:4px;word-break:break-word;line-height:1.4}
+.rx-card-name{font-size:12px;font-weight:600;color:#ffffff;margin-bottom:3px}
+.rx-card-desc{font-size:11px;color:#c0d0f0;line-height:1.55;margin-bottom:6px}
+.rx-card-example{font-size:11px;color:#b0c0e8;border-left:2px solid var(--rx-color,#4FC3F7);padding-left:8px;line-height:1.6}
+.rx-section-label{font-family:'Oxanium',monospace;font-size:9px;letter-spacing:2px;color:#90a0cc;text-transform:uppercase;margin-bottom:8px;padding:6px 10px;background:#0a0b15;border-radius:6px;display:flex;align-items:center;justify-content:space-between}
 /* Red Flag popup */
 .rx-popup{display:none;position:fixed;bottom:24px;right:24px;width:320px;background:#1a0a0a;border:1px solid #FF5252;border-radius:12px;padding:16px 18px;z-index:9999;box-shadow:0 8px 32px rgba(0,0,0,.5)}
 .rx-popup.vis{display:block}
@@ -832,7 +847,7 @@ select{color-scheme:dark}select option{background:#111224;color:#ffffff}
 
 <!-- HERO -->
 <div class="hero">
-  <div class="ver">v1.1.8</div>
+  <div class="ver">v1.1.9</div>
   <div class="mol">
     <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
       <defs><filter id="glow"><feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
@@ -1785,7 +1800,7 @@ select{color-scheme:dark}select option{background:#111224;color:#ffffff}
 
 <div class="footer">
   <span class="fcopy">© 2026 Хоменко Олексій Григорович · itstiamushchy@gmail.com</span>
-  <span class="fplat">ITS_tiamushchy · v1.1.8</span>
+  <span class="fplat">ITS_tiamushchy · v1.1.9</span>
 </div>
 </div>
 
@@ -5566,8 +5581,8 @@ function _fmt(x) {
 const AUFBAU = ['1s','2s','2p','3s','3p','4s','3d','4p','5s','4d','5p','6s','4f','5d','6p','7s','5f','6d'];
 const SUBSHELL_CAP = { s:2, p:6, d:10, f:14 };
 const EXCEPTIONS = {
-  24: {config:'[Ar]3d\u2075\u2074s\u00b9', last:{n:4,l:0,ml:0,ms:-0.5}},
-  29: {config:'[Ar]3d\u00b9\u2070\u2074s\u00b9', last:{n:4,l:0,ml:0,ms:-0.5}}
+  24: {config:'[Ar]3d\u2075' + '4s\u00b9', last:{n:4,l:0,ml:0,ms:-0.5}},
+  29: {config:'[Ar]3d\u00b9\u2070' + '4s\u00b9', last:{n:4,l:0,ml:0,ms:-0.5}}
 };
 function _sup(n){return String(n).split('').map(c=>'\u2070\u00b9\u00b2\u00b3\u2074\u2075\u2076\u2077\u2078\u2079'[c]||c).join('');}
 function _buildConfig(Z){
@@ -6097,7 +6112,9 @@ function _topicGoCalcUniversal(calc, topicId, modeId, quickVal) {
 // ====== В КАЛЬКУЛЯТОР v1.1.8 ======
 function extractNumericValue(str) {
   if (!str) return null;
-  const m = str.match(/-?\d+\.?\d*(?:[eE][+-]?\d+)?/);
+  // Нормалізуємо Unicode мінус (U+2212 −) до ASCII дефісу перед пошуком
+  const normalized = str.replace(/\u2212/g, '-');
+  const m = normalized.match(/-?\d+\.?\d*(?:[eE][+-]?\d+)?/);
   return m ? parseFloat(m[0]) : null;
 }
 
@@ -6401,8 +6418,15 @@ function renderReactions() {
   const data = window._RX_DATA;
   const filtered = data.filter(cat => rxCurCat === 'all' || cat.id === rxCurCat);
   let total = 0, html = '';
+
   for (const cat of filtered) {
     const catColor = cat.color || '#4FC3F7';
+    const catLabel = cat.label || cat.id;
+    const catIcon = cat.icon || '⚗️';
+    const catType = cat.type || '';
+    let sectionCards = '';
+    let sectionCount = 0;
+
     for (const sec of cat.subsections) {
       const rxs = sec.reactions.filter(r => !q ||
         r.eq.toLowerCase().replace(/\s/g,'').includes(q) ||
@@ -6410,92 +6434,98 @@ function renderReactions() {
         (r.conditions||'').toLowerCase().includes(qRaw)
       );
       if (!rxs.length) continue;
+      sectionCount += rxs.length;
       total += rxs.length;
-      html += `<div class="rx-section">
-        <div class="rx-section-head" style="border-left:3px solid ${catColor}">
-          <span>${cat.icon||'⚗️'} ${sec.title.replace(/^#\s*\d+[\.\d]*\s*/,'')}</span>
-          <span class="rx-section-count">${rxs.length} рівнянь</span>
-        </div>
-        <div class="rx-list">
-          ${rxs.map(r => `<div class="rx-item${r.reversible?' rev':''}" onclick="rxClick('${r.eq.replace(/'/g,"\\'")}',${r.danger})">
-            <div class="rx-item-top">
-              <span class="rx-flag">${r.danger ? '⚠️' : '⚗️'}</span>
-              <span class="rx-eq">${formatRxEq(r.eq)}</span>
-              ${r.reversible ? '<span class="rx-rev-tag">⇌ оборотна</span>' : ''}
-              ${r.danger ? '<span class="rx-danger-badge">RED FLAG</span>' : ''}
-            </div>
-            ${r.name ? `<div class="rx-name">${r.name}</div>` : ''}
-            <div class="rx-meta">
-              ${r.conditions ? `<span class="rx-cond">⚙️ ${r.conditions}</span>` : ''}
-              ${r.type==='exo' ? '<span class="rx-type-exo">↓ екзо</span>' : ''}
-              ${r.type==='endo' ? '<span class="rx-type-endo">↑ ендо</span>' : ''}
-            </div>
-            ${r.products_desc ? `<div class="rx-pdesc">${r.products_desc}</div>` : ''}
-          </div>`).join('')}
-        </div>
+
+      sectionCards += rxs.map(r => {
+        // eq → роль expr
+        const eqFmt = formatRxEq(r.eq);
+        // name → роль name (якщо є), інакше порожньо
+        const nameHtml = r.name ? `<div class="rx-card-name">${r.name}</div>` : '';
+        // conditions + type → роль desc
+        const descParts = [];
+        if (r.conditions) descParts.push(`⚙️ ${r.conditions}`);
+        if (r.type === 'exo') descParts.push('<span style="color:#FF5252">▼ екзотермічна</span>');
+        if (r.type === 'endo') descParts.push('<span style="color:#4FC3F7">▲ ендотермічна</span>');
+        const descHtml = descParts.length ? `<div class="rx-card-desc">${descParts.join(' · ')}</div>` : '';
+        // products_desc → роль example
+        const exHtml = r.products_desc ? `<div class="rx-card-example">${r.products_desc}</div>` : '';
+        // флаги
+        const revTag = r.reversible ? `<span class="rx-card-rev">⇌ оборотна</span>` : '';
+        const dangerTag = r.danger ? `<span class="rx-card-danger">⚠️ небезпечна</span>` : '';
+        const cardClass = ['rx-card', r.reversible?'rev':'', r.danger?'danger-rx':''].filter(Boolean).join(' ');
+        const eqSafe = r.eq.replace(/'/g,"\\'");
+        return `<div class="${cardClass}" style="--rx-color:${catColor}" onclick="rxClick('${eqSafe}',${r.danger})">
+          <div class="rx-card-badge">
+            <span class="rx-card-cat">${catIcon} ${catLabel}</span>
+            ${revTag}${dangerTag}
+          </div>
+          <div class="rx-card-eq">${eqFmt}</div>
+          ${nameHtml}${descHtml}${exHtml}
+        </div>`;
+      }).join('');
+    }
+
+    if (!sectionCards) continue;
+    // Заголовок секції (лише якщо є картки і фільтр "Усі")
+    if (rxCurCat === 'all') {
+      html += `<div class="rx-section-label" style="border-left:3px solid ${catColor}">
+        <span>${catIcon} ${catLabel} · <span style="opacity:.6">${catType}</span></span>
+        <span style="color:#7080b8">${sectionCount}</span>
       </div>`;
     }
+    html += `<div class="rx-grid">${sectionCards}</div>`;
   }
+
   document.getElementById('rx-count').textContent = total;
   document.getElementById('rx-list-wrap').innerHTML = html || '<div style="text-align:center;padding:40px;color:#90a0cc;font-size:12px">Нічого не знайдено</div>';
 }
 
 function renderReactionsInline() {
-  // Show built-in simplified list
   const BUILTIN = [
-    {cat:'combination',icon:'➕',color:'#4FC3F7',title:'Реакції сполучення',rxs:[
+    {cat:'combination',icon:'➕',color:'#4FC3F7',label:'Сполучення',type:'A + B → AB',rxs:[
       {eq:'2Mg + O2 → 2MgO',rev:false,d:false},{eq:'2H2 + O2 → 2H2O',rev:false,d:false},{eq:'CaO + H2O → Ca(OH)2',rev:false,d:false},
       {eq:'SO3 + H2O → H2SO4',rev:false,d:false},{eq:'CO2 + H2O ⇌ H2CO3',rev:true,d:false},{eq:'N2 + 3H2 ⇌ 2NH3',rev:true,d:false},
       {eq:'H2 + Cl2 → 2HCl',rev:false,d:true},{eq:'S + O2 → SO2',rev:false,d:false},{eq:'2SO2 + O2 ⇌ 2SO3',rev:true,d:false},
-      {eq:'3Fe + 2O2 → Fe3O4',rev:false,d:false},{eq:'C + O2 → CO2',rev:false,d:false},{eq:'4P + 5O2 → 2P2O5',rev:false,d:false}
     ]},
-    {cat:'decomposition',icon:'🔥',color:'#FF7043',title:'Реакції розкладу',rxs:[
+    {cat:'decomposition',icon:'🔥',color:'#FF7043',label:'Розклад',type:'AB → A + B',rxs:[
       {eq:'CaCO3 → CaO + CO2',rev:false,d:false},{eq:'2H2O → 2H2 + O2',rev:false,d:false},{eq:'2H2O2 → 2H2O + O2',rev:false,d:false},
       {eq:'2HgO → 2Hg + O2',rev:false,d:true},{eq:'2KMnO4 → K2MnO4 + MnO2 + O2',rev:false,d:false},
-      {eq:'2KClO3 → 2KCl + 3O2',rev:false,d:false},{eq:'NH4HCO3 → NH3 + H2O + CO2',rev:false,d:false}
     ]},
-    {cat:'substitution',icon:'⚡',color:'#69F0AE',title:'Реакції заміщення',rxs:[
+    {cat:'substitution',icon:'⚡',color:'#69F0AE',label:'Заміщення',type:'A + BC → AC + B',rxs:[
       {eq:'Zn + 2HCl → ZnCl2 + H2',rev:false,d:false},{eq:'Fe + CuSO4 → FeSO4 + Cu',rev:false,d:false},
       {eq:'2Na + 2H2O → 2NaOH + H2',rev:false,d:false},{eq:'Ca + 2H2O → Ca(OH)2 + H2',rev:false,d:false},
-      {eq:'2Al + 6HCl → 2AlCl3 + 3H2',rev:false,d:false},{eq:'Cu + 2AgNO3 → Cu(NO3)2 + 2Ag',rev:false,d:false}
     ]},
-    {cat:'exchange',icon:'🔄',color:'#FFB300',title:'Реакції обміну',rxs:[
-      {eq:'HCl + NaOH → NaCl + H2O',rev:false,d:false},{eq:'H2SO4 + 2KOH → K2SO4 + 2H2O',rev:false,d:false},
-      {eq:'AgNO3 + NaCl → AgCl↓ + NaNO3',rev:false,d:false},{eq:'BaCl2 + Na2SO4 → BaSO4↓ + 2NaCl',rev:false,d:false},
-      {eq:'Na2CO3 + 2HCl → 2NaCl + H2O + CO2↑',rev:false,d:false},{eq:'CuSO4 + 2NaOH → Cu(OH)2↓ + Na2SO4',rev:false,d:false}
-    ]},
-    {cat:'hydrolysis',icon:'💧',color:'#00E5CC',title:'Гідроліз',rxs:[
-      {eq:'Na2CO3 + H2O ⇌ NaHCO3 + NaOH',rev:true,d:false},{eq:'FeCl3 + H2O ⇌ Fe(OH)Cl2 + HCl',rev:true,d:false},
-      {eq:'CH3COOC2H5 + H2O ⇌ CH3COOH + C2H5OH',rev:true,d:false},{eq:'Al2S3 + 6H2O → 2Al(OH)3 + 3H2S',rev:false,d:false},
-      {eq:'(C17H35COO)3C3H5 + 3NaOH → 3C17H35COONa + C3H5(OH)3',rev:false,d:false}
+    {cat:'exchange',icon:'🔄',color:'#FFB300',label:'Обмін',type:'AB + CD → AD + CB',rxs:[
+      {eq:'NaOH + HCl → NaCl + H2O',rev:false,d:false},{eq:'BaCl2 + Na2SO4 → BaSO4 + 2NaCl',rev:false,d:false},
+      {eq:'AgNO3 + NaCl → AgCl + NaNO3',rev:false,d:false},{eq:'Na2CO3 + 2HCl → 2NaCl + H2O + CO2',rev:false,d:false},
     ]},
   ];
-  let html = '';
-  let total = 0;
-  const q = (document.getElementById('rx-search').value || '').toLowerCase();
-  for (const sec of BUILTIN) {
-    if (rxCurCat !== 'all' && sec.cat !== rxCurCat) continue;
-    const rxs = sec.rxs.filter(r => !q || r.eq.toLowerCase().includes(q));
+  const q = (document.getElementById('rx-search').value || '').toLowerCase().replace(/\s/g,'');
+  let html = '', total = 0;
+  for (const cat of BUILTIN) {
+    const rxs = cat.rxs.filter(r => !q || r.eq.toLowerCase().replace(/\s/g,'').includes(q));
     if (!rxs.length) continue;
     total += rxs.length;
-    html += `<div class="rx-section">
-      <div class="rx-section-head" style="border-left:3px solid ${sec.color}">
-        <span>${sec.icon} ${sec.title}</span>
-        <span class="rx-section-count">${rxs.length} рівнянь (вбудовані)</span>
-      </div>
-      <div class="rx-list">
-        ${rxs.map(r=>`<div class="rx-item${r.rev?' rev':''}" onclick="rxClick('${r.eq.replace(/'/g,"\\'")}',${r.d})">
-          <span class="rx-flag">${r.d?'⚠️':'⚗️'}</span>
-          <span class="rx-eq">${r.eq}</span>
-          ${r.rev?'<span class="rx-rev-tag">⇌ оборотна</span>':''}
-          ${r.d?'<span class="rx-danger-badge">RED FLAG</span>':''}
-        </div>`).join('')}
-      </div>
-    </div>`;
+    html += `<div class="rx-section-label" style="border-left:3px solid ${cat.color}">
+      <span>${cat.icon} ${cat.label}</span><span style="color:#7080b8">${rxs.length}</span>
+    </div>
+    <div class="rx-grid">${rxs.map(r => {
+      const cls = ['rx-card', r.rev?'rev':'', r.d?'danger-rx':''].filter(Boolean).join(' ');
+      const eqSafe = r.eq.replace(/'/g,"\'");
+      return `<div class="${cls}" style="--rx-color:${cat.color}" onclick="rxClick('${eqSafe}',${r.d})">
+        <div class="rx-card-badge">
+          <span class="rx-card-cat">${cat.icon} ${cat.label}</span>
+          ${r.rev ? '<span class="rx-card-rev">⇌ оборотна</span>' : ''}
+          ${r.d ? '<span class="rx-card-danger">⚠️ небезпечна</span>' : ''}
+        </div>
+        <div class="rx-card-eq">${formatRxEq(r.eq)}</div>
+        <div class="rx-card-desc" style="color:#7080b8;font-size:10px">${cat.type}</div>
+      </div>`;
+    }).join('')}</div>`;
   }
   document.getElementById('rx-count').textContent = total;
   const wrap = document.getElementById('rx-list-wrap');
-  // Keep the intro message if present
   const intro = wrap.querySelector('div[style*="text-align:center"]');
   wrap.innerHTML = (intro ? intro.outerHTML : '') + html;
 }

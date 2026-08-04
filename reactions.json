@@ -4372,7 +4372,7 @@
             "name": "Термічний розклад нітрату калію",
             "conditions": "t° 400°C",
             "type": "exo",
-            "products_desc": "KNO₂ — нітрит; O₂ виділяється"
+            "products_desc": "⚠️ KNO₂ — нітрит; O₂ виділяється"
           },
           {
             "eq": "2NaNO3 -> 2NaNO2 + O2",
@@ -6886,7 +6886,7 @@
             "name": "Розчинення цинку в HCl",
             "conditions": "кімн. t°",
             "type": "exo",
-            "products_desc": "Активний метал витісняє H₂ з кислоти"
+            "products_desc": "⚠️ Активний метал витісняє H₂ з кислоти"
           },
           {
             "eq": "Mg + 2HCl -> MgCl2 + H2",
@@ -7030,7 +7030,7 @@
             "name": "Розчинення цинку в H₂SO₄",
             "conditions": "розб. кислота",
             "type": "exo",
-            "products_desc": "H₂ виділяється бульбашками; ZnSO₄ — безбарвний р-н"
+            "products_desc": "⚠️ H₂ виділяється бульбашками; ZnSO₄ — безбарвний р-н"
           },
           {
             "eq": "Fe + H2SO4 -> FeSO4 + H2",
@@ -7048,7 +7048,7 @@
             "name": "Розчинення Mg в H₂SO₄",
             "conditions": "розб.",
             "type": "exo",
-            "products_desc": "Бурхлива реакція; H₂ виділяється"
+            "products_desc": "⚠️ Бурхлива реакція; H₂ виділяється"
           },
           {
             "eq": "2Na + H2SO4 -> Na2SO4 + H2",
@@ -12795,7 +12795,7 @@
             "name": "Осадження BaSO₄",
             "conditions": "розчин",
             "type": "neutral",
-            "products_desc": "BaSO₄↓ — белосніжний осад; якісна р. на SO₄²⁻"
+            "products_desc": "⚠️ BaSO₄↓ — белосніжний осад; якісна р. на SO₄²⁻"
           },
           {
             "eq": "CuSO4 + 2NaOH -> Cu(OH)2 + Na2SO4",
@@ -12831,7 +12831,7 @@
             "name": "Осадження CaCO₃",
             "conditions": "розчин",
             "type": "neutral",
-            "products_desc": "CaCO₃↓ — білий осад (крейда)"
+            "products_desc": "⚠️ CaCO₃↓ — білий осад (крейда)"
           },
           {
             "eq": "MgSO4 + 2NaOH -> Mg(OH)2 + Na2SO4",
@@ -12903,7 +12903,7 @@
             "name": "Осадження Fe(OH)₂",
             "conditions": "розчин",
             "type": "neutral",
-            "products_desc": "Fe(OH)₂↓ — зелений осад; якісна р. на Fe²⁺"
+            "products_desc": "⚠️ Fe(OH)₂↓ — зелений осад; якісна р. на Fe²⁺"
           },
           {
             "eq": "Pb(NO3)2 + Na2S -> PbS + 2NaNO3",
@@ -13416,7 +13416,7 @@
             "name": "Вапняк + HCl",
             "conditions": "розчин",
             "type": "exo",
-            "products_desc": "CO₂ виділяється; р. вапняку в HCl"
+            "products_desc": "⚠️ CO₂ виділяється; р. вапняку в HCl"
           },
           {
             "eq": "K2CO3 + H2SO4 -> K2SO4 + H2O + CO2",
@@ -14064,7 +14064,7 @@
             "name": "Термічний розклад нітрату калію",
             "conditions": "t° 400°C",
             "type": "exo",
-            "products_desc": "KNO₂ — нітрит; O₂ виділяється"
+            "products_desc": "⚠️ KNO₂ — нітрит; O₂ виділяється"
           },
           {
             "eq": "2HgO -> 2Hg + O2",
@@ -14181,7 +14181,7 @@
             "name": "Розчинення цинку в H₂SO₄",
             "conditions": "розб. кислота",
             "type": "exo",
-            "products_desc": "H₂ виділяється бульбашками; ZnSO₄ — безбарвний р-н"
+            "products_desc": "⚠️ H₂ виділяється бульбашками; ZnSO₄ — безбарвний р-н"
           },
           {
             "eq": "Mg + 2HCl -> MgCl2 + H2",
