@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Хімарій v1.1.9 · ITS_tiamushchy</title>
+<title>Хімарій v1.2.2 · ITS_tiamushchy</title>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0d0e1a">
 <meta name="mobile-web-app-capable" content="yes">
@@ -847,7 +847,7 @@ select{color-scheme:dark}select option{background:#111224;color:#ffffff}
 
 <!-- HERO -->
 <div class="hero">
-  <div class="ver">v1.1.9</div>
+  <div class="ver">v1.2.2</div>
   <div class="mol">
     <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
       <defs><filter id="glow"><feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
@@ -876,6 +876,7 @@ select{color-scheme:dark}select option{background:#111224;color:#ffffff}
   <div class="nav-mobile-section-label">Довідник</div>
   <button class="nav-mobile-item" onclick="showPanel('elements');closeMobileNav()">⚛️ Елементи</button>
   <button class="nav-mobile-item" onclick="showPanel('formulas');closeMobileNav()">📐 Формули</button>
+  <button class="nav-mobile-item" onclick="showPanel('tables');closeMobileNav()">📊 Таблиці</button>
   <button class="nav-mobile-item" onclick="showPanel('reactions');closeMobileNav()">⚗️ Реакції</button>
   <button class="nav-mobile-item" onclick="showPanel('glossary');closeMobileNav()">📚 Глосарій</button>
   <div class="nav-mobile-section-label">Калькулятори</div>
@@ -884,7 +885,7 @@ select{color-scheme:dark}select option{background:#111224;color:#ffffff}
   <button class="nav-mobile-item" onclick="showPanel('phplus');closeMobileNav()">🌡️ Розширення pH</button>
   <button class="nav-mobile-item" onclick="showPanel('balance');closeMobileNav()">⚖️ Балансування</button>
   <div class="nav-mobile-section-label">Розчини</div>
-  <button class="nav-mobile-item" onclick="showPanel('sol_table');closeMobileNav()">📋 Таблиця розчинності</button>
+
   <button class="nav-mobile-item" onclick="showPanel('sol_conc');closeMobileNav()">💧 Концентрація</button>
   <button class="nav-mobile-item" onclick="showPanel('sol_prep');closeMobileNav()">🔬 Приготування розчину</button>
   <button class="nav-mobile-item" onclick="showPanel('sol_gas');closeMobileNav()">🫧 Розчинення газів</button>
@@ -926,6 +927,7 @@ select{color-scheme:dark}select option{background:#111224;color:#ffffff}
       <div class="dd-label">Довідник</div>
       <button class="dd-item" onclick="showPanel('elements');closeGroups()">Елементи</button>
       <button class="dd-item" onclick="showPanel('formulas');closeGroups()">Формули</button>
+      <button class="dd-item" onclick="showPanel('tables');closeGroups()">📊 Таблиці</button>
       <button class="dd-item" onclick="showPanel('reactions');closeGroups()">Реакції</button>
       <button class="dd-item" onclick="showPanel('glossary');closeGroups()">Глосарій</button>
     </div>
@@ -1630,20 +1632,10 @@ select{color-scheme:dark}select option{background:#111224;color:#ffffff}
 
 
   <!-- РОЗЧИНИ: ТАБЛИЦЯ РОЗЧИННОСТІ -->
-  <div class="panel" id="panel-sol_table">
-    <div class="sec-title">📋 Таблиця розчинності</div>
-    <div class="sol-legend">
-      <div class="sol-leg-item"><span class="sol-leg-badge" style="color:#00E5CC">Р</span>Розчинна (> 1 г/100 мл)</div>
-      <div class="sol-leg-item"><span class="sol-leg-badge" style="color:#FF5252">Н</span>Нерозчинна (< 0.01 г/100 мл)</div>
-      <div class="sol-leg-item"><span class="sol-leg-badge" style="color:#FFB300">М</span>Малорозчинна (0.01–1 г/100 мл)</div>
-      <div class="sol-leg-item"><span class="sol-leg-badge" style="color:#CE93D8">Р*</span>Розчиняється з реакцією (кислоти, луги)</div>
-      <div class="sol-leg-item"><span class="sol-leg-badge" style="color:#546E7A">—</span>Не існує або розкладається водою</div>
-    </div>
-    <div class="sol-table-wrap">
-      <table class="sol-table" id="sol-table"></table>
-    </div>
-    <div class="sol-expl-box" id="sol-expl-box">
-      <div class="sol-expl-empty">👆 Клацніть на клітинку таблиці, щоб побачити пояснення</div>
+  <div class="panel" id="panel-tables">
+    <div class="sec-title">📊 Таблиці</div>
+    <div id="tables-content">
+      <!-- Картки таблиць рендеряться через initTablesPanel() -->
     </div>
   </div>
 
@@ -1800,7 +1792,7 @@ select{color-scheme:dark}select option{background:#111224;color:#ffffff}
 
 <div class="footer">
   <span class="fcopy">© 2026 Хоменко Олексій Григорович · itstiamushchy@gmail.com</span>
-  <span class="fplat">ITS_tiamushchy · v1.1.9</span>
+  <span class="fplat">ITS_tiamushchy · v1.2.2</span>
 </div>
 </div>
 
@@ -2229,8 +2221,8 @@ function showPanel(id){
   const panel = document.getElementById('panel-'+id);
   if(!panel) return;
   panel.classList.add('active');
-  const refP=['elements','formulas','reactions','glossary'];
-  const calcP=['molar','ph','phplus','balance','sol_table','sol_conc','sol_prep','sol_gas','sol_prinad','topic-calc'];
+  const refP=['elements','formulas','tables','reactions','glossary'];
+  const calcP=['molar','ph','phplus','balance','sol_conc','sol_prep','sol_gas','sol_prinad','topic-calc'];
   const topicP=['topic','topic-calc'];
   const ngRef = document.querySelector('#ng-ref .nav-btn');
   const ngCalc = document.querySelector('#ng-calc .nav-btn');
@@ -2240,7 +2232,7 @@ function showPanel(id){
   if(navTestBtn) navTestBtn.className='nav-btn'+(id==='test'?' group-active':'');
   const ngTopics=document.querySelector('#ng-topics .nav-btn');
   if(ngTopics)ngTopics.className='nav-btn'+(topicP.includes(id)?' group-active':'');
-  if(id==='sol_table')initSolTable();
+  if(id==='tables')initTablesPanel();
   if(id==='sol_conc')initSolConc();
   if(id==='sol_prinad')renderSolPrinad();
   if(id==='formulas')initFormulasPanel();
@@ -4658,166 +4650,171 @@ function togglePrinad(i,head){
 
 // showPanel для модулів вже оновлено у v1.0.7
 
-// ============ РОЗЧИНИ v1.0.7 ============
-
-// ---- ТАБЛИЦЯ РОЗЧИННОСТІ ----
-// Катіони (рядки): 13 штук
-const SOL_CATIONS=[
-  {id:'H',label:'H⁺',name:'Гідроген'},
-  {id:'Li',label:'Li⁺',name:'Літій'},
-  {id:'Na',label:'Na⁺',name:'Натрій'},
-  {id:'K',label:'K⁺',name:'Калій'},
-  {id:'NH4',label:'NH₄⁺',name:'Амоній'},
-  {id:'Ca',label:'Ca²⁺',name:'Кальцій'},
-  {id:'Mg',label:'Mg²⁺',name:'Магній'},
-  {id:'Al',label:'Al³⁺',name:'Алюміній'},
-  {id:'Fe2',label:'Fe²⁺',name:'Ферум(II)'},
-  {id:'Fe3',label:'Fe³⁺',name:'Ферум(III)'},
-  {id:'Cu',label:'Cu²⁺',name:'Купрум'},
-  {id:'Ba',label:'Ba²⁺',name:'Барій'},
-  {id:'Pb',label:'Pb²⁺',name:'Плюмбум'},
+// ---- ТАБЛИЦІ (панель-хаб) ----
+const TABLES_REGISTRY=[
+  {
+    id:'solubility',
+    title:'Таблиця розчинності',
+    icon:'📋',
+    desc:'Розчинність солей, кислот і основ у воді. 13 катіонів × 9 аніонів.',
+    topic:'4-3-electrolytes',
+    action:()=>{
+      // Показуємо вміст таблиці у поточній панелі
+      const c=document.getElementById('tables-content');
+      if(c.querySelector('#sol-table'))return; // вже відрендерено
+      c.innerHTML=`
+        <button class="sol-mode-btn" style="margin-bottom:14px" onclick="initTablesPanel()">← Назад до таблиць</button>
+        <div class="sec-title" style="font-size:16px;margin-bottom:10px">📋 Таблиця розчинності</div>
+        <div class="sol-legend">
+          <div class="sol-leg-item"><span class="sol-leg-badge" style="color:#00E5CC">Р</span>Розчинна (> 1 г/100 мл)</div>
+          <div class="sol-leg-item"><span class="sol-leg-badge" style="color:#FF5252">Н</span>Нерозчинна (< 0.01 г/100 мл)</div>
+          <div class="sol-leg-item"><span class="sol-leg-badge" style="color:#FFB300">М</span>Малорозчинна (0.01–1 г/100 мл)</div>
+          <div class="sol-leg-item"><span class="sol-leg-badge" style="color:#CE93D8">Р*</span>Розчиняється з реакцією (кислоти, луги)</div>
+          <div class="sol-leg-item"><span class="sol-leg-badge" style="color:#546E7A">—</span>Не існує або розкладається водою</div>
+        </div>
+        <div class="sol-table-wrap"><table class="sol-table" id="sol-table"></table></div>
+        <div class="sol-expl-box" id="sol-expl-box">
+          <div class="sol-expl-empty">👆 Клацніть на клітинку таблиці, щоб побачити пояснення</div>
+        </div>`;
+      solTableInited=false;
+      initSolTable();
+    }
+  },
+  {
+    id:'electrochemical',
+    title:'Електрохімічний ряд напруг',
+    icon:'⚡',
+    desc:'Стандартні електродні потенціали E° (В) для 27 металів від Li до Au.',
+    topic:'3-4-electrochemistry',
+    action:()=>{ TABLE_ELECTROCHEMICAL.render('tables-content'); }
+  },
+  {
+    id:'dissociation',
+    title:'Константи дисоціації',
+    icon:'🧪',
+    desc:'Ka/Kb і pKa/pKb для 22 кислот і 11 основ при 25°C.',
+    topic:'4-3-electrolytes',
+    action:()=>{ TABLE_DISSOCIATION.render('tables-content'); }
+  },
+  {
+    id:'ksp',
+    title:'Добутки розчинності (Ksp)',
+    icon:'🔬',
+    desc:'Ksp для 34 малорозчинних сполук: хлориди, сульфати, карбонати, гідроксиди, сульфіди.',
+    topic:'4-3-electrolytes',
+    action:()=>{ TABLE_KSP.render('tables-content'); }
+  },
+  {
+    id:'thermodynamics',
+    title:'Термодинамічні константи',
+    icon:'🌡️',
+    desc:'ΔHf°, S°, ΔGf°, Cp для 32 речовин (елементи, неорганічні та органічні).',
+    topic:'3-1-thermodynamics',
+    action:()=>{ TABLE_THERMODYNAMICS.render('tables-content'); }
+  },
+  {
+    id:'indicators',
+    title:'Кислотно-основні індикатори',
+    icon:'🎨',
+    desc:'Інтервали pH переходу та кольори для 17 індикаторів від pH 0 до 14.',
+    topic:'4-3-electrolytes',
+    action:()=>{ TABLE_INDICATORS.render('tables-content'); }
+  },
+  {
+    id:'density',
+    title:'Густини розчинів',
+    icon:'⚖️',
+    desc:'Залежність густини від концентрації для H₂SO₄, HNO₃, HCl, NaOH, KOH при 20°C.',
+    topic:'4-2-concentration',
+    action:()=>{ TABLE_DENSITY.render('tables-content'); }
+  },
+  {
+    id:'cryoscopy',
+    title:'Кріо- та ебуліоскопічні константи',
+    icon:'❄️',
+    desc:'Kf та Kb для 14 розчинників: вода, бензен, камфора, ацетон та ін.',
+    topic:'4-4-colligative',
+    action:()=>{ TABLE_CRYOSCOPY.render('tables-content'); }
+  },
+  {
+    id:'vapor',
+    title:'Тиск насиченої водяної пари',
+    icon:'💧',
+    desc:'P(кПа) і ρ(г/м³) для води від 0°C до 100°C з кроком 5°C.',
+    topic:'4-4-colligative',
+    action:()=>{ TABLE_VAPOR.render('tables-content'); }
+  },
+  {
+    id:'bonds',
+    title:'Енергії та довжини зв\'язків',
+    icon:'🔗',
+    desc:'33 зв\'язки: C–C, C=O, N≡N, H–Cl та ін. Довжина (пм) і енергія (кДж/моль).',
+    topic:'1-3-bond',
+    action:()=>{ TABLE_BONDS.render('tables-content'); }
+  },
+  {
+    id:'oxidation',
+    title:'Ступені окиснення елементів',
+    icon:'⚛️',
+    desc:'Типові й можливі ступені окиснення для 36 елементів від H до W.',
+    topic:'1-1-atom',
+    action:()=>{ TABLE_OXIDATION.render('tables-content'); }
+  },
+  {
+    id:'electronegativity',
+    title:'Електронегативність елементів',
+    icon:'🔋',
+    desc:'Три шкали (Полінг, Маллікен, Оллред-Рохов) для 60 елементів від H до Bi.',
+    topic:'1-3-bond',
+    action:()=>{ TABLE_ELECTRONEGATIVITY.render('tables-content'); }
+  },
+  {
+    id:'radii',
+    title:'Радіуси атомів та іонів',
+    icon:'🔴',
+    desc:'Атомний, ковалентний та іонний радіуси (пм) для 37 елементів. Шеннон, Кордеро.',
+    topic:'1-1-atom',
+    action:()=>{ TABLE_RADII.render('tables-content'); }
+  },
+  {
+    id:'nomenclature',
+    title:'Номенклатура неорганічних речовин',
+    icon:'🏷️',
+    desc:'Систематичні та тривіальні назви 65 неорганічних речовин: оксиди, кислоти, основи, солі.',
+    topic:'2-1-inorganic-classes',
+    action:()=>{ TABLE_NOMENCLATURE.render('tables-content'); }
+  },
+  {
+    id:'solvents',
+    title:'Фізичні властивості розчинників',
+    icon:'🧴',
+    desc:'Tкип, Tпл, густина і діелектрична проникність 30 органічних розчинників.',
+    topic:'5-1-organic-basics',
+    action:()=>{ TABLE_SOLVENTS.render('tables-content'); }
+  },
+  {
+    id:'buffers',
+    title:'Буферні розчини',
+    icon:'🧫',
+    desc:'10 буферних систем: діапазони pH, pKa, компоненти та рецепти приготування.',
+    topic:'4-3-electrolytes',
+    action:()=>{ TABLE_BUFFERS.render('tables-content'); }
+  }
 ];
-// Аніони (стовпці): 9 штук
-const SOL_ANIONS=[
-  {id:'OH',label:'OH⁻',name:'Гідроксид'},
-  {id:'Cl',label:'Cl⁻',name:'Хлорид'},
-  {id:'SO4',label:'SO₄²⁻',name:'Сульфат'},
-  {id:'NO3',label:'NO₃⁻',name:'Нітрат'},
-  {id:'CO3',label:'CO₃²⁻',name:'Карбонат'},
-  {id:'PO4',label:'PO₄³⁻',name:'Фосфат'},
-  {id:'S',label:'S²⁻',name:'Сульфід'},
-  {id:'SiO3',label:'SiO₃²⁻',name:'Силікат'},
-  {id:'F',label:'F⁻',name:'Флуорид'},
-];
-// Значення: s=розчинна, n=нерозчинна, m=малорозчинна, r=розчиняється (кислота/луг), d=не існує/розкладається
-// Порядок: OH Cl SO4 NO3 CO3 PO4 S SiO3 F
-const SOL_DATA={
-  H:   ['r','r','r','r','r','r','r','r','r'],
-  Li:  ['r','r','r','r','r','m','r','—','m'],
-  Na:  ['r','r','r','r','r','r','r','r','r'],
-  K:   ['r','r','r','r','r','r','r','r','r'],
-  NH4: ['r','r','r','r','r','r','r','r','r'],
-  Ca:  ['m','r','m','r','n','n','r','n','m'],
-  Mg:  ['n','r','r','r','n','n','n','n','r'],
-  Al:  ['n','r','r','r','d','n','d','n','r'],
-  Fe2: ['n','r','r','r','n','n','n','n','r'],
-  Fe3: ['n','r','r','r','d','n','d','n','r'],
-  Cu:  ['n','r','r','r','n','n','n','n','r'],
-  Ba:  ['r','r','n','r','n','n','n','n','m'],
-  Pb:  ['n','n','n','r','n','n','n','n','n'],
-};
-// Назви сполук для пояснень
-const SOL_NAMES={
-  'H_OH':'H₂O — Вода',
-  'H_Cl':'HCl — Хлоридна кислота',
-  'H_SO4':'H₂SO₄ — Сульфатна кислота',
-  'H_NO3':'HNO₃ — Нітратна кислота',
-  'H_CO3':'H₂CO₃ — Карбонатна кислота',
-  'H_PO4':'H₃PO₄ — Фосфатна кислота',
-  'H_S':'H₂S — Сірководень',
-  'H_SiO3':'H₂SiO₃ — Силікатна кислота',
-  'H_F':'HF — Флуоридна кислота',
-  'Li_OH':'LiOH — Літій гідроксид',
-  'Na_OH':'NaOH — Натрій гідроксид (їдкий натр)',
-  'K_OH':'KOH — Калій гідроксид',
-  'NH4_OH':'NH₃·H₂O — Аміачна вода',
-  'Ca_OH':'Ca(OH)₂ — Кальцій гідроксид (гашене вапно)',
-  'Mg_OH':'Mg(OH)₂ — Магній гідроксид',
-  'Al_OH':'Al(OH)₃ — Алюміній гідроксид',
-  'Fe2_OH':'Fe(OH)₂ — Ферум(II) гідроксид',
-  'Fe3_OH':'Fe(OH)₃ — Ферум(III) гідроксид',
-  'Cu_OH':'Cu(OH)₂ — Купрум(II) гідроксид',
-  'Ba_OH':'Ba(OH)₂ — Барій гідроксид',
-  'Pb_OH':'Pb(OH)₂ — Плюмбум гідроксид',
-  'Ca_SO4':'CaSO₄ — Кальцій сульфат (гіпс)',
-  'Ba_SO4':'BaSO₄ — Барій сульфат',
-  'Pb_SO4':'PbSO₄ — Плюмбум сульфат',
-  'Pb_Cl':'PbCl₂ — Плюмбум хлорид',
-  'Ca_CO3':'CaCO₃ — Кальцій карбонат (крейда, вапняк, мармур)',
-  'Ba_CO3':'BaCO₃ — Барій карбонат',
-  'Mg_CO3':'MgCO₃ — Магній карбонат',
-  'Fe2_CO3':'FeCO₃ — Ферум(II) карбонат (сидерит)',
-  'Cu_CO3':'CuCO₃ — Купрум карбонат',
-  'Pb_CO3':'PbCO₃ — Плюмбум карбонат',
-  'Ca_F':'CaF₂ — Кальцій флуорид (флюорит)',
-  'Ba_F':'BaF₂ — Барій флуорид',
-  'Pb_F':'PbF₂ — Плюмбум флуорид',
-};
-// Детальні пояснення для ключових сполук
-const SOL_EXPLS={
-  'Ca_SO4':'<b>CaSO₄ (гіпс)</b> — малорозчинна сполука. Розчинність ≈ 2.4 г/л при 25°C. Саме тому гіпс не «розмокає» у воді одразу, але при тривалому контакті — повільно розчиняється. <b>У будівництві</b>: гіпс твердіє при контакті з водою через утворення кристалів CaSO₄·2H₂O.',
-  'BaSO4':'<b>BaSO₄</b> — майже нерозчинна сіль (0.0002 г/100 мл). Саме тому іон <span class="term">Ba²⁺</span> є якісним реагентом на сульфат-іон SO₄²⁻: при змішуванні утворюється білий осад, нерозчинний ні в кислотах, ні в лугах.',
-  'Ba_SO4':'<b>BaSO₄</b> — майже нерозчинна сіль (0.0002 г/100 мл). Саме тому іон <span class="term">Ba²⁺</span> є якісним реагентом на сульфат-іон SO₄²⁻: при змішуванні утворюється білий осад, нерозчинний ні в кислотах, ні в лугах. У медицині: «барієва каша» — суспензія BaSO₄ для рентгенографії шлунка.',
-  'Ca_OH':'<b>Ca(OH)₂ (гашене вапно)</b> — малорозчинна основа. Розчинність ≈ 1.6 г/л (зменшується при нагріванні — рідкісний виняток!). Прозорий розчин Ca(OH)₂ = <span class="term">вапняна вода</span>. CO₂ робить її каламутною через утворення нерозчинного CaCO₃ — ця реакція є якісною на CO₂.',
-  'Ca_CO3':'<b>CaCO₃</b> — нерозчинна сіль. Але! Розчиняється в кислотах з виділенням CO₂: CaCO₃ + 2HCl → CaCl₂ + H₂O + CO₂↑. <b>Природні форми</b>: крейда, вапняк, мармур, черепашки молюсків, яєчна шелупа — це все CaCO₃. Карстові печери — результат розчинення CaCO₃ дощовою водою (H₂O + CO₂ = H₂CO₃).',
-  'Al_OH':'<b>Al(OH)₃</b> — нерозчинна основа з унікальною властивістю: <span class="term">амфотерність</span>. Реагує і з кислотами, і з лугами: Al(OH)₃ + 3HCl → AlCl₃ + 3H₂O; Al(OH)₃ + NaOH → Na[Al(OH)₄]. Це означає, що Al(OH)₃ розчиняється у лужному середовищі — тому алюмінієвий посуд пошкоджується содовими розчинами.',
-  'Fe3_OH':'<b>Fe(OH)₃</b> — червоно-бурий осад. Не розчиняється у воді, але розчиняється в кислотах. Утворюється при окисненні Fe(OH)₂ або при реакції солей Fe³⁺ з лугами. <b>Іржа</b> — суміш Fe(OH)₃ і Fe₂O₃·nH₂O.',
-  'Fe2_OH':'<b>Fe(OH)₂</b> — зеленкувато-білий осад. На повітрі швидко окиснюється до бурого Fe(OH)₃: 4Fe(OH)₂ + O₂ + 2H₂O → 4Fe(OH)₃.',
-  'Cu_OH':'<b>Cu(OH)₂</b> — блакитний осад. Якісна реакція на іони Cu²⁺: додати NaOH → синій осад. При нагріванні чорніє: Cu(OH)₂ → CuO + H₂O. Реагує з глюкозою (реакція Фелінга) — використовується для виявлення цукру.',
-  'Pb_SO4':'<b>PbSO₄</b> — нерозчинний білий осад. Утворюється при взаємодії солей плюмбуму з сульфатами. Не розчиняється в розбавленій H₂SO₄ — саме тому свинцевий акумулятор поступово деградує.',
-  'Pb_Cl':'<b>PbCl₂</b> — нерозчинний білий осад (розчинність ≈ 0.99 г/100 мл). Якісна реакція на іони Pb²⁺ — додати HCl або хлорид → білий осад. Розчиняється при нагріванні (гарячою водою).',
-  'NH4_OH':'<b>NH₃·H₂O (аміачна вода)</b> — аміак добре розчиняється у воді (700 л газу в 1 л води!). Утворює слабку основу. Не осаджується, бо NH₄OH — слабка основа і існує рівноважно: NH₃ + H₂O ⇌ NH₄⁺ + OH⁻.',
-  'H_SiO3':'<b>H₂SiO₃</b> — силікатна кислота. Нерозчинна у воді, але розчиняється в лугах. Утворюється при дії кислот на силікати: Na₂SiO₃ + 2HCl → 2NaCl + H₂SiO₃↓. Біла желеподібна маса.',
-  'Ca_F':'<b>CaF₂ (флюорит)</b> — малорозчинна сіль. Є мінералом, з якого добувають фтор. Слабко розчинна, але не «нерозчинна» — розчинність ≈ 0.002 г/100 мл.',
-};
-// Текстовий опис за статусом
-function getSolStatus(s){
-  if(s==='r')return{badge:'Р',cls:'s',short:'Розчинна',full:'<b>Розчинна</b> — добре розчиняється у воді (більше 1 г на 100 мл). Утворює прозорий розчин без осаду.'};
-  if(s==='n')return{badge:'Н',cls:'n',short:'Нерозчинна',full:'<b>Нерозчинна</b> — практично не розчиняється у воді (менше 0.01 г на 100 мл). При змішуванні двох розчинів випадає у вигляді <span class="term">осаду</span>.'};
-  if(s==='m')return{badge:'М',cls:'m',short:'Малорозчинна',full:'<b>Малорозчинна</b> — розчиняється частково (від 0.01 до 1 г на 100 мл). Розчин насичується швидко, надлишок випадає в осад.'};
-  if(s==='r*'||s==='rr')return{badge:'Р*',cls:'r',short:'Розчиняється з реакцією',full:'<b>Розчиняється з реакцією</b> — реагує з водою (кислота або луг). Не «розчиняється» у звичайному сенсі, а реагує: H⁺ + OH⁻ → H₂O.'};
-  if(s==='d'||s==='—')return{badge:'—',cls:'d',short:'Не існує',full:'<b>Не існує</b> або <b>розкладається водою</b> — ця сполука або не утворюється в звичайних умовах, або миттєво гідролізується при контакті з водою.'};
-  return{badge:s,cls:'s',short:s,full:s};
-}
 
-let solTableInited=false;
-function initSolTable(){
-  if(solTableInited)return;
-  solTableInited=true;
-  const tbl=document.getElementById('sol-table');
-  let html='<thead><tr><th>Катіон \\ Аніон</th>';
-  SOL_ANIONS.forEach(a=>{html+=`<th title="${a.name}">${a.label}<br><span style="font-size:8px;color:#7080b8;font-family:'Inter',sans-serif">${a.name}</span></th>`;});
-  html+='</tr></thead><tbody>';
-  SOL_CATIONS.forEach(cat=>{
-    const row=SOL_DATA[cat.id];
-    html+=`<tr><th class="row-head">${cat.label}<br><span style="font-size:8px;color:#7080b8;font-family:'Inter',sans-serif;font-weight:400">${cat.name}</span></th>`;
-    row.forEach((s,ai)=>{
-      const an=SOL_ANIONS[ai];
-      const st=getSolStatus(s);
-      html+=`<td class="${st.cls}" onclick="showSolExpl('${cat.id}','${an.id}','${s}')" title="${cat.name} + ${an.name}">${st.badge}</td>`;
-    });
-    html+='</tr>';
+function initTablesPanel(){
+  const c=document.getElementById('tables-content');
+  let html='<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin-top:8px">';
+  TABLES_REGISTRY.forEach((t,i)=>{
+    html+=`<div style="background:#0f1632;border:0.5px solid #1e2240;border-radius:12px;padding:18px 20px;cursor:pointer;transition:border-color .15s" onmouseover="this.style.borderColor='#4FC3F7'" onmouseout="this.style.borderColor='#1e2240'" onclick="TABLES_REGISTRY[${i}].action()">
+      <div style="font-size:28px;margin-bottom:8px">${t.icon}</div>
+      <div style="font-family:'Oxanium',monospace;font-size:13px;font-weight:700;color:#4FC3F7;margin-bottom:6px">${t.title}</div>
+      <div style="font-size:12px;color:#7080b8;line-height:1.5">${t.desc}</div>
+      <div style="margin-top:12px"><button class="sol-mode-btn" style="font-size:11px;padding:5px 14px">Відкрити →</button></div>
+    </div>`;
   });
-  html+='</tbody>';
-  tbl.innerHTML=html;
-}
-
-function showSolExpl(catId,anId,s){
-  // Зняти підсвітку
-  document.querySelectorAll('.sol-table td.act').forEach(td=>td.classList.remove('act'));
-  // Підсвітити поточну
-  event.target.classList.add('act');
-  const cat=SOL_CATIONS.find(c=>c.id===catId);
-  const an=SOL_ANIONS.find(a=>a.id===anId);
-  const key=`${catId}_${anId}`;
-  const st=getSolStatus(s);
-  const compName=SOL_NAMES[key]||buildCompName(cat,an);
-  const specificExpl=SOL_EXPLS[key]||'';
-  const box=document.getElementById('sol-expl-box');
-  box.className='sol-expl-box has-data';
-  box.innerHTML=`
-    <div class="sol-expl-title">📌 ${cat.name} + ${an.name}</div>
-    <div style="display:flex;align-items:center;gap:14px;margin-bottom:10px;flex-wrap:wrap">
-      <div class="sol-expl-compound">${compName}</div>
-      <span style="background:rgba(${st.cls==='s'?'0,229,204':st.cls==='n'?'255,82,82':st.cls==='m'?'255,179,0':st.cls==='r'?'206,147,216':'84,110,122'},0.15);color:${st.cls==='s'?'#00E5CC':st.cls==='n'?'#FF5252':st.cls==='m'?'#FFB300':st.cls==='r'?'#CE93D8':'#546E7A'};font-family:'Oxanium',monospace;font-size:14px;font-weight:700;padding:4px 12px;border-radius:5px">${st.badge} — ${st.short}</span>
-    </div>
-    <div class="sol-expl-text">${st.full}${specificExpl?'<hr style="border:none;border-top:0.5px solid #1e2240;margin:10px 0">'+specificExpl:''}</div>`;
-}
-
-function buildCompName(cat,an){
-  const c=cat.label.replace('⁺','').replace('²','').replace('³','');
-  const a=an.label.replace('⁻','').replace('²','').replace('³','');
-  return c+a+' — '+cat.name+' '+an.name.toLowerCase();
+  html+='</div>';
+  c.innerHTML=html;
 }
 
 // ---- КОНЦЕНТРАЦІЯ ----
@@ -6784,5 +6781,21 @@ window._TOPIC_DATA = {
   "gas": {"id":"gas","title":"Ідеальний газ (PV = nRT)","icon":"💨","color":"#4FC3F7","version":"1.0","logic":{"title":"Теорія","icon":"📖","accentColor":"#4FC3F7","sections":[{"heading":"Що таке ідеальний газ?","text":"Ідеальний газ — теоретична модель газу, в якому: (1) молекули не взаємодіють одна з одною між зіткненнями; (2) об'єм самих молекул нехтовно малий порівняно з об'ємом посудини; (3) зіткнення пружні (енергія не губиться)."},{"heading":"Кінетична теорія","text":"Тиск газу — це результат ударів молекул об стінки посудини. Чим вища температура, тим вища середня кінетична енергія молекул: E = (3/2)kT, де k — стала Больцмана = 1.38×10⁻²³ Дж/К."},{"heading":"Стала R","text":"Газова стала R = 8.314 Дж/(моль·К). У формулі PV=nRT: якщо P в Па, V в м³, T в Кельвінах. Для хімічних задач зручніша форма: R = 0.08206 л·атм/(моль·К)."},{"heading":"Де модель не працює","text":"При дуже високому тиску або низькій температурі реальні гази відхиляються від закону PV=nRT. Для них використовують рівняння Ван-дер-Ваальса: (P + a/V²)(V − b) = nRT, де a і b — поправки на взаємодію і об'єм молекул."},{"heading":"Закони, що випливають з PV = nRT","items":["Закон Бойля–Маріотта: PV = const (T = const)","Закон Шарля: V/T = const (P = const)","Закон Гей-Люссака: P/T = const (V = const)","Закон Авогадро: рівні об'єми газів при однакових P, T мають рівну кількість молів"]}]},"formula":{"title":"Формули","icon":"📐","accentColor":"#00E5CC","expressions":[{"expr":"PV = nRT","name":"Рівняння стану ідеального газу","desc":"P — тиск (атм або Па), V — об'єм (л або м³), n — кількість молів, R — газова стала, T — температура в Кельвінах (T = t°C + 273.15).","example":"1 моль газу при 0°C, 1 атм: V = nRT/P = 1×0.08206×273.15/1 = 22.4 л"},{"expr":"V = nRT / P","name":"Об'єм газу","desc":"Визначаємо об'єм, якщо відомі n, T, P. Пам'ятай: T в Кельвінах!","example":"2 моль CO₂ при 27°C (300 K) і 2 атм: V = 2×0.08206×300/2 = 24.6 л"},{"expr":"P = nRT / V","name":"Тиск газу","desc":"Визначаємо тиск, якщо відомі n, T, V. Результат — в атм (при R = 0.08206).","example":"0.5 моль N₂ в посудині 10 л при 25°C: P = 0.5×0.08206×298/10 = 1.22 атм"},{"expr":"n = PV / RT","name":"Кількість речовини","desc":"Визначаємо кількість молів газу у посудині за заданими умовами.","example":"5 л O₂ при 1 атм і 20°C (293 K): n = 1×5/(0.08206×293) = 0.208 моль"},{"expr":"T = PV / nR","name":"Температура","desc":"Результат — в Кельвінах. Щоб отримати °C: t = T − 273.15.","example":"1 моль газу, 5 л, 3 атм: T = 3×5/(1×0.08206) = 182.8 K = −90.3°C"},{"expr":"P₁V₁/T₁ = P₂V₂/T₂","name":"Об'єднаний газовий закон","desc":"Для одного і того ж газу при зміні умов. Всі T — в Кельвінах.","example":"Газ: 2 л, 1 атм, 300 K → нагрівають до 600 K при 2 атм: V₂ = 2×1×600/(300×2) = 2 л"}]},"calculator":{"title":"Калькулятор","icon":"⚙️","accentColor":"#FFB300","targetPanel":"sol_gas","description":"Скористайся калькулятором газових законів для розрахунку тиску, об'єму, кількості молів і температури за рівнянням PV = nRT.","modes":[{"id":"V","label":"Знайти об'єм V","hint":"Задай n, T, P → отримай V","example":{"label":"1 моль при 0°C, 1 атм","n":1,"T_C":0,"P":1}},{"id":"P","label":"Знайти тиск P","hint":"Задай n, T, V → отримай P","example":{"label":"0.5 моль, 10 л, 25°C","n":0.5,"T_C":25,"V":10}},{"id":"n","label":"Знайти кількість молів n","hint":"Задай P, V, T → отримай n","example":{"label":"1 атм, 22.4 л, 0°C","P":1,"V":22.4,"T_C":0}}],"quickValues":[{"label":"НУ (0°C, 1 атм)","P":1,"T_C":0,"comment":"Нормальні умови — 22.4 л/моль"},{"label":"СТУ (25°C, 1 атм)","P":1,"T_C":25,"comment":"Стандартні умови — 24.5 л/моль"},{"label":"Кімнатна (20°C, 1 атм)","P":1,"T_C":20,"comment":"~24.0 л/моль"}]},"reference":{"title":"Довідник","icon":"📚","accentColor":"#CE93D8","constants":[{"symbol":"R","value":"8.314 Дж/(моль·К)","desc":"Газова стала (одиниці СІ)"},{"symbol":"R","value":"0.08206 л·атм/(моль·К)","desc":"Газова стала (зручна для хімії)"},{"symbol":"NA","value":"6.022 × 10²³ моль⁻¹","desc":"Число Авогадро"},{"symbol":"kB","value":"1.381 × 10⁻²³ Дж/К","desc":"Стала Больцмана (R/NA)"},{"symbol":"Vm","value":"22.414 л/моль","desc":"Молярний об'єм при НУ (0°C, 1 атм)"},{"symbol":"Vm","value":"24.465 л/моль","desc":"Молярний об'єм при СТУ (25°C, 1 атм)"}],"pressureUnits":[{"unit":"1 атм","si":"101 325 Па","note":"Стандартна атмосфера"},{"unit":"1 бар","si":"100 000 Па","note":"Майже = 1 атм"},{"unit":"1 мм рт.ст.","si":"133.322 Па","note":"1 атм = 760 мм рт.ст."},{"unit":"1 кПа","si":"1000 Па","note":"1 атм ≈ 101.3 кПа"}],"facts":["1 моль будь-якого ідеального газу при 0°C і 1 атм займає рівно 22.414 л (молярний об'єм).","Рівняння PV=nRT виводиться з трьох законів: Бойля–Маріотта, Шарля та Гей-Люссака.","Молекули повітря при 25°C рухаються із середньою швидкістю ~500 м/с (швидше кулі!).","Реальні гази поводяться як ідеальні при малих тисках (< 10 атм) і високих температурах."]}}
 };
 </script>
+<script src="data/tables/solubility.js"></script>
+<script src="data/tables/electrochemical.js"></script>
+<script src="data/tables/dissociation.js"></script>
+<script src="data/tables/ksp.js"></script>
+<script src="data/tables/thermodynamics.js"></script>
+<script src="data/tables/indicators.js"></script>
+<script src="data/tables/density.js"></script>
+<script src="data/tables/cryoscopy.js"></script>
+<script src="data/tables/vapor.js"></script>
+<script src="data/tables/bonds.js"></script>
+<script src="data/tables/oxidation.js"></script>
+<script src="data/tables/electronegativity.js"></script>
+<script src="data/tables/radii.js"></script>
+<script src="data/tables/nomenclature.js"></script>
+<script src="data/tables/solvents.js"></script>
+<script src="data/tables/buffers.js"></script>
 </body>
 </html>
