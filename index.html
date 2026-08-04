@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Хімарій v1.2.6 · ITS_tiamushchy</title>
+<title>Хімарій v1.3.2 · ITS_tiamushchy</title>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0d0e1a">
 <meta name="mobile-web-app-capable" content="yes">
@@ -628,6 +628,12 @@ body{background:#0d0e1a;color:#ffffff;font-family:'Inter',sans-serif;min-height:
 .tb-popup-row:last-child{margin-bottom:0}
 .tb-popup-row-label{font-size:9px;letter-spacing:1.5px;color:var(--tb-accent,#CE93D8);font-family:'Oxanium',monospace;text-transform:uppercase;margin-bottom:3px}
 .tb-popup-row-text{font-size:11px;color:#ffffff;line-height:1.65}
+.topic-tables-block{margin-top:20px;background:#0a0f20;border:0.5px solid #1e2240;border-radius:10px;padding:14px 16px}
+.topic-tables-title{font-family:'Oxanium',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#4FC3F7;margin-bottom:10px}
+.topic-tables-list{display:flex;flex-wrap:wrap;gap:8px}
+.topic-tables-list button{background:#0f1632;border:0.5px solid #2a3460;border-radius:7px;padding:6px 13px;color:#c0d0f0;font-size:11px;cursor:pointer;font-family:'Inter',sans-serif;transition:all .15s;white-space:nowrap}
+.topic-tables-list button:hover{border-color:#4FC3F7;color:#4FC3F7;background:#0d1a38}
+
 
 .footer{padding:10px 40px;border-top:0.5px solid rgba(79,195,247,.08);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
 .fcopy{font-size:10px;color:#7080b8}
@@ -847,7 +853,7 @@ select{color-scheme:dark}select option{background:#111224;color:#ffffff}
 
 <!-- HERO -->
 <div class="hero">
-  <div class="ver">v1.2.5</div>
+  <div class="ver">v1.2.8</div>
   <div class="mol">
     <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
       <defs><filter id="glow"><feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
@@ -1792,7 +1798,7 @@ select{color-scheme:dark}select option{background:#111224;color:#ffffff}
 
 <div class="footer">
   <span class="fcopy">© 2026 Хоменко Олексій Григорович · itstiamushchy@gmail.com</span>
-  <span class="fplat">ITS_tiamushchy · v1.2.5</span>
+  <span class="fplat">ITS_tiamushchy · v1.2.8</span>
 </div>
 </div>
 
@@ -4653,6 +4659,141 @@ function togglePrinad(i,head){
 // ---- ТАБЛИЦІ (панель-хаб) ----
 const TABLES_REGISTRY=[
   {
+    id:'oxidation',
+    title:'Ступені окиснення елементів',
+    icon:'⚛️',
+    desc:'Типові й можливі ступені окиснення для 36 елементів від H до W.',
+    topic:'1-1-atom',
+    action:()=>{ TABLE_OXIDATION.render('tables-content'); },
+    group:'Будова речовини'
+},
+  {
+    id:'electronegativity',
+    title:'Електронегативність елементів',
+    icon:'🔋',
+    desc:'Три шкали (Полінг, Маллікен, Оллред-Рохов) для 60 елементів від H до Bi.',
+    topic:'1-3-bond',
+    action:()=>{ TABLE_ELECTRONEGATIVITY.render('tables-content'); },
+    group:'Будова речовини'
+},
+  {
+    id:'radii',
+    title:'Радіуси атомів та іонів',
+    icon:'🔴',
+    desc:'Атомний, ковалентний та іонний радіуси (пм) для 37 елементів. Шеннон, Кордеро.',
+    topic:'1-1-atom',
+    action:()=>{ TABLE_RADII.render('tables-content'); },
+    group:'Будова речовини'
+},
+  {
+    id:'atomic_spectra',
+    title:'Спектроскопічні константи атомів',
+    icon:'🌈',
+    desc:'6 елементів (H, He, Na, Hg, Fe, Ca): серії Лаймана, Бальмера, Пашена + аналітичні лінії. NIST ASD 2023.',
+    topic:'1-1-atom',
+    action:()=>{ TABLE_ATOMIC_SPECTRA.render('tables-content'); },
+    group:'Будова речовини'
+},
+  {
+    id:'sp_elements',
+    title:'s та p елементи — фізичні властивості',
+    icon:'⚛️',
+    desc:'38 елементів груп 1, 2, 13–18: M, Tпл, Tкип, ρ, електронна конфігурація. IUPAC 2021 · CRC Handbook.',
+    topic:'2-2-s-elements',
+    action:()=>{ TABLE_SP_ELEMENTS.render('tables-content'); },
+    group:'Будова речовини'
+},
+  {
+    id:'df_elements',
+    title:'d та f елементи — фізичні властивості',
+    icon:'⚙️',
+    desc:'30 d-елементів (3d, 4d, 5d) + 12 f-елементів (лантаноїди, актиноїди): M, Tпл, Tкип, ρ, конфігурація.',
+    topic:'2-4-d-f-elements',
+    action:()=>{ TABLE_DF_ELEMENTS.render('tables-content'); },
+    group:'Будова речовини'
+},
+  {
+    id:'thermodynamics',
+    title:'Термодинамічні константи',
+    icon:'🌡️',
+    desc:'ΔHf°, S°, ΔGf°, Cp для 32 речовин (елементи, неорганічні та органічні).',
+    topic:'3-1-thermodynamics',
+    action:()=>{ TABLE_THERMODYNAMICS.render('tables-content'); },
+    group:'Фізична хімія'
+},
+  {
+    id:'thermo2',
+    title:'Термодинамічні константи — група 2',
+    icon:'🌡️',
+    desc:'24 речовини: PCl₅, SO₃, NO₂, бензол, толуол, глюкоза, сахароза та ін. ΔHf°, S°, ΔGf°, Cp. NIST-JANAF.',
+    topic:'3-1-thermodynamics',
+    action:()=>{ TABLE_THERMO2.render('tables-content'); },
+    group:'Фізична хімія'
+},
+  {
+    id:'enthalpy_phase',
+    title:'Ентальпії плавлення і випаровування',
+    icon:'🔥',
+    desc:'ΔHпл і ΔHвип (кДж/моль) для 30 речовин: неорганічні, метали, органічні.',
+    topic:'3-1-thermodynamics',
+    action:()=>{ TABLE_ENTHALPY_PHASE.render('tables-content'); },
+    group:'Фізична хімія'
+},
+  {
+    id:'critical',
+    title:'Константи критичного стану',
+    icon:'💨',
+    desc:'Tc (К), Pc (МПа), Vc (мл/моль) і Zc для 25 речовин. CRC / Poling et al.',
+    topic:'3-5-phase',
+    action:()=>{ TABLE_CRITICAL.render('tables-content'); },
+    group:'Фізична хімія'
+},
+  {
+    id:'kinetic',
+    title:'Молекулярно-кінетичні константи',
+    icon:'💨',
+    desc:'11 газів: діаметр молекули, довжина вільного пробігу, середня швидкість. Atkins PChem 10th ed.',
+    topic:'3-2-kinetics',
+    action:()=>{ TABLE_KINETIC.render('tables-content'); },
+    group:'Фізична хімія'
+},
+  {
+    id:'potentials',
+    title:'Термодинамічні потенціали',
+    icon:'🌡️',
+    desc:'10 потенціалів: U, H, A, G, Ω, μ, S, ексергія. Визначення, диференціали, одиниці. Atkins 11th ed.',
+    topic:'3-1-thermodynamics',
+    action:()=>{ TABLE_POTENTIALS.render('tables-content'); },
+    group:'Фізична хімія'
+},
+  {
+    id:'constants',
+    title:'Фізико-хімічні константи',
+    icon:'🔭',
+    desc:'20 фундаментальних констант: Nₐ, R, F, h, kB, e, c, ε₀, μ₀, mₑ та ін. CODATA 2018.',
+    topic:'1-5-gases',
+    action:()=>{ TABLE_CONSTANTS.render('tables-content'); },
+    group:'Фізична хімія'
+},
+  {
+    id:'physical_constants',
+    title:'Фізичні сталі (розширений)',
+    icon:'🔭',
+    desc:'29 сталих: основні, електромагнітні (KJ, RK, μB, μN), ядерні (a₀, R∞, λC) та термодинамічні. CODATA 2018.',
+    topic:'1-5-gases',
+    action:()=>{ TABLE_PHYSICAL_CONSTANTS.render('tables-content'); },
+    group:'Фізична хімія'
+},
+  {
+    id:'cooling',
+    title:'Охолоджувальні суміші',
+    icon:'❄️',
+    desc:'18 кріосумішей і кріогенів: компоненти, співвідношення, T мін (°C).',
+    topic:'3-5-phase',
+    action:()=>{ TABLE_COOLING.render('tables-content'); },
+    group:'Фізична хімія'
+},
+  {
     id:'solubility',
     title:'Таблиця розчинності',
     icon:'📋',
@@ -4678,304 +4819,416 @@ const TABLES_REGISTRY=[
         </div>`;
       solTableInited=false;
       initSolTable();
-    }
-  },
-  {
-    id:'electrochemical',
-    title:'Електрохімічний ряд напруг',
-    icon:'⚡',
-    desc:'Стандартні електродні потенціали E° (В) для 27 металів від Li до Au.',
-    topic:'3-4-electrochemistry',
-    action:()=>{ TABLE_ELECTROCHEMICAL.render('tables-content'); }
-  },
+    },
+    group:'Розчини'
+},
   {
     id:'dissociation',
     title:'Константи дисоціації',
     icon:'🧪',
     desc:'Ka/Kb і pKa/pKb для 22 кислот і 11 основ при 25°C.',
     topic:'4-3-electrolytes',
-    action:()=>{ TABLE_DISSOCIATION.render('tables-content'); }
-  },
+    action:()=>{ TABLE_DISSOCIATION.render('tables-content'); },
+    group:'Розчини'
+},
   {
     id:'ksp',
     title:'Добутки розчинності (Ksp)',
     icon:'🔬',
     desc:'Ksp для 34 малорозчинних сполук: хлориди, сульфати, карбонати, гідроксиди, сульфіди.',
     topic:'4-3-electrolytes',
-    action:()=>{ TABLE_KSP.render('tables-content'); }
-  },
-  {
-    id:'thermodynamics',
-    title:'Термодинамічні константи',
-    icon:'🌡️',
-    desc:'ΔHf°, S°, ΔGf°, Cp для 32 речовин (елементи, неорганічні та органічні).',
-    topic:'3-1-thermodynamics',
-    action:()=>{ TABLE_THERMODYNAMICS.render('tables-content'); }
-  },
-  {
-    id:'indicators',
-    title:'Кислотно-основні індикатори',
-    icon:'🎨',
-    desc:'Інтервали pH переходу та кольори для 17 індикаторів від pH 0 до 14.',
-    topic:'4-3-electrolytes',
-    action:()=>{ TABLE_INDICATORS.render('tables-content'); }
-  },
+    action:()=>{ TABLE_KSP.render('tables-content'); },
+    group:'Розчини'
+},
   {
     id:'density',
     title:'Густини розчинів',
     icon:'⚖️',
     desc:'Залежність густини від концентрації для H₂SO₄, HNO₃, HCl, NaOH, KOH при 20°C.',
     topic:'4-2-concentration',
-    action:()=>{ TABLE_DENSITY.render('tables-content'); }
-  },
+    action:()=>{ TABLE_DENSITY.render('tables-content'); },
+    group:'Розчини'
+},
   {
     id:'cryoscopy',
     title:'Кріо- та ебуліоскопічні константи',
     icon:'❄️',
     desc:'Kf та Kb для 14 розчинників: вода, бензен, камфора, ацетон та ін.',
     topic:'4-4-colligative',
-    action:()=>{ TABLE_CRYOSCOPY.render('tables-content'); }
-  },
+    action:()=>{ TABLE_CRYOSCOPY.render('tables-content'); },
+    group:'Розчини'
+},
   {
     id:'vapor',
     title:'Тиск насиченої водяної пари',
     icon:'💧',
     desc:'P(кПа) і ρ(г/м³) для води від 0°C до 100°C з кроком 5°C.',
     topic:'4-4-colligative',
-    action:()=>{ TABLE_VAPOR.render('tables-content'); }
-  },
-  {
-    id:'bonds',
-    title:'Енергії та довжини зв\'язків',
-    icon:'🔗',
-    desc:'33 зв\'язки: C–C, C=O, N≡N, H–Cl та ін. Довжина (пм) і енергія (кДж/моль).',
-    topic:'1-3-bond',
-    action:()=>{ TABLE_BONDS.render('tables-content'); }
-  },
-  {
-    id:'oxidation',
-    title:'Ступені окиснення елементів',
-    icon:'⚛️',
-    desc:'Типові й можливі ступені окиснення для 36 елементів від H до W.',
-    topic:'1-1-atom',
-    action:()=>{ TABLE_OXIDATION.render('tables-content'); }
-  },
-  {
-    id:'electronegativity',
-    title:'Електронегативність елементів',
-    icon:'🔋',
-    desc:'Три шкали (Полінг, Маллікен, Оллред-Рохов) для 60 елементів від H до Bi.',
-    topic:'1-3-bond',
-    action:()=>{ TABLE_ELECTRONEGATIVITY.render('tables-content'); }
-  },
-  {
-    id:'radii',
-    title:'Радіуси атомів та іонів',
-    icon:'🔴',
-    desc:'Атомний, ковалентний та іонний радіуси (пм) для 37 елементів. Шеннон, Кордеро.',
-    topic:'1-1-atom',
-    action:()=>{ TABLE_RADII.render('tables-content'); }
-  },
-  {
-    id:'nomenclature',
-    title:'Номенклатура неорганічних речовин',
-    icon:'🏷️',
-    desc:'Систематичні та тривіальні назви 65 неорганічних речовин: оксиди, кислоти, основи, солі.',
-    topic:'2-1-inorganic-classes',
-    action:()=>{ TABLE_NOMENCLATURE.render('tables-content'); }
-  },
-  {
-    id:'solvents',
-    title:'Фізичні властивості розчинників',
-    icon:'🧴',
-    desc:'Tкип, Tпл, густина і діелектрична проникність 30 органічних розчинників.',
-    topic:'5-1-organic-basics',
-    action:()=>{ TABLE_SOLVENTS.render('tables-content'); }
-  },
-  {
-    id:'buffers',
-    title:'Буферні розчини',
-    icon:'🧫',
-    desc:'10 буферних систем: діапазони pH, pKa, компоненти та рецепти приготування.',
-    topic:'4-3-electrolytes',
-    action:()=>{ TABLE_BUFFERS.render('tables-content'); }
-  },
-  {
-    id:'complexes',
-    title:'Константи стійкості комплексів',
-    icon:'🔗',
-    desc:'lgK для 31 комплексної сполуки: ЕДТА, ціано-, амінові, тіоціанатні та ін.',
-    topic:'3-4-electrochemistry',
-    action:()=>{ TABLE_COMPLEXES.render('tables-content'); }
-  },
-  {
-    id:'qualitative',
-    title:'Якісні реакції на іони',
-    icon:'🔍',
-    desc:'23 катіони і 14 аніонів: реагент, ефект (↓↑ колір) і примітки.',
-    topic:'6-1-qualitative',
-    action:()=>{ TABLE_QUALITATIVE.render('tables-content'); }
-  },
-  {
-    id:'ir',
-    title:'ІЧ-спектроскопія — частоти',
-    icon:'📡',
-    desc:'34 функціональні групи: діапазони (см⁻¹), інтенсивність і діагностичні ознаки.',
-    topic:'6-3-instrumental',
-    action:()=>{ TABLE_IR.render('tables-content'); }
-  },
-  {
-    id:'nmr',
-    title:'ЯМР — хімічні зсуви',
-    icon:'🧲',
-    desc:'23 типи протонів (¹H) і 10 вуглеців (¹³C): δ (ppm), мультиплетність.',
-    topic:'6-3-instrumental',
-    action:()=>{ TABLE_NMR.render('tables-content'); }
-  },
-  {
-    id:'cooling',
-    title:'Охолоджувальні суміші',
-    icon:'❄️',
-    desc:'18 кріосумішей і кріогенів: компоненти, співвідношення, T мін (°C).',
-    topic:'3-5-phase',
-    action:()=>{ TABLE_COOLING.render('tables-content'); }
-  },
-  {
-    id:'constants',
-    title:'Фізико-хімічні константи',
-    icon:'🔭',
-    desc:'20 фундаментальних констант: Nₐ, R, F, h, kB, e, c, ε₀, μ₀, mₑ та ін. CODATA 2018.',
-    topic:'1-5-gases',
-    action:()=>{ TABLE_CONSTANTS.render('tables-content'); }
-  },
-  {
-    id:'melting',
-    title:'Температури плавлення і кипіння',
-    icon:'🌡️',
-    desc:'Tпл і Tкип для 45 речовин: метали, неметали, неорганічні сполуки. CRC Handbook.',
-    topic:'1-4-states',
-    action:()=>{ TABLE_MELTING.render('tables-content'); }
-  },
-  {
-    id:'enthalpy_phase',
-    title:'Ентальпії плавлення і випаровування',
-    icon:'🔥',
-    desc:'ΔHпл і ΔHвип (кДж/моль) для 30 речовин: неорганічні, метали, органічні.',
-    topic:'3-1-thermodynamics',
-    action:()=>{ TABLE_ENTHALPY_PHASE.render('tables-content'); }
-  },
-  {
-    id:'critical',
-    title:'Константи критичного стану',
-    icon:'💨',
-    desc:'Tc (К), Pc (МПа), Vc (мл/моль) і Zc для 25 речовин. CRC / Poling et al.',
-    topic:'3-5-phase',
-    action:()=>{ TABLE_CRITICAL.render('tables-content'); }
-  },
-  {
-    id:'gravimetric',
-    title:'Гравіметричні фактори',
-    icon:'⚖️',
-    desc:'32 фактори F для Fe, Ca, Mg, Ba, SO₄, Cl, P, Al, Ni, Cu, Si, Pb. Skoog / Vogel.',
-    topic:'6-2-titrimetry',
-    action:()=>{ TABLE_GRAVIMETRIC.render('tables-content'); }
-  },
-  {
-    id:'viscosity',
-    title:"В'язкість та поверхневий натяг",
-    icon:'💧',
-    desc:"η (мПа·с) і σ (мН/м) для 15 рідин при 20°C. CRC Handbook 103rd ed.",
-    topic:'4-5-colloids',
-    action:()=>{ TABLE_VISCOSITY.render('tables-content'); }
-  },
+    action:()=>{ TABLE_VAPOR.render('tables-content'); },
+    group:'Розчини'
+},
   {
     id:'activity',
     title:'Коефіцієнти активності іонів',
     icon:'⚡',
     desc:'γ для зарядів 1+, 2+, 3+ при 10 значеннях іонної сили. Рівняння Дебая-Гюккеля, 25°C.',
     topic:'4-3-electrolytes',
-    action:()=>{ TABLE_ACTIVITY.render('tables-content'); }
-  },
+    action:()=>{ TABLE_ACTIVITY.render('tables-content'); },
+    group:'Розчини'
+},
   {
-    id:'eluotropic',
-    title:'Елюотропний ряд розчинників',
-    icon:'🧪',
-    desc:'17 розчинників: полярність P\' і ε° на силікагелі. Шкала Снайдера (1974).',
-    topic:'6-3-instrumental',
-    action:()=>{ TABLE_ELUOTROPIC.render('tables-content'); }
-  },
+    id:'buffers',
+    title:'Буферні розчини',
+    icon:'🧫',
+    desc:'10 буферних систем: діапазони pH, pKa, компоненти та рецепти приготування.',
+    topic:'4-3-electrolytes',
+    action:()=>{ TABLE_BUFFERS.render('tables-content'); },
+    group:'Розчини'
+},
   {
-    id:'redox_indicators',
-    title:'Окисно-відновні індикатори',
-    icon:'🔴',
-    desc:'10 індикаторів: E° (В), колір окисн./відновл. форми. Skoog / Kolthoff.',
-    topic:'6-2-titrimetry',
-    action:()=>{ TABLE_REDOX_INDICATORS.render('tables-content'); }
-  },
+    id:'reference_constants',
+    title:'Константи речовин і розчинів',
+    icon:'📌',
+    desc:'20 констант: Kw, Ka, Kb, Kf, Kb, стала Фарадея, R, Генрі, рН. NIST / IUPAC / CRC 2023.',
+    topic:'4-3-electrolytes',
+    action:()=>{ TABLE_REFERENCE_CONSTANTS.render('tables-content'); },
+    group:'Розчини'
+},
   {
-    id:'desiccants',
-    title:'Сушильні агенти',
-    icon:'🧂',
-    desc:'9 агентів: ефективність, сумісність, несумісність. Perrin & Armarego 7th ed.',
+    id:'electrochemical',
+    title:'Електрохімічний ряд напруг',
+    icon:'⚡',
+    desc:'Стандартні електродні потенціали E° (В) для 27 металів від Li до Au.',
+    topic:'3-4-electrochemistry',
+    action:()=>{ TABLE_ELECTROCHEMICAL.render('tables-content'); },
+    group:'Електрохімія'
+},
+  {
+    id:'complexes',
+    title:'Константи стійкості комплексів',
+    icon:'🔗',
+    desc:'lgK для 31 комплексної сполуки: ЕДТА, ціано-, амінові, тіоціанатні та ін.',
+    topic:'3-4-electrochemistry',
+    action:()=>{ TABLE_COMPLEXES.render('tables-content'); },
+    group:'Електрохімія'
+},
+  {
+    id:'crystal',
+    title:'Кристалохімія — параметри ґраток',
+    icon:'💎',
+    desc:'14 кристалічних структур: NaCl, CsCl, флюорит, рутил, корунд, кварц, перовскіт. Параметри a, c, Z, ρ. ICDD.',
+    topic:'3-4-electrochemistry',
+    action:()=>{ TABLE_CRYSTAL.render('tables-content'); },
+    group:'Електрохімія'
+},
+  {
+    id:'bonds',
+    title:'Енергії та довжини зв\'язків',
+    icon:'🔗',
+    desc:'33 зв\'язки: C–C, C=O, N≡N, H–Cl та ін. Довжина (пм) і енергія (кДж/моль).',
+    topic:'1-3-bond',
+    action:()=>{ TABLE_BONDS.render('tables-content'); },
+    group:'Органічна хімія'
+},
+  {
+    id:'solvents',
+    title:'Фізичні властивості розчинників',
+    icon:'🧴',
+    desc:'Tкип, Tпл, густина і діелектрична проникність 30 органічних розчинників.',
     topic:'5-1-organic-basics',
-    action:()=>{ TABLE_DESICCANTS.render('tables-content'); }
-  },
+    action:()=>{ TABLE_SOLVENTS.render('tables-content'); },
+    group:'Органічна хімія'
+},
   {
-    id:'mass_spec',
-    title:'Мас-спектрометрія',
-    icon:'🔭',
-    desc:'31 характеристичний фрагмент: M⁺, нейтральні втрати, діагностичні іони. McLafferty 4th ed.',
-    topic:'6-3-instrumental',
-    action:()=>{ TABLE_MASS_SPEC.render('tables-content'); }
-  },
+    id:'organic_constants',
+    title:'Органічна хімія — фізико-хімічні константи',
+    icon:'🧪',
+    desc:'32 органічні сполуки: алкани, алкени, алкіни, арени, спирти, кислоти. Tкип, Tпл, густина. CRC 2023.',
+    topic:'5-1-organic-basics',
+    action:()=>{ TABLE_ORGANIC_CONSTANTS.render('tables-content'); },
+    group:'Органічна хімія'
+},
   {
-    id:'azeotropes',
-    title:'Азеотропні суміші',
+    id:'organic_pka',
+    title:'Шкала pKa органічних сполук',
     icon:'⚗️',
-    desc:'20 азеотропів: склад (% мас.), T кип., тип (мінімум/максимум). Gmehling et al.',
-    topic:'3-5-phase',
-    action:()=>{ TABLE_AZEOTROPES.render('tables-content'); }
-  },
+    desc:'22 сполуки: pKa у воді та ДМСО. Кислоти C–H, O–H, N–H. Bordwell 1988, Evans MIT.',
+    topic:'5-4-oxygen-compounds',
+    action:()=>{ TABLE_ORGANIC_PKA.render('tables-content'); },
+    group:'Органічна хімія'
+},
   {
     id:'optical',
     title:'Оптичне обертання [α]D',
     icon:'🌀',
     desc:'24 речовини: цукри, амінокислоти, кислоти. [α]²⁰D, розчинник. Merck Index 15th ed.',
     topic:'5-4-oxygen-compounds',
-    action:()=>{ TABLE_OPTICAL.render('tables-content'); }
-  },
+    action:()=>{ TABLE_OPTICAL.render('tables-content'); },
+    group:'Органічна хімія'
+},
+  {
+    id:'polymers',
+    title:'Полімери — фізико-хімічні властивості',
+    icon:'🧱',
+    desc:'16 полімерів: HDPE, LDPE, PP, PS, PVC, PET, PA-6, PA-66, PC, PMMA, PU, PTFE та ін. Tg, Tпл, ρ. Polymer Handbook.',
+    topic:'5-6-polymers',
+    action:()=>{ TABLE_POLYMERS.render('tables-content'); },
+    group:'Органічна хімія'
+},
+  {
+    id:'pharma_pka',
+    title:'Фармацевтична хімія — pKa ліків',
+    icon:'💊',
+    desc:'20 лікарських засобів: НПЗП, антибіотики, опіоїди, β-блокатори. pKa, тип іонізації, клас. DrugBank · Avdeef.',
+    topic:'5-5-nitrogen-compounds',
+    action:()=>{ TABLE_PHARMA_PKA.render('tables-content'); },
+    group:'Органічна хімія'
+},
+  {
+    id:'indicators',
+    title:'Кислотно-основні індикатори',
+    icon:'🎨',
+    desc:'Інтервали pH переходу та кольори для 17 індикаторів від pH 0 до 14.',
+    topic:'4-3-electrolytes',
+    action:()=>{ TABLE_INDICATORS.render('tables-content'); },
+    group:'Аналітична хімія'
+},
+  {
+    id:'qualitative',
+    title:'Якісні реакції на іони',
+    icon:'🔍',
+    desc:'23 катіони і 14 аніонів: реагент, ефект (↓↑ колір) і примітки.',
+    topic:'6-1-qualitative',
+    action:()=>{ TABLE_QUALITATIVE.render('tables-content'); },
+    group:'Аналітична хімія'
+},
+  {
+    id:'gravimetric',
+    title:'Гравіметричні фактори',
+    icon:'⚖️',
+    desc:'32 фактори F для Fe, Ca, Mg, Ba, SO₄, Cl, P, Al, Ni, Cu, Si, Pb. Skoog / Vogel.',
+    topic:'6-2-titrimetry',
+    action:()=>{ TABLE_GRAVIMETRIC.render('tables-content'); },
+    group:'Аналітична хімія'
+},
+  {
+    id:'redox_indicators',
+    title:'Окисно-відновні індикатори',
+    icon:'🔴',
+    desc:'10 індикаторів: E° (В), колір окисн./відновл. форми. Skoog / Kolthoff.',
+    topic:'6-2-titrimetry',
+    action:()=>{ TABLE_REDOX_INDICATORS.render('tables-content'); },
+    group:'Аналітична хімія'
+},
+  {
+    id:'ion_separation',
+    title:'Системи розділення іонів',
+    icon:'🧫',
+    desc:'5 аналітичних груп катіонів (H₂S-система): іони, груповий реагент, ефект, розділення. Скуг, Харві.',
+    topic:'6-1-qualitative',
+    action:()=>{ TABLE_ION_SEPARATION.render('tables-content'); },
+    group:'Аналітична хімія'
+},
+  {
+    id:'ir',
+    title:'ІЧ-спектроскопія — частоти',
+    icon:'📡',
+    desc:'34 функціональні групи: діапазони (см⁻¹), інтенсивність і діагностичні ознаки.',
+    topic:'6-3-instrumental',
+    action:()=>{ TABLE_IR.render('tables-content'); },
+    group:'Аналітична хімія'
+},
+  {
+    id:'nmr',
+    title:'ЯМР — хімічні зсуви',
+    icon:'🧲',
+    desc:'23 типи протонів (¹H) і 10 вуглеців (¹³C): δ (ppm), мультиплетність.',
+    topic:'6-3-instrumental',
+    action:()=>{ TABLE_NMR.render('tables-content'); },
+    group:'Аналітична хімія'
+},
+  {
+    id:'mass_spec',
+    title:'Мас-спектрометрія',
+    icon:'🔭',
+    desc:'31 характеристичний фрагмент: M⁺, нейтральні втрати, діагностичні іони. McLafferty 4th ed.',
+    topic:'6-3-instrumental',
+    action:()=>{ TABLE_MASS_SPEC.render('tables-content'); },
+    group:'Аналітична хімія'
+},
+  {
+    id:'eluotropic',
+    title:'Елюотропний ряд розчинників',
+    icon:'🧪',
+    desc:'17 розчинників: полярність P\' і ε° на силікагелі. Шкала Снайдера (1974).',
+    topic:'6-3-instrumental',
+    action:()=>{ TABLE_ELUOTROPIC.render('tables-content'); },
+    group:'Аналітична хімія'
+},
+  {
+    id:'nomenclature',
+    title:'Номенклатура неорганічних речовин',
+    icon:'🏷️',
+    desc:'Систематичні та тривіальні назви 65 неорганічних речовин: оксиди, кислоти, основи, солі.',
+    topic:'2-1-inorganic-classes',
+    action:()=>{ TABLE_NOMENCLATURE.render('tables-content'); },
+    group:'Інше'
+},
+  {
+    id:'units',
+    title:'Одиниці вимірювання',
+    icon:'📐',
+    desc:'29 пар перерахунку: тиск, енергія, концентрація, температура, довжина, об\'єм, маса. SI / IUPAC.',
+    topic:'1-5-gases',
+    action:()=>{ TABLE_UNITS.render('tables-content'); },
+    group:'Інше'
+},
+  {
+    id:'viscosity',
+    title:"В'язкість та поверхневий натяг",
+    icon:'💧',
+    desc:"η (мПа·с) і σ (мН/м) для 15 рідин при 20°C. CRC Handbook 103rd ed.",
+    topic:'4-5-colloids',
+    action:()=>{ TABLE_VISCOSITY.render('tables-content'); },
+    group:'Інше'
+},
+  {
+    id:'density_basic',
+    title:'Базові значення густини речовин',
+    icon:'⚖️',
+    desc:'38 речовин: рідини, тверді, гази. ρ (г/мл або г/л), T°C, стан. CRC Handbook 104th ed.',
+    topic:'1-4-states',
+    action:()=>{ TABLE_DENSITY_BASIC.render('tables-content'); },
+    group:'Інше'
+},
+  {
+    id:'colloids',
+    title:'ККМ та поріг коагуляції',
+    icon:'🫧',
+    desc:'10 ПАР з критичними концентраціями міцелоутворення + 6 прикладів коагуляції золів. Rosen 4th ed.',
+    topic:'4-5-colloids',
+    action:()=>{ TABLE_COLLOIDS.render('tables-content'); },
+    group:'Інше'
+},
+  {
+    id:'colloid_properties',
+    title:'Класифікація дисперсних систем',
+    icon:'🫧',
+    desc:'10 типів дисперсних систем: аерозолі, золі, емульсії, піни, гелі. Середовище, фаза, стійкість, приклади.',
+    topic:'4-5-colloids',
+    action:()=>{ TABLE_COLLOID_PROPERTIES.render('tables-content'); },
+    group:'Інше'
+},
+  {
+    id:'mass_transfer',
+    title:'Коефіцієнти масопередачі',
+    icon:'⚗️',
+    desc:'9 систем: газ–рідина, рідина–рідина, мембрани, біореактор. K, одиниці, застосування. Perry\'s 9th ed.',
+    topic:'3-2-kinetics',
+    action:()=>{ TABLE_MASS_TRANSFER.render('tables-content'); },
+    group:'Інше'
+},
   {
     id:'phase_states',
     title:'Фазові стани при н.у.',
     icon:'🌡️',
     desc:'51 речовина: прості речовини, оксиди, кислоти, солі — стан і колір при 25°C. CRC 104th ed.',
     topic:'1-4-states',
-    action:()=>{ TABLE_PHASE_STATES.render('tables-content'); }
-  },
+    action:()=>{ TABLE_PHASE_STATES.render('tables-content'); },
+    group:'Інше'
+},
   {
-    id:'kinetic',
-    title:'Молекулярно-кінетичні константи',
-    icon:'💨',
-    desc:'11 газів: діаметр молекули, довжина вільного пробігу, середня швидкість. Atkins PChem 10th ed.',
-    topic:'3-2-kinetics',
-    action:()=>{ TABLE_KINETIC.render('tables-content'); }
-  }
+    id:'phase_diagrams',
+    title:'Фазові діаграми систем',
+    icon:'📊',
+    desc:'7 двокомпонентних систем: Fe-C, Pb-Sn, Al-Si, Cu-Zn, H₂O-NaCl, Au-Si, Bi-Cd. Евтектики, перітектики. ASM.',
+    topic:'3-5-phase',
+    action:()=>{ TABLE_PHASE_DIAGRAMS.render('tables-content'); },
+    group:'Інше'
+},
+  {
+    id:'azeotropes',
+    title:'Азеотропні суміші',
+    icon:'⚗️',
+    desc:'20 азеотропів: склад (% мас.), T кип., тип (мінімум/максимум). Gmehling et al.',
+    topic:'3-5-phase',
+    action:()=>{ TABLE_AZEOTROPES.render('tables-content'); },
+    group:'Інше'
+},
+  {
+    id:'spectroscopy',
+    title:'Спектроскопічні та квантові константи',
+    icon:'📡',
+    desc:'15 констант: h, ℏ, R∞, μB, μN, γp, стала Відена, Стефана-Больцмана та ін. CODATA 2018.',
+    topic:'6-3-instrumental',
+    action:()=>{ TABLE_SPECTROSCOPY.render('tables-content'); },
+    group:'Інше'
+},
+  {
+    id:'desiccants',
+    title:'Сушильні агенти',
+    icon:'🧂',
+    desc:'9 агентів: ефективність, сумісність, несумісність. Perrin & Armarego 7th ed.',
+    topic:'5-1-organic-basics',
+    action:()=>{ TABLE_DESICCANTS.render('tables-content'); },
+    group:'Інше'
+},
+  {
+    id:'melting',
+    title:'Температури плавлення і кипіння',
+    icon:'🌡️',
+    desc:'Tпл і Tкип для 45 речовин: метали, неметали, неорганічні сполуки. CRC Handbook.',
+    topic:'1-4-states',
+    action:()=>{ TABLE_MELTING.render('tables-content'); },
+    group:'Інше'
+},
 ];
 
 function initTablesPanel(){
   const c=document.getElementById('tables-content');
-  let html='<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin-top:8px">';
-  TABLES_REGISTRY.forEach((t,i)=>{
-    html+=`<div style="background:#0f1632;border:0.5px solid #1e2240;border-radius:12px;padding:18px 20px;cursor:pointer;transition:border-color .15s" onmouseover="this.style.borderColor='#4FC3F7'" onmouseout="this.style.borderColor='#1e2240'" onclick="TABLES_REGISTRY[${i}].action()">
+  const groups=[
+    {name:'Будова речовини',icon:'⚛️'},
+    {name:'Фізична хімія',icon:'🌡️'},
+    {name:'Розчини',icon:'🧪'},
+    {name:'Електрохімія',icon:'⚡'},
+    {name:'Органічна хімія',icon:'🧬'},
+    {name:'Аналітична хімія',icon:'🔬'},
+    {name:'Інше',icon:'📚'},
+  ];
+  let html='';
+  groups.forEach(grp=>{
+    const grpTables=TABLES_REGISTRY.filter(t=>t.group===grp.name);
+    if(!grpTables.length)return;
+    html+=`<div style="margin-bottom:28px">`;
+    html+=`<div style="font-family:'Oxanium',monospace;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#4FC3F7;padding:8px 0 10px;border-bottom:0.5px solid #1e2240;margin-bottom:14px">${grp.icon} ${grp.name} <span style="color:#4a5480;font-size:10px;margin-left:6px">(${grpTables.length})</span></div>`;
+    html+=`<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px">`;
+    grpTables.forEach(t=>{
+      const i=TABLES_REGISTRY.indexOf(t);
+      html+=`<div style="background:#0f1632;border:0.5px solid #1e2240;border-radius:12px;padding:18px 20px;cursor:pointer;transition:border-color .15s" onmouseover="this.style.borderColor='#4FC3F7'" onmouseout="this.style.borderColor='#1e2240'" onclick="TABLES_REGISTRY[${i}].action()">
       <div style="font-size:28px;margin-bottom:8px">${t.icon}</div>
       <div style="font-family:'Oxanium',monospace;font-size:13px;font-weight:700;color:#4FC3F7;margin-bottom:6px">${t.title}</div>
       <div style="font-size:12px;color:#7080b8;line-height:1.5">${t.desc}</div>
       <div style="margin-top:12px"><button class="sol-mode-btn" style="font-size:11px;padding:5px 14px">Відкрити →</button></div>
     </div>`;
+    });
+    html+='</div></div>';
   });
-  html+='</div>';
   c.innerHTML=html;
 }
+
+function showTableFromTopic(tableId){
+  const entry = TABLES_REGISTRY.find(t => t.id === tableId);
+  if(!entry) return;
+  showPanel('tables');
+  // невелика затримка щоб panels відрендерились
+  setTimeout(()=>{ entry.action(); }, 80);
+}
+
+function getTablesForTopic(topicId){
+  return TABLES_REGISTRY.filter(t=>t.topic===topicId);
+}
+
+
 
 // ---- КОНЦЕНТРАЦІЯ ----
 let currentConcMode='pct_to_mol';
@@ -6039,6 +6292,15 @@ function _renderTopic(data) {
   const acc3 = data.calculator.accentColor || '#FFB300';
   const acc4 = data.reference.accentColor || '#CE93D8';
 
+  const _topicTables = getTablesForTopic(data.id);
+  const _tablesBlock = _topicTables.length ? `
+    <div class="topic-tables-block">
+      <div class="topic-tables-title">📊 Таблиці для цієї теми</div>
+      <div class="topic-tables-list">
+        ${_topicTables.map(t=>`<button onclick="showTableFromTopic('${t.id}')">📋 ${t.title}</button>`).join('')}
+      </div>
+    </div>` : '';
+
   let html = `
     <div class="topic-header">
       <div class="topic-title">${data.icon} ${data.title}</div>
@@ -6049,7 +6311,8 @@ function _renderTopic(data) {
       ${_renderFormulaBlock(data.formula, acc2)}
       ${_renderCalculatorBlock(data.calculator, acc3, data.id)}
       ${_renderReferenceBlock(data.reference, acc4, data.id)}
-    </div>`;
+    </div>
+    ${_tablesBlock}`;
 
   document.getElementById('topic-content').innerHTML = html;
   document.getElementById('topic-content').style.display = 'block';
@@ -6977,5 +7240,25 @@ window._TOPIC_DATA = {
 <script src="data/tables/optical.js"></script>
 <script src="data/tables/phase_states.js"></script>
 <script src="data/tables/kinetic.js"></script>
+<script src="data/tables/spectroscopy.js"></script>
+<script src="data/tables/colloids.js"></script>
+<script src="data/tables/organic_pka.js"></script>
+<script src="data/tables/potentials.js"></script>
+<script src="data/tables/density_basic.js"></script>
+<script src="data/tables/ion_separation.js"></script>
+<script src="data/tables/mass_transfer.js"></script>
+<script src="data/tables/phase_diagrams.js"></script>
+<script src="data/tables/units.js"></script>
+<script src="data/tables/reference_constants.js"></script>
+<script src="data/tables/organic_constants.js"></script>
+<script src="data/tables/crystal.js"></script>
+<script src="data/tables/colloid_properties.js"></script>
+<script src="data/tables/pharma_pka.js"></script>
+<script src="data/tables/atomic_spectra.js"></script>
+<script src="data/tables/thermo2.js"></script>
+<script src="data/tables/polymers.js"></script>
+<script src="data/tables/physical_constants.js"></script>
+<script src="data/tables/sp_elements.js"></script>
+<script src="data/tables/df_elements.js"></script>
 </body>
 </html>

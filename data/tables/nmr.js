@@ -8,6 +8,7 @@ const TABLE_NMR = {
   id: 'nmr',
   title: 'ЯМР — хімічні зсуви',
   topic: '6-3-instrumental',
+  data: [],  // дані в полях protons та carbons
 
   protons: [
     // Аліфатичні CH

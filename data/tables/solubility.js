@@ -152,3 +152,35 @@ function showSolExpl(catId,anId,s){
     </div>
     <div class="sol-expl-text">${st.full}${specificExpl?'<hr style="border:none;border-top:0.5px solid #1e2240;margin:10px 0">'+specificExpl:''}</div>`;
 }
+
+// ============ Стандартна обгортка TABLE_SOLUBILITY (A3: стандартизація) ============
+function buildCompName(cat,an){
+  return `${cat.label} + ${an.label}`;
+}
+
+const TABLE_SOLUBILITY = {
+  id: 'solubility',
+  title: 'Таблиця розчинності',
+  topic: '4-3-electrolytes',
+  data: [],  // дані в SOL_CATIONS, SOL_ANIONS, SOL_DATA
+  render: function(containerId) {
+    const c = document.getElementById(containerId);
+    if (!c) return;
+    c.innerHTML = `
+      <button class="sol-mode-btn" style="margin-bottom:14px" onclick="initTablesPanel()">← Назад до таблиць</button>
+      <div class="sec-title" style="font-size:16px;margin-bottom:10px">📋 Таблиця розчинності</div>
+      <div class="sol-legend">
+        <div class="sol-leg-item"><span class="sol-leg-badge" style="color:#00E5CC">Р</span>Розчинна (&gt; 1 г/100 мл)</div>
+        <div class="sol-leg-item"><span class="sol-leg-badge" style="color:#FF5252">Н</span>Нерозчинна (&lt; 0.01 г/100 мл)</div>
+        <div class="sol-leg-item"><span class="sol-leg-badge" style="color:#FFB300">М</span>Малорозчинна (0.01–1 г/100 мл)</div>
+        <div class="sol-leg-item"><span class="sol-leg-badge" style="color:#CE93D8">Р*</span>Розчиняється з реакцією</div>
+        <div class="sol-leg-item"><span class="sol-leg-badge" style="color:#546E7A">—</span>Не існує або розкладається водою</div>
+      </div>
+      <div class="sol-table-wrap"><table class="sol-table" id="sol-table"></table></div>
+      <div class="sol-expl-box" id="sol-expl-box">
+        <div class="sol-expl-empty">👆 Клацніть на клітинку таблиці, щоб побачити пояснення</div>
+      </div>`;
+    solTableInited = false;
+    initSolTable();
+  }
+};
