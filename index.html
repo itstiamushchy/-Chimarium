@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Хімарій v1.3.2 · ITS_tiamushchy</title>
+<title>Хімарій v1.3.9 · ITS_tiamushchy</title>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0d0e1a">
 <meta name="mobile-web-app-capable" content="yes">
@@ -87,7 +87,29 @@ body{background:#0d0e1a;color:#ffffff;font-family:'Inter',sans-serif;min-height:
 .lgi{display:flex;align-items:center;gap:4px;font-size:9px;color:#90a0cc}
 .lgd{width:7px;height:7px;border-radius:2px;flex-shrink:0}
 
-/* MODAL */
+/* ====== ТЕМИ — хаб (аналог Таблиць і Калькуляторів) ====== */
+/* Перевикористовує .tb-grid, .tb-card, .tb-group-label, .fm-cats, .fm-cat */
+#topics-hub-content .tb-card-title{color:#69F0AE}
+#topics-hub-content .tb-card:hover{border-color:#69F0AE}
+
+/* fav кнопки на картках реакцій і таблиць */
+.rx-card .fav-btn{position:absolute;top:8px;right:10px}
+.tb-card{position:relative}.tb-card .fav-btn{position:absolute;top:10px;right:10px}
+.tr-topic-card{position:relative}.tr-topic-card .fav-btn{position:absolute;top:8px;right:8px}
+
+/* Обрані — нові типи */
+#panel-favorites .fav-rx-card{background:#141528;border:0.5px solid #1e2240;border-radius:10px;padding:12px 16px;cursor:pointer;position:relative}
+#panel-favorites .fav-rx-card:hover{border-color:#4FC3F7}
+#panel-favorites .fav-rx-eq{font-family:'Oxanium',monospace;font-size:13px;font-weight:700;color:#4FC3F7;margin-bottom:3px;word-break:break-word}
+#panel-favorites .fav-rx-name{font-size:11px;color:#90a0cc}
+#panel-favorites .fav-section-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:8px;margin-bottom:16px}
+
+/* Вкладки в Обраних */
+.fav-tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px}
+.fav-tab{background:none;border:1px solid #1c2040;border-radius:20px;color:#8090b8;font-size:11px;padding:4px 14px;cursor:pointer;font-family:'Inter',sans-serif;transition:all .15s}
+.fav-tab.on,.fav-tab:hover{border-color:#4FC3F7;color:#4FC3F7;background:rgba(79,195,247,.08)}
+
+/* Теми-хаб панель */
 .modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(3,4,14,.92);z-index:1000;align-items:center;justify-content:center}
 .modal-overlay.open{display:flex}
 .modal{background:#16182e;border:0.5px solid rgba(79,195,247,0.25);border-radius:14px;width:640px;max-width:96vw;max-height:88vh;overflow-y:auto;position:relative}
@@ -862,7 +884,7 @@ select{color-scheme:dark}select option{background:#111224;color:#ffffff}
 
 <!-- HERO -->
 <div class="hero">
-  <div class="ver">v1.2.8</div>
+  <div class="ver">v1.3.9</div>
   <div class="mol">
     <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
       <defs><filter id="glow"><feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
@@ -895,37 +917,9 @@ select{color-scheme:dark}select option{background:#111224;color:#ffffff}
   <button class="nav-mobile-item" onclick="showPanel('reactions');closeMobileNav()">⚗️ Реакції</button>
   <button class="nav-mobile-item" onclick="showPanel('glossary');closeMobileNav()">📚 Глосарій</button>
   <div class="nav-mobile-section-label">Калькулятори</div>
-  <button class="nav-mobile-item" onclick="showPanel('molar');closeMobileNav()">⚗️ Молярні маси</button>
-  <button class="nav-mobile-item" onclick="showPanel('ph');closeMobileNav()">🧪 Калькулятор pH</button>
-  <button class="nav-mobile-item" onclick="showPanel('phplus');closeMobileNav()">🌡️ Розширення pH</button>
-  <button class="nav-mobile-item" onclick="showPanel('balance');closeMobileNav()">⚖️ Балансування</button>
-  <div class="nav-mobile-section-label">Розчини</div>
-
-  <button class="nav-mobile-item" onclick="showPanel('sol_conc');closeMobileNav()">💧 Концентрація</button>
-  <button class="nav-mobile-item" onclick="showPanel('sol_prep');closeMobileNav()">🔬 Приготування розчину</button>
-  <button class="nav-mobile-item" onclick="showPanel('sol_gas');closeMobileNav()">🫧 Розчинення газів</button>
-  <button class="nav-mobile-item" onclick="showPanel('sol_prinad');closeMobileNav()">🪝 Принада</button>
-  <div class="nav-mobile-section-label">Блок 1 — Будова речовини</div>
-  <button class="nav-mobile-item" onclick="loadTopicJson('1-1-atom');closeMobileNav()">⚛️ Будова атому</button>
-  <button class="nav-mobile-item" onclick="loadTopicJson('1-2-periodic');closeMobileNav()">🔬 Періодичний закон</button>
-  <button class="nav-mobile-item" onclick="loadTopicJson('1-3-bond');closeMobileNav()">🔗 Хімічний зв'язок</button>
-  <button class="nav-mobile-item" onclick="loadTopicJson('1-4-states');closeMobileNav()">🌡️ Агрегатні стани</button>
-  <button class="nav-mobile-item" onclick="loadTopicJson('1-5-gases');closeMobileNav()">💨 Газові закони</button>
-  <div class="nav-mobile-section-label">Блок 2 — Неорганіка</div>
-  <button class="nav-mobile-item" onclick="loadTopicJson('2-1-inorganic-classes');closeMobileNav()">🧪 Класи сполук</button>
-  <button class="nav-mobile-item" onclick="loadTopicJson('2-2-s-elements');closeMobileNav()">🔥 s-Елементи</button>
-  <button class="nav-mobile-item" onclick="loadTopicJson('2-3-p-elements');closeMobileNav()">⚗️ p-Елементи</button>
-  <button class="nav-mobile-item" onclick="loadTopicJson('2-4-d-f-elements');closeMobileNav()">🔩 d- і f-елементи</button>
-  <div class="nav-mobile-section-label">Блок 3–6</div>
-  <button class="nav-mobile-item" onclick="loadTopicJson('3-1-thermodynamics');closeMobileNav()">🔥 Термодинаміка</button>
-  <button class="nav-mobile-item" onclick="loadTopicJson('3-2-kinetics');closeMobileNav()">⚡ Кінетика</button>
-  <button class="nav-mobile-item" onclick="loadTopicJson('3-3-equilibrium');closeMobileNav()">🔄 Рівновага</button>
-  <button class="nav-mobile-item" onclick="loadTopicJson('3-4-electrochemistry');closeMobileNav()">⚗️ Електрохімія</button>
-  <button class="nav-mobile-item" onclick="loadTopicJson('4-1-dissolving');closeMobileNav()">💧 Розчинність</button>
-  <button class="nav-mobile-item" onclick="loadTopicJson('4-3-electrolytes');closeMobileNav()">🧪 pH. Буфери</button>
-  <button class="nav-mobile-item" onclick="loadTopicJson('5-1-organic-basics');closeMobileNav()">🧬 Органіка</button>
-  <button class="nav-mobile-item" onclick="loadTopicJson('5-2-hydrocarbons');closeMobileNav()">🔥 Вуглеводні</button>
-  <button class="nav-mobile-item" onclick="loadTopicJson('6-1-qualitative');closeMobileNav()">🔍 Якісні реакції</button>
+  <button class="nav-mobile-item" onclick="showPanel('calcs');closeMobileNav()">🔢 Всі калькулятори (55)</button>
+  <div class="nav-mobile-section-label">Теми</div>
+  <button class="nav-mobile-item" onclick="showPanel('topics-hub');closeMobileNav()">📗 Всі теми (24)</button>
   <div class="nav-mobile-section-label">Інше</div>
   <button class="nav-mobile-item" onclick="showPanel('test');closeMobileNav()">🎯 Тренажер</button>
   <button class="nav-mobile-item" onclick="showPanel('favorites');closeMobileNav()">⭐ Обрані</button>
@@ -949,72 +943,13 @@ select{color-scheme:dark}select option{background:#111224;color:#ffffff}
   </div>
   <div class="nav-divider"></div>
   <div class="nav-group" id="ng-calc">
-    <button class="nav-btn" onclick="toggleGroup('ng-calc')">Калькулятори <span class="nav-arrow">▾</span></button>
-    <div class="dropdown">
-      <div class="dd-label">Калькулятори</div>
-      <button class="dd-item" onclick="showPanel('molar');closeGroups()">⚗️ Молярні маси</button>
-      <button class="dd-item" onclick="showPanel('ph');closeGroups()">🧪 Калькулятор pH</button>
-      <button class="dd-item" onclick="showPanel('phplus');closeGroups()">🌡️ Розширення pH</button>
-      <button class="dd-item" onclick="showPanel('balance');closeGroups()">⚖️ Балансування рівнянь</button>
-      <div class="dd-label">Калькулятори тем</div>
-      <button class="dd-item" onclick="loadTopicJson('1-1-atom');closeGroups();setTimeout(()=>_topicGoCalcById('1-1-atom'),400)">⚛️ Будова атому</button>
-      <button class="dd-item" onclick="loadTopicJson('1-5-gases');closeGroups();setTimeout(()=>_topicGoCalcById('1-5-gases'),400)">💨 Газові закони (PV=nRT)</button>
-      <button class="dd-item" onclick="loadTopicJson('3-1-thermodynamics');closeGroups();setTimeout(()=>_topicGoCalcById('3-1-thermodynamics'),400)">🔥 Термодинаміка (ΔG, Гесс)</button>
-      <button class="dd-item" onclick="loadTopicJson('3-2-kinetics');closeGroups();setTimeout(()=>_topicGoCalcById('3-2-kinetics'),400)">⚡ Кінетика (Арреніус)</button>
-      <button class="dd-item" onclick="loadTopicJson('3-4-electrochemistry');closeGroups();setTimeout(()=>_topicGoCalcById('3-4-electrochemistry'),400)">⚗️ Електрохімія (Фарадей)</button>
-      <button class="dd-item" onclick="loadTopicJson('4-1-dissolving');closeGroups();setTimeout(()=>_topicGoCalcById('4-1-dissolving'),400)">💧 Розчинність (Ksp)</button>
-      <button class="dd-item" onclick="loadTopicJson('4-3-electrolytes');closeGroups();setTimeout(()=>_topicGoCalcById('4-3-electrolytes'),400)">🧪 pH. Буфери</button>
-      <button class="dd-item" onclick="loadTopicJson('4-4-colligative');closeGroups();setTimeout(()=>_topicGoCalcById('4-4-colligative'),400)">🌡️ Колігативні властивості</button>
-      <button class="dd-item" onclick="loadTopicJson('6-3-instrumental');closeGroups();setTimeout(()=>_topicGoCalcById('6-3-instrumental'),400)">📡 Закон БЛБ (спектр)</button>
-      <div class="dd-label">Розчини</div>
-      <button class="dd-item" onclick="showPanel('sol_conc');closeGroups()">💧 Концентрація</button>
-      <button class="dd-item" onclick="showPanel('sol_prep');closeGroups()">🔬 Приготування розчину</button>
-      <button class="dd-item" onclick="showPanel('sol_gas');closeGroups()">🫧 Розчинення газів</button>
-      <button class="dd-item" onclick="showPanel('sol_prinad');closeGroups()">🪝 Принада</button>
-    </div>
+    <button class="nav-btn" onclick="showPanel('calcs');closeGroups()" id="nav-calcs-btn">🔢 Калькулятори</button>
+    <div class="dropdown" style="display:none"></div>
   </div>
   <div class="nav-divider"></div>
   <div class="nav-group" id="ng-topics">
-    <button class="nav-btn" onclick="toggleGroup('ng-topics')">📗 Теми <span class="nav-arrow">▾</span></button>
-    <div class="dropdown" style="min-width:260px;max-height:70vh;overflow-y:auto">
-      <div class="dd-label">Блок 1 — Будова речовини</div>
-      <button class="dd-item" onclick="loadTopicJson('1-1-atom');closeGroups()">⚛️ Будова атому. Конфігурація</button>
-      <button class="dd-item" onclick="loadTopicJson('1-2-periodic');closeGroups()">🔬 Періодичний закон</button>
-      <button class="dd-item" onclick="loadTopicJson('1-3-bond');closeGroups()">🔗 Хімічний зв'язок. VSEPR</button>
-      <button class="dd-item" onclick="loadTopicJson('1-4-states');closeGroups()">🌡️ Агрегатні стани. Фазові переходи</button>
-      <button class="dd-item" onclick="loadTopicJson('1-5-gases');closeGroups()">💨 Газові закони (PV=nRT)</button>
-      <div class="dd-label">Блок 2 — Неорганіка</div>
-      <button class="dd-item" onclick="loadTopicJson('2-1-inorganic-classes');closeGroups()">🧪 Класи неорганічних сполук</button>
-      <button class="dd-item" onclick="loadTopicJson('2-2-s-elements');closeGroups()">🔥 s-Елементи (I–II групи)</button>
-      <button class="dd-item" onclick="loadTopicJson('2-3-p-elements');closeGroups()">⚗️ p-Елементи (III–VIII групи)</button>
-      <button class="dd-item" onclick="loadTopicJson('2-4-d-f-elements');closeGroups()">🔩 d- і f-елементи. Комплекси</button>
-      <div class="dd-label">Блок 3 — Фізхімія</div>
-      <button class="dd-item" onclick="loadTopicJson('3-1-thermodynamics');closeGroups()">🔥 Термодинаміка. Закон Гесса</button>
-      <button class="dd-item" onclick="loadTopicJson('3-2-kinetics');closeGroups()">⚡ Кінетика. Швидкість реакцій</button>
-      <button class="dd-item" onclick="loadTopicJson('3-3-equilibrium');closeGroups()">🔄 Рівновага. Ле Шательє</button>
-      <button class="dd-item" onclick="loadTopicJson('3-4-electrochemistry');closeGroups()">⚗️ Електрохімія. Фарадей</button>
-      <button class="dd-item" onclick="loadTopicJson('3-5-phase');closeGroups()">🌡️ Фазові рівноваги. Діаграми</button>
-      <div class="dd-label">Блок 4 — Розчини і колоїди</div>
-      <button class="dd-item" onclick="loadTopicJson('4-1-dissolving');closeGroups()">💧 Розчинність. Ksp</button>
-      <button class="dd-item" onclick="loadTopicJson('4-2-concentration');closeGroups()">🧫 Концентрація. Конвертація</button>
-      <button class="dd-item" onclick="loadTopicJson('4-3-electrolytes');closeGroups()">🧪 pH. Буфери. Гідроліз</button>
-      <button class="dd-item" onclick="loadTopicJson('4-4-colligative');closeGroups()">🌡️ Колігативні властивості</button>
-      <button class="dd-item" onclick="loadTopicJson('4-5-colloids');closeGroups()">🫧 Колоїди. Коагуляція</button>
-      <div class="dd-label">Блок 5 — Органіка</div>
-      <button class="dd-item" onclick="loadTopicJson('5-1-organic-basics');closeGroups()">🧬 Основи органіки. DBE</button>
-      <button class="dd-item" onclick="loadTopicJson('5-2-hydrocarbons');closeGroups()">🔥 Вуглеводні. Горіння</button>
-      <button class="dd-item" onclick="loadTopicJson('5-3-aromatics');closeGroups()">⬡ Арени. Орієнтанти. SE</button>
-      <button class="dd-item" onclick="loadTopicJson('5-4-oxygen-compounds');closeGroups()">🍷 Кисневмісні сполуки</button>
-      <button class="dd-item" onclick="loadTopicJson('5-5-nitrogen-compounds');closeGroups()">🧬 Амінокислоти. Пептиди</button>
-      <button class="dd-item" onclick="loadTopicJson('5-6-polymers');closeGroups()">🔁 Полімери. Полімеризація</button>
-      <div class="dd-label">Блок 6 — Аналіз</div>
-      <button class="dd-item" onclick="loadTopicJson('6-1-qualitative');closeGroups()">🔍 Якісні реакції</button>
-      <button class="dd-item" onclick="loadTopicJson('6-2-titrimetry');closeGroups()">⚗️ Титриметрія. ТЕ</button>
-      <button class="dd-item" onclick="loadTopicJson('6-3-instrumental');closeGroups()">📡 Інструментальні методи</button>
-      <div class="dd-label">Старі теми (вбудовані)</div>
-      <button class="dd-item" onclick="loadTopic('ph');closeGroups()">🧪 pH — калькулятор (старий)</button>
-      <button class="dd-item" onclick="loadTopic('gas');closeGroups()">💨 PV=nRT (старий)</button>
-    </div>
+    <button class="nav-btn" onclick="showPanel('topics-hub');closeGroups()" id="nav-topics-btn">📗 Теми</button>
+    <div class="dropdown" style="display:none"></div>
   </div>
   <div class="nav-divider"></div>
   <button class="nav-btn" id="nav-test-btn" onclick="showPanel('test');closeGroups()">🎯 Тренажер</button>
@@ -1135,6 +1070,17 @@ select{color-scheme:dark}select option{background:#111224;color:#ffffff}
     <div class="gl-grid" id="gl-grid"></div>
   </div>
 
+  <!-- ХАБ ТЕМ -->
+  <div class="panel" id="panel-topics-hub">
+    <div class="sec-title">📗 Теми</div>
+    <div class="fm-search-row">
+      <input class="fm-search" id="topics-search" type="text" placeholder="Пошук теми..." oninput="renderTopicsHub()">
+      <span style="font-size:10px;color:#7080b8">Показано <b id="topics-cnt" style="color:#69F0AE">—</b></span>
+    </div>
+    <div class="fm-cats" id="topics-cats"></div>
+    <div id="topics-hub-content"></div>
+  </div>
+
   <!-- ТЕМА (динамічний рендерер) -->
   <div class="panel" id="panel-topic">
     <div id="topic-loading" style="display:none;text-align:center;padding:60px 0">
@@ -1170,7 +1116,18 @@ select{color-scheme:dark}select option{background:#111224;color:#ffffff}
     </div>
   </div>
 
-  <!-- МОЛЯРНІ МАСИ -->
+  <!-- ХАБ КАЛЬКУЛЯТОРІВ -->
+  <div class="panel" id="panel-calcs">
+    <div class="sec-title">🔢 Калькулятори</div>
+    <div class="fm-search-row">
+      <input class="fm-search" id="cc-search" type="text" placeholder="Пошук калькулятора..." oninput="renderCalcsGrid()">
+      <span style="font-size:10px;color:#7080b8">Показано <b id="cc-cnt" style="color:#4FC3F7">—</b></span>
+    </div>
+    <div class="fm-cats" id="cc-cats"></div>
+    <div id="calcs-content"></div>
+  </div>
+
+    <!-- МОЛЯРНІ МАСИ -->
   <div class="panel" id="panel-molar">
     <div class="sec-title">⚗️ Калькулятор молярних мас</div>
     <div class="calc-wrap">
@@ -1810,7 +1767,7 @@ select{color-scheme:dark}select option{background:#111224;color:#ffffff}
 
 <div class="footer">
   <span class="fcopy">© 2026 Хоменко Олексій Григорович · itstiamushchy@gmail.com</span>
-  <span class="fplat">ITS_tiamushchy · v1.2.8</span>
+  <span class="fplat">ITS_tiamushchy · v1.3.9</span>
 </div>
 </div>
 
@@ -2240,17 +2197,24 @@ function showPanel(id){
   if(!panel) return;
   panel.classList.add('active');
   const refP=['elements','formulas','tables','reactions','glossary'];
-  const calcP=['molar','ph','phplus','balance','sol_conc','sol_prep','sol_gas','sol_prinad','topic-calc'];
-  const topicP=['topic','topic-calc'];
+  const calcP=['calcs','molar','ph','phplus','balance','sol_conc','sol_prep','sol_gas','sol_prinad','topic-calc'];
+  const topicP=['topics-hub','topic','topic-calc'];
+  const navCalcsBtn = document.getElementById('nav-calcs-btn');
+  if (navCalcsBtn) navCalcsBtn.className='nav-btn'+(calcP.includes(id)?' group-active':'');
+  const navTopicsBtn = document.getElementById('nav-topics-btn');
+  if (navTopicsBtn) navTopicsBtn.className='nav-btn'+(topicP.includes(id)?' group-active':'');
   const ngRef = document.querySelector('#ng-ref .nav-btn');
   const ngCalc = document.querySelector('#ng-calc .nav-btn');
   if(ngRef) ngRef.className='nav-btn'+(refP.includes(id)?' group-active':'');
   if(ngCalc) ngCalc.className='nav-btn'+(calcP.includes(id)?' group-active':'');
   const navTestBtn = document.getElementById('nav-test-btn');
   if(navTestBtn) navTestBtn.className='nav-btn'+(id==='test'?' group-active':'');
-  const ngTopics=document.querySelector('#ng-topics .nav-btn');
-  if(ngTopics)ngTopics.className='nav-btn'+(topicP.includes(id)?' group-active':'');
   if(id==='tables')initTablesPanel();
+  if(id==='calcs')initCalcsPanel();
+  if(id==='topics-hub')initTopicsHub();
+  // Inject fav buttons після рендеру
+  if(id==='tables') setTimeout(injectFavTables, 200);
+  if(id==='calcs') setTimeout(injectFavCalcs, 200);
   if(id==='sol_conc')initSolConc();
   if(id==='sol_prinad')renderSolPrinad();
   if(id==='formulas')initFormulasPanel();
@@ -2354,54 +2318,11 @@ function toggleFav(type, id, title, extra){
 }
 function isFav(type, id){ return !!_favorites[type + ':' + id]; }
 
-function renderFavoritesPanel(){
-  const keys = Object.keys(_favorites);
-  const el = document.getElementById('favorites-content');
-  if(!keys.length){
-    el.innerHTML = '<div class="fav-empty"><div>⭐</div><div>Поки немає обраних<br>Натисніть ⭐ на формулах, термінах або темах щоб додати</div></div>';
-    return;
-  }
-  const byType = {};
-  for(const k of keys){
-    const f = _favorites[k];
-    if(!byType[f.type]) byType[f.type] = [];
-    byType[f.type].push(f);
-  }
-  const typeLabels = {formula:'📐 Формули', glossary:'📚 Глосарій', topic:'📗 Теми', element:'⚛️ Елементи'};
-  let html = '';
-  for(const [type, items] of Object.entries(byType)){
-    html += `<div class="sec-title" style="margin-top:16px">${typeLabels[type]||type}</div>`;
-    if(type==='formula') html += `<div class="fm-grid">` + items.map(f=>`
-      <div class="fm-card">
-        <div class="fm-cat-badge">${f.extra||''}</div>
-        <div class="fm-expr">${f.title}</div>
-        <div class="fm-name">${f.id}</div>
-        <button class="fav-btn on" onclick="removeFavAndRefresh('${type}','${f.id}')" title="Видалити з обраних">⭐</button>
-      </div>`).join('') + `</div>`;
-    else if(type==='glossary') html += `<div class="gl-grid">` + items.map(f=>`
-      <div class="gl-card">
-        <div class="gl-cat-badge">${f.extra||''}</div>
-        <div class="gl-term">${f.title}</div>
-        <div class="gl-def">${f.id}</div>
-        <button class="fav-btn on" onclick="removeFavAndRefresh('${type}','${CSS.escape ? CSS.escape(f.id) : f.id}')" title="Видалити з обраних">⭐</button>
-      </div>`).join('') + `</div>`;
-    else html += `<div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px">` + items.map(f=>`
-      <div style="background:#141528;border:0.5px solid #1e2240;border-radius:8px;padding:10px 14px;cursor:pointer;position:relative" onclick="favItemClick('${type}','${f.id}')">
-        <div style="font-size:13px;color:#fff">${f.title}</div>
-        <button class="fav-btn on" onclick="event.stopPropagation();removeFavAndRefresh('${type}','${f.id}')" style="position:absolute;top:4px;right:4px">⭐</button>
-      </div>`).join('') + `</div>`;
-  }
-  el.innerHTML = html;
-}
-
 function removeFavAndRefresh(type, id){
   const key = type + ':' + id;
   delete _favorites[key];
   saveFavorites();
   renderFavoritesPanel();
-}
-function favItemClick(type, id){
-  if(type==='topic'){ loadTopicJson(id); }
 }
 
 // Inject fav button into rendered formula cards
@@ -2644,6 +2565,866 @@ function runGSearch(q){
     }
   }catch(e){}
 })();
+
+// ============ ХАБ ТЕМ ============
+const TOPICS_REGISTRY = [
+  // Блок 1
+  {id:'1-1-atom',   title:'Будова атому',            icon:'⚛️', group:'Блок 1 — Будова речовини',
+   desc:'Електронна конфігурація, квантові числа, енергетичні рівні. Правила Клечковського та Хунда.'},
+  {id:'1-2-periodic',title:'Періодичний закон',       icon:'🔬', group:'Блок 1 — Будова речовини',
+   desc:'Закон Мозлі, електронегативність, атомні радіуси, енергії іонізації. Тренди по групах і періодах.'},
+  {id:'1-3-bond',   title:'Хімічний зв\'язок. VSEPR', icon:'🔗', group:'Блок 1 — Будова речовини',
+   desc:'Ковалентний, іонний, металічний зв\'язок. Геометрія молекул, гібридизація, полярність.'},
+  {id:'1-4-states', title:'Агрегатні стани',          icon:'🌡️',group:'Блок 1 — Будова речовини',
+   desc:'Фазові переходи, теплоти плавлення та пароутворення. Зв\'язок між станами речовини.'},
+  {id:'1-5-gases',  title:'Газові закони (PV=nRT)',   icon:'💨', group:'Блок 1 — Будова речовини',
+   desc:'Ідеальний газ, закони Бойля, Шарля, Гей-Люссака. Дальтон, відносна густина, об\'єм за н.у.'},
+  // Блок 2
+  {id:'2-1-inorganic-classes',title:'Класи неорганічних сполук',icon:'🧪',group:'Блок 2 — Неорганіка',
+   desc:'Оксиди, кислоти, основи, солі: класифікація, формули, номенклатура, ступені окиснення.'},
+  {id:'2-2-s-elements',title:'s-Елементи (I–II групи)',icon:'🔥',group:'Блок 2 — Неорганіка',
+   desc:'Na, K, Ca, Mg: реакції з водою, кислотами, кисень. Луги і лужноземельні метали.'},
+  {id:'2-3-p-elements',title:'p-Елементи (III–VIII)',  icon:'⚗️',group:'Блок 2 — Неорганіка',
+   desc:'N, P, S, Cl, Si та їх сполуки. Алотропія, оксиди, кислоти, стехіометрія реакцій.'},
+  {id:'2-4-d-f-elements',title:'d- і f-елементи. Комплекси',icon:'🔩',group:'Блок 2 — Неорганіка',
+   desc:'Перехідні метали, змінна валентність, комплексні сполуки. КЧ, геометрія, заряд комплексу.'},
+  // Блок 3
+  {id:'3-1-thermodynamics',title:'Термодинаміка. Гесс. Гіббс',icon:'🔥',group:'Блок 3 — Фізична хімія',
+   desc:'ΔH, ΔS, ΔG, Закон Гесса, T рівноваги. Спонтанність реакції та термодинамічний аналіз.'},
+  {id:'3-2-kinetics',title:'Кінетика. Швидкість реакцій',icon:'⚡',group:'Блок 3 — Фізична хімія',
+   desc:'Арреніус, Вант-Гофф, порядки реакцій, t½. Залежність швидкості від T і концентрації.'},
+  {id:'3-3-equilibrium',title:'Рівновага. Ле Шательє',   icon:'⇌', group:'Блок 3 — Фізична хімія',
+   desc:'Kc, Kp, ICE-таблиця, принцип Ле Шательє. Розрахунок рівноважних концентрацій.'},
+  {id:'3-4-electrochemistry',title:'Електрохімія. Фарадей',icon:'🔋',group:'Блок 3 — Фізична хімія',
+   desc:'Ряд напруг, E°, рівняння Нернста, ЕРС, закони Фарадея. Електроліз і гальванічні елементи.'},
+  {id:'3-5-phase',  title:'Фазові рівноваги. Діаграми',  icon:'📊',group:'Блок 3 — Фізична хімія',
+   desc:'Клаузіус-Клапейрон, кріоскопія, ебуліоскопія, Рауль, фазові діаграми та правило фаз.'},
+  // Блок 4
+  {id:'4-1-dissolving',title:'Розчинність. Ksp',        icon:'💧',group:'Блок 4 — Розчини і колоїди',
+   desc:'Добуток розчинності, умова осадження, розрахунок s з Ksp. Фактори розчинності.'},
+  {id:'4-2-concentration',title:'Концентрація. Конвертація',icon:'🧫',group:'Блок 4 — Розчини і колоїди',
+   desc:'%, моль/л, моль/кг, нормальність. Розбавлення C₁V₁=C₂V₂, правило змішування.'},
+  {id:'4-3-electrolytes',title:'pH. Буфери. Гідроліз',   icon:'🧪',group:'Блок 4 — Розчини і колоїди',
+   desc:'Сильні/слабкі кислоти, буфери, Гендерсон-Гассельбах, ступінь дисоціації α, гідроліз солей.'},
+  {id:'4-4-colligative',title:'Колігативні властивості',  icon:'🌡️',group:'Блок 4 — Розчини і колоїди',
+   desc:'Осмотичний тиск π=iCRT, кріоскопія ΔTf, ебуліоскопія ΔTb, зниження тиску пари.'},
+  {id:'4-5-colloids',title:'Колоїди. Коагуляція',       icon:'🫧',group:'Блок 4 — Розчини і колоїди',
+   desc:'Будова міцели, заряд золю, Шульце-Гарді, поріг коагуляції. Електрофорез і осмос.'},
+  // Блок 5
+  {id:'5-1-organic-basics',title:'Основи органіки. DBE',  icon:'🧬',group:'Блок 5 — Органічна хімія',
+   desc:'Гомологія, ізомерія, DBE, емпірична формула за ω%. Класи органічних сполук.'},
+  {id:'5-2-hydrocarbons',title:'Вуглеводні. Горіння',    icon:'🔥',group:'Блок 5 — Органічна хімія',
+   desc:'Алкани, алкени, алкіни, дієни. Горіння, стехіометрія, формула з продуктів горіння.'},
+  {id:'5-3-aromatics',title:'Арени. Орієнтанти. SE',    icon:'⬡', group:'Блок 5 — Органічна хімія',
+   desc:'Будова бензолу, орієнтанти I і II роду, електрофільне заміщення, позиція атаки.'},
+  {id:'5-4-oxygen-compounds',title:'Кисневмісні сполуки',icon:'🍷',group:'Блок 5 — Органічна хімія',
+   desc:'Спирти, альдегіди, кетони, кислоти, естери. Естерифікація, омилення жирів, η%.'},
+  {id:'5-5-nitrogen-compounds',title:'Амінокислоти. Пептиди',icon:'🧬',group:'Блок 5 — Органічна хімія',
+   desc:'Аміни, АМК, pI, маса пептиду, Міхаеліс-Ментен, заряд при pH.'},
+  {id:'5-6-polymers',title:'Полімери. Полімеризація',   icon:'🔁',group:'Блок 5 — Органічна хімія',
+   desc:'DP, молекулярна маса полімеру, M(ланки), маса мономера з урахуванням η%.'},
+  // Блок 6
+  {id:'6-1-qualitative',title:'Якісні реакції',          icon:'🔍',group:'Блок 6 — Аналітична хімія',
+   desc:'Іон → реагент → ефект. Катіони та аніони, специфічні реакції, ідентифікація речовин.'},
+  {id:'6-2-titrimetry',title:'Титриметрія. ТЕ',         icon:'⚗️',group:'Блок 6 — Аналітична хімія',
+   desc:'Точка еквівалентності, C₁V₁=C₂V₂, m=CVMz, фактор еквівалентності. КО та редокс-титрування.'},
+  {id:'6-3-instrumental',title:'Інструментальні методи',icon:'📡',group:'Блок 6 — Аналітична хімія',
+   desc:'БЛБ, спектрофотометрія, T%↔A, хроматографія Rf/Rs, Брегг, радіоактивний розпад, кристали.'},
+];
+
+const TOPICS_GROUPS = [
+  {name:'Блок 1 — Будова речовини', icon:'⚛️'},
+  {name:'Блок 2 — Неорганіка',      icon:'🧪'},
+  {name:'Блок 3 — Фізична хімія',   icon:'🔥'},
+  {name:'Блок 4 — Розчини і колоїди',icon:'💧'},
+  {name:'Блок 5 — Органічна хімія', icon:'🧬'},
+  {name:'Блок 6 — Аналітична хімія',icon:'🔬'},
+];
+
+let topicsHubCat = 'all';
+
+function initTopicsHub() {
+  const catsEl = document.getElementById('topics-cats');
+  if (catsEl && catsEl.innerHTML === '') {
+    const cats = [['all','Усі'], ...TOPICS_GROUPS.map(g => [g.name, `${g.icon} ${g.name.replace(/Блок \d — /,'')}`])];
+    catsEl.innerHTML = cats.map(([id, label]) =>
+      `<button class="fm-cat${id==='all'?' on':''}" onclick="setTopicsHubCat('${id.replace(/'/g,"\\'")}',this)">${label}</button>`
+    ).join('');
+  }
+  renderTopicsHub();
+}
+
+function setTopicsHubCat(cat, btn) {
+  topicsHubCat = cat;
+  document.querySelectorAll('#topics-cats .fm-cat').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  renderTopicsHub();
+}
+
+function renderTopicsHub() {
+  const q = (document.getElementById('topics-search')?.value || '').toLowerCase();
+  const filtered = TOPICS_REGISTRY.filter(t => {
+    const matchCat = topicsHubCat === 'all' || t.group === topicsHubCat;
+    const matchQ = !q || t.title.toLowerCase().includes(q) || t.desc.toLowerCase().includes(q);
+    return matchCat && matchQ;
+  });
+  const cntEl = document.getElementById('topics-cnt');
+  if (cntEl) cntEl.textContent = filtered.length;
+  const container = document.getElementById('topics-hub-content');
+  if (!container) return;
+  if (!filtered.length) { container.innerHTML = '<div class="tb-empty">Нічого не знайдено</div>'; return; }
+  const useGroups = !q && topicsHubCat === 'all';
+  let html = '';
+  if (useGroups) {
+    TOPICS_GROUPS.forEach(grp => {
+      const items = filtered.filter(t => t.group === grp.name);
+      if (!items.length) return;
+      html += `<div style="margin-bottom:28px">`;
+      html += `<div class="tb-group-label">${grp.icon} ${grp.name} <span style="color:#4a5480;font-size:10px;margin-left:6px">(${items.length})</span></div>`;
+      html += `<div class="tb-grid">${items.map(t => topicHubCard(t)).join('')}</div>`;
+      html += `</div>`;
+    });
+  } else {
+    html = `<div class="tb-grid">${filtered.map(t => topicHubCard(t)).join('')}</div>`;
+  }
+  container.innerHTML = html;
+  // Inject fav buttons
+  setTimeout(injectFavTopicHub, 0);
+}
+
+function topicHubCard(t) {
+  const idx = TOPICS_REGISTRY.indexOf(t);
+  const on = isFav('topic', t.id) ? ' on' : '';
+  return `<div class="tb-card" onclick="loadTopicJson('${t.id}')">
+    <button class="fav-btn${on}" onclick="event.stopPropagation();favToggleTopicHub('${t.id}','${t.title.replace(/'/g,"\\'")}',this)" title="Додати до обраних">⭐</button>
+    <div class="tb-card-icon">${t.icon}</div>
+    <div class="tb-card-title" style="color:#69F0AE">${t.title}</div>
+    <div class="tb-card-desc">${t.desc}</div>
+    <div class="tb-card-btn"><button class="sol-mode-btn" style="font-size:11px;padding:5px 14px">Відкрити →</button></div>
+  </div>`;
+}
+
+function injectFavTopicHub() {
+  // Already injected inline in topicHubCard
+}
+
+function favToggleTopicHub(id, title, btn) {
+  const nowOn = toggleFav('topic', id, title, '📗');
+  btn.className = 'fav-btn' + (nowOn ? ' on' : '');
+}
+
+// ============ ОБРАНІ — РОЗШИРЕНИЙ РЕНДЕР ============
+function renderFavoritesPanel(){
+  const keys = Object.keys(_favorites);
+  const el = document.getElementById('favorites-content');
+  if (!keys.length) {
+    el.innerHTML = '<div class="fav-empty"><div>⭐</div><div>Поки немає обраних<br>Натисніть ⭐ на формулах, термінах, темах, реакціях, таблицях чи тренажері</div></div>';
+    return;
+  }
+  // Групуємо за типом
+  const byType = {};
+  for (const k of keys) {
+    const f = _favorites[k];
+    if (!byType[f.type]) byType[f.type] = [];
+    byType[f.type].push(f);
+  }
+  // Підрахунок по типах для вкладок
+  const typeOrder = ['formula','glossary','topic','calc','reaction','table','trainer','element'];
+  const typeLabels = {
+    formula:'📐 Формули', glossary:'📚 Глосарій', topic:'📗 Теми',
+    reaction:'⚗️ Реакції', table:'📊 Таблиці', trainer:'🎯 Тренажер', calc:'🔢 Калькулятори', element:'⚛️ Елементи'
+  };
+  // Фільтр вкладок
+  const allTypes = typeOrder.filter(t => byType[t]);
+  const curFavType = window._favCurType || 'all';
+  const showTypes = curFavType === 'all' ? allTypes : [curFavType];
+
+  // Вкладки
+  let tabsHtml = `<div class="fav-tabs"><button class="fav-tab${curFavType==='all'?' on':''}" onclick="_setFavTab('all')">Усі (${keys.length})</button>`;
+  for (const t of allTypes) {
+    const n = byType[t].length;
+    tabsHtml += `<button class="fav-tab${curFavType===t?' on':''}" onclick="_setFavTab('${t}')">${typeLabels[t]||t} (${n})</button>`;
+  }
+  tabsHtml += `</div>`;
+
+  let html = tabsHtml;
+
+  for (const type of showTypes) {
+    const items = byType[type] || [];
+    if (!items.length) continue;
+    if (curFavType === 'all') html += `<div class="sec-title" style="margin-top:16px">${typeLabels[type]||type}</div>`;
+
+    if (type === 'formula') {
+      html += `<div class="fm-grid">` + items.map(f => `
+        <div class="fm-card">
+          <div class="fm-cat-badge">${f.extra||''}</div>
+          <div class="fm-expr">${f.title}</div>
+          <div class="fm-name">${f.id}</div>
+          <button class="fav-btn on" onclick="removeFavAndRefresh('${type}','${f.id.replace(/'/g,"\\'")}')">⭐</button>
+        </div>`).join('') + `</div>`;
+    } else if (type === 'glossary') {
+      html += `<div class="gl-grid">` + items.map(f => `
+        <div class="gl-card">
+          <div class="gl-cat-badge">${f.extra||''}</div>
+          <div class="gl-term">${f.title}</div>
+          <div class="gl-def">${f.id}</div>
+          <button class="fav-btn on" onclick="removeFavAndRefresh('${type}','${f.id.replace(/'/g,"\\'")}')">⭐</button>
+        </div>`).join('') + `</div>`;
+    } else if (type === 'reaction') {
+      html += `<div class="fav-section-grid">` + items.map(f => `
+        <div class="fav-rx-card" onclick="showPanel('reactions')">
+          <button class="fav-btn on" style="position:absolute;top:6px;right:8px" onclick="event.stopPropagation();removeFavAndRefresh('${type}','${f.id.replace(/'/g,"\\'")}')">⭐</button>
+          <div class="fav-rx-eq">${f.title}</div>
+          <div class="fav-rx-name">${f.extra||''}</div>
+        </div>`).join('') + `</div>`;
+    } else if (type === 'table') {
+      html += `<div class="tb-grid">` + items.map(f => `
+        <div class="tb-card" onclick="favOpenTable('${f.id}')">
+          <button class="fav-btn on" style="position:absolute;top:8px;right:10px" onclick="event.stopPropagation();removeFavAndRefresh('${type}','${f.id}')">⭐</button>
+          <div class="tb-card-icon">${f.extra||'📊'}</div>
+          <div class="tb-card-title">${f.title}</div>
+          <div class="tb-card-btn"><button class="sol-mode-btn" style="font-size:11px;padding:5px 14px">Відкрити →</button></div>
+        </div>`).join('') + `</div>`;
+    } else if (type === 'calc') {
+      html += `<div class="tb-grid">` + items.map(f => `
+        <div class="tb-card" onclick="favOpenCalc('${f.id}')">
+          <button class="fav-btn on" style="position:absolute;top:8px;right:10px" onclick="event.stopPropagation();removeFavAndRefresh('${type}','${f.id}')">⭐</button>
+          <div class="tb-card-icon">${f.extra||'🔢'}</div>
+          <div class="tb-card-title">${f.title}</div>
+          <div class="tb-card-btn"><button class="sol-mode-btn" style="font-size:11px;padding:5px 14px">Відкрити →</button></div>
+        </div>`).join('') + `</div>`;
+    } else if (type === 'trainer') {
+      html += `<div class="fav-section-grid">` + items.map(f => `
+        <div class="fav-rx-card" onclick="favOpenTrainer('${f.id}')">
+          <button class="fav-btn on" style="position:absolute;top:6px;right:8px" onclick="event.stopPropagation();removeFavAndRefresh('${type}','${f.id}')">⭐</button>
+          <div class="fav-rx-eq" style="color:#CE93D8">${f.extra||'🎯'} ${f.title}</div>
+        </div>`).join('') + `</div>`;
+    } else {
+      // topic, element
+      html += `<div class="tb-grid">` + items.map(f => `
+        <div class="tb-card" onclick="favItemClick('${type}','${f.id}')">
+          <button class="fav-btn on" style="position:absolute;top:8px;right:10px" onclick="event.stopPropagation();removeFavAndRefresh('${type}','${f.id}')">⭐</button>
+          <div class="tb-card-icon">${f.extra||'📗'}</div>
+          <div class="tb-card-title" style="color:#69F0AE">${f.title}</div>
+        </div>`).join('') + `</div>`;
+    }
+  }
+  el.innerHTML = html;
+}
+
+function _setFavTab(type) {
+  window._favCurType = type;
+  renderFavoritesPanel();
+}
+
+function favItemClick(type, id) {
+  if (type === 'topic') { loadTopicJson(id); }
+  else if (type === 'element') { openModal(parseInt(id)); }
+  else if (type === 'table') { favOpenTable(id); }
+  else if (type === 'reaction') { showPanel('reactions'); }
+  else if (type === 'trainer') { favOpenTrainer(id); }
+}
+
+function favOpenTable(id) {
+  showPanel('tables');
+  setTimeout(() => { if (typeof showTableFromTopic === 'function') showTableFromTopic(id); }, 200);
+}
+
+function favOpenCalc(fid) {
+  // fid = 'calc_' + reg.id
+  const calcId = fid.replace(/^calc_/, '');
+  const reg = (typeof CALCS_REGISTRY !== 'undefined' ? CALCS_REGISTRY : []).find(c => c.id === calcId);
+  if (reg && reg.action) { reg.action(); }
+  else { showPanel('calcs'); }
+}
+
+function favOpenTrainer(topicId) {
+  showPanel('test');
+  setTimeout(() => {
+    const t = TOPICS.find(x => x.id === topicId);
+    if (t && typeof selectTopic === 'function') selectTopic(topicId);
+  }, 100);
+}
+
+// ============ INJECT ⭐ НА РЕАКЦІЇ ============
+function injectFavReactions() {
+  document.querySelectorAll('.rx-card').forEach(card => {
+    if (card.querySelector('.fav-btn')) return;
+    const eqEl = card.querySelector('.rx-card-eq');
+    const nameEl = card.querySelector('.rx-card-name');
+    if (!eqEl) return;
+    const eq = eqEl.textContent.trim();
+    const name = nameEl ? nameEl.textContent.trim() : '';
+    const fid = 'rx_' + eq.replace(/[^a-zA-Z0-9]/g,'_').substring(0,40);
+    const on = isFav('reaction', fid) ? ' on' : '';
+    const btn = document.createElement('button');
+    btn.className = 'fav-btn' + on;
+    btn.title = 'Додати до обраних';
+    btn.textContent = '⭐';
+    btn.onclick = function() {
+      const nowOn = toggleFav('reaction', fid, eq, name);
+      btn.className = 'fav-btn' + (nowOn ? ' on' : '');
+    };
+    card.style.position = 'relative';
+    card.appendChild(btn);
+  });
+}
+
+// ============ INJECT ⭐ НА ТАБЛИЦІ ============
+function injectFavTables() {
+  document.querySelectorAll('#tables-content .tb-card').forEach(card => {
+    if (card.querySelector('.fav-btn')) return;
+    const titleEl = card.querySelector('.tb-card-title');
+    const iconEl = card.querySelector('.tb-card-icon');
+    if (!titleEl) return;
+    const title = titleEl.textContent.trim();
+    const icon = iconEl ? iconEl.textContent.trim() : '📊';
+    // Знаходимо id у TABLES_REGISTRY
+    const reg = TABLES_REGISTRY.find(t => t.title === title);
+    if (!reg) return;
+    const fid = reg.id;
+    const on = isFav('table', fid) ? ' on' : '';
+    const btn = document.createElement('button');
+    btn.className = 'fav-btn' + on;
+    btn.title = 'Додати до обраних';
+    btn.textContent = '⭐';
+    btn.onclick = function(e) {
+      e.stopPropagation();
+      const nowOn = toggleFav('table', fid, title, icon);
+      btn.className = 'fav-btn' + (nowOn ? ' on' : '');
+    };
+    card.appendChild(btn);
+  });
+}
+
+// ============ INJECT ⭐ НА ТРЕНАЖЕР ============
+function injectFavTrainer() {
+  document.querySelectorAll('.tr-topic-card').forEach(card => {
+    if (card.querySelector('.fav-btn')) return;
+    const nameEl = card.querySelector('.tr-topic-name');
+    const iconEl = card.querySelector('.tr-topic-icon');
+    if (!nameEl) return;
+    const name = nameEl.textContent.trim();
+    const icon = iconEl ? iconEl.textContent.trim() : '🎯';
+    const t = TOPICS.find(x => x.name === name);
+    if (!t) return;
+    const on = isFav('trainer', t.id) ? ' on' : '';
+    const btn = document.createElement('button');
+    btn.className = 'fav-btn' + on;
+    btn.title = 'Додати до обраних';
+    btn.textContent = '⭐';
+    btn.onclick = function(e) {
+      e.stopPropagation();
+      const nowOn = toggleFav('trainer', t.id, name, icon);
+      btn.className = 'fav-btn' + (nowOn ? ' on' : '');
+    };
+    card.appendChild(btn);
+  });
+}
+
+// ============ INJECT ⭐ НА КАРТКИ КАЛЬКУЛЯТОРІВ ============
+function injectFavCalcs() {
+  document.querySelectorAll('#calcs-content .tb-card').forEach(card => {
+    if (card.querySelector('.fav-btn')) return;
+    const titleEl = card.querySelector('.tb-card-title');
+    const iconEl = card.querySelector('.tb-card-icon');
+    if (!titleEl) return;
+    const title = titleEl.textContent.trim();
+    const icon = iconEl ? iconEl.textContent.trim() : '🔢';
+    const reg = CALCS_REGISTRY.find(c => c.title === title);
+    if (!reg) return;
+    const fid = 'calc_' + reg.id;
+    const on = isFav('calc', fid) ? ' on' : '';
+    const btn = document.createElement('button');
+    btn.className = 'fav-btn' + on;
+    btn.title = 'Додати до обраних';
+    btn.textContent = '⭐';
+    btn.onclick = function(e) {
+      e.stopPropagation();
+      const nowOn = toggleFav('calc', fid, title, icon);
+      btn.className = 'fav-btn' + (nowOn ? ' on' : '');
+    };
+    card.appendChild(btn);
+  });
+}
+
+// ============ ХАБ КАЛЬКУЛЯТОРІВ (аналог Таблиць) ============
+
+const CALC_GROUPS = [
+  {name:'Базові',           icon:'🔢'},
+  {name:'Будова речовини',  icon:'⚛️'},
+  {name:'Неорганіка',       icon:'🧱'},
+  {name:'Стехіометрія',     icon:'⚖️'},
+  {name:'Розчини',          icon:'💧'},
+  {name:'Термодинаміка',    icon:'🔥'},
+  {name:'Кінетика',         icon:'⚡'},
+  {name:'Електрохімія',     icon:'🔋'},
+  {name:'Органіка',         icon:'🧬'},
+  {name:'Аналітика',        icon:'🔬'},
+];
+
+// Реєстр всіх калькуляторів — аналог TABLES_REGISTRY
+const CALCS_REGISTRY = [
+  // ── Базові ──
+  {id:'molar',  title:'Молярна маса сполуки',      icon:'⚗️',  group:'Базові',
+   desc:'Введіть хімічну формулу — отримайте точну молярну масу в г/моль з розбивкою по елементах.',
+   action:()=>showPanel('molar')},
+  {id:'ph',     title:'Калькулятор pH',            icon:'🧪',  group:'Базові',
+   desc:'pH сильних і слабких кислот та основ. Ступінь дисоціації, pOH, Ka і Kb.',
+   action:()=>showPanel('ph')},
+  {id:'phplus', title:'pH розширений',             icon:'🌡️', group:'Базові',
+   desc:'pH буферних систем, двопротонних кислот. Рівняння Гендерсона-Гассельбаха.',
+   action:()=>showPanel('phplus')},
+  {id:'balance',title:'Балансування рівнянь',      icon:'⚖️',  group:'Базові',
+   desc:'Введіть рівняння хімічної реакції — система автоматично розставить коефіцієнти.',
+   action:()=>showPanel('balance')},
+
+  // ── Стехіометрія ──
+  {id:'R01', title:'Відносна атомна маса (ізотопи)',icon:'☢️', group:'Стехіометрія',
+   desc:'Середня атомна маса елемента через частки та маси ізотопів (до 4 ізотопів).',
+   action:()=>ccOpen('1-1-atom','isotope_avg_mass')},
+  {id:'R02', title:'Масова частка елемента ω%',    icon:'📊',  group:'Стехіометрія',
+   desc:'ω(E) = n·Ar(E)/Mr × 100%. Частка елемента за кількістю атомів і молярною масою.',
+   action:()=>ccOpen('1-2-periodic','mass_fraction_element')},
+  {id:'R03', title:'Найпростіша формула за ω%',   icon:'🧪',  group:'Стехіометрія',
+   desc:'Емпірична формула органічної сполуки з масових часток C, H, N, O.',
+   action:()=>ccOpen('5-1-organic-basics','empirical_formula')},
+  {id:'R04', title:'Відносна густина газу D',      icon:'💨',  group:'Стехіометрія',
+   desc:'D = M(A)/M(B). Відносна та абсолютна густина газу відносно водню, повітря чи будь-якого газу.',
+   action:()=>ccOpen('1-5-gases','gas_rel_density')},
+  {id:'R05', title:'Лімітуючий реагент',           icon:'🔬',  group:'Стехіометрія',
+   desc:'Визначає який реагент витратиться першим, надлишок іншого і теоретичну масу продукту.',
+   action:()=>ccOpen('2-3-p-elements','limiting_reagent')},
+  {id:'R06', title:'Вихід продукту η%',            icon:'🎯',  group:'Стехіометрія',
+   desc:'η = m_практ/m_теор × 100%. Ефективність синтезу через порівняння з теоретичним виходом.',
+   action:()=>ccOpen('2-3-p-elements','product_yield')},
+  {id:'R07', title:'Сировина з домішками χ%',      icon:'🏭',  group:'Стехіометрія',
+   desc:'Маса продукту з реальної сировини з урахуванням чистоти (χ%).',
+   action:()=>ccOpen('2-1-inorganic-classes','raw_material_purity')},
+  {id:'s01', title:'Теоретична маса продукту',     icon:'⚖️',  group:'Стехіометрія',
+   desc:'Маса продукту за масою реагента і стехіометрією реакції.',
+   action:()=>ccOpen('2-3-p-elements','V')},
+  {id:'s02', title:'Об\'єм газу за реакцією',      icon:'🫧',  group:'Стехіометрія',
+   desc:'Об\'єм газу (н.у.) з маси реагента і стехіометричних коефіцієнтів.',
+   action:()=>ccOpen('2-3-p-elements','P')},
+
+  // ── Будова атому і зв\'язок ──
+  {id:'a01', title:'Електронна конфігурація',      icon:'⚛️',  group:'Будова речовини',
+   desc:'Конфігурація атома за атомним номером Z: 1s²2s²2p⁶... Принцип Ауфбау.',
+   action:()=>ccOpen('1-1-atom','V')},
+  {id:'a02', title:'Квантові числа останнього e⁻', icon:'🔢',  group:'Будова речовини',
+   desc:'n, l, mₗ, mₛ для зовнішнього електрона атома за Z.',
+   action:()=>ccOpen('1-1-atom','P')},
+  {id:'a03', title:'Валентні електрони',           icon:'💡',  group:'Будова речовини',
+   desc:'Кількість валентних електронів атома за Z. Зв\'язок з групою і хімічними властивостями.',
+   action:()=>ccOpen('1-1-atom','n')},
+  {id:'a04', title:'Атомний радіус за Z',          icon:'📏',  group:'Будова речовини',
+   desc:'Атомний радіус (пм) за атомним номером. Тренди в групах і періодах ПС.',
+   action:()=>ccOpen('1-2-periodic','V')},
+  {id:'a05', title:'Електронегативність (Полінг)',  icon:'🔋',  group:'Будова речовини',
+   desc:'ЕН за шкалою Полінга для атома з заданим Z. Від 0.79 (Cs) до 3.98 (F).',
+   action:()=>ccOpen('1-2-periodic','P')},
+  {id:'a06', title:'Перша енергія іонізації EI₁',  icon:'⚡',  group:'Будова речовини',
+   desc:'EI₁ (кДж/моль) за атомним номером Z. Перший потенціал іонізації елемента.',
+   action:()=>ccOpen('1-2-periodic','n')},
+  {id:'a07', title:'Тип хімічного зв\'язку (ΔEN)', icon:'🔗',  group:'Будова речовини',
+   desc:'ΔEN = |EN_A − EN_B|: неполярний (<0.5), полярний ковалентний, іонний (>1.7).',
+   action:()=>ccOpen('1-3-bond','V')},
+  {id:'a08', title:'Геометрія молекули (VSEPR)',   icon:'📐',  group:'Будова речовини',
+   desc:'Форма молекули за кількістю зв\'язувальних і неподілених пар (VSEPR). Лінійна/тетраедр/піраміда.',
+   action:()=>ccOpen('1-3-bond','P')},
+  {id:'a09', title:'Тип гібридизації',             icon:'🔬',  group:'Будова речовини',
+   desc:'sp, sp², sp³, sp³d, sp³d² за сумою зв\'язувальних і неподілених пар електронів.',
+   action:()=>ccOpen('1-3-bond','n')},
+  {id:'a10', title:'Теплота плавлення Q',          icon:'🌡️', group:'Будова речовини',
+   desc:'Q = m·λ. Теплота, що поглинається при плавленні речовини.',
+   action:()=>ccOpen('1-4-states','V')},
+  {id:'a11', title:'Теплота пароутворення Q',      icon:'♨️',  group:'Будова речовини',
+   desc:'Q = m·r. Теплота, що поглинається при переході рідина → пара.',
+   action:()=>ccOpen('1-4-states','P')},
+  {id:'a12', title:'Молярна теплота переходу',     icon:'🔥',  group:'Будова речовини',
+   desc:'Q = n·ΔH. Теплота фазового переходу через молярну ентальпію.',
+   action:()=>ccOpen('1-4-states','n')},
+  {id:'a13', title:'Ідеальний газ PV=nRT',         icon:'💨',  group:'Будова речовини',
+   desc:'Знаходження P, V, T або n з рівняння стану ідеального газу.',
+   action:()=>ccOpen('1-5-gases','V')},
+  {id:'a14', title:'Закон Дальтона (Pᵢ)',          icon:'🌫️', group:'Будова речовини',
+   desc:'Pᵢ = xᵢ·P_total. Парціальний тиск компонента суміші газів.',
+   action:()=>ccOpen('1-5-gases','1-5-gases_dalton')},
+  {id:'a15', title:'Густина газу при T і P',       icon:'📦',  group:'Будова речовини',
+   desc:'ρ = PM/(RT). Молярна маса з густини або навпаки при заданих T і P.',
+   action:()=>ccOpen('1-5-gases','1-5-gases_density')},
+
+  // ── Неорганічна хімія ──
+  {id:'n01', title:'Формула оксиду Eₓ(O)ᵧ',       icon:'🔴',  group:'Неорганіка',
+   desc:'Формула оксиду за валентністю елемента: E₂Oₙ або EO. Назва і клас сполуки.',
+   action:()=>ccOpen('2-1-inorganic-classes','V')},
+  {id:'n02', title:'Сіль (катіон + аніон)',         icon:'🧂',  group:'Неорганіка',
+   desc:'Формула солі за зарядами катіона і аніона. Правило перехресного множення.',
+   action:()=>ccOpen('2-1-inorganic-classes','P')},
+  {id:'n03', title:'Ступінь окиснення в сполуці',  icon:'🔢',  group:'Неорганіка',
+   desc:'С.О. невідомого елемента: ΣС.О.·n = заряд частинки.',
+   action:()=>ccOpen('2-1-inorganic-classes','n')},
+  {id:'n04', title:'Маса лугу при реакції (MOH)',  icon:'⚗️',  group:'Неорганіка',
+   desc:'Маса NaOH або KOH, що утворюється при взаємодії лужного металу з водою.',
+   action:()=>ccOpen('2-2-s-elements','V')},
+  {id:'n05', title:'Маса Ca(OH)₂ при реакції',     icon:'🧱',  group:'Неорганіка',
+   desc:'Маса Ca(OH)₂ при взаємодії лужноземельного металу з водою.',
+   action:()=>ccOpen('2-2-s-elements','P')},
+  {id:'n06', title:'Стехіометрія горіння металу',  icon:'🔥',  group:'Неорганіка',
+   desc:'Маса оксиду або кількість O₂ при горінні s-металу.',
+   action:()=>ccOpen('2-2-s-elements','n')},
+  {id:'n07', title:'С.О. центрального атома',      icon:'⚛️',  group:'Неорганіка',
+   desc:'С.О. центрального атома комплексу за зарядом комплексу, лігандів і їх кількістю.',
+   action:()=>ccOpen('2-4-d-f-elements','V')},
+  {id:'n08', title:'Координаційне число комплексу',icon:'🔗',  group:'Неорганіка',
+   desc:'КЧ = n(моно) + 2·n(бідент). Координаційне число для моно- і бідентатних лігандів.',
+   action:()=>ccOpen('2-4-d-f-elements','P')},
+  {id:'n09', title:'Заряд комплексного іона',      icon:'⚡',  group:'Неорганіка',
+   desc:'Заряд = С.О.(М) + n·q(L). Заряд комплексу за С.О. і зарядами лігандів.',
+   action:()=>ccOpen('2-4-d-f-elements','n')},
+
+  // ── Стехіометрія ──
+  {id:'s03', title:'Вихід η% (органічний синтез)', icon:'🎯',  group:'Стехіометрія',
+   desc:'η = m_факт/m_теор × 100%. Застосування для синтезу естерів та інших органічних сполук.',
+   action:()=>ccOpen('2-3-p-elements','n')},
+
+  // ── Термодинаміка ──
+  {id:'T01', title:'Закон Гесса — ΔH реакції',    icon:'🔥',  group:'Термодинаміка',
+   desc:'ΔH = ΣΔHf(прод) − ΣΔHf(реаг). Теплота реакції з ентальпій утворення.',
+   action:()=>ccOpen('3-1-thermodynamics','V')},
+  {id:'T02', title:'Енергія Гіббса ΔG',           icon:'♾️',  group:'Термодинаміка',
+   desc:'ΔG = ΔH − T·ΔS. Критерій мимовільності реакції при заданій температурі.',
+   action:()=>ccOpen('3-1-thermodynamics','P')},
+  {id:'T03', title:'Температура рівноваги T*',     icon:'🎯',  group:'Термодинаміка',
+   desc:'T* = ΔH/ΔS при ΔG = 0. Температура зміни знаку ΔG.',
+   action:()=>ccOpen('3-1-thermodynamics','n')},
+  {id:'R12', title:'Закон Кірхгофа ΔH(T)',         icon:'📈',  group:'Термодинаміка',
+   desc:'ΔH(T₂) = ΔH(T₁) + ΔCp·(T₂−T₁). Корекція ентальпії реакції на температуру.',
+   action:()=>ccOpen('3-1-thermodynamics','kirchhoff')},
+  {id:'F01', title:'Рівняння Клаузіуса-Клапейрона',icon:'🌡️',group:'Термодинаміка',
+   desc:'P₂/P₁ = exp[ΔHvap/R·(1/T₁−1/T₂)]. Тиск насиченої пари при новій температурі.',
+   action:()=>ccOpen('3-5-phase','V')},
+  {id:'F02', title:'Кріо/ебуліоскопія (Kf або Kb)',icon:'❄️', group:'Термодинаміка',
+   desc:'ΔT = K·Cm·i. Зниження T замерзання або підвищення T кипіння розчину.',
+   action:()=>ccOpen('3-5-phase','P')},
+  {id:'F03', title:'Тиск пари суміші (Рауль)',     icon:'⚗️',  group:'Термодинаміка',
+   desc:'P = xA·P°A + xB·P°B. Загальний тиск пари ідеальної бінарної суміші.',
+   action:()=>ccOpen('3-5-phase','n')},
+
+  // ── Кінетика ──
+  {id:'K01', title:'Константа швидкості k(T)',     icon:'⚡',  group:'Кінетика',
+   desc:'k = A·e^(−Ea/RT). Рівняння Арреніуса: константа швидкості при заданій T.',
+   action:()=>ccOpen('3-2-kinetics','V')},
+  {id:'K02', title:'Правило Вант-Гоффа γ',        icon:'🌡️', group:'Кінетика',
+   desc:'k₂/k₁ = γ^(ΔT/10). Прискорення реакції при підвищенні температури на 10°C.',
+   action:()=>ccOpen('3-2-kinetics','P')},
+  {id:'K03', title:'Час піврозпаду t½',            icon:'⏱️', group:'Кінетика',
+   desc:'t½ = ln2/k. Час зменшення концентрації вдвічі для реакції першого порядку.',
+   action:()=>ccOpen('3-2-kinetics','n')},
+  {id:'Kc',  title:'Константа рівноваги Kc',      icon:'⇌',   group:'Кінетика',
+   desc:'Kc = [C]^c·[D]^d / ([A]^a·[B]^b). Розрахунок з рівноважних концентрацій.',
+   action:()=>ccOpen('3-3-equilibrium','V')},
+  {id:'Kc2', title:'ICE-таблиця (Kc і C₀)',       icon:'📋',  group:'Кінетика',
+   desc:'Рівноважні концентрації з Kc і початкових C₀ через квадратне рівняння.',
+   action:()=>ccOpen('3-3-equilibrium','P')},
+  {id:'Kc3', title:'Зсув рівноваги Q vs Kc',      icon:'🔄',  group:'Кінетика',
+   desc:'Q vs Kc: якщо Q < Kc — реакція іде вправо, Q > Kc — вліво, Q = Kc — рівновага.',
+   action:()=>ccOpen('3-3-equilibrium','n')},
+  {id:'R15', title:'ICE-таблиця (спрощена)',       icon:'🔢',  group:'Кінетика',
+   desc:'A ⇌ B + C. Рівноважні концентрації з Kc і C₀(A) через ICE-метод.',
+   action:()=>ccOpen('3-3-equilibrium','ice_table_simple')},
+  {id:'R16', title:'Перерахунок Kp ↔ Kc',         icon:'💨',  group:'Кінетика',
+   desc:'Kp = Kc·(RT)^Δn. Взаємний перехід між Kp і Kc для газових реакцій.',
+   action:()=>ccOpen('3-3-equilibrium','kp_kc_convert')},
+  {id:'R17', title:'Знаходження Ea (Арреніус)',    icon:'📐',  group:'Кінетика',
+   desc:'Ea = R·ln(k₂/k₁)/(1/T₁−1/T₂). Енергія активації з двох вимірів k(T).',
+   action:()=>ccOpen('3-2-kinetics','arrhenius_ea')},
+  {id:'R18', title:'C(t) першого порядку',         icon:'📉',  group:'Кінетика',
+   desc:'C(t) = C₀·e^(−kt). Поточна концентрація і час досягнення заданого значення.',
+   action:()=>ccOpen('3-2-kinetics','first_order_decay')},
+  {id:'R27', title:'Кінетика Міхаеліса-Ментен',   icon:'🧬',  group:'Кінетика',
+   desc:'v = Vmax·[S]/(Km+[S]). Швидкість ферментативної реакції. Побудова Lineweaver-Burk.',
+   action:()=>ccOpen('5-5-nitrogen-compounds','michaelis_menten')},
+
+  // ── Електрохімія ──
+  {id:'E01', title:'ЕРС гальванічного елемента',  icon:'🔋',  group:'Електрохімія',
+   desc:'E°_cell = E°_катода − E°_анода. ЕРС, ΔG і константа рівноваги реакції.',
+   action:()=>ccOpen('3-4-electrochemistry','V')},
+  {id:'E02', title:'Рівняння Нернста',             icon:'⚡',  group:'Електрохімія',
+   desc:'E = E° − (RT/nF)·lnQ. Реальний потенціал електрода залежно від концентрацій.',
+   action:()=>ccOpen('3-4-electrochemistry','P')},
+  {id:'E03', title:'Закон Фарадея (маса)',         icon:'⚗️',  group:'Електрохімія',
+   desc:'m = M·I·t/(n·F). Маса речовини при електролізі за струмом і часом.',
+   action:()=>ccOpen('3-4-electrochemistry','n')},
+  {id:'R19', title:'Фарадей розширений (Б/В)',     icon:'🔌',  group:'Електрохімія',
+   desc:'Три режими: знайти m, t або I. Ефективність та об\'єм газу при електролізі.',
+   action:()=>ccOpen('3-4-electrochemistry','faraday_extended')},
+  {id:'R20', title:'Нернст [Ox]/[Red]',            icon:'🔄',  group:'Електрохімія',
+   desc:'E з концентрацій Ox і Red або [Ox]/[Red] з виміряного потенціалу E.',
+   action:()=>ccOpen('3-4-electrochemistry','nernst_extended')},
+
+  // ── Розчини ──
+  {id:'sol_conc', title:'Концентрація розчину',    icon:'💧',  group:'Розчини',
+   desc:'Взаємне перетворення %, моль/л, г/л і нормальності. Формула розбавлення C₁V₁=C₂V₂.',
+   action:()=>showPanel('sol_conc')},
+  {id:'sol_prep', title:'Приготування розчину',    icon:'🔬',  group:'Розчини',
+   desc:'Скільки речовини і води потрібно для розчину заданої масової частки і об\'єму.',
+   action:()=>showPanel('sol_prep')},
+  {id:'sol_gas',  title:'Розчинення газів (Генрі)', icon:'🫧', group:'Розчини',
+   desc:'Закон Генрі: залежність розчинності газу від тиску. Кесонна хвороба, газування.',
+   action:()=>showPanel('sol_gas')},
+  {id:'d01', title:'ω% → C (молярна концентрація)',icon:'🔁',  group:'Розчини',
+   desc:'C = ρ·ω·1000/M. Перетворення масової частки у молярну концентрацію і назад.',
+   action:()=>ccOpen('4-2-concentration','V')},
+  {id:'d02', title:'C (молярна) → Cm (моляльність)',icon:'⚖️', group:'Розчини',
+   desc:'Cm = C·1000/(ρ·1000 − C·M). Перетворення молярності у моляльність.',
+   action:()=>ccOpen('4-2-concentration','P')},
+  {id:'d03', title:'Розведення C₁V₁=C₂V₂',        icon:'💧',  group:'Розчини',
+   desc:'Об\'єм концентрованого розчину для приготування розведеного. C₁V₁ = C₂V₂.',
+   action:()=>ccOpen('4-2-concentration','n')},
+  {id:'d04', title:'s (розчинність) з Ksp',        icon:'🧂',  group:'Розчини',
+   desc:'Розчинність малорозчинної солі з добутку розчинності Ksp для MX, MX₂, MX₃.',
+   action:()=>ccOpen('4-1-dissolving','V')},
+  {id:'d05', title:'Ksp з розчинності s',           icon:'📊',  group:'Розчини',
+   desc:'Ksp з експериментальної розчинності (г/л або моль/л) для різних типів солей.',
+   action:()=>ccOpen('4-1-dissolving','P')},
+  {id:'d06', title:'Умова утворення осаду Q',       icon:'⚗️',  group:'Розчини',
+   desc:'Порівняння добутку іонних концентрацій Q з Ksp: чи утвориться осад при змішуванні.',
+   action:()=>ccOpen('4-1-dissolving','n')},
+  {id:'d07', title:'pH слабкої кислоти',            icon:'🧪',  group:'Розчини',
+   desc:'pH = ½(pKa − lgC). Ступінь дисоціації α і pH слабкої кислоти через Ka і C.',
+   action:()=>ccOpen('4-3-electrolytes','V')},
+  {id:'d08', title:'pH буфера (Гендерсон-Г.)',      icon:'🔬',  group:'Розчини',
+   desc:'pH = pKa + lg([A⁻]/[HA]). Рівняння Гендерсона-Гассельбаха для буферних систем.',
+   action:()=>ccOpen('4-3-electrolytes','P')},
+  {id:'d09', title:'Ступінь дисоціації α',         icon:'⚡',  group:'Розчини',
+   desc:'α = √(Ka/C). Ступінь дисоціації слабкої кислоти через Ka і аналітичну концентрацію.',
+   action:()=>ccOpen('4-3-electrolytes','n')},
+  {id:'d10', title:'Кріоскопія ΔTзам',             icon:'❄️',  group:'Розчини',
+   desc:'ΔTf = Kf·Cm·i. Зниження температури замерзання розчину. Ізотонічний коефіцієнт i.',
+   action:()=>ccOpen('4-4-colligative','V')},
+  {id:'d11', title:'Осмотичний тиск π = iCRT',     icon:'🌊',  group:'Розчини',
+   desc:'π = iCRT. Осмотичний тиск електролітів і неелектролітів при заданих C, T, i.',
+   action:()=>ccOpen('4-4-colligative','P')},
+  {id:'d12', title:'Молярна маса з ΔT (кріоскопія)',icon:'🔭', group:'Розчини',
+   desc:'M = Kf·m_розч/(ΔT·m_розчин). Молярна маса невідомої речовини з кріоскопічного досліду.',
+   action:()=>ccOpen('4-4-colligative','n')},
+  {id:'d13', title:'Поріг коагуляції γ (колоїди)', icon:'🔵',  group:'Розчини',
+   desc:'Мінімальна концентрація електроліту для коагуляції колоїдної системи.',
+   action:()=>ccOpen('4-5-colloids','V')},
+  {id:'d14', title:'Правило Шульце-Гарді (z)',      icon:'⚡',  group:'Розчини',
+   desc:'Коагулювальна дія іона залежить від заряду z: вищий заряд → нижчий поріг коагуляції.',
+   action:()=>ccOpen('4-5-colloids','P')},
+  {id:'R08', title:'Осмотичний тиск (new)',         icon:'🌊',  group:'Розчини',
+   desc:'π = iCRT. Розширений: три режими — знайти π, C або T.',
+   action:()=>ccOpen('4-4-colligative','osmotic_pressure')},
+  {id:'R09', title:'Кріоскопія — молярна маса',    icon:'❄️',  group:'Розчини',
+   desc:'Визначення молярної маси за зниженням T замерзання: ΔTf = Kf·Cm·i.',
+   action:()=>ccOpen('3-5-phase','cryoscopy_molar_mass')},
+  {id:'R10', title:'Ебуліоскопія ΔTb',             icon:'♨️',  group:'Розчини',
+   desc:'Підвищення T кипіння: ΔTb = Kb·Cm·i. Знаходження молярної маси розчиненої речовини.',
+   action:()=>ccOpen('3-5-phase','ebullioscopy')},
+  {id:'R11', title:'Правило змішування розчинів',  icon:'🔀',  group:'Розчини',
+   desc:'C_mix = (m₁C₁+m₂C₂)/(m₁+m₂). Концентрація суміші двох розчинів.',
+   action:()=>ccOpen('4-2-concentration','solution_mixing')},
+  {id:'R13', title:'Іонна сила розчину I',          icon:'⚡',  group:'Розчини',
+   desc:'I = ½·Σ(cᵢ·zᵢ²). Іонна сила для розчину з кількома електролітами.',
+   action:()=>ccOpen('4-3-electrolytes','ionic_strength')},
+  {id:'R14', title:'Коефіцієнт активності γ±',     icon:'📐',  group:'Розчини',
+   desc:'lg(γ±) = −A·z²·√I. Дебай-Хюккель: активна концентрація іонів у розчині.',
+   action:()=>ccOpen('4-3-electrolytes','activity_coefficient')},
+
+  // ── Органіка ──
+  {id:'O01', title:'Ступінь ненасиченості DBE',    icon:'🔗',  group:'Органіка',
+   desc:'DBE = (2C+2+N−H−X)/2. Кількість π-зв\'язків і циклів за формулою.',
+   action:()=>ccOpen('5-1-organic-basics','V')},
+  {id:'O02', title:'Формула за ω% (розширена)',    icon:'🧪',  group:'Органіка',
+   desc:'Емпірична й молекулярна формули за ω(C), ω(H), ω(N), ω(O) та молярною масою.',
+   action:()=>ccOpen('5-1-organic-basics','P')},
+  {id:'O01b',title:'Клас сполуки за DBE',          icon:'📋',  group:'Органіка',
+   desc:'DBE → алкан/алкен/алкін/арен. Інтерпретація класу органічної сполуки.',
+   action:()=>ccOpen('5-1-organic-basics','n')},
+  {id:'R26', title:'DBE + інтерпретація (new)',     icon:'🔗',  group:'Органіка',
+   desc:'DBE з атомного складу + автоматична інтерпретація класу: алкан, алкен, арен тощо.',
+   action:()=>ccOpen('5-1-organic-basics','dbe_check')},
+  {id:'O03', title:'Теплота згоряння вуглеводню',  icon:'🔥',  group:'Органіка',
+   desc:'Q від горіння CₓHᵧ. Об\'єм O₂/повітря для повного горіння.',
+   action:()=>ccOpen('5-2-hydrocarbons','V')},
+  {id:'O03b',title:'Об\'єм O₂/повітря для горіння',icon:'🌬️', group:'Органіка',
+   desc:'V(O₂) і V(повітря) для повного горіння 1 моль вуглеводню CₓHᵧ.',
+   action:()=>ccOpen('5-2-hydrocarbons','P')},
+  {id:'O03c',title:'Формула вуглеводню з горіння', icon:'🧪',  group:'Органіка',
+   desc:'CₓHᵧ з мол. CO₂ і H₂O при горінні. Знаходження x і y за стехіометрією.',
+   action:()=>ccOpen('5-2-hydrocarbons','n')},
+  {id:'O04b',title:'Тип орієнтанта ароматики',     icon:'⚗️',  group:'Органіка',
+   desc:'Орієнтант I/II роду в реакціях бензолу. Позиція електрофільного заміщення.',
+   action:()=>ccOpen('5-3-aromatics','V')},
+  {id:'O04c',title:'Позиція заміщення (арен)',      icon:'🔬',  group:'Органіка',
+   desc:'орто/мета/пара за типом замісника. Прогноз продукту реакції бензолу.',
+   action:()=>ccOpen('5-3-aromatics','P')},
+  {id:'O04', title:'Маса естеру (естерифікація)',   icon:'🍶',  group:'Органіка',
+   desc:'Маса естеру при реакції спирт + кислота.',
+   action:()=>ccOpen('5-4-oxygen-compounds','V')},
+  {id:'O04d',title:'Вихід естерифікації η%',        icon:'🎯',  group:'Органіка',
+   desc:'η = m_факт/m_теор × 100% для реакції естерифікації.',
+   action:()=>ccOpen('5-4-oxygen-compounds','P')},
+  {id:'O04e',title:'Омилення жирів',               icon:'🧼',  group:'Органіка',
+   desc:'Маса NaOH для омилення жиру. n(NaOH) = 3·n(жиру).',
+   action:()=>ccOpen('5-4-oxygen-compounds','n')},
+  {id:'O05', title:'Ізоелектрична точка АК (2 pKa)',icon:'🧬',  group:'Органіка',
+   desc:'pI = (pKa1+pKa2)/2 для амінокислот з двома константами дисоціації.',
+   action:()=>ccOpen('5-5-nitrogen-compounds','V')},
+  {id:'O05b',title:'Маса пептиду з АК',            icon:'⚖️',  group:'Органіка',
+   desc:'M(пептиду) = ΣM(АК) − (n−1)·18. Маса пептиду через суму мас амінокислот.',
+   action:()=>ccOpen('5-5-nitrogen-compounds','P')},
+  {id:'O05c',title:'Заряд АК при заданому pH',     icon:'⚡',  group:'Органіка',
+   desc:'Знак заряду амінокислоти залежно від pH і її ізоелектричної точки pI.',
+   action:()=>ccOpen('5-5-nitrogen-compounds','n')},
+  {id:'R25', title:'Ізоелектрична точка (3 pKa)',  icon:'🔬',  group:'Органіка',
+   desc:'pI для дипептидів і АК з трьома pKa. Форма молекули при заданому pH.',
+   action:()=>ccOpen('5-5-nitrogen-compounds','pi_extended')},
+  {id:'O06', title:'Ступінь полімеризації DPn',    icon:'🔗',  group:'Органіка',
+   desc:'DPn = M(полімеру)/M(ланки). Кількість мономерних ланок у полімері.',
+   action:()=>ccOpen('5-6-polymers','V')},
+  {id:'O06b',title:'Маса мономера і мономерного виходу',icon:'🏭',group:'Органіка',
+   desc:'Маса мономера для синтезу полімеру з урахуванням η%.',
+   action:()=>ccOpen('5-6-polymers','P')},
+  {id:'O06c',title:'M(ланки) полімеру конденсації',icon:'🔗',  group:'Органіка',
+   desc:'M(ланки) = M(мономера) − M(відщепленої молекули). Для поліамідів, поліестерів.',
+   action:()=>ccOpen('5-6-polymers','n')},
+
+  // ── Аналітика ──
+  {id:'A01', title:'Концентрація аналіту (тітриметрія)',icon:'🧪',group:'Аналітика',
+   desc:'C₁ = C₂·V₂/V₁. Молярна концентрація аналіту з результатів титрування.',
+   action:()=>ccOpen('6-2-titrimetry','V')},
+  {id:'A02', title:'Маса аналіту (тітриметрія)',    icon:'⚖️', group:'Аналітика',
+   desc:'m = C·V·M/z. Маса речовини з об\'єму тітранту і фактора еквівалентності.',
+   action:()=>ccOpen('6-2-titrimetry','P')},
+  {id:'A02b',title:'Перевірка стехіометрії титрування',icon:'✔️',group:'Аналітика',
+   desc:'n₁·z₁ = n₂·z₂. Перевірка правильності стехіометрії кислотно-основної реакції.',
+   action:()=>ccOpen('6-2-titrimetry','n')},
+  {id:'Aq01',title:'Іон → реагент і ефект',        icon:'🔍',  group:'Аналітика',
+   desc:'Якісна реакція на іон: реагент, умови, спостережуваний ефект.',
+   action:()=>ccOpen('6-1-qualitative','V')},
+  {id:'Aq02',title:'Ефект → визначення іона',      icon:'🔬',  group:'Аналітика',
+   desc:'За спостережуваним ефектом (колір осаду, газ) визначте, який іон присутній.',
+   action:()=>ccOpen('6-1-qualitative','P')},
+  {id:'A03', title:'Закон БЛБ — оптична густина',  icon:'📡', group:'Аналітика',
+   desc:'A = ε·l·c. Оптична густина через молярний коефіцієнт поглинання.',
+   action:()=>ccOpen('6-3-instrumental','V')},
+  {id:'A04', title:'Концентрація (спектрофотом.)', icon:'🔭',  group:'Аналітика',
+   desc:'c = A/(ε·l). Концентрація речовини зі спектрофотометричних вимірювань.',
+   action:()=>ccOpen('6-3-instrumental','P')},
+  {id:'A05', title:'T% ↔ Оптична густина A',       icon:'📊',  group:'Аналітика',
+   desc:'A = −lg(T%/100). Перетворення між пропусканням і оптичною густиною.',
+   action:()=>ccOpen('6-3-instrumental','n')},
+  {id:'R21', title:'Хроматографія Rf і Rs',         icon:'🌈',  group:'Аналітика',
+   desc:'Rf = d_речовини/d_фронту. Фактор розділення Rs між двома компонентами.',
+   action:()=>ccOpen('6-3-instrumental','chromatography')},
+  {id:'R22', title:'Рідинна екстракція E%',         icon:'💎',  group:'Аналітика',
+   desc:'E% = D·Vorg/(D·Vorg+Vaq)·100. Ступінь вилучення для n стадій.',
+   action:()=>ccOpen('6-2-titrimetry','extraction')},
+  {id:'R23', title:'Закон Брегга-Вульфа',           icon:'📡',  group:'Аналітика',
+   desc:'2d·sinθ = n·λ. Рентгеноструктурний аналіз: d або θ.',
+   action:()=>ccOpen('6-3-instrumental','bragg')},
+  {id:'R24', title:'Радіоактивний розпад N(t)',     icon:'☢️',  group:'Аналітика',
+   desc:'N(t) = N₀·e^(−λt). Залишкова кількість атомів через час піврозпаду.',
+   action:()=>ccOpen('6-3-instrumental','radioactive_decay')},
+  {id:'R28', title:'Щільність кристала ρ',          icon:'💎',  group:'Аналітика',
+   desc:'ρ = n·M/(Na·V_cell). Теоретична щільність кристала з параметрів комірки.',
+   action:()=>ccOpen('6-3-instrumental','crystal_density')},
+];
+
+let ccCurCat = 'all';
+
+function initCalcsPanel() {
+  const catsEl = document.getElementById('cc-cats');
+  if (catsEl && catsEl.innerHTML === '') {
+    const cats = [['all','Усі'], ...CALC_GROUPS.map(g => [g.name, `${g.icon} ${g.name}`])];
+    catsEl.innerHTML = cats.map(([id, label]) =>
+      `<button class="fm-cat${id==='all'?' on':''}" onclick="setCcCat('${id.replace(/'/g,"\\'")}',this)">${label}</button>`
+    ).join('');
+  }
+  renderCalcsGrid();
+}
+
+function setCcCat(cat, btn) {
+  ccCurCat = cat;
+  document.querySelectorAll('#cc-cats .fm-cat').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  renderCalcsGrid();
+}
+
+function renderCalcsGrid() {
+  const q = (document.getElementById('cc-search')?.value || '').toLowerCase();
+  const filtered = CALCS_REGISTRY.filter(c => {
+    const matchCat = ccCurCat === 'all' || c.group === ccCurCat;
+    const matchQ = !q || c.title.toLowerCase().includes(q) || (c.desc && c.desc.toLowerCase().includes(q)) || (c.id && c.id.toLowerCase().includes(q));
+    return matchCat && matchQ;
+  });
+  const cntEl = document.getElementById('cc-cnt');
+  if (cntEl) cntEl.textContent = filtered.length;
+  const container = document.getElementById('calcs-content');
+  if (!container) return;
+  if (!filtered.length) {
+    container.innerHTML = `<div class="tb-empty">Нічого не знайдено</div>`;
+    return;
+  }
+  const useGroups = !q && ccCurCat === 'all';
+  let html = '';
+  if (useGroups) {
+    CALC_GROUPS.forEach(grp => {
+      const items = filtered.filter(c => c.group === grp.name);
+      if (!items.length) return;
+      html += `<div style="margin-bottom:28px">`;
+      html += `<div class="tb-group-label">${grp.icon} ${grp.name} <span style="color:#4a5480;font-size:10px;margin-left:6px">(${items.length})</span></div>`;
+      html += `<div class="tb-grid">${items.map(c => ccCard(c)).join('')}</div>`;
+      html += `</div>`;
+    });
+  } else {
+    html = `<div class="tb-grid">${filtered.map(c => ccCard(c)).join('')}</div>`;
+  }
+  container.innerHTML = html;
+}
+
+function ccCard(c) {
+  const idx = CALCS_REGISTRY.indexOf(c);
+  return `<div class="tb-card" onclick="CALCS_REGISTRY[${idx}].action()">
+    <div class="tb-card-icon">${c.icon}</div>
+    <div class="tb-card-title">${c.title}</div>
+    <div class="tb-card-desc">${c.desc}</div>
+    <div class="tb-card-btn"><button class="sol-mode-btn" style="font-size:11px;padding:5px 14px">Відкрити →</button></div>
+  </div>`;
+}
+
+function ccOpen(topicId, engineKey) {
+  if (typeof closeGroups === 'function') closeGroups();
+  if (typeof closeMobileNav === 'function') closeMobileNav();
+  // Визначаємо тип ключа
+  const isShortMode = /^[VPn]$/.test(engineKey);
+  const isTopicKey = engineKey.startsWith(topicId + '_'); // напр. '1-1-atom_V'
+  if (isShortMode || isTopicKey) {
+    // Стандартний engine теми (V/P/n або topicId_V)
+    const modeId = isShortMode ? engineKey : engineKey.split('_').pop();
+    loadTopicJson(topicId);
+    setTimeout(() => {
+      if (typeof _topicGoCalcById === 'function') _topicGoCalcById(topicId, modeId);
+    }, 450);
+  } else {
+    // New calcs engine — є пряме визначення в TOPIC_CALC_ENGINES після Object.assign
+    loadTopicJson(topicId);
+    setTimeout(() => {
+      if (typeof _topicGoCalcById === 'function') {
+        _topicGoCalcById(topicId);
+        // Якщо engine є в зведеному об'єкті — перемикаємо режим
+        setTimeout(() => {
+          if (typeof _tcSetMode === 'function') _tcSetMode(engineKey);
+        }, 80);
+      }
+    }, 450);
+  }
+}
 
 // ============ СТАРТ ============
 buildTable();
@@ -4077,6 +4858,7 @@ function initTopicGrid(){
       <div class="tr-topic-name" style="color:${t.color}">${t.name}</div>
       <div class="tr-topic-desc">${t.desc}</div>
     </div>`).join('');
+  setTimeout(injectFavTrainer, 0);
   // Кнопка старту
   const existing=document.getElementById('tr-start-btn');
   if(!existing){
@@ -5254,6 +6036,7 @@ function renderTablesGrid(){
     html=`<div class="tb-grid">${filtered.map(t=>tbCard(t)).join('')}</div>`;
   }
   c.innerHTML=html;
+  setTimeout(injectFavTables, 0);
 }
 
 function tbCard(t){
@@ -6118,6 +6901,12 @@ const _TC_FIELD_DEFS = {
   '3-4-electrochemistry_V':[{id:'E_cathode',label:'E катода (В)',hint:'стандартний потенціал',placeholder:'0.34',allowNeg:true},{id:'E_anode',label:'E анода (В)',hint:'стандартний потенціал',placeholder:'-0.44',allowNeg:true},{id:'n_electrons',label:'n e\u207b',hint:'кількість електронів',placeholder:'2',integer:true}],
   '3-4-electrochemistry_P':[{id:'E0',label:'E\u00b0 (В)',hint:'стандартний потенціал',placeholder:'0.34',allowNeg:true},{id:'n_el',label:'n e\u207b',hint:'кількість електронів',placeholder:'2',integer:true},{id:'log_Q',label:'lgQ',hint:'логарифм фактора Q',placeholder:'1',allowNeg:true}],
   '3-4-electrochemistry_n':[{id:'M_product',label:'M(продукту) (г/моль)',hint:'молярна маса',placeholder:'63.5'},{id:'I',label:'I (А)',hint:'сила струму',placeholder:'2'},{id:'t_min',label:'t (хв)',hint:'час електролізу',placeholder:'30'},{id:'n_el',label:'n e\u207b',hint:'кількість електронів',placeholder:'2',integer:true}],
+  'ice_table_simple':[{id:'Kc',label:'Kc (константа рівноваги)',hint:'наприклад 1.8e-5',placeholder:'1.8e-5'},{id:'C0_A',label:'C\u2080(A) (моль/л)',hint:'початкова концентрація A',placeholder:'0.1'}],
+  'kp_kc_convert':[{id:'Kc_or_Kp',label:'Kc або Kp',hint:'введіть відомий К',placeholder:'1.8e-5'},{id:'delta_n',label:'\u0394n (молів газу)',hint:'цілe: прод. \u2212 реаг.',placeholder:'0',allowNeg:true,integer:true},{id:'T_C',label:'T (\u00b0C)',hint:'температура',placeholder:'25',allowNeg:true}],
+  'arrhenius_ea':[{id:'k1',label:'k\u2081 (будь-які одиниці)',hint:'константа швидкості при T\u2081',placeholder:'0.01'},{id:'T1_C',label:'T\u2081 (\u00b0C)',hint:'температура 1',placeholder:'26.85',allowNeg:true},{id:'k2',label:'k\u2082',hint:'константа швидкості при T\u2082',placeholder:'0.04'},{id:'T2_C',label:'T\u2082 (\u00b0C)',hint:'температура 2',placeholder:'46.85',allowNeg:true}],
+  'first_order_decay':[{id:'k',label:'k (одиниці часу\u207b\u00b9)',hint:'константа швидкості',placeholder:'0.0693'},{id:'t',label:'t (ті самі одиниці)',hint:'час',placeholder:'10'},{id:'C0',label:'C\u2080 (моль/л)',hint:'початкова концентрація',placeholder:'1.0'}],
+  'faraday_extended':[{id:'M',label:'M (г/моль)',hint:'молярна маса продукту',placeholder:'63.5'},{id:'n_el',label:'n e\u207b',hint:'кількість електронів',placeholder:'2',integer:true},{id:'I',label:'I (А)',hint:'сила струму',placeholder:'2'},{id:'t_s',label:'t (с)',hint:'час електролізу (с)',placeholder:'1800'},{id:'m',label:'m (г)',hint:'маса продукту',placeholder:'1.184'}],
+  'nernst_extended':[{id:'E0',label:'E\u00b0 (В)',hint:'стандартний потенціал',placeholder:'0.34',allowNeg:true},{id:'n_el',label:'n e\u207b',hint:'кількість електронів',placeholder:'2',integer:true},{id:'C_ox',label:'[Ox] (моль/л)',hint:'концентрація окисненої форми',placeholder:'0.01'},{id:'C_red',label:'[Red] (моль/л)',hint:'концентрація відновленої форми',placeholder:'1'},{id:'E',label:'E (В) — для реж. Б',hint:'реальний потенціал',placeholder:'0.281',allowNeg:true}],
   '3-5-phase_V':[{id:'dH_vap',label:'\u0394H_vap (Дж/моль)',hint:'теплота випаровування',placeholder:'40700'},{id:'T1_C',label:'T\u2081 (\u00b0C)',hint:'перша температура',placeholder:'100'},{id:'P1',label:'P\u2081 (атм)',hint:'тиск при T\u2081',placeholder:'1'},{id:'T2_C',label:'T\u2082 (\u00b0C)',hint:'друга температура',placeholder:'60',allowNeg:true}],
   '3-5-phase_P':[{id:'Kf_or_Kb',label:'Kf або Kb (\u00b0C\u00b7кг/моль)',hint:'кріоскопічна/ебуліоскопічна',placeholder:'1.86'},{id:'Cm',label:'Cm (моль/кг)',hint:'моляльна конц.',placeholder:'0.5'},{id:'i',label:'i (ізотонічний коеф.)',hint:'1 для неелектролітів',placeholder:'1'}],
   '3-5-phase_n':[{id:'P0_A',label:'P\u00b0_A (атм)',hint:'тиск пари A',placeholder:'0.3'},{id:'x_A',label:'x_A',hint:'молярна частка A',placeholder:'0.4'},{id:'P0_B',label:'P\u00b0_B (атм)',hint:'тиск пари B',placeholder:'0.5'},{id:'x_B',label:'x_B',hint:'молярна частка B',placeholder:'0.6'}],
@@ -6160,7 +6949,174 @@ const _TC_FIELD_DEFS = {
   '6-2-titrimetry_n':[{id:'n1',label:'n\u2081 (моль аналіту)',hint:'',placeholder:'0.002'},{id:'z1',label:'z\u2081 (фактор екв.)',hint:'',placeholder:'2',integer:true},{id:'n2',label:'n\u2082 (моль тітранту)',hint:'',placeholder:'0.002'},{id:'z2',label:'z\u2082 (фактор екв.)',hint:'',placeholder:'2',integer:true}],
   '6-3-instrumental_V':[{id:'epsilon',label:'\u03b5 (л/(моль\u00b7см))',hint:'молярний коеф. поглинання',placeholder:'1000'},{id:'l',label:'l (см)',hint:'товщина кювети',placeholder:'1'},{id:'c',label:'c (моль/л)',hint:'концентрація',placeholder:'1e-4'}],
   '6-3-instrumental_P':[{id:'A',label:'A',hint:'оптична густина',placeholder:'0.5'},{id:'epsilon',label:'\u03b5 (л/(моль\u00b7см))',hint:'молярний коеф. поглинання',placeholder:'1000'},{id:'l',label:'l (см)',hint:'товщина кювети',placeholder:'1'}],
-  '6-3-instrumental_n':[{id:'T_percent',label:'T% (% пропускання)',hint:'залиши 0 якщо дано A',placeholder:'0',allowZero:true},{id:'A_value',label:'A (оптична густина)',hint:'залиши 0 якщо дано T%',placeholder:'0',allowZero:true}]
+  '6-3-instrumental_n':[{id:'T_percent',label:'T% (% пропускання)',hint:'залиши 0 якщо дано A',placeholder:'0',allowZero:true},{id:'A_value',label:'A (оптична густина)',hint:'залиши 0 якщо дано T%',placeholder:'0',allowZero:true}],
+  // Р-01: Відносна атомна маса через ізотопний склад
+  'isotope_avg_mass':[
+    {id:'pct1',label:'% ізотопу 1',hint:'відсоток першого ізотопу',placeholder:'69.15'},
+    {id:'m1',label:'Маса ізотопу 1 (а.о.м.)',hint:'атомна маса',placeholder:'62.93'},
+    {id:'pct2',label:'% ізотопу 2',hint:'відсоток другого ізотопу',placeholder:'30.85'},
+    {id:'m2',label:'Маса ізотопу 2 (а.о.м.)',hint:'атомна маса',placeholder:'64.93'},
+    {id:'pct3',label:'% ізотопу 3 (0=немає)',hint:'необов\'язково',placeholder:'0',allowZero:true},
+    {id:'m3',label:'Маса ізотопу 3 (а.о.м.)',hint:'необов\'язково',placeholder:'0',allowZero:true},
+    {id:'pct4',label:'% ізотопу 4 (0=немає)',hint:'необов\'язково',placeholder:'0',allowZero:true},
+    {id:'m4',label:'Маса ізотопу 4 (а.о.м.)',hint:'необов\'язково',placeholder:'0',allowZero:true}
+  ],
+  // Р-02: Масова частка елемента ω%
+  'mass_fraction_element':[
+    {id:'n',label:'n (к-ть атомів E у формулі)',hint:'ціле число',placeholder:'2',integer:true},
+    {id:'Ar',label:'Ar(E) (г/моль)',hint:'атомна маса елемента',placeholder:'16'},
+    {id:'Mr',label:'Mr сполуки (г/моль)',hint:'молярна маса сполуки',placeholder:'18'}
+  ],
+  // Р-03: Найпростіша формула за ω%
+  'empirical_formula':[
+    {id:'omega_C',label:'ω(C) (%)',hint:'масова частка Карбону',placeholder:'38.71'},
+    {id:'omega_H',label:'ω(H) (%)',hint:'масова частка Гідрогену',placeholder:'9.68'},
+    {id:'omega_N',label:'ω(N) (%, 0=немає)',hint:'необов\'язково',placeholder:'0',allowZero:true},
+    {id:'omega_O',label:'ω(O) (%, 0=решта)',hint:'0 — обчислюється як 100-решта',placeholder:'0',allowZero:true}
+  ],
+  // Р-04: Відносна густина газу
+  'gas_rel_density':[
+    {id:'M_A',label:'M(A) (г/моль)',hint:'молярна маса газу A',placeholder:'44'},
+    {id:'M_B',label:'M(B) (г/моль, 29=повітря)',hint:'молярна маса газу B',placeholder:'29'}
+  ],
+  // Р-05: Лімітуючий реагент
+  'limiting_reagent':[
+    {id:'m_A',label:'m(A) (г)',hint:'маса реагента A',placeholder:'4'},
+    {id:'M_A',label:'M(A) (г/моль)',hint:'молярна маса A',placeholder:'2'},
+    {id:'coeff_A',label:'Коеф. A у рівнянні',hint:'стехіом. коефіцієнт',placeholder:'2',integer:true},
+    {id:'m_B',label:'m(B) (г)',hint:'маса реагента B',placeholder:'32'},
+    {id:'M_B',label:'M(B) (г/моль)',hint:'молярна маса B',placeholder:'32'},
+    {id:'coeff_B',label:'Коеф. B у рівнянні',hint:'стехіом. коефіцієнт',placeholder:'1',integer:true},
+    {id:'M_product',label:'M(продукту) (г/моль, 0=пропустити)',hint:'необов\'язково',placeholder:'0',allowZero:true},
+    {id:'coeff_product',label:'Коеф. продукту (0=пропустити)',hint:'необов\'язково',placeholder:'0',allowZero:true,integer:true}
+  ],
+  // Р-06: Вихід продукту η%
+  'product_yield':[
+    {id:'m_reagent',label:'m(реагента) (г)',hint:'маса реагента',placeholder:'10'},
+    {id:'M_reagent',label:'M(реагента) (г/моль)',hint:'молярна маса реагента',placeholder:'40'},
+    {id:'coeff_reagent',label:'Коеф. реагента',hint:'стехіом. коефіцієнт',placeholder:'1',integer:true},
+    {id:'M_product',label:'M(продукту) (г/моль)',hint:'молярна маса продукту',placeholder:'56'},
+    {id:'coeff_product',label:'Коеф. продукту',hint:'стехіом. коефіцієнт',placeholder:'1',integer:true},
+    {id:'m_practical',label:'m практична (г)',hint:'фактично отримана маса',placeholder:'12'}
+  ],
+  // Р-07: Сировина з домішками
+  'raw_material_purity':[
+    {id:'m_raw',label:'m(сировини) (г)',hint:'маса сировини',placeholder:'200'},
+    {id:'purity_pct',label:'Чистота сировини (%)',hint:'масова частка чистої речовини',placeholder:'95'},
+    {id:'M_reagent',label:'M(реагента) (г/моль)',hint:'молярна маса чистої речовини',placeholder:'40'},
+    {id:'coeff_reagent',label:'Коеф. реагента',hint:'стехіом. коефіцієнт',placeholder:'1',integer:true},
+    {id:'coeff_product',label:'Коеф. продукту',hint:'стехіом. коефіцієнт',placeholder:'1',integer:true},
+    {id:'M_product',label:'M(продукту) (г/моль)',hint:'молярна маса продукту',placeholder:'56'}
+  ],
+  // Р-08: Осмотичний тиск
+  'osmotic_pressure':[
+    {id:'i',label:'i (ізотонічний коеф.)',hint:'1 для неелектролітів',placeholder:'2'},
+    {id:'C',label:'C (моль/л)',hint:'молярна концентрація',placeholder:'0.154'},
+    {id:'T_C',label:'T (°C)',hint:'температура',placeholder:'37'}
+  ],
+  // Р-09: Кріоскопія — молярна маса
+  'cryoscopy_molar_mass':[
+    {id:'Kf',label:'Kf (°C·кг/моль)',hint:'кріоскопічна константа',placeholder:'1.86'},
+    {id:'m_solute',label:'m(розч-ного) (г)',hint:'маса розчиненої речовини',placeholder:'3'},
+    {id:'m_solvent',label:'m(розч-ника) (г)',hint:'маса розчинника',placeholder:'100'},
+    {id:'delta_T',label:'ΔT (°C)',hint:'зниження температури замерзання',placeholder:'0.279'}
+  ],
+  // Р-10: Ебуліоскопія
+  'ebullioscopy':[
+    {id:'Kb',label:'Kb (°C·кг/моль)',hint:'ебуліоскопічна константа',placeholder:'0.512'},
+    {id:'m_solute',label:'m(розч-ного) (г)',hint:'маса розчиненої речовини',placeholder:'18'},
+    {id:'M_solute',label:'M(розч-ного) (г/моль)',hint:'молярна маса',placeholder:'180'},
+    {id:'m_solvent',label:'m(розч-ника) (г)',hint:'маса розчинника',placeholder:'1000'},
+    {id:'i',label:'i (ізотонічний коеф.)',hint:'1 для неелектролітів',placeholder:'1'},
+    {id:'Tb0',label:'Tкип₀ (°C, 0=пропустити)',hint:'Tкип чистого розчинника',placeholder:'0',allowZero:true}
+  ],
+  // Р-11: Правило змішування розчинів
+  'solution_mixing':[
+    {id:'m1',label:'m₁ (г)',hint:'маса першого розчину',placeholder:'200'},
+    {id:'omega1',label:'ω₁ (%)',hint:'масова частка першого',placeholder:'10'},
+    {id:'m2',label:'m₂ (г)',hint:'маса другого розчину',placeholder:'300'},
+    {id:'omega2',label:'ω₂ (%)',hint:'масова частка другого',placeholder:'30'}
+  ],
+  // Р-12: Закон Кірхгофа
+  'kirchhoff':[
+    {id:'dH_T1',label:'ΔH(T₁) (кДж/моль)',hint:'ентальпія при T₁',placeholder:'-92',allowNeg:true},
+    {id:'dCp',label:'ΔCp (Дж/К)',hint:'різниця теплоємностей прод−реаг',placeholder:'-10',allowNeg:true},
+    {id:'T1',label:'T₁ (K)',hint:'початкова температура',placeholder:'298'},
+    {id:'T2',label:'T₂ (K)',hint:'кінцева температура',placeholder:'500'}
+  ],
+  // Р-13: Іонна сила розчину
+  'ionic_strength':[
+    {id:'C1',label:'C₁ (моль/л)',hint:'концентрація іона 1',placeholder:'0.1'},
+    {id:'z1',label:'z₁ (заряд іона 1)',hint:'напр. 1 або -1',placeholder:'1',allowNeg:true},
+    {id:'C2',label:'C₂ (моль/л, 0=немає)',hint:'необов\'язково',placeholder:'0.1'},
+    {id:'z2',label:'z₂ (заряд іона 2)',hint:'необов\'язково',placeholder:'-1',allowNeg:true,allowZero:true},
+    {id:'C3',label:'C₃ (моль/л, 0=немає)',hint:'необов\'язково',placeholder:'0',allowZero:true},
+    {id:'z3',label:'z₃ (заряд іона 3)',hint:'необов\'язково',placeholder:'0',allowZero:true,allowNeg:true},
+    {id:'C4',label:'C₄ (моль/л, 0=немає)',hint:'необов\'язково',placeholder:'0',allowZero:true},
+    {id:'z4',label:'z₄ (заряд іона 4)',hint:'необов\'язково',placeholder:'0',allowZero:true,allowNeg:true}
+  ],
+  // Р-14: Коефіцієнт активності (Дебай-Хюккель)
+  'activity_coefficient':[
+    {id:'z_plus',label:'z₊ (заряд катіона)',hint:'напр. 1 для Na⁺',placeholder:'1',integer:true},
+    {id:'z_minus',label:'z₋ (заряд аніона)',hint:'напр. 1 для Cl⁻ (модуль)',placeholder:'1',integer:true},
+    {id:'I',label:'I (моль/л)',hint:'іонна сила розчину',placeholder:'0.1'}
+  ],
+  // Р-21: Хроматографія — Rf і Rs
+  'chromatography':[
+    {id:'d_spot',label:'d плями (мм) — реж.Rf',hint:'відстань від старту до центру плями',placeholder:'42',allowZero:true},
+    {id:'d_front',label:'d фронту (мм) — реж.Rf',hint:'відстань від старту до фронту',placeholder:'100'},
+    {id:'tR1',label:'tR₁ (хв) — реж.Rs',hint:'час утримання 1-го піку',placeholder:'5'},
+    {id:'tR2',label:'tR₂ (хв) — реж.Rs',hint:'час утримання 2-го піку',placeholder:'6'},
+    {id:'w1',label:'w₁ (хв) — реж.Rs',hint:'ширина піку 1 у основі',placeholder:'0.5'},
+    {id:'w2',label:'w₂ (хв) — реж.Rs',hint:'ширина піку 2 у основі',placeholder:'0.6'}
+  ],
+  // Р-22: Ступінь вилучення при рідинній екстракції
+  'extraction':[
+    {id:'D',label:'D (коеф. розподілу)',hint:'[речов]_орг / [речов]_вод',placeholder:'5'},
+    {id:'V_org',label:'V_org (мл)',hint:"об'єм органічної фази",placeholder:'10'},
+    {id:'V_aq',label:'V_aq (мл)',hint:"об'єм водної фази",placeholder:'50'},
+    {id:'n_stages',label:'n (к-ть ступенів)',hint:'ціле число',placeholder:'3',integer:true}
+  ],
+  // Р-23: Брегг-Вульф
+  'bragg':[
+    {id:'lambda',label:'λ (нм або Å)',hint:'довжина хвилі рентгенівського пром.',placeholder:'0.154'},
+    {id:'theta_deg',label:'θ (°) — реж.А: знайти d',hint:'кут Брегга',placeholder:'14.22'},
+    {id:'d',label:'d (нм або Å) — реж.Б: знайти θ',hint:'міжплощинна відстань',placeholder:'0.2819'},
+    {id:'n_order',label:'n (порядок відбиття)',hint:'ціле, зазвичай 1',placeholder:'1',integer:true}
+  ],
+  // Р-24: Радіоактивний розпад
+  'radioactive_decay':[
+    {id:'N0',label:'N₀ (атомів або відн. одиниць)',hint:'початкова кількість',placeholder:'1000'},
+    {id:'T_half',label:'T½ (роки / доби / с)',hint:'час піврозпаду',placeholder:'5730'},
+    {id:'t',label:'t (ті самі одиниці)',hint:'поточний час',placeholder:'11460'}
+  ],
+  // Р-25: Ізоелектрична точка розширена
+  'pi_extended':[
+    {id:'pKa1',label:'pKa1',hint:'перша кислотна константа',placeholder:'2.34'},
+    {id:'pKa2',label:'pKa2',hint:'друга кислотна константа',placeholder:'9.60'},
+    {id:'pKa3',label:'pKa3 (0=немає)',hint:'третя pKa для кислих/основних АК',placeholder:'0',allowZero:true},
+    {id:'pH',label:'pH (необов\'язково)',hint:'для розрахунку заряду при pH',placeholder:'',allowZero:true}
+  ],
+  // Р-26: DBE розширений з інтерпретацією
+  'dbe_check':[
+    {id:'C',label:'n(C)',hint:'атомів Карбону',placeholder:'6',integer:true},
+    {id:'H',label:'n(H)',hint:'атомів Гідрогену',placeholder:'6',integer:true,allowZero:true},
+    {id:'N',label:'n(N) (0=немає)',hint:'атомів Нітрогену',placeholder:'0',integer:true,allowZero:true},
+    {id:'X',label:'n(X) (0=немає)',hint:'атомів галогенів',placeholder:'0',integer:true,allowZero:true}
+  ],
+  // Р-27: Кінетика Міхаеліса-Ментен
+  'michaelis_menten':[
+    {id:'Vmax',label:'Vmax (мкМ/с)',hint:'максимальна швидкість',placeholder:'100'},
+    {id:'Km',label:'Km (мкМ)',hint:'константа Міхаеліса',placeholder:'10'},
+    {id:'S',label:'[S] (мкМ) — реж.А: знайти v',hint:'концентрація субстрату',placeholder:'10'},
+    {id:'v',label:'v (мкМ/с) — реж.Б: знайти [S]',hint:'швидкість реакції',placeholder:'50'}
+  ],
+  // Р-28: Щільність кристала
+  'crystal_density':[
+    {id:'Z',label:'Z (формульних одиниць у комірці)',hint:'1=примітивна, 2=ОЦК, 4=ГЦК',placeholder:'4',integer:true},
+    {id:'M',label:'M (г/моль)',hint:'молярна маса речовини',placeholder:'58.44'},
+    {id:'a',label:'a (нм)',hint:'параметр кубічної гратки',placeholder:'0.5641'}
+  ]
 };
 
 function _tcBuildFields() {
@@ -6201,7 +7157,9 @@ function _tcGetVals(defs, errEl) {
   return vals;
 }
 
-const TOPIC_CALC_ENGINES = {
+if (window._FormulaConfigs) Object.assign(FormulaConfigs, window._FormulaConfigs);
+
+const TOPIC_CALC_ENGINES = Object.assign({}, window._CALC_ENGINES || {}, {
   '1-1-atom_V':({Z})=>{Z=Math.round(Z);if(Z<1||Z>118)throw new Error('Z 1-118');const c=_buildConfig(Z);return{result:c,label:'Електронна конфігурація',steps:[`Z=${Z}`,`Порядок (Aufbau): 1s→2s→2p→3s→...`,`Конфігурація: ${c}`]};},
   '1-1-atom_P':({Z})=>{Z=Math.round(Z);if(Z<1||Z>118)throw new Error('Z 1-118');const{n,l,ml,ms}=_lastElectron(Z);const lN=['s','p','d','f'];return{result:`n=${n}, l=${l}(${lN[l]}), ml=${ml}, ms=${ms>0?'+½':'−½'}`,label:'Квантові числа останнього e⁻',steps:[`Конфігурація: ${_buildConfig(Z)}`,`n=${n}, l=${l}(${lN[l]}), ml=${ml}, ms=${ms>0?'+½':'−½'}`]};},
   '1-1-atom_n':({Z})=>{Z=Math.round(Z);if(Z<1||Z>118)throw new Error('Z 1-118');const v=_valenceElectrons(Z);return{result:v,label:'Валентні електрони',steps:[`Конфігурація: ${_buildConfig(Z)}`,`Валентні e⁻: ${v}`]};},
@@ -6283,7 +7241,7 @@ const TOPIC_CALC_ENGINES = {
   '6-3-instrumental_V':({epsilon,l,c})=>{const A=epsilon*l*c;return{result:`A = ${_fmt(A)}`,label:'Закон Бугера-Ламберта-Бера',steps:[`A=ε×l×c=${epsilon}×${l}×${c}=${_fmt(A)}`]};},
   '6-3-instrumental_P':({A,epsilon,l})=>{const c=A/(epsilon*l);return{result:`c = ${_fmt(c)} моль/л`,label:'Концентрація за A',steps:[`c=A/(ε×l)=${_fmt(c)} моль/л`]};},
   '6-3-instrumental_n':({T_percent,A_value})=>{if(T_percent>0){const A=Math.log10(100/T_percent);return{result:`A = ${_fmt(A)}`,label:'T% → A',steps:[`A=lg(100/T%)=lg(${100/T_percent})=${_fmt(A)}`]};}if(A_value>0){const T=Math.pow(10,-A_value)*100;return{result:`T% = ${_fmt(T)} %`,label:'A → T%',steps:[`T%=10^(−A)×100=${_fmt(T)} %`]};}throw new Error('Введіть T% або A (ненульове значення)');}
-};
+});
 
 function _tcCalc() {
   const errEl = document.getElementById('tc-error');
@@ -6936,7 +7894,7 @@ function renderReactions() {
       }).join('');
     }
 
-    if (!sectionCards) continue;
+  if (!sectionCards) continue;
     // Заголовок секції (лише якщо є картки і фільтр "Усі")
     if (rxCurCat === 'all') {
       html += `<div class="rx-section-label" style="border-left:3px solid ${catColor}">
@@ -6949,6 +7907,7 @@ function renderReactions() {
 
   document.getElementById('rx-count').textContent = total;
   document.getElementById('rx-list-wrap').innerHTML = html || '<div style="text-align:center;padding:40px;color:#90a0cc;font-size:12px">Нічого не знайдено</div>';
+  setTimeout(injectFavReactions, 0);
 }
 
 function renderReactionsInline() {
@@ -6998,6 +7957,7 @@ function renderReactionsInline() {
   const wrap = document.getElementById('rx-list-wrap');
   const intro = wrap.querySelector('div[style*="text-align:center"]');
   wrap.innerHTML = (intro ? intro.outerHTML : '') + html;
+  setTimeout(injectFavReactions, 0);
 }
 
 function rxClick(eq, isDanger) {
@@ -7310,5 +8270,20 @@ window._TOPIC_DATA = {
 <script src="data/tables/physical_constants.js"></script>
 <script src="data/tables/sp_elements.js"></script>
 <script src="data/tables/df_elements.js"></script>
+  <script src="data/calcs/formula_configs.js"></script>
+  <script src="data/calcs/group_1_atom.js"></script>
+  <script src="data/calcs/group_2_inorganic.js"></script>
+  <script src="data/calcs/group_3_thermo.js"></script>
+  <script src="data/calcs/group_4_solutions.js"></script>
+  <script src="data/calcs/group_5_organic.js"></script>
+  <script src="data/calcs/group_6_analytical.js"></script>
+  <script src="data/calcs/new_calcs_1.js"></script>
+  <script>if(window._NEW_CALCS_1) Object.assign(TOPIC_CALC_ENGINES, window._NEW_CALCS_1);</script>
+  <script src="data/calcs/new_calcs_2.js"></script>
+  <script>if(window._NEW_CALCS_2) Object.assign(TOPIC_CALC_ENGINES, window._NEW_CALCS_2);</script>
+  <script src="data/calcs/new_calcs_3.js"></script>
+  <script>if(window._NEW_CALCS_3) Object.assign(TOPIC_CALC_ENGINES, window._NEW_CALCS_3);</script>
+  <script src="data/calcs/new_calcs_4.js"></script>
+  <script>if(window._NEW_CALCS_4) Object.assign(TOPIC_CALC_ENGINES, window._NEW_CALCS_4);</script>
 </body>
 </html>

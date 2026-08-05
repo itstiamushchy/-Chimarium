@@ -1,15 +1,26 @@
-// Хімарій v1.1.5 — Service Worker
+// Хімарій v1.3.9 — Service Worker
 // Кеш: офлайн-доступ до всіх ресурсів
 
-const CACHE_NAME = 'khimariy-v1.1.5';
+const CACHE_NAME = 'khimariy-v1.3.9';
 const CACHE_STATIC = [
   './',
   './index.html',
-  './khimariy.html',
   './manifest.json',
   './reactions.json',
   './formulas.json',
   './glossary.json',
+  // Калькулятори
+  './data/calcs/formula_configs.js',
+  './data/calcs/group_1_atom.js',
+  './data/calcs/group_2_inorganic.js',
+  './data/calcs/group_3_thermo.js',
+  './data/calcs/group_4_solutions.js',
+  './data/calcs/group_5_organic.js',
+  './data/calcs/group_6_analytical.js',
+  './data/calcs/new_calcs_1.js',
+  './data/calcs/new_calcs_2.js',
+  './data/calcs/new_calcs_3.js',
+  './data/calcs/new_calcs_4.js',
   // Теми
   './data/1-1-atom.json',
   './data/1-2-periodic.json',
@@ -46,7 +57,7 @@ const FONT_CACHE = 'khimariy-fonts-v1';
 
 // ===== INSTALL =====
 self.addEventListener('install', event => {
-  console.log('[SW] Installing Хімарій v1.1.5...');
+  console.log('[SW] Installing Хімарій v1.3.9...');
   event.waitUntil(
     caches.open(CACHE_NAME).then(cache => {
       // Cache only files that are likely to exist — ignore 404s
@@ -124,7 +135,7 @@ self.addEventListener('fetch', event => {
           if (cached) return cached;
           // Якщо навіть в кеші немає — для навігації повертаємо головну
           if (event.request.mode === 'navigate') {
-            return caches.match('./index.html').then(r => r || caches.match('./khimariy.html'));
+            return caches.match('./index.html');
           }
           return new Response('Офлайн. Ресурс недоступний.', {
             status: 503,
