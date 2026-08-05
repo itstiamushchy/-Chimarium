@@ -93,6 +93,9 @@ body{background:#0d0e1a;color:#ffffff;font-family:'Inter',sans-serif;min-height:
   .brand-title{font-size:20px}
   .brand-sub{font-size:10px}
 }
+@media(max-width:560px){
+  .calc-grid-2{grid-template-columns:1fr !important}
+}
 </style>
 </head>
 <body>
@@ -100,7 +103,7 @@ body{background:#0d0e1a;color:#ffffff;font-family:'Inter',sans-serif;min-height:
 
 <!-- HERO -->
 <div class="hero">
-  <div class="ver">v0.1-заготовка</div>
+  <div class="ver">v0.1.2</div>
   <div class="mol">
     <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
       <defs><filter id="glow2"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
@@ -258,33 +261,933 @@ body{background:#0d0e1a;color:#ffffff;font-family:'Inter',sans-serif;min-height:
     </div>
   </div>
 
+  <!-- ===== 1.1 АЛКОГОЛЬ ===== -->
   <div class="subgroup">
     <div class="subgroup-title">1.1 Алкоголь, дистиляція та виноробство</div>
-    <div class="item-list">
-      <div class="item-card"><div class="item-card-text">Розведення та купажування: розрахунок води для розведення спирту/самогону з урахуванням контракції; змішування дистилятів різної міцності; розведення настоянок цукровим сиропом</div><span class="item-card-badge">🔢 калькулятор</span></div>
-      <div class="item-card"><div class="item-card-text">Корекція вимірювань: поправка показань спиртоміра за температурою; перерахунок оптичного та цифрового рефрактометра (Brix, цукор, T-корекція)</div><span class="item-card-badge">📐 формула</span></div>
-      <div class="item-card"><div class="item-card-text">Фракційна перегонка: розрахунок об'єму «голів» (3–10% від АС); вихід «тіла» та «хвостів»; обчислення абсолютного спирту у сирці</div><span class="item-card-badge">🔢 калькулятор</span></div>
-      <div class="item-card"><div class="item-card-text">Брага та ферментація: гідромодуль (цукор:вода); потенційна міцність за щільністю; дозування дріжджів; перерахунок Brix / Plato / SG / g/l; праймінг пива/сидру</div><span class="item-card-badge">🔢 калькулятор</span></div>
-      <div class="item-card"><div class="item-card-text">Виноробство: шапталізація (підвищення міцності); зниження кислотності (вода, мармур, крейда); дозування піросульфіту калію для стерилізації</div><span class="item-card-badge">📐 формула</span></div>
-    </div>
-  </div>
 
+    <!-- CALC 1: Розведення спирту водою -->
+    <div class="item-card" style="margin-bottom:10px">
+      <div class="item-card-text" style="font-size:13px;font-weight:600;color:#00E5CC;margin-bottom:6px">💧 Розведення спирту/самогону водою (з урахуванням контракції)</div>
+      <div class="item-card-text" style="margin-bottom:8px"><b style="color:#c0d0f0">Призначення:</b> Розрахунок об'єму води для розведення міцного спирту або дистиляту до бажаної питної міцності. Застосовується в домашній дистиляції, виноробстві та приготуванні лікерно-горілчаних продуктів.</div>
+      <div class="item-card-text" style="margin-bottom:8px"><b style="color:#c0d0f0">Суть:</b> При змішуванні спирту з водою відбувається <b>контракція</b> — зменшення сукупного об'єму через утворення водневих зв'язків між молекулами C₂H₅OH та H₂O. Наприклад, 1000 мл спирту + 1000 мл води = ≈1930 мл (замість 2000 мл). Розрахунок за формулою Фертмана базується на масі абсолютного спирту і дає точну кінцеву міцність.</div>
+      <div style="background:#0d1120;border:0.5px solid #1e3060;border-radius:8px;padding:12px 14px;margin-bottom:10px">
+        <div style="font-family:'Oxanium',monospace;font-size:11px;color:#69F0AE;margin-bottom:4px">ФОРМУЛА (Фертман):</div>
+        <div style="font-size:15px;color:#fff;letter-spacing:0.5px;margin-bottom:6px"><b>V<sub>води</sub> = (V₁ × C₁) / C₂ − V₁</b></div>
+        <div style="font-size:11px;color:#90a0cc;line-height:1.7">
+          V<sub>води</sub> — об'єм води для додавання (мл)<br>
+          V₁ — початковий об'єм спирту/дистиляту (мл)<br>
+          C₁ — початкова міцність (% об.)<br>
+          C₂ — бажана підсумкова міцність (% об.)
+        </div>
+      </div>
+      <!-- Калькулятор 1 -->
+      <div style="background:#101325;border:0.5px solid #00E5CC33;border-radius:8px;padding:12px 14px;margin-bottom:10px">
+        <div style="font-family:'Oxanium',monospace;font-size:10px;color:#00E5CC;margin-bottom:8px;letter-spacing:2px">🔢 КАЛЬКУЛЯТОР</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px;margin-bottom:8px">
+          <div>
+            <label style="font-size:11px;color:#90a0cc;display:block;margin-bottom:3px">V₁ — об'єм спирту (мл)</label>
+            <input id="c1v1" type="number" value="2000" min="1" style="width:100%;background:#0d0e1a;border:0.5px solid #2e3a6e;border-radius:6px;padding:7px 10px;color:#fff;font-size:13px;font-family:'Inter',sans-serif">
+          </div>
+          <div>
+            <label style="font-size:11px;color:#90a0cc;display:block;margin-bottom:3px">C₁ — початкова міцність (%)</label>
+            <input id="c1c1" type="number" value="70" min="1" max="96" style="width:100%;background:#0d0e1a;border:0.5px solid #2e3a6e;border-radius:6px;padding:7px 10px;color:#fff;font-size:13px;font-family:'Inter',sans-serif">
+          </div>
+          <div>
+            <label style="font-size:11px;color:#90a0cc;display:block;margin-bottom:3px">C₂ — бажана міцність (%)</label>
+            <input id="c1c2" type="number" value="40" min="1" max="96" style="width:100%;background:#0d0e1a;border:0.5px solid #2e3a6e;border-radius:6px;padding:7px 10px;color:#fff;font-size:13px;font-family:'Inter',sans-serif">
+          </div>
+        </div>
+        <button onclick="calc1()" style="background:linear-gradient(135deg,#00E5CC22,#00E5CC11);border:0.5px solid #00E5CC;border-radius:6px;padding:8px 20px;color:#00E5CC;font-family:'Oxanium',monospace;font-size:12px;cursor:pointer;letter-spacing:1px">РОЗРАХУВАТИ</button>
+        <div id="c1res" style="margin-top:10px;display:none">
+          <div style="background:#0a1f1a;border:0.5px solid #00E5CC44;border-radius:6px;padding:10px 14px">
+            <div style="font-size:11px;color:#69F0AE;margin-bottom:4px;font-family:'Oxanium',monospace">РЕЗУЛЬТАТ:</div>
+            <div id="c1res-text" style="font-size:14px;color:#fff;line-height:1.7"></div>
+          </div>
+        </div>
+      </div>
+      <!-- Небезпека -->
+      <div style="background:#1a0a0a;border:0.5px solid #FF5252aa;border-radius:8px;padding:10px 14px;margin-bottom:10px">
+        <div style="font-size:12px;color:#FF7070;margin-bottom:4px">⚠️ Техніка безпеки</div>
+        <div style="font-size:11px;color:#c09090;line-height:1.65">
+          <b>Пожежна безпека:</b> Розчини понад 50% об. легко займаються від іскри або відкритого вогню. Проводьте змішування подалі від газових конфорок та увімкнених електроприладів.<br>
+          <b>Випаровування:</b> Змішуйте в добре провітрюваному приміщенні, щоб уникнути накопичення парів етанолу.
+        </div>
+      </div>
+      <!-- Інструкція -->
+      <div style="font-size:11px;color:#90a0cc;line-height:1.8">
+        <div style="font-family:'Oxanium',monospace;font-size:10px;color:#7080b8;letter-spacing:2px;margin-bottom:4px">ПОКРОКОВА ІНСТРУКЦІЯ:</div>
+        <b style="color:#c0d0f0">Крок 1:</b> Виміряйте початковий об'єм спирту V₁ вимірювальним циліндром.<br>
+        <b style="color:#c0d0f0">Крок 2:</b> Виміряйте спиртоміром міцність C₁ при 20°C (або внесіть температурну корекцію).<br>
+        <b style="color:#c0d0f0">Крок 3:</b> Визначте бажану підсумкову міцність C₂.<br>
+        <b style="color:#c0d0f0">Крок 4:</b> Обчисліть V<sub>води</sub> за формулою.<br>
+        <b style="color:#c0d0f0">Крок 5:</b> Відміряйте потрібну кількість відфільтрованої або дистильованої води.<br>
+        <b style="color:#c0d0f0">Крок 6:</b> Повільно вливайте <u>спирт у воду</u> (а не навпаки), перемішуючи. Дайте відпочити в закритій ємності 2–3 доби для завершення гідратації.
+        <div style="margin-top:6px;background:#0d1525;border-left:2px solid #69F0AE;padding:6px 10px;border-radius:0 4px 4px 0">
+          <b style="color:#69F0AE">Приклад:</b> 2000 мл самогону 70% об. → розвести до 40% об.<br>
+          V<sub>води</sub> = (2000 × 70) / 40 − 2000 = 3500 − 2000 = <b style="color:#fff">1500 мл</b><br>
+          Підсумковий об'єм через контракцію ≈ 3400 мл (а не 3500 мл теоретично), але міцність точно 40%.
+        </div>
+      </div>
+    </div>
+
+    <!-- CALC 2: Купажування (змішування двох дистилятів) -->
+    <div class="item-card" style="margin-bottom:10px">
+      <div class="item-card-text" style="font-size:13px;font-weight:600;color:#00E5CC;margin-bottom:6px">🔀 Змішування двох дистилятів (купажування)</div>
+      <div class="item-card-text" style="margin-bottom:8px"><b style="color:#c0d0f0">Призначення:</b> Розрахунок підсумкової міцності при зливанні двох об'ємів спирту/дистиляту різної міцності. Також обчислює скільки міцнішого (або слабшого) спирту треба додати для отримання потрібної підсумкової міцності.</div>
+      <div class="item-card-text" style="margin-bottom:8px"><b style="color:#c0d0f0">Суть:</b> Закон збереження маси абсолютного спирту (АС). Загальний об'єм чистого етанолу в суміші дорівнює сумі об'ємів чистого етанолу кожного компонента. При близьких значеннях міцності контракція мінімальна, тому формула дає високу точність.</div>
+      <div style="background:#0d1120;border:0.5px solid #1e3060;border-radius:8px;padding:12px 14px;margin-bottom:10px">
+        <div style="font-family:'Oxanium',monospace;font-size:11px;color:#69F0AE;margin-bottom:4px">ФОРМУЛИ:</div>
+        <div style="font-size:14px;color:#fff;margin-bottom:6px"><b>C<sub>підсумок</sub> = (V₁×C₁ + V₂×C₂) / (V₁ + V₂)</b></div>
+        <div style="font-size:13px;color:#c0d0f0;margin-bottom:6px"><b>V₂ = V₁ × (C<sub>підсумок</sub> − C₁) / (C₂ − C<sub>підсумок</sub>)</b></div>
+        <div style="font-size:11px;color:#90a0cc;line-height:1.7">
+          V₁, C₁ — об'єм (мл) і міцність (% об.) першого дистиляту<br>
+          V₂, C₂ — об'єм (мл) і міцність (% об.) другого дистиляту<br>
+          C<sub>підсумок</sub> — бажана або підсумкова міцність суміші (% об.)
+        </div>
+      </div>
+      <!-- Калькулятор 2 -->
+      <div style="background:#101325;border:0.5px solid #00E5CC33;border-radius:8px;padding:12px 14px;margin-bottom:10px">
+        <div style="font-family:'Oxanium',monospace;font-size:10px;color:#00E5CC;margin-bottom:8px;letter-spacing:2px">🔢 КАЛЬКУЛЯТОР — підсумкова міцність</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px;margin-bottom:8px">
+          <div>
+            <label style="font-size:11px;color:#90a0cc;display:block;margin-bottom:3px">V₁ — об'єм першого (мл)</label>
+            <input id="c2v1" type="number" value="3000" min="1" style="width:100%;background:#0d0e1a;border:0.5px solid #2e3a6e;border-radius:6px;padding:7px 10px;color:#fff;font-size:13px;font-family:'Inter',sans-serif">
+          </div>
+          <div>
+            <label style="font-size:11px;color:#90a0cc;display:block;margin-bottom:3px">C₁ — міцність першого (%)</label>
+            <input id="c2c1" type="number" value="40" min="1" max="96" style="width:100%;background:#0d0e1a;border:0.5px solid #2e3a6e;border-radius:6px;padding:7px 10px;color:#fff;font-size:13px;font-family:'Inter',sans-serif">
+          </div>
+          <div>
+            <label style="font-size:11px;color:#90a0cc;display:block;margin-bottom:3px">V₂ — об'єм другого (мл)</label>
+            <input id="c2v2" type="number" value="1500" min="1" style="width:100%;background:#0d0e1a;border:0.5px solid #2e3a6e;border-radius:6px;padding:7px 10px;color:#fff;font-size:13px;font-family:'Inter',sans-serif">
+          </div>
+          <div>
+            <label style="font-size:11px;color:#90a0cc;display:block;margin-bottom:3px">C₂ — міцність другого (%)</label>
+            <input id="c2c2" type="number" value="70" min="1" max="96" style="width:100%;background:#0d0e1a;border:0.5px solid #2e3a6e;border-radius:6px;padding:7px 10px;color:#fff;font-size:13px;font-family:'Inter',sans-serif">
+          </div>
+        </div>
+        <button onclick="calc2()" style="background:linear-gradient(135deg,#00E5CC22,#00E5CC11);border:0.5px solid #00E5CC;border-radius:6px;padding:8px 20px;color:#00E5CC;font-family:'Oxanium',monospace;font-size:12px;cursor:pointer;letter-spacing:1px">РОЗРАХУВАТИ</button>
+        <div id="c2res" style="margin-top:10px;display:none">
+          <div style="background:#0a1f1a;border:0.5px solid #00E5CC44;border-radius:6px;padding:10px 14px">
+            <div style="font-size:11px;color:#69F0AE;margin-bottom:4px;font-family:'Oxanium',monospace">РЕЗУЛЬТАТ:</div>
+            <div id="c2res-text" style="font-size:14px;color:#fff;line-height:1.7"></div>
+          </div>
+        </div>
+      </div>
+      <!-- Небезпека -->
+      <div style="background:#1a0a0a;border:0.5px solid #FF5252aa;border-radius:8px;padding:10px 14px;margin-bottom:10px">
+        <div style="font-size:12px;color:#FF7070;margin-bottom:4px">⚠️ Техніка безпеки</div>
+        <div style="font-size:11px;color:#c09090;line-height:1.65">
+          <b>Пожежна безпека:</b> Спиртові розчини понад 50% об. легко займаються від найменшої іскри або відкритого вогню. Змішування проводити подалі від газових конфорок.<br>
+          <b>Випаровування:</b> Змішування здійснювати у добре провітрюваному приміщенні, щоб уникнути накопичення парів етанолу.
+        </div>
+      </div>
+      <!-- Інструкція -->
+      <div style="font-size:11px;color:#90a0cc;line-height:1.8">
+        <div style="font-family:'Oxanium',monospace;font-size:10px;color:#7080b8;letter-spacing:2px;margin-bottom:4px">ПОКРОКОВА ІНСТРУКЦІЯ:</div>
+        <b style="color:#c0d0f0">Крок 1:</b> Виміряйте точну міцність обох рідин (C₁ та C₂) ареометром при 20°C.<br>
+        <b style="color:#c0d0f0">Крок 2:</b> Точно виміряйте об'єми обох компонентів (V₁ та V₂).<br>
+        <b style="color:#c0d0f0">Крок 3:</b> Підставте значення у формулу.<br>
+        <b style="color:#c0d0f0">Крок 4:</b> Злийте обидві рідини, ретельно перемішайте та герметично закрийте.
+        <div style="margin-top:6px;background:#0d1525;border-left:2px solid #69F0AE;padding:6px 10px;border-radius:0 4px 4px 0">
+          <b style="color:#69F0AE">Приклад:</b> 3000 мл дистиляту 40% + 1500 мл дистиляту 70%:<br>
+          C<sub>підсумок</sub> = (3000×40 + 1500×70) / (3000+1500) = 225000 / 4500 = <b style="color:#fff">50% об.</b>
+        </div>
+      </div>
+    </div>
+
+    <!-- CALC 3: Розведення настоянок цукровим сиропом -->
+    <div class="item-card" style="margin-bottom:10px">
+      <div class="item-card-text" style="font-size:13px;font-weight:600;color:#00E5CC;margin-bottom:6px">🍯 Розведення настоянок цукровим сиропом</div>
+      <div class="item-card-text" style="margin-bottom:8px"><b style="color:#c0d0f0">Призначення:</b> Розрахунок необхідних об'ємів міцного мацерату (настоянки), води та цукру для отримання десертного напою (лікеру, наливки) із заданими показниками міцності (% об.) та вмісту цукру (г/100 мл).</div>
+      <div class="item-card-text" style="margin-bottom:8px"><b style="color:#c0d0f0">Суть:</b> Розчинення 1 кг цукру у воді збільшує об'єм рідини приблизно на 0.62 л. Розрахунок дозволяє одночасно збалансувати два параметри — вміст цукру для солодкості та розведення алкогольної основи водою до точного відсотка міцності.</div>
+      <div style="background:#0d1120;border:0.5px solid #1e3060;border-radius:8px;padding:12px 14px;margin-bottom:10px">
+        <div style="font-family:'Oxanium',monospace;font-size:11px;color:#69F0AE;margin-bottom:4px">ФОРМУЛИ:</div>
+        <div style="font-size:13px;color:#fff;margin-bottom:4px"><b>M<sub>цукру</sub> = (V₁ × C₁ × S₂) / (100 × C₂ − S₂ × 0.62)</b></div>
+        <div style="font-size:13px;color:#c0d0f0;margin-bottom:6px"><b>V<sub>води</sub> = (V₁ × C₁) / C₂ − V₁ − (M<sub>цукру</sub> × 0.62)</b></div>
+        <div style="font-size:11px;color:#90a0cc;line-height:1.7">
+          V₁ — початковий об'єм настоянки (мл) | C₁ — початкова міцність (% об.)<br>
+          C₂ — бажана міцність лікеру (% об.) | S₂ — бажана цукристість (г/100 мл)<br>
+          0.62 — коефіцієнт приросту об'єму при розчиненні 1 г цукру (мл/г)
+        </div>
+      </div>
+      <!-- Калькулятор 3 -->
+      <div style="background:#101325;border:0.5px solid #00E5CC33;border-radius:8px;padding:12px 14px;margin-bottom:10px">
+        <div style="font-family:'Oxanium',monospace;font-size:10px;color:#00E5CC;margin-bottom:8px;letter-spacing:2px">🔢 КАЛЬКУЛЯТОР</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px;margin-bottom:8px">
+          <div>
+            <label style="font-size:11px;color:#90a0cc;display:block;margin-bottom:3px">V₁ — об'єм настоянки (мл)</label>
+            <input id="c3v1" type="number" value="1000" min="1" style="width:100%;background:#0d0e1a;border:0.5px solid #2e3a6e;border-radius:6px;padding:7px 10px;color:#fff;font-size:13px;font-family:'Inter',sans-serif">
+          </div>
+          <div>
+            <label style="font-size:11px;color:#90a0cc;display:block;margin-bottom:3px">C₁ — початкова міцність (%)</label>
+            <input id="c3c1" type="number" value="70" min="1" max="96" style="width:100%;background:#0d0e1a;border:0.5px solid #2e3a6e;border-radius:6px;padding:7px 10px;color:#fff;font-size:13px;font-family:'Inter',sans-serif">
+          </div>
+          <div>
+            <label style="font-size:11px;color:#90a0cc;display:block;margin-bottom:3px">C₂ — бажана міцність лікеру (%)</label>
+            <input id="c3c2" type="number" value="25" min="1" max="96" style="width:100%;background:#0d0e1a;border:0.5px solid #2e3a6e;border-radius:6px;padding:7px 10px;color:#fff;font-size:13px;font-family:'Inter',sans-serif">
+          </div>
+          <div>
+            <label style="font-size:11px;color:#90a0cc;display:block;margin-bottom:3px">S₂ — цукристість (г/100 мл)</label>
+            <input id="c3s2" type="number" value="20" min="0" max="80" style="width:100%;background:#0d0e1a;border:0.5px solid #2e3a6e;border-radius:6px;padding:7px 10px;color:#fff;font-size:13px;font-family:'Inter',sans-serif">
+          </div>
+        </div>
+        <button onclick="calc3()" style="background:linear-gradient(135deg,#00E5CC22,#00E5CC11);border:0.5px solid #00E5CC;border-radius:6px;padding:8px 20px;color:#00E5CC;font-family:'Oxanium',monospace;font-size:12px;cursor:pointer;letter-spacing:1px">РОЗРАХУВАТИ</button>
+        <div id="c3res" style="margin-top:10px;display:none">
+          <div style="background:#0a1f1a;border:0.5px solid #00E5CC44;border-radius:6px;padding:10px 14px">
+            <div style="font-size:11px;color:#69F0AE;margin-bottom:4px;font-family:'Oxanium',monospace">РЕЗУЛЬТАТ:</div>
+            <div id="c3res-text" style="font-size:14px;color:#fff;line-height:1.7"></div>
+          </div>
+        </div>
+      </div>
+      <!-- Небезпека -->
+      <div style="background:#1a0a0a;border:0.5px solid #FF5252aa;border-radius:8px;padding:10px 14px;margin-bottom:10px">
+        <div style="font-size:12px;color:#FF7070;margin-bottom:4px">⚠️ Техніка безпеки</div>
+        <div style="font-size:11px;color:#c09090;line-height:1.65">
+          <b>Термічні опіки:</b> Якщо цукор розчиняється у гарячій воді, перед змішуванням зі спиртовою основою сироп обов'язково охолодити до 20°C. Додавання гарячого сиропу в спирт призведе до миттєвого закипання та ризику спалаху парів.<br>
+          <b>Пожежна безпека:</b> Не проводити роботу поряд із відкритим вогнем.
+        </div>
+      </div>
+      <!-- Інструкція -->
+      <div style="font-size:11px;color:#90a0cc;line-height:1.8">
+        <div style="font-family:'Oxanium',monospace;font-size:10px;color:#7080b8;letter-spacing:2px;margin-bottom:4px">ПОКРОКОВА ІНСТРУКЦІЯ:</div>
+        <b style="color:#c0d0f0">Крок 1:</b> Виміряйте об'єм і міцність настоянки.<br>
+        <b style="color:#c0d0f0">Крок 2:</b> Визначте бажану міцність і солодкість готового напою.<br>
+        <b style="color:#c0d0f0">Крок 3:</b> Розрахуйте M<sub>цукру</sub> та V<sub>води</sub> за формулами.<br>
+        <b style="color:#c0d0f0">Крок 4:</b> Підігрійте воду, повністю розчиніть у ній цукор (сироп).<br>
+        <b style="color:#c0d0f0">Крок 5:</b> Охолодіть сироп до 20°C.<br>
+        <b style="color:#c0d0f0">Крок 6:</b> Влийте настоянку в охолоджений сироп, перемішайте, залиште на витримку.
+        <div style="margin-top:6px;background:#0d1525;border-left:2px solid #69F0AE;padding:6px 10px;border-radius:0 4px 4px 0">
+          <b style="color:#69F0AE">Приклад:</b> 1000 мл мацерату 70% → лікер 25% з цукристістю 20 г/100 мл:<br>
+          M<sub>цукру</sub> = (1000×70×20) / (100×25 − 20×0.62) = 1400000 / 2487.6 ≈ <b style="color:#fff">562.8 г</b><br>
+          V<sub>води</sub> = 2800 − 1000 − (562.8×0.62) = <b style="color:#fff">1451 мл</b>. Вихід ≈ 2800 мл.
+        </div>
+      </div>
+    </div>
+
+    <!-- CALC 4: Корекція спиртоміра за T -->
+    <div class="item-card" style="margin-bottom:10px">
+      <div class="item-card-text" style="font-size:13px;font-weight:600;color:#00E5CC;margin-bottom:6px">🌡️ Корекція показань спиртоміра за температурою</div>
+      <div class="item-card-text" style="margin-bottom:8px"><b style="color:#c0d0f0">Призначення:</b> Температурна корекція вимірювань міцності спирту (спиртометром або ареометром АСП-3). Обчислення реального % об. етанолу, якщо температура розчину відрізняється від стандартної (20°C).</div>
+      <div class="item-card-text" style="margin-bottom:8px"><b style="color:#c0d0f0">Суть:</b> Більшість ареометрів відкалібровані при 20°C. При нагріванні рідина розширюється — ареометр занурюється глибше і <b>завищує</b> покази. При охолодженні — <b>занижує</b>. Формула застосовна в діапазоні 10–30°C для міцності 30–80% об.</div>
+      <div style="background:#0d1120;border:0.5px solid #1e3060;border-radius:8px;padding:12px 14px;margin-bottom:10px">
+        <div style="font-family:'Oxanium',monospace;font-size:11px;color:#69F0AE;margin-bottom:4px">ФОРМУЛА (наближена лінійна модель):</div>
+        <div style="font-size:15px;color:#fff;margin-bottom:6px"><b>C<sub>дійсний</sub> = C<sub>прилад</sub> − (T − 20) × 0.37</b></div>
+        <div style="font-size:11px;color:#90a0cc;line-height:1.7">
+          C<sub>дійсний</sub> — реальна міцність при 20°C (% об.)<br>
+          C<sub>прилад</sub> — показання ареометра (% об.)<br>
+          T — фактична температура рідини (°C)<br>
+          0.37 — усереднений температурний коефіцієнт (від 0.33 до 0.40 залежно від міцності)
+        </div>
+      </div>
+      <!-- Калькулятор 4 -->
+      <div style="background:#101325;border:0.5px solid #00E5CC33;border-radius:8px;padding:12px 14px;margin-bottom:10px">
+        <div style="font-family:'Oxanium',monospace;font-size:10px;color:#00E5CC;margin-bottom:8px;letter-spacing:2px">🔢 КАЛЬКУЛЯТОР</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px;margin-bottom:8px">
+          <div>
+            <label style="font-size:11px;color:#90a0cc;display:block;margin-bottom:3px">C<sub>прилад</sub> — показання ареометра (%)</label>
+            <input id="c4cp" type="number" value="65" min="1" max="96" style="width:100%;background:#0d0e1a;border:0.5px solid #2e3a6e;border-radius:6px;padding:7px 10px;color:#fff;font-size:13px;font-family:'Inter',sans-serif">
+          </div>
+          <div>
+            <label style="font-size:11px;color:#90a0cc;display:block;margin-bottom:3px">T — температура рідини (°C)</label>
+            <input id="c4t" type="number" value="28" min="10" max="30" style="width:100%;background:#0d0e1a;border:0.5px solid #2e3a6e;border-radius:6px;padding:7px 10px;color:#fff;font-size:13px;font-family:'Inter',sans-serif">
+          </div>
+        </div>
+        <button onclick="calc4()" style="background:linear-gradient(135deg,#00E5CC22,#00E5CC11);border:0.5px solid #00E5CC;border-radius:6px;padding:8px 20px;color:#00E5CC;font-family:'Oxanium',monospace;font-size:12px;cursor:pointer;letter-spacing:1px">РОЗРАХУВАТИ</button>
+        <div id="c4res" style="margin-top:10px;display:none">
+          <div style="background:#0a1f1a;border:0.5px solid #00E5CC44;border-radius:6px;padding:10px 14px">
+            <div style="font-size:11px;color:#69F0AE;margin-bottom:4px;font-family:'Oxanium',monospace">РЕЗУЛЬТАТ:</div>
+            <div id="c4res-text" style="font-size:14px;color:#fff;line-height:1.7"></div>
+          </div>
+        </div>
+      </div>
+      <!-- Небезпека -->
+      <div style="background:#1a0a0a;border:0.5px solid #FF5252aa;border-radius:8px;padding:10px 14px;margin-bottom:10px">
+        <div style="font-size:12px;color:#FF7070;margin-bottom:4px">⚠️ Техніка безпеки</div>
+        <div style="font-size:11px;color:#c09090;line-height:1.65">
+          <b>Крихкість приладу:</b> Ареометри виготовлені з тонкого скла і можуть містити свинцевий дріб або ртуть. При вимірюванні гарячих рідин (понад 60°C) скло може тріснути від термошоку.<br>
+          <b>Порізи:</b> При пошкодженні колби не торкайтеся уламків голими руками.
+        </div>
+      </div>
+      <!-- Інструкція -->
+      <div style="font-size:11px;color:#90a0cc;line-height:1.8">
+        <div style="font-family:'Oxanium',monospace;font-size:10px;color:#7080b8;letter-spacing:2px;margin-bottom:4px">ПОКРОКОВА ІНСТРУКЦІЯ:</div>
+        <b style="color:#c0d0f0">Крок 1:</b> Занурте термометр у рідину, зачекайте 30–60 с до стабілізації T.<br>
+        <b style="color:#c0d0f0">Крок 2:</b> Опустіть чистий і сухий спиртомір у циліндр, дайте зупинитися (не торкатись стінок).<br>
+        <b style="color:#c0d0f0">Крок 3:</b> Зніміть показання по нижньому краю меніска (C<sub>прилад</sub>).<br>
+        <b style="color:#c0d0f0">Крок 4:</b> Обчисліть C<sub>дійсний</sub> за формулою.
+        <div style="margin-top:6px;background:#0d1525;border-left:2px solid #69F0AE;padding:6px 10px;border-radius:0 4px 4px 0">
+          <b style="color:#69F0AE">Приклад:</b> АСП-3 показує 65% при T=28°C:<br>
+          C<sub>дійсний</sub> = 65 − (28−20) × 0.37 = 65 − 2.96 = <b style="color:#fff">62.04% об.</b>
+        </div>
+      </div>
+    </div>
+
+    <!-- CALC 5: Корекція рефрактометра Brix за T -->
+    <div class="item-card" style="margin-bottom:10px">
+      <div class="item-card-text" style="font-size:13px;font-weight:600;color:#00E5CC;margin-bottom:6px">🔬 Корекція рефрактометра Brix за температурою</div>
+      <div class="item-card-text" style="margin-bottom:8px"><b style="color:#c0d0f0">Призначення:</b> Температурна корекція показань оптичного або цифрового рефрактометра. Обчислення точного вмісту цукру (Brix, % W/W) у суслі, соках, сиропах при температурі, відмінній від 20°C.</div>
+      <div class="item-card-text" style="margin-bottom:8px"><b style="color:#c0d0f0">Суть:</b> Рефрактометр вимірює коефіцієнт заломлення світла (n<sub>D</sub>), який суттєво залежить від температури. При T вищій 20°C прилад <b>занижує</b> показання Brix, при нижчій — <b>завищує</b>. Навіть прилади з ATC дають похибку при відхиленні понад 5°C. Формула відповідає стандарту ISO/ICUMSA.</div>
+      <div style="background:#0d1120;border:0.5px solid #1e3060;border-radius:8px;padding:12px 14px;margin-bottom:10px">
+        <div style="font-family:'Oxanium',monospace;font-size:11px;color:#69F0AE;margin-bottom:4px">ФОРМУЛА (стандарт ISO/ICUMSA, діапазон 10–30°C):</div>
+        <div style="font-size:15px;color:#fff;margin-bottom:6px"><b>Brix<sub>дійсний</sub> = Brix<sub>прилад</sub> + (T − 20) × 0.07</b></div>
+        <div style="font-size:11px;color:#90a0cc;line-height:1.7">
+          Brix<sub>дійсний</sub> — реальний вміст цукру (% Brix)<br>
+          Brix<sub>прилад</sub> — показання рефрактометра (% Brix)<br>
+          T — температура зразка на призмі (°C)<br>
+          0.07 — коефіцієнт температурної поправки для цукрових розчинів (на 1°C)
+        </div>
+      </div>
+      <!-- Калькулятор 5 -->
+      <div style="background:#101325;border:0.5px solid #00E5CC33;border-radius:8px;padding:12px 14px;margin-bottom:10px">
+        <div style="font-family:'Oxanium',monospace;font-size:10px;color:#00E5CC;margin-bottom:8px;letter-spacing:2px">🔢 КАЛЬКУЛЯТОР</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px;margin-bottom:8px">
+          <div>
+            <label style="font-size:11px;color:#90a0cc;display:block;margin-bottom:3px">Brix<sub>прилад</sub> — показання (°Brix)</label>
+            <input id="c5bp" type="number" value="14.0" step="0.1" min="0" style="width:100%;background:#0d0e1a;border:0.5px solid #2e3a6e;border-radius:6px;padding:7px 10px;color:#fff;font-size:13px;font-family:'Inter',sans-serif">
+          </div>
+          <div>
+            <label style="font-size:11px;color:#90a0cc;display:block;margin-bottom:3px">T — температура зразка (°C)</label>
+            <input id="c5t" type="number" value="28" min="10" max="30" style="width:100%;background:#0d0e1a;border:0.5px solid #2e3a6e;border-radius:6px;padding:7px 10px;color:#fff;font-size:13px;font-family:'Inter',sans-serif">
+          </div>
+        </div>
+        <button onclick="calc5()" style="background:linear-gradient(135deg,#00E5CC22,#00E5CC11);border:0.5px solid #00E5CC;border-radius:6px;padding:8px 20px;color:#00E5CC;font-family:'Oxanium',monospace;font-size:12px;cursor:pointer;letter-spacing:1px">РОЗРАХУВАТИ</button>
+        <div id="c5res" style="margin-top:10px;display:none">
+          <div style="background:#0a1f1a;border:0.5px solid #00E5CC44;border-radius:6px;padding:10px 14px">
+            <div style="font-size:11px;color:#69F0AE;margin-bottom:4px;font-family:'Oxanium',monospace">РЕЗУЛЬТАТ:</div>
+            <div id="c5res-text" style="font-size:14px;color:#fff;line-height:1.7"></div>
+          </div>
+        </div>
+      </div>
+      <!-- Небезпека -->
+      <div style="background:#1a0a0a;border:0.5px solid #FF5252aa;border-radius:8px;padding:10px 14px;margin-bottom:10px">
+        <div style="font-size:12px;color:#FF7070;margin-bottom:4px">⚠️ Техніка безпеки</div>
+        <div style="font-size:11px;color:#c09090;line-height:1.65">
+          <b>Захист оптики:</b> Не наносити на призму концентровані кислоти або луги — можна пошкодити оптичний клей та покриття.<br>
+          <b>Термошок призми:</b> Рідина з температурою понад 60°C може пошкодити клей призми. Охолодіть краплю сусла до 30–35°C перед вимірюванням.
+        </div>
+      </div>
+      <!-- Інструкція -->
+      <div style="font-size:11px;color:#90a0cc;line-height:1.8">
+        <div style="font-family:'Oxanium',monospace;font-size:10px;color:#7080b8;letter-spacing:2px;margin-bottom:4px">ПОКРОКОВА ІНСТРУКЦІЯ:</div>
+        <b style="color:#c0d0f0">Крок 1:</b> Нанесіть краплю сусла на призму, закрийте кришку.<br>
+        <b style="color:#c0d0f0">Крок 2:</b> Виміряйте температуру зразка термометром.<br>
+        <b style="color:#c0d0f0">Крок 3:</b> Зніміть показання Brix.<br>
+        <b style="color:#c0d0f0">Крок 4:</b> Обчисліть Brix<sub>дійсний</sub> за формулою.
+        <div style="margin-top:6px;background:#0d1525;border-left:2px solid #69F0AE;padding:6px 10px;border-radius:0 4px 4px 0">
+          <b style="color:#69F0AE">Приклад:</b> Рефрактометр показує 14.0 Brix при T=28°C:<br>
+          Brix<sub>дійсний</sub> = 14.0 + (28−20) × 0.07 = 14.0 + 0.56 = <b style="color:#fff">14.56 Brix</b>
+        </div>
+      </div>
+    </div>
+
+    <!-- CALC 6: Шапталізація -->
+    <div class="item-card" style="margin-bottom:10px">
+      <div class="item-card-text" style="font-size:13px;font-weight:600;color:#00E5CC;margin-bottom:6px">🍇 Шапталізація — підвищення міцності вина цукром</div>
+      <div class="item-card-text" style="margin-bottom:8px"><b style="color:#c0d0f0">Призначення:</b> Розрахунок маси цукру, яку потрібно додати до винного сусла перед бродінням, щоб підвищити потенційну міцність готового вина до потрібного значення.</div>
+      <div class="item-card-text" style="margin-bottom:8px"><b style="color:#c0d0f0">Суть:</b> Дріжджі перетворюють цукор на етанол та CO₂. Норма: 17 г/л цукру = +1% об. спирту. Вимірювання початкової цукристості ведуть ареометром (SG, °Plato) або рефрактометром (°Brix ≈ 10 г/л цукру ≈ 0.59% об.).</div>
+      <div style="background:#0d1120;border:0.5px solid #1e3060;border-radius:8px;padding:12px 14px;margin-bottom:10px">
+        <div style="font-family:'Oxanium',monospace;font-size:11px;color:#69F0AE;margin-bottom:4px">ФОРМУЛА:</div>
+        <div style="font-size:14px;color:#fff;margin-bottom:4px"><b>ΔC = C<sub>цільова</sub> − C<sub>початкова</sub></b></div>
+        <div style="font-size:14px;color:#c0d0f0;margin-bottom:4px"><b>m<sub>цукру</sub> = ΔC × 17 (г/л)</b></div>
+        <div style="font-size:14px;color:#c0d0f0;margin-bottom:6px"><b>M<sub>загальна</sub> = m<sub>цукру</sub> × V<sub>сусла</sub></b></div>
+        <div style="font-size:11px;color:#90a0cc;line-height:1.7">
+          C<sub>початкова</sub> — потенційна міцність сусла (% об.) за виміряним Brix або SG<br>
+          C<sub>цільова</sub> — бажана міцність готового вина (% об.)<br>
+          17 — г цукру на 1 л для отримання +1% об. спирту<br>
+          V<sub>сусла</sub> — об'єм сусла (л) | M<sub>загальна</sub> — маса цукру (г)
+        </div>
+      </div>
+      <!-- Калькулятор 6 -->
+      <div style="background:#101325;border:0.5px solid #00E5CC33;border-radius:8px;padding:12px 14px;margin-bottom:10px">
+        <div style="font-family:'Oxanium',monospace;font-size:10px;color:#00E5CC;margin-bottom:8px;letter-spacing:2px">🔢 КАЛЬКУЛЯТОР</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px;margin-bottom:8px">
+          <div>
+            <label style="font-size:11px;color:#90a0cc;display:block;margin-bottom:3px">C<sub>початкова</sub> — початкова міцність (%)</label>
+            <input id="c6ci" type="number" value="5.9" step="0.1" min="0" style="width:100%;background:#0d0e1a;border:0.5px solid #2e3a6e;border-radius:6px;padding:7px 10px;color:#fff;font-size:13px;font-family:'Inter',sans-serif">
+          </div>
+          <div>
+            <label style="font-size:11px;color:#90a0cc;display:block;margin-bottom:3px">C<sub>цільова</sub> — бажана міцність (%)</label>
+            <input id="c6ct" type="number" value="12" min="1" max="16" style="width:100%;background:#0d0e1a;border:0.5px solid #2e3a6e;border-radius:6px;padding:7px 10px;color:#fff;font-size:13px;font-family:'Inter',sans-serif">
+          </div>
+          <div>
+            <label style="font-size:11px;color:#90a0cc;display:block;margin-bottom:3px">V<sub>сусла</sub> — об'єм сусла (л)</label>
+            <input id="c6v" type="number" value="50" min="1" style="width:100%;background:#0d0e1a;border:0.5px solid #2e3a6e;border-radius:6px;padding:7px 10px;color:#fff;font-size:13px;font-family:'Inter',sans-serif">
+          </div>
+        </div>
+        <button onclick="calc6()" style="background:linear-gradient(135deg,#00E5CC22,#00E5CC11);border:0.5px solid #00E5CC;border-radius:6px;padding:8px 20px;color:#00E5CC;font-family:'Oxanium',monospace;font-size:12px;cursor:pointer;letter-spacing:1px">РОЗРАХУВАТИ</button>
+        <div id="c6res" style="margin-top:10px;display:none">
+          <div style="background:#0a1f1a;border:0.5px solid #00E5CC44;border-radius:6px;padding:10px 14px">
+            <div style="font-size:11px;color:#69F0AE;margin-bottom:4px;font-family:'Oxanium',monospace">РЕЗУЛЬТАТ:</div>
+            <div id="c6res-text" style="font-size:14px;color:#fff;line-height:1.7"></div>
+          </div>
+        </div>
+      </div>
+      <!-- Небезпека -->
+      <div style="background:#1a0a0a;border:0.5px solid #FF5252aa;border-radius:8px;padding:10px 14px;margin-bottom:10px">
+        <div style="font-size:12px;color:#FF7070;margin-bottom:4px">⚠️ Техніка безпеки</div>
+        <div style="font-size:11px;color:#c09090;line-height:1.65">
+          <b>Дріжджовий шок:</b> Не вносити весь цукор одразу якщо норма перевищує 80–100 г/л. Висока концентрація цукру створює осмотичний тиск і пригнічує дріжджі.<br>
+          <b>Максимальна міцність:</b> Звичайні винні дріжджі витримують до 14–16% об. Додавання цукру понад цю норму не підвищить міцність, а лише зробить вино солодким або призведе до недоброду.
+        </div>
+      </div>
+      <!-- Інструкція -->
+      <div style="font-size:11px;color:#90a0cc;line-height:1.8">
+        <div style="font-family:'Oxanium',monospace;font-size:10px;color:#7080b8;letter-spacing:2px;margin-bottom:4px">ПОКРОКОВА ІНСТРУКЦІЯ:</div>
+        <b style="color:#c0d0f0">Крок 1:</b> Виміряйте початкову цукристість сусла ареометром або рефрактометром.<br>
+        <b style="color:#c0d0f0">Крок 2:</b> Обчисліть необхідну загальну масу цукру.<br>
+        <b style="color:#c0d0f0">Крок 3:</b> Якщо маса велика — розділіть на 2–3 порції: 50% на 1–2 день, 25% на 4–5 день, 25% на 7–9 день.<br>
+        <b style="color:#c0d0f0">Крок 4:</b> Відберіть 2–3 л сусла, підігрійте до +30...+35°C, розчиніть цукор, влийте назад.
+        <div style="margin-top:6px;background:#0d1525;border-left:2px solid #69F0AE;padding:6px 10px;border-radius:0 4px 4px 0">
+          <b style="color:#69F0AE">Приклад:</b> 50 л яблучного сусла, 10°Brix (≈5.9% міцності) → довести до 12%:<br>
+          ΔC = 12 − 5.9 = 6.1% | m = 6.1 × 17 = 103.7 г/л | M<sub>загальна</sub> = 103.7 × 50 = <b style="color:#fff">5185 г (≈5.185 кг)</b>
+        </div>
+      </div>
+    </div>
+
+    <!-- CALC 7: Зниження кислотності сусла -->
+    <div class="item-card" style="margin-bottom:10px">
+      <div class="item-card-text" style="font-size:13px;font-weight:600;color:#00E5CC;margin-bottom:6px">🧪 Зниження кислотності винного сусла</div>
+      <div class="item-card-text" style="margin-bottom:8px"><b style="color:#c0d0f0">Призначення:</b> Обчислення об'єму води або маси карбонату кальцію (CaCO₃, крейда/мармур) для зниження надлишкової кислотності сусла до оптимальних показників (6–8 г/л для сухого, 8–9 г/л для десертного вина).</div>
+      <div class="item-card-text" style="margin-bottom:8px"><b style="color:#c0d0f0">Суть:</b> Два методи: <b>водяне розбавлення</b> — зменшує концентрацію кислот (знижує і цукристість, вимагає корекції); <b>нейтралізація CaCO₃</b> — крейда реагує з винною кислотою:<br>
+      C₄H₆O₆ + CaCO₃ → CaC₄H₄O₆↓ + H₂O + CO₂↑<br>
+      Крейдою можна нейтралізувати лише винну кислоту (яблучна і лимонна залишаються), тому зниження крейдою — максимум 3–4 г/л.</div>
+      <div style="background:#0d1120;border:0.5px solid #1e3060;border-radius:8px;padding:12px 14px;margin-bottom:10px">
+        <div style="font-family:'Oxanium',monospace;font-size:11px;color:#69F0AE;margin-bottom:4px">ФОРМУЛИ:</div>
+        <div style="font-size:13px;color:#fff;margin-bottom:4px"><b>V<sub>води</sub> = V<sub>сусла</sub> × (A<sub>початкова</sub> / A<sub>цільова</sub> − 1)</b></div>
+        <div style="font-size:13px;color:#c0d0f0;margin-bottom:6px"><b>M<sub>крейди</sub> = (A<sub>початкова</sub> − A<sub>цільова</sub>) × V<sub>сусла</sub> × 0.67</b></div>
+        <div style="font-size:11px;color:#90a0cc;line-height:1.7">
+          V<sub>сусла</sub> — об'єм сусла (л) | A — кислотність (г/л у перерахунку на винну кислоту)<br>
+          0.67 — стехіометричний коефіцієнт: 0.67 г CaCO₃ нейтралізує 1 г винної кислоти
+        </div>
+      </div>
+      <!-- Калькулятор 7 -->
+      <div style="background:#101325;border:0.5px solid #00E5CC33;border-radius:8px;padding:12px 14px;margin-bottom:10px">
+        <div style="font-family:'Oxanium',monospace;font-size:10px;color:#00E5CC;margin-bottom:8px;letter-spacing:2px">🔢 КАЛЬКУЛЯТОР</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px;margin-bottom:8px">
+          <div>
+            <label style="font-size:11px;color:#90a0cc;display:block;margin-bottom:3px">V<sub>сусла</sub> — об'єм сусла (л)</label>
+            <input id="c7v" type="number" value="20" min="1" style="width:100%;background:#0d0e1a;border:0.5px solid #2e3a6e;border-radius:6px;padding:7px 10px;color:#fff;font-size:13px;font-family:'Inter',sans-serif">
+          </div>
+          <div>
+            <label style="font-size:11px;color:#90a0cc;display:block;margin-bottom:3px">A<sub>початкова</sub> — кислотність (г/л)</label>
+            <input id="c7ai" type="number" value="12" step="0.1" min="1" style="width:100%;background:#0d0e1a;border:0.5px solid #2e3a6e;border-radius:6px;padding:7px 10px;color:#fff;font-size:13px;font-family:'Inter',sans-serif">
+          </div>
+          <div>
+            <label style="font-size:11px;color:#90a0cc;display:block;margin-bottom:3px">A<sub>цільова</sub> — бажана кислотність (г/л)</label>
+            <input id="c7at" type="number" value="7" step="0.1" min="1" style="width:100%;background:#0d0e1a;border:0.5px solid #2e3a6e;border-radius:6px;padding:7px 10px;color:#fff;font-size:13px;font-family:'Inter',sans-serif">
+          </div>
+        </div>
+        <button onclick="calc7()" style="background:linear-gradient(135deg,#00E5CC22,#00E5CC11);border:0.5px solid #00E5CC;border-radius:6px;padding:8px 20px;color:#00E5CC;font-family:'Oxanium',monospace;font-size:12px;cursor:pointer;letter-spacing:1px">РОЗРАХУВАТИ</button>
+        <div id="c7res" style="margin-top:10px;display:none">
+          <div style="background:#0a1f1a;border:0.5px solid #00E5CC44;border-radius:6px;padding:10px 14px">
+            <div style="font-size:11px;color:#69F0AE;margin-bottom:4px;font-family:'Oxanium',monospace">РЕЗУЛЬТАТ:</div>
+            <div id="c7res-text" style="font-size:14px;color:#fff;line-height:1.7"></div>
+          </div>
+        </div>
+      </div>
+      <!-- Небезпека -->
+      <div style="background:#1a0a0a;border:0.5px solid #FF5252aa;border-radius:8px;padding:10px 14px;margin-bottom:10px">
+        <div style="font-size:12px;color:#FF7070;margin-bottom:4px">⚠️ Техніка безпеки</div>
+        <div style="font-size:11px;color:#c09090;line-height:1.65">
+          <b>Інтенсивне піноутворення:</b> Додавання крейди супроводжується бурхливим виділенням CO₂. Вносити невеликими порціями у високий посуд, щоб сусло не вилилося через край.<br>
+          <b>Межа нейтралізації крейдою:</b> Крейдою знижують кислотність максимум на 3–4 г/л. Надлишок крейди надає вину «крейдяного» присмаку.
+        </div>
+      </div>
+      <!-- Інструкція -->
+      <div style="font-size:11px;color:#90a0cc;line-height:1.8">
+        <div style="font-family:'Oxanium',monospace;font-size:10px;color:#7080b8;letter-spacing:2px;margin-bottom:4px">ПОКРОКОВА ІНСТРУКЦІЯ:</div>
+        <b style="color:#c0d0f0">Крок 1:</b> Визначте титровану кислотність сусла набором для титрування або pH-метром.<br>
+        <b style="color:#c0d0f0">Крок 2:</b> Обчисліть необхідну масу крейди або об'єм води за формулою.<br>
+        <b style="color:#c0d0f0">Крок 3:</b> Розведіть крейду в 1–2 л сусла.<br>
+        <b style="color:#c0d0f0">Крок 4:</b> Повільно влийте суміш у бродильну ємність, помішуючи.<br>
+        <b style="color:#c0d0f0">Крок 5:</b> Залиште на 12–24 год при +10...+15°C для випадання осаду тартрату кальцію, потім зніміть з осаду.
+        <div style="margin-top:6px;background:#0d1525;border-left:2px solid #69F0AE;padding:6px 10px;border-radius:0 4px 4px 0">
+          <b style="color:#69F0AE">Приклад:</b> 20 л сусла з кислотністю 12 г/л → знизити до 7 г/л крейдою:<br>
+          ΔA = 12 − 7 = 5 г/л | M<sub>крейди</sub> = 5 × 20 × 0.67 = <b style="color:#fff">67 г</b>
+        </div>
+      </div>
+    </div>
+
+    <!-- CALC 8: Дозування піросульфіту калію -->
+    <div class="item-card" style="margin-bottom:6px">
+      <div class="item-card-text" style="font-size:13px;font-weight:600;color:#00E5CC;margin-bottom:6px">🧫 Дозування піросульфіту калію (сульфітація сусла)</div>
+      <div class="item-card-text" style="margin-bottom:8px"><b style="color:#c0d0f0">Призначення:</b> Обчислення точної маси піросульфіту калію (K₂S₂O₅) для внесення у мезгу або сусло. Застосовується для пригнічення диких дріжджів і бактерій, запобігання окисленню, збереження кольору й аромату, стабілізації вина перед розливом.</div>
+      <div class="item-card-text" style="margin-bottom:8px"><b style="color:#c0d0f0">Суть:</b> У кислому середовищі сусла відбувається реакція:<br>K₂S₂O₅ + кислота → 2SO₂ + ...<br>Вихід вільного SO₂ становить ≈50–57% від маси піросульфіту. SO₂ зв'язує кисень, блокує ферменти (оксидази), стерилізує середовище, залишаючи можливість для розвитку культурних дріжджів (ЧКД).</div>
+      <div style="background:#0d1120;border:0.5px solid #1e3060;border-radius:8px;padding:12px 14px;margin-bottom:10px">
+        <div style="font-family:'Oxanium',monospace;font-size:11px;color:#69F0AE;margin-bottom:4px">ФОРМУЛА (при виході SO₂ ≈ 50%):  </div>
+        <div style="font-size:15px;color:#fff;margin-bottom:6px"><b>M<sub>піросульфіту</sub> (г) = V<sub>сусла</sub> (л) × C<sub>SO₂</sub> (мг/л) / 500</b></div>
+        <div style="font-size:11px;color:#90a0cc;line-height:1.7">
+          V<sub>сусла</sub> — об'єм сусла (л) | C<sub>SO₂</sub> — потрібна концентрація SO₂ (мг/л або ppm)<br>
+          <b>Стандартні норми SO₂:</b> здоровий виноград 30–50 мг/л; ушкоджений 70–100 мг/л; перед розливом сухих вин 20–30 мг/л; дезінфекція обладнання 10–20 г + 2 г лимонної кислоти на 1 л води.
+        </div>
+      </div>
+      <!-- Калькулятор 8 -->
+      <div style="background:#101325;border:0.5px solid #00E5CC33;border-radius:8px;padding:12px 14px;margin-bottom:10px">
+        <div style="font-family:'Oxanium',monospace;font-size:10px;color:#00E5CC;margin-bottom:8px;letter-spacing:2px">🔢 КАЛЬКУЛЯТОР</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px;margin-bottom:8px">
+          <div>
+            <label style="font-size:11px;color:#90a0cc;display:block;margin-bottom:3px">V<sub>сусла</sub> — об'єм (л)</label>
+            <input id="c8v" type="number" value="100" min="1" style="width:100%;background:#0d0e1a;border:0.5px solid #2e3a6e;border-radius:6px;padding:7px 10px;color:#fff;font-size:13px;font-family:'Inter',sans-serif">
+          </div>
+          <div>
+            <label style="font-size:11px;color:#90a0cc;display:block;margin-bottom:3px">C<sub>SO₂</sub> — норма SO₂ (мг/л)</label>
+            <input id="c8c" type="number" value="50" min="10" max="200" style="width:100%;background:#0d0e1a;border:0.5px solid #2e3a6e;border-radius:6px;padding:7px 10px;color:#fff;font-size:13px;font-family:'Inter',sans-serif">
+          </div>
+        </div>
+        <button onclick="calc8()" style="background:linear-gradient(135deg,#00E5CC22,#00E5CC11);border:0.5px solid #00E5CC;border-radius:6px;padding:8px 20px;color:#00E5CC;font-family:'Oxanium',monospace;font-size:12px;cursor:pointer;letter-spacing:1px">РОЗРАХУВАТИ</button>
+        <div id="c8res" style="margin-top:10px;display:none">
+          <div style="background:#0a1f1a;border:0.5px solid #00E5CC44;border-radius:6px;padding:10px 14px">
+            <div style="font-size:11px;color:#69F0AE;margin-bottom:4px;font-family:'Oxanium',monospace">РЕЗУЛЬТАТ:</div>
+            <div id="c8res-text" style="font-size:14px;color:#fff;line-height:1.7"></div>
+          </div>
+        </div>
+      </div>
+      <!-- Небезпека -->
+      <div style="background:#1a0a0a;border:0.5px solid #FF5252aa;border-radius:8px;padding:10px 14px;margin-bottom:10px">
+        <div style="font-size:12px;color:#FF7070;margin-bottom:4px">⚠️ Техніка безпеки</div>
+        <div style="font-size:11px;color:#c09090;line-height:1.65">
+          <b>Пари та алергічні реакції:</b> Пил піросульфіту та газ SO₂ мають різкий запах, дратують слизові, можуть викликати астматичні реакції. Працювати у добре провітрюваному приміщенні.<br>
+          <b>Пауза перед внесенням дріжджів:</b> Після сульфітації витримайте 12–24 години перед засівом ЧКД. Якщо внести одразу — SO₂ пригнітить або вб'є культурні дріжджі.<br>
+          <b>Передозування:</b> Понад 150–200 мг/л залишить стійкий запах сірки, може зупинити бродіння та викликати головний біль.
+        </div>
+      </div>
+      <!-- Інструкція -->
+      <div style="font-size:11px;color:#90a0cc;line-height:1.8">
+        <div style="font-family:'Oxanium',monospace;font-size:10px;color:#7080b8;letter-spacing:2px;margin-bottom:4px">ПОКРОКОВА ІНСТРУКЦІЯ:</div>
+        <b style="color:#c0d0f0">Крок 1:</b> Обчисліть масу піросульфіту за формулою.<br>
+        <b style="color:#c0d0f0">Крок 2:</b> Зважте речовину на ювелірних вагах (точність 0.01 г).<br>
+        <b style="color:#c0d0f0">Крок 3:</b> Розчиніть у 100–200 мл холодної води або сусла.<br>
+        <b style="color:#c0d0f0">Крок 4:</b> Влийте розчин у сусло/мезгу і ретельно перемішайте.<br>
+        <b style="color:#c0d0f0">Крок 5:</b> Накрийте і залиште 12–24 год, після чого вводьте розводку дріжджів.
+        <div style="margin-top:6px;background:#0d1525;border-left:2px solid #69F0AE;padding:6px 10px;border-radius:0 4px 4px 0">
+          <b style="color:#69F0AE">Приклад:</b> 100 л ягідного сусла, норма 50 мг/л:<br>
+          M<sub>піросульфіту</sub> = 100 × 50 / 500 = <b style="color:#fff">10 г</b>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end subgroup 1.1 -->
+
+  <!-- ===== 1.2 КУЛІНАРІЯ ===== -->
   <div class="subgroup">
     <div class="subgroup-title">1.2 Кулінарія, випічка та кондитерська справа</div>
-    <div class="item-list">
-      <div class="item-card"><div class="item-card-text">Оцтовий калькулятор: 70% есенція → 3/5/6/9% столовий оцет; взаємозаміна 6% і 9%; перерахунок бальзамічного, яблучного, винного оцту</div><span class="item-card-badge">🔢 калькулятор</span></div>
-      <div class="item-card"><div class="item-card-text">Соління, маринади та розсоли: концентрація солі (% або g/l) для квашення і консервації; сухе соління (% від маси сировини); розрахунок цукру, оцту та спецій на об'єм банок</div><span class="item-card-badge">🔢 калькулятор</span></div>
-      <div class="item-card"><div class="item-card-text">Кондитерська справа: таблиця проб цукрового сиропу за T°C; конвертер желюючих агентів (желатин Bloom, агар-агар, пектин); розрахунок інвертного сиропу</div><span class="item-card-badge">📊 таблиця</span></div>
-      <div class="item-card"><div class="item-card-text">Випічка: погашення соди (сода + лимонна кислота/оцет); Baker's Percentages — вологість, сіль, дріжджі від маси борошна</div><span class="item-card-badge">🔢 калькулятор</span></div>
-    </div>
-  </div>
 
+    <!-- CALC 9: Оцтовий калькулятор -->
+    <div class="item-card" style="margin-bottom:10px">
+      <div class="item-card-text" style="font-size:13px;font-weight:600;color:#00E5CC;margin-bottom:6px">🍶 Оцтовий калькулятор (взаємозаміна 6% ↔ 9%)</div>
+      <div class="item-card-text" style="margin-bottom:8px"><b style="color:#c0d0f0">Призначення:</b> Обчислення необхідного об'єму столового оцту однієї концентрації для заміни оцту іншої концентрації, вказаної в рецепті, а також корекція загальної кількості рідини у страві.</div>
+      <div class="item-card-text" style="margin-bottom:8px"><b style="color:#c0d0f0">Суть:</b> При заміні оцту однієї міцності на інший абсолютна маса чистої оцтової кислоти у страві повинна залишатися незмінною. Менш концентрований оцет містить більше води, тому його об'єм збільшують, а об'єм доданої за рецептом води відповідним чином зменшують.</div>
+      <div style="background:#0d1120;border:0.5px solid #1e3060;border-radius:8px;padding:12px 14px;margin-bottom:10px">
+        <div style="font-family:'Oxanium',monospace;font-size:11px;color:#69F0AE;margin-bottom:4px">ФОРМУЛИ:</div>
+        <div style="font-size:14px;color:#fff;margin-bottom:4px"><b>V<sub>наяв</sub> = (V<sub>рец</sub> × C<sub>рец</sub>) / C<sub>наяв</sub></b></div>
+        <div style="font-size:14px;color:#fff;margin-bottom:6px"><b>ΔV<sub>води</sub> = V<sub>наяв</sub> − V<sub>рец</sub></b></div>
+        <div style="font-size:11px;color:#90a0cc;line-height:1.7">
+          V<sub>рец</sub> — об'єм оцту за рецептом (мл)<br>
+          C<sub>рец</sub> — концентрація оцту за рецептом (%)<br>
+          C<sub>наяв</sub> — концентрація наявного оцту (%)<br>
+          V<sub>наяв</sub> — необхідний об'єм наявного оцту (мл)<br>
+          ΔV<sub>води</sub> — корекція об'єму рідини (мл): якщо &gt;0 — зменшити воду, якщо &lt;0 — збільшити
+        </div>
+      </div>
+      <div style="background:#101325;border:0.5px solid #00E5CC33;border-radius:8px;padding:12px 14px;margin-bottom:10px">
+        <div style="font-family:'Oxanium',monospace;font-size:10px;color:#00E5CC;margin-bottom:8px;letter-spacing:2px">🔢 КАЛЬКУЛЯТОР</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px;margin-bottom:8px">
+          <div>
+            <label style="font-size:11px;color:#90a0cc;display:block;margin-bottom:3px">V<sub>рец</sub> — об'єм оцту за рецептом (мл)</label>
+            <input id="c9vrec" type="number" value="120" min="1" style="width:100%;background:#0d0e1a;border:0.5px solid #2e3a6e;border-radius:6px;padding:7px 10px;color:#fff;font-size:13px;font-family:'Inter',sans-serif">
+          </div>
+          <div>
+            <label style="font-size:11px;color:#90a0cc;display:block;margin-bottom:3px">C<sub>рец</sub> — концентрація за рецептом (%)</label>
+            <input id="c9crec" type="number" value="9" min="1" max="80" style="width:100%;background:#0d0e1a;border:0.5px solid #2e3a6e;border-radius:6px;padding:7px 10px;color:#fff;font-size:13px;font-family:'Inter',sans-serif">
+          </div>
+          <div>
+            <label style="font-size:11px;color:#90a0cc;display:block;margin-bottom:3px">C<sub>наяв</sub> — концентрація наявного оцту (%)</label>
+            <input id="c9cnav" type="number" value="6" min="1" max="80" style="width:100%;background:#0d0e1a;border:0.5px solid #2e3a6e;border-radius:6px;padding:7px 10px;color:#fff;font-size:13px;font-family:'Inter',sans-serif">
+          </div>
+        </div>
+        <button onclick="calc9()" style="background:linear-gradient(135deg,#00E5CC22,#00E5CC11);border:0.5px solid #00E5CC;border-radius:6px;padding:8px 20px;color:#00E5CC;font-family:'Oxanium',monospace;font-size:12px;cursor:pointer;letter-spacing:1px">РОЗРАХУВАТИ</button>
+        <div id="c9res" style="margin-top:10px;display:none">
+          <div style="background:#0a1f1a;border:0.5px solid #00E5CC44;border-radius:6px;padding:10px 14px">
+            <div style="font-size:11px;color:#69F0AE;margin-bottom:4px;font-family:'Oxanium',monospace">РЕЗУЛЬТАТ:</div>
+            <div id="c9res-text" style="font-size:14px;color:#fff;line-height:1.7"></div>
+          </div>
+        </div>
+      </div>
+      <div style="background:#1a0a0a;border:0.5px solid #FF5252aa;border-radius:8px;padding:10px 14px;margin-bottom:10px">
+        <div style="font-size:12px;color:#FF7070;margin-bottom:4px">⚠️ Техніка безпеки</div>
+        <div style="font-size:11px;color:#c09090;line-height:1.65">
+          <b>Баланс вологи:</b> Не ігноруйте корекцію ΔV<sub>води</sub> при випіканні чи соусах — може зробити тісто або соус надто рідким.<br>
+          <b>Зберігання:</b> Зберігайте столовий оцет у щільно закритому скляному або харчовому пластиковому посуді подалі від прямих сонячних променів.
+        </div>
+      </div>
+      <div style="font-size:11px;color:#90a0cc;line-height:1.8">
+        <div style="font-family:'Oxanium',monospace;font-size:10px;color:#7080b8;letter-spacing:2px;margin-bottom:4px">ПОКРОКОВА ІНСТРУКЦІЯ:</div>
+        <b style="color:#c0d0f0">Крок 1:</b> Запишіть значення об'єму (V<sub>рец</sub>) та концентрації (C<sub>рец</sub>) з рецепта.<br>
+        <b style="color:#c0d0f0">Крок 2:</b> Перевірте концентрацію оцту, що є в наявності (C<sub>наяв</sub>).<br>
+        <b style="color:#c0d0f0">Крок 3:</b> Розрахуйте V<sub>наяв</sub> та ΔV<sub>води</sub>.<br>
+        <b style="color:#c0d0f0">Крок 4:</b> Відміряйте розрахований об'єм наявного оцту.<br>
+        <b style="color:#c0d0f0">Крок 5:</b> Відніміть значення ΔV<sub>води</sub> від загального об'єму води або бульйону у рецепті.
+        <div style="margin-top:6px;background:#0d1525;border-left:2px solid #69F0AE;padding:6px 10px;border-radius:0 4px 4px 0">
+          <b style="color:#69F0AE">Приклад:</b> За рецептом 120 мл 9% оцту, є 6% оцет.<br>
+          V<sub>наяв</sub> = (120 × 9) / 6 = <b style="color:#fff">180 мл</b><br>
+          ΔV<sub>води</sub> = 180 − 120 = <b style="color:#fff">60 мл</b> — зменшити воду на 60 мл.
+        </div>
+      </div>
+    </div>
+
+    <!-- CALC 10: Соління, маринади та розсоли -->
+    <div class="item-card" style="margin-bottom:10px">
+      <div class="item-card-text" style="font-size:13px;font-weight:600;color:#00E5CC;margin-bottom:6px">🥒 Комплексний калькулятор маринаду (на об'єм банок)</div>
+      <div class="item-card-text" style="margin-bottom:8px"><b style="color:#c0d0f0">Призначення:</b> Обчислення маси солі, цукру, оцту та сухих спецій залежно від загального об'єму банок для консервації або від розрахованого об'єму рідкої заливки.</div>
+      <div class="item-card-text" style="margin-bottom:8px"><b style="color:#c0d0f0">Суть:</b> При консервації овочів сумарний об'єм складається зі щільно укладеної сировини та рідкого маринаду. У середньому рідкий маринад займає 50% від повного об'єму банки. Точне дозування консервантів на об'єм маринаду гарантує довготривале зберігання без ризику розвитку патогенів та «підриву» кришок.</div>
+      <div style="background:#0d1120;border:0.5px solid #1e3060;border-radius:8px;padding:12px 14px;margin-bottom:10px">
+        <div style="font-family:'Oxanium',monospace;font-size:11px;color:#69F0AE;margin-bottom:4px">ФОРМУЛИ:</div>
+        <div style="font-size:13px;color:#fff;margin-bottom:4px"><b>V<sub>мар</sub> = V<sub>банок</sub> × 0.5</b></div>
+        <div style="font-size:13px;color:#fff;margin-bottom:4px"><b>m<sub>солі</sub> = V<sub>мар</sub> × N<sub>сіль</sub></b></div>
+        <div style="font-size:13px;color:#fff;margin-bottom:4px"><b>m<sub>цукру</sub> = V<sub>мар</sub> × N<sub>цукор</sub></b></div>
+        <div style="font-size:13px;color:#fff;margin-bottom:6px"><b>V<sub>оцту 9%</sub> = V<sub>мар</sub> × N<sub>оцет</sub></b></div>
+        <div style="font-size:11px;color:#90a0cc;line-height:1.7">
+          V<sub>банок</sub> — сумарний об'єм усіх банок (л) · V<sub>мар</sub> — об'єм маринаду (л)<br>
+          N<sub>сіль</sub> — норма солі (г/л) · N<sub>цукор</sub> — норма цукру (г/л) · N<sub>оцет</sub> — норма 9% оцту (мл/л)
+        </div>
+        <div style="margin-top:8px;font-size:11px;color:#90a0cc;line-height:1.8">
+          <b style="color:#c0d0f0">Типові норми на 1 л маринаду:</b><br>
+          Огірки (класичний): сіль 50 г/л, цукор 50 г/л, оцет 9% 60 мл/л<br>
+          Томати (солодкуватий): сіль 30 г/л, цукор 90 г/л, оцет 9% 50 мл/л<br>
+          Асорті / кабачки: сіль 40 г/л, цукор 60 г/л, оцет 9% 50 мл/л
+        </div>
+      </div>
+      <div style="background:#101325;border:0.5px solid #00E5CC33;border-radius:8px;padding:12px 14px;margin-bottom:10px">
+        <div style="font-family:'Oxanium',monospace;font-size:10px;color:#00E5CC;margin-bottom:8px;letter-spacing:2px">🔢 КАЛЬКУЛЯТОР</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px;margin-bottom:8px">
+          <div>
+            <label style="font-size:11px;color:#90a0cc;display:block;margin-bottom:3px">V<sub>банок</sub> — загальний об'єм банок (л)</label>
+            <input id="c10v" type="number" value="6" min="0.1" step="0.5" style="width:100%;background:#0d0e1a;border:0.5px solid #2e3a6e;border-radius:6px;padding:7px 10px;color:#fff;font-size:13px;font-family:'Inter',sans-serif">
+          </div>
+          <div>
+            <label style="font-size:11px;color:#90a0cc;display:block;margin-bottom:3px">N<sub>сіль</sub> — норма солі (г/л)</label>
+            <input id="c10ns" type="number" value="50" min="1" style="width:100%;background:#0d0e1a;border:0.5px solid #2e3a6e;border-radius:6px;padding:7px 10px;color:#fff;font-size:13px;font-family:'Inter',sans-serif">
+          </div>
+          <div>
+            <label style="font-size:11px;color:#90a0cc;display:block;margin-bottom:3px">N<sub>цукор</sub> — норма цукру (г/л)</label>
+            <input id="c10nc" type="number" value="50" min="0" style="width:100%;background:#0d0e1a;border:0.5px solid #2e3a6e;border-radius:6px;padding:7px 10px;color:#fff;font-size:13px;font-family:'Inter',sans-serif">
+          </div>
+          <div>
+            <label style="font-size:11px;color:#90a0cc;display:block;margin-bottom:3px">N<sub>оцет</sub> — норма 9% оцту (мл/л)</label>
+            <input id="c10no" type="number" value="60" min="0" style="width:100%;background:#0d0e1a;border:0.5px solid #2e3a6e;border-radius:6px;padding:7px 10px;color:#fff;font-size:13px;font-family:'Inter',sans-serif">
+          </div>
+        </div>
+        <button onclick="calc10()" style="background:linear-gradient(135deg,#00E5CC22,#00E5CC11);border:0.5px solid #00E5CC;border-radius:6px;padding:8px 20px;color:#00E5CC;font-family:'Oxanium',monospace;font-size:12px;cursor:pointer;letter-spacing:1px">РОЗРАХУВАТИ</button>
+        <div id="c10res" style="margin-top:10px;display:none">
+          <div style="background:#0a1f1a;border:0.5px solid #00E5CC44;border-radius:6px;padding:10px 14px">
+            <div style="font-size:11px;color:#69F0AE;margin-bottom:4px;font-family:'Oxanium',monospace">РЕЗУЛЬТАТ:</div>
+            <div id="c10res-text" style="font-size:14px;color:#fff;line-height:1.7"></div>
+          </div>
+        </div>
+      </div>
+      <div style="background:#1a0a0a;border:0.5px solid #FF5252aa;border-radius:8px;padding:10px 14px;margin-bottom:10px">
+        <div style="font-size:12px;color:#FF7070;margin-bottom:4px">⚠️ Техніка безпеки</div>
+        <div style="font-size:11px;color:#c09090;line-height:1.65">
+          <b>Ботулізм:</b> Недостатня кількість оцту або солі в поєднанні з поганою стерилізацією створює анаеробне середовище для розвитку <i>Clostridium botulinum</i>. Дотримуйтесь норм строго.<br>
+          <b>Вибір солі:</b> Використовуйте тільки нейодовану кам'яну сіль — йодована може розм'якшити овочі та погіршити смак.
+        </div>
+      </div>
+      <div style="font-size:11px;color:#90a0cc;line-height:1.8">
+        <div style="font-family:'Oxanium',monospace;font-size:10px;color:#7080b8;letter-spacing:2px;margin-bottom:4px">ПОКРОКОВА ІНСТРУКЦІЯ:</div>
+        <b style="color:#c0d0f0">Крок 1:</b> Підрахуйте загальний об'єм підготовлених скляних банок.<br>
+        <b style="color:#c0d0f0">Крок 2:</b> Обчисліть потрібний об'єм маринаду (половина від об'єму банок).<br>
+        <b style="color:#c0d0f0">Крок 3:</b> Зважте сіль та цукор, додайте їх у воду та закип'ятіть.<br>
+        <b style="color:#c0d0f0">Крок 4:</b> Влийте оцет у маринад у самий останній момент перед заливкою (або безпосередньо в банки перед закатанням), щоб він не випарувався при кипінні.<br>
+        <b style="color:#c0d0f0">Крок 5:</b> Залийте гарячим маринадом овочі та закатайте стерильними кришками.
+        <div style="margin-top:6px;background:#0d1525;border-left:2px solid #69F0AE;padding:6px 10px;border-radius:0 4px 4px 0">
+          <b style="color:#69F0AE">Приклад:</b> 6 банок по 1 л для маринування огірків (V<sub>банок</sub> = 6 л).<br>
+          V<sub>мар</sub> = 6 × 0.5 = <b style="color:#fff">3 л</b> · m<sub>солі</sub> = 3 × 50 = <b style="color:#fff">150 г</b> · m<sub>цукру</sub> = 3 × 50 = <b style="color:#fff">150 г</b> · V<sub>оцту 9%</sub> = 3 × 60 = <b style="color:#fff">180 мл</b>
+        </div>
+      </div>
+    </div>
+
+    <!-- CALC 11: Кондитерська — таблиця проб цукрового сиропу -->
+    <div class="item-card" style="margin-bottom:10px">
+      <div class="item-card-text" style="font-size:13px;font-weight:600;color:#00E5CC;margin-bottom:6px">🍬 Таблиця проб цукрового сиропу та конвертер желюючих агентів</div>
+      <div class="item-card-text" style="margin-bottom:8px"><b style="color:#c0d0f0">Призначення:</b> Визначення концентрації цукру та ступеня уварювання сиропу за температурою кипіння та органолептичною пробою у холодній воді (для глазурей, меренг, помадок, карамелі та ірису).</div>
+      <div class="item-card-text" style="margin-bottom:8px"><b style="color:#c0d0f0">Суть:</b> Чиста вода кипить при +100°C. При розчиненні цукру температура кипіння розчину зростає пропорційно його концентрації. Вимірюючи температуру сиропу кулінарним щупом, можна з точністю до 1% визначити масову частку сахарози.</div>
+      <!-- Таблиця проб -->
+      <div style="overflow-x:auto;margin-bottom:10px">
+        <table style="width:100%;border-collapse:collapse;font-size:11px">
+          <thead>
+            <tr style="background:#0d1120">
+              <th style="padding:6px 8px;text-align:left;color:#69F0AE;border:0.5px solid #1e3060;font-family:'Oxanium',monospace;font-size:10px">Проба</th>
+              <th style="padding:6px 8px;text-align:center;color:#69F0AE;border:0.5px solid #1e3060;font-family:'Oxanium',monospace;font-size:10px">T кипіння</th>
+              <th style="padding:6px 8px;text-align:center;color:#69F0AE;border:0.5px solid #1e3060;font-family:'Oxanium',monospace;font-size:10px">Цукор</th>
+              <th style="padding:6px 8px;text-align:left;color:#69F0AE;border:0.5px solid #1e3060;font-family:'Oxanium',monospace;font-size:10px">Властивості у воді</th>
+              <th style="padding:6px 8px;text-align:left;color:#69F0AE;border:0.5px solid #1e3060;font-family:'Oxanium',monospace;font-size:10px">Застосування</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="background:#101325"><td style="padding:5px 8px;color:#c0d0f0;border:0.5px solid #1e3060">1. Клейка нитка</td><td style="padding:5px 8px;text-align:center;color:#fff;border:0.5px solid #1e3060">+100–+102°C</td><td style="padding:5px 8px;text-align:center;color:#69F0AE;border:0.5px solid #1e3060">50%</td><td style="padding:5px 8px;color:#90a0cc;border:0.5px solid #1e3060">Крапля розтікається, тонка нитка</td><td style="padding:5px 8px;color:#90a0cc;border:0.5px solid #1e3060">Просочення бісквітів, компоти</td></tr>
+            <tr style="background:#0d1120"><td style="padding:5px 8px;color:#c0d0f0;border:0.5px solid #1e3060">2. Тонка нитка</td><td style="padding:5px 8px;text-align:center;color:#fff;border:0.5px solid #1e3060">+103–+105°C</td><td style="padding:5px 8px;text-align:center;color:#69F0AE;border:0.5px solid #1e3060">80%</td><td style="padding:5px 8px;color:#90a0cc;border:0.5px solid #1e3060">Нитка швидко рветься</td><td style="padding:5px 8px;color:#90a0cc;border:0.5px solid #1e3060">Варення з ніжних ягід</td></tr>
+            <tr style="background:#101325"><td style="padding:5px 8px;color:#c0d0f0;border:0.5px solid #1e3060">3. Товста нитка</td><td style="padding:5px 8px;text-align:center;color:#fff;border:0.5px solid #1e3060">+106–+110°C</td><td style="padding:5px 8px;text-align:center;color:#69F0AE;border:0.5px solid #1e3060">85%</td><td style="padding:5px 8px;color:#90a0cc;border:0.5px solid #1e3060">Міцна нитка 2–3 мм</td><td style="padding:5px 8px;color:#90a0cc;border:0.5px solid #1e3060">Помадки, варення, глазур</td></tr>
+            <tr style="background:#0d1120"><td style="padding:5px 8px;color:#c0d0f0;border:0.5px solid #1e3060">4. М'яка кулька</td><td style="padding:5px 8px;text-align:center;color:#fff;border:0.5px solid #1e3060">+112–+116°C</td><td style="padding:5px 8px;text-align:center;color:#69F0AE;border:0.5px solid #1e3060">89%</td><td style="padding:5px 8px;color:#90a0cc;border:0.5px solid #1e3060">М'яке м'ячико</td><td style="padding:5px 8px;color:#90a0cc;border:0.5px solid #1e3060">Помадка, італійська меренга</td></tr>
+            <tr style="background:#101325"><td style="padding:5px 8px;color:#c0d0f0;border:0.5px solid #1e3060">5. Тверда кулька</td><td style="padding:5px 8px;text-align:center;color:#fff;border:0.5px solid #1e3060">+118–+121°C</td><td style="padding:5px 8px;text-align:center;color:#69F0AE;border:0.5px solid #1e3060">92%</td><td style="padding:5px 8px;color:#90a0cc;border:0.5px solid #1e3060">Щільна пружна кулька</td><td style="padding:5px 8px;color:#90a0cc;border:0.5px solid #1e3060">Зефір, маршмеллоу, нуга</td></tr>
+            <tr style="background:#0d1120"><td style="padding:5px 8px;color:#c0d0f0;border:0.5px solid #1e3060">6. Тріска (крихка)</td><td style="padding:5px 8px;text-align:center;color:#fff;border:0.5px solid #1e3060">+132–+143°C</td><td style="padding:5px 8px;text-align:center;color:#69F0AE;border:0.5px solid #1e3060">95%</td><td style="padding:5px 8px;color:#90a0cc;border:0.5px solid #1e3060">Сплющується, прилипає до зубів</td><td style="padding:5px 8px;color:#90a0cc;border:0.5px solid #1e3060">Тягучі іриски, грильяж</td></tr>
+            <tr style="background:#101325"><td style="padding:5px 8px;color:#c0d0f0;border:0.5px solid #1e3060">7. Карамель</td><td style="padding:5px 8px;text-align:center;color:#fff;border:0.5px solid #1e3060">+149–+154°C</td><td style="padding:5px 8px;text-align:center;color:#69F0AE;border:0.5px solid #1e3060">99%</td><td style="padding:5px 8px;color:#90a0cc;border:0.5px solid #1e3060">Застигає в крихке скло</td><td style="padding:5px 8px;color:#90a0cc;border:0.5px solid #1e3060">Льодяники, карамельний декор</td></tr>
+            <tr style="background:#0d1120"><td style="padding:5px 8px;color:#c0d0f0;border:0.5px solid #1e3060">8. Жжонка</td><td style="padding:5px 8px;text-align:center;color:#fff;border:0.5px solid #1e3060">+160–+170°C</td><td style="padding:5px 8px;text-align:center;color:#69F0AE;border:0.5px solid #1e3060">&gt;99%</td><td style="padding:5px 8px;color:#90a0cc;border:0.5px solid #1e3060">Темніє, гіркує</td><td style="padding:5px 8px;color:#90a0cc;border:0.5px solid #1e3060">Натуральний соус-барвник</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- Конвертер желатину -->
+      <div style="background:#0d1120;border:0.5px solid #1e3060;border-radius:8px;padding:12px 14px;margin-bottom:10px">
+        <div style="font-family:'Oxanium',monospace;font-size:11px;color:#69F0AE;margin-bottom:4px">ФОРМУЛА (конвертер желатину за шкалою Bloom):</div>
+        <div style="font-size:14px;color:#fff;margin-bottom:6px"><b>m<sub>B</sub> = m<sub>A</sub> × √(Bloom<sub>A</sub> / Bloom<sub>B</sub>)</b></div>
+        <div style="font-size:11px;color:#90a0cc;line-height:1.7">
+          m<sub>A</sub> — маса желатину за рецептом (г) · Bloom<sub>A</sub> — сила за рецептом<br>
+          m<sub>B</sub> — маса наявного желатину (г) · Bloom<sub>B</sub> — сила наявного желатину<br>
+          <b style="color:#c0d0f0">Градації:</b> Бронзовий 125–150 · Срібний 160–180 · Золотий 190–220 · Платиновий 230–260<br>
+          <b style="color:#c0d0f0">Заміна на агар:</b> 1 г агар-агару (900) ≈ 4–5 г желатину 200 Bloom. Агар кип'ятити 1–2 хв при +95–+100°C. Желатин кип'ятити заборонено.
+        </div>
+      </div>
+      <div style="background:#101325;border:0.5px solid #00E5CC33;border-radius:8px;padding:12px 14px;margin-bottom:10px">
+        <div style="font-family:'Oxanium',monospace;font-size:10px;color:#00E5CC;margin-bottom:8px;letter-spacing:2px">🔢 КАЛЬКУЛЯТОР КОНВЕРТЕРА ЖЕЛАТИНУ</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px;margin-bottom:8px">
+          <div>
+            <label style="font-size:11px;color:#90a0cc;display:block;margin-bottom:3px">m<sub>A</sub> — маса за рецептом (г)</label>
+            <input id="c11ma" type="number" value="12" min="0.1" step="0.1" style="width:100%;background:#0d0e1a;border:0.5px solid #2e3a6e;border-radius:6px;padding:7px 10px;color:#fff;font-size:13px;font-family:'Inter',sans-serif">
+          </div>
+          <div>
+            <label style="font-size:11px;color:#90a0cc;display:block;margin-bottom:3px">Bloom<sub>A</sub> — сила за рецептом</label>
+            <input id="c11ba" type="number" value="220" min="100" max="300" style="width:100%;background:#0d0e1a;border:0.5px solid #2e3a6e;border-radius:6px;padding:7px 10px;color:#fff;font-size:13px;font-family:'Inter',sans-serif">
+          </div>
+          <div>
+            <label style="font-size:11px;color:#90a0cc;display:block;margin-bottom:3px">Bloom<sub>B</sub> — сила наявного желатину</label>
+            <input id="c11bb" type="number" value="160" min="100" max="300" style="width:100%;background:#0d0e1a;border:0.5px solid #2e3a6e;border-radius:6px;padding:7px 10px;color:#fff;font-size:13px;font-family:'Inter',sans-serif">
+          </div>
+        </div>
+        <button onclick="calc11gel()" style="background:linear-gradient(135deg,#00E5CC22,#00E5CC11);border:0.5px solid #00E5CC;border-radius:6px;padding:8px 20px;color:#00E5CC;font-family:'Oxanium',monospace;font-size:12px;cursor:pointer;letter-spacing:1px">РОЗРАХУВАТИ</button>
+        <div id="c11res" style="margin-top:10px;display:none">
+          <div style="background:#0a1f1a;border:0.5px solid #00E5CC44;border-radius:6px;padding:10px 14px">
+            <div style="font-size:11px;color:#69F0AE;margin-bottom:4px;font-family:'Oxanium',monospace">РЕЗУЛЬТАТ:</div>
+            <div id="c11res-text" style="font-size:14px;color:#fff;line-height:1.7"></div>
+          </div>
+        </div>
+      </div>
+      <div style="background:#1a0a0a;border:0.5px solid #FF5252aa;border-radius:8px;padding:10px 14px;margin-bottom:10px">
+        <div style="font-size:12px;color:#FF7070;margin-bottom:4px">⚠️ Техніка безпеки</div>
+        <div style="font-size:11px;color:#c09090;line-height:1.65">
+          <b>Опіки від сиропу:</b> Сироп при +120–+150°C має високу в'язкість і миттєво прилипає до шкіри. Тримайте поруч миску з льодяною водою.<br>
+          <b>Температурний режим желатину:</b> Желатин руйнується вище +85°C (розпускають при +50–+60°C). Агар-агар застигає вже при +40°C — працювати швидко.
+        </div>
+      </div>
+      <div style="font-size:11px;color:#90a0cc;line-height:1.8">
+        <div style="font-family:'Oxanium',monospace;font-size:10px;color:#7080b8;letter-spacing:2px;margin-bottom:4px">ІНСТРУКЦІЯ (желатин):</div>
+        <b style="color:#c0d0f0">Крок 1:</b> Дізнайтеся значення Bloom вашого желатину (вказано на упаковці).<br>
+        <b style="color:#c0d0f0">Крок 2:</b> За формулою розрахуйте потрібну масу.<br>
+        <b style="color:#c0d0f0">Крок 3:</b> Замочіть желатин у крижаній воді у співвідношенні 1:6 (на 1 г — 6 г води) на 10–15 хвилин.<br>
+        <b style="color:#c0d0f0">Крок 4:</b> Розтопіть набряклий желатин на водяній бані до +50–+60°C та внесіть у теплу масу.
+        <div style="margin-top:6px;background:#0d1525;border-left:2px solid #69F0AE;padding:6px 10px;border-radius:0 4px 4px 0">
+          <b style="color:#69F0AE">Приклад:</b> 12 г желатину 220 Bloom → замінити на 160 Bloom:<br>
+          m<sub>B</sub> = 12 × √(220/160) = 12 × 1.1726 ≈ <b style="color:#fff">14.1 г</b>
+        </div>
+      </div>
+    </div>
+
+    <!-- CALC 12: Інвертний сироп -->
+    <div class="item-card" style="margin-bottom:10px">
+      <div class="item-card-text" style="font-size:13px;font-weight:600;color:#00E5CC;margin-bottom:6px">🍯 Калькулятор інвертного сиропу (тримолін)</div>
+      <div class="item-card-text" style="margin-bottom:8px"><b style="color:#c0d0f0">Призначення:</b> Обчислення пропорцій цукру, води, лимонної кислоти та харчової соди для приготування штучного інвертного сиропу (аналога тримоліну або натурального меду).</div>
+      <div class="item-card-text" style="margin-bottom:8px"><b style="color:#c0d0f0">Суть:</b> При кип'ятінні цукрового розчину з кислотою відбувається реакція гідролізу (інверсії): сахароза розпадається на глюкозу та фруктозу. Інвертний сироп запобігає зацукровуванню кондитерських виробів, утримує вологу, продовжує термін свіжості випічки та надає їй тягучості.</div>
+      <div style="background:#0d1120;border:0.5px solid #1e3060;border-radius:8px;padding:12px 14px;margin-bottom:10px">
+        <div style="font-family:'Oxanium',monospace;font-size:11px;color:#69F0AE;margin-bottom:4px">ФОРМУЛИ:</div>
+        <div style="font-size:13px;color:#fff;margin-bottom:3px"><b>M<sub>води</sub> = M<sub>цукру</sub> × 0.44</b></div>
+        <div style="font-size:13px;color:#fff;margin-bottom:3px"><b>m<sub>кисл</sub> = M<sub>цукру</sub> × 0.0075</b></div>
+        <div style="font-size:13px;color:#fff;margin-bottom:6px"><b>m<sub>соди</sub> = m<sub>кисл</sub> × 0.7</b></div>
+        <div style="font-size:11px;color:#90a0cc;line-height:1.7">
+          M<sub>цукру</sub> — маса цукру (г) · M<sub>води</sub> — маса води (44% від маси цукру, г)<br>
+          m<sub>кисл</sub> — маса кристалічної лимонної кислоти (0.75% від маси цукру, г)<br>
+          m<sub>соди</sub> — маса харчової соди для нейтралізації кислоти після варіння (г)
+        </div>
+      </div>
+      <div style="background:#101325;border:0.5px solid #00E5CC33;border-radius:8px;padding:12px 14px;margin-bottom:10px">
+        <div style="font-family:'Oxanium',monospace;font-size:10px;color:#00E5CC;margin-bottom:8px;letter-spacing:2px">🔢 КАЛЬКУЛЯТОР</div>
+        <div style="margin-bottom:8px">
+          <label style="font-size:11px;color:#90a0cc;display:block;margin-bottom:3px">M<sub>цукру</sub> — маса цукру (г)</label>
+          <input id="c12m" type="number" value="1000" min="100" step="50" style="width:100%;max-width:300px;background:#0d0e1a;border:0.5px solid #2e3a6e;border-radius:6px;padding:7px 10px;color:#fff;font-size:13px;font-family:'Inter',sans-serif">
+        </div>
+        <button onclick="calc12()" style="background:linear-gradient(135deg,#00E5CC22,#00E5CC11);border:0.5px solid #00E5CC;border-radius:6px;padding:8px 20px;color:#00E5CC;font-family:'Oxanium',monospace;font-size:12px;cursor:pointer;letter-spacing:1px">РОЗРАХУВАТИ</button>
+        <div id="c12res" style="margin-top:10px;display:none">
+          <div style="background:#0a1f1a;border:0.5px solid #00E5CC44;border-radius:6px;padding:10px 14px">
+            <div style="font-size:11px;color:#69F0AE;margin-bottom:4px;font-family:'Oxanium',monospace">РЕЗУЛЬТАТ:</div>
+            <div id="c12res-text" style="font-size:14px;color:#fff;line-height:1.7"></div>
+          </div>
+        </div>
+      </div>
+      <div style="background:#1a0a0a;border:0.5px solid #FF5252aa;border-radius:8px;padding:10px 14px;margin-bottom:10px">
+        <div style="font-size:12px;color:#FF7070;margin-bottom:4px">⚠️ Техніка безпеки</div>
+        <div style="font-size:11px;color:#c09090;line-height:1.65">
+          <b>Піноутворення при нейтралізації:</b> При додаванні соди в гарячий сироп відбувається бурхлива реакція з виділенням CO₂. Каструля повинна мати запас об'єму не менше 2/3 від використаного.
+        </div>
+      </div>
+      <div style="font-size:11px;color:#90a0cc;line-height:1.8">
+        <div style="font-family:'Oxanium',monospace;font-size:10px;color:#7080b8;letter-spacing:2px;margin-bottom:4px">ПОКРОКОВА ІНСТРУКЦІЯ:</div>
+        <b style="color:#c0d0f0">Крок 1:</b> Розчиніть цукор у гарячій воді в каструлі з товстим дном, доведіть до кипіння.<br>
+        <b style="color:#c0d0f0">Крок 2:</b> Всипте лимонну кислоту, накрийте і варіть на мінімальному вогні при +105–+108°C протягом 35–45 хвилин (сироп стане світло-золотистим).<br>
+        <b style="color:#c0d0f0">Крок 3:</b> Зніміть з вогню, охолодіть до +70–+80°C.<br>
+        <b style="color:#c0d0f0">Крок 4:</b> Розведіть соду в 10 мл холодної води і влийте в сироп — почнеться спінювання.<br>
+        <b style="color:#c0d0f0">Крок 5:</b> Після осідання піни перелийте прозорий сироп у скляну банку. Зберігайте при кімнатній температурі.
+        <div style="margin-top:6px;background:#0d1525;border-left:2px solid #69F0AE;padding:6px 10px;border-radius:0 4px 4px 0">
+          <b style="color:#69F0AE">Приклад (1000 г цукру):</b> M<sub>води</sub> = 440 мл · m<sub>кисл</sub> = 7.5 г · m<sub>соди</sub> = 5.25 г
+        </div>
+      </div>
+    </div>
+
+    <!-- CALC 13: Випічка — погашення соди та Baker's % -->
+    <div class="item-card" style="margin-bottom:10px">
+      <div class="item-card-text" style="font-size:13px;font-weight:600;color:#00E5CC;margin-bottom:6px">🥖 Випічка: погашення соди та пекарські відсотки (Baker's %)</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:10px">
+        <!-- Блок соди -->
+        <div>
+          <div class="item-card-text" style="margin-bottom:8px"><b style="color:#c0d0f0">Погашення соди / заміна розпушувача</b></div>
+          <div class="item-card-text" style="margin-bottom:6px;font-size:11px">Харчова сода (NaHCO₃) під дією кислоти розкладається з виділенням CO₂, який розпушує тісто. Якщо соди забагато і кислоти бракує — виникає гіркий лужний присмак.</div>
+          <div style="background:#0d1120;border:0.5px solid #1e3060;border-radius:8px;padding:10px 12px;margin-bottom:8px">
+            <div style="font-family:'Oxanium',monospace;font-size:10px;color:#69F0AE;margin-bottom:4px">СКЛАД РОЗПУШУВАЧА (5:3:12):</div>
+            <div style="font-size:12px;color:#fff;margin-bottom:2px">Замінник 10 г розпушувача: сода 2.5 г + лимонна кислота 1.5 г + крохмаль 6.0 г</div>
+            <div style="font-size:12px;color:#fff;margin-bottom:4px">Погашення 1 г соди оцтом 9%: V<sub>оцту</sub> = m<sub>соди</sub> × 6 мл</div>
+          </div>
+          <div style="background:#101325;border:0.5px solid #00E5CC33;border-radius:8px;padding:10px 12px;margin-bottom:8px">
+            <div style="font-family:'Oxanium',monospace;font-size:10px;color:#00E5CC;margin-bottom:6px;letter-spacing:2px">🔢 ЗАМІННИК РОЗПУШУВАЧА</div>
+            <label style="font-size:11px;color:#90a0cc;display:block;margin-bottom:3px">Маса розпушувача за рецептом (г)</label>
+            <input id="c13bp" type="number" value="15" min="1" step="1" style="width:100%;background:#0d0e1a;border:0.5px solid #2e3a6e;border-radius:6px;padding:7px 10px;color:#fff;font-size:13px;font-family:'Inter',sans-serif;margin-bottom:6px">
+            <button onclick="calc13bak()" style="background:linear-gradient(135deg,#00E5CC22,#00E5CC11);border:0.5px solid #00E5CC;border-radius:6px;padding:7px 16px;color:#00E5CC;font-family:'Oxanium',monospace;font-size:11px;cursor:pointer;letter-spacing:1px;width:100%">РОЗРАХУВАТИ</button>
+            <div id="c13bres" style="margin-top:8px;display:none">
+              <div style="background:#0a1f1a;border:0.5px solid #00E5CC44;border-radius:6px;padding:8px 12px">
+                <div style="font-size:10px;color:#69F0AE;margin-bottom:3px;font-family:'Oxanium',monospace">РЕЗУЛЬТАТ:</div>
+                <div id="c13bres-text" style="font-size:12px;color:#fff;line-height:1.7"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Блок Baker's % -->
+        <div>
+          <div class="item-card-text" style="margin-bottom:8px"><b style="color:#c0d0f0">Пекарські відсотки (Baker's %)</b></div>
+          <div class="item-card-text" style="margin-bottom:6px;font-size:11px">Борошно = 100%. Усі інші інгредієнти — у % від маси борошна. Дозволяє миттєво масштабувати будь-який хлібний рецепт.</div>
+          <div style="background:#0d1120;border:0.5px solid #1e3060;border-radius:8px;padding:10px 12px;margin-bottom:8px">
+            <div style="font-family:'Oxanium',monospace;font-size:10px;color:#69F0AE;margin-bottom:4px">ФОРМУЛА:</div>
+            <div style="font-size:12px;color:#fff;margin-bottom:3px">M<sub>інгред</sub> = M<sub>борошна</sub> × P<sub>інгред</sub> / 100</div>
+            <div style="font-size:11px;color:#90a0cc;line-height:1.6">Гідратація 60–65%: стандартний хліб<br>Гідратація 70–80%: чіабата, тартин<br>Сіль: 1.8–2.2% · Сухі дріжджі: 0.5–0.8%</div>
+          </div>
+          <div style="background:#101325;border:0.5px solid #00E5CC33;border-radius:8px;padding:10px 12px">
+            <div style="font-family:'Oxanium',monospace;font-size:10px;color:#00E5CC;margin-bottom:6px;letter-spacing:2px">🔢 КАЛЬКУЛЯТОР ХЛІБА</div>
+            <label style="font-size:11px;color:#90a0cc;display:block;margin-bottom:3px">M<sub>борошна</sub> (г)</label>
+            <input id="c13flour" type="number" value="800" min="100" step="50" style="width:100%;background:#0d0e1a;border:0.5px solid #2e3a6e;border-radius:6px;padding:6px 10px;color:#fff;font-size:13px;font-family:'Inter',sans-serif;margin-bottom:4px">
+            <label style="font-size:11px;color:#90a0cc;display:block;margin-bottom:3px">Гідратація (%)</label>
+            <input id="c13hyd" type="number" value="68" min="50" max="100" style="width:100%;background:#0d0e1a;border:0.5px solid #2e3a6e;border-radius:6px;padding:6px 10px;color:#fff;font-size:13px;font-family:'Inter',sans-serif;margin-bottom:4px">
+            <label style="font-size:11px;color:#90a0cc;display:block;margin-bottom:3px">Сіль (%) · Дріжджі сухі (%)</label>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:6px">
+              <input id="c13salt" type="number" value="2" min="0" max="5" step="0.1" style="width:100%;background:#0d0e1a;border:0.5px solid #2e3a6e;border-radius:6px;padding:6px 10px;color:#fff;font-size:13px;font-family:'Inter',sans-serif">
+              <input id="c13yeast" type="number" value="0.8" min="0" max="5" step="0.1" style="width:100%;background:#0d0e1a;border:0.5px solid #2e3a6e;border-radius:6px;padding:6px 10px;color:#fff;font-size:13px;font-family:'Inter',sans-serif">
+            </div>
+            <button onclick="calc13bread()" style="background:linear-gradient(135deg,#00E5CC22,#00E5CC11);border:0.5px solid #00E5CC;border-radius:6px;padding:7px 16px;color:#00E5CC;font-family:'Oxanium',monospace;font-size:11px;cursor:pointer;letter-spacing:1px;width:100%">РОЗРАХУВАТИ</button>
+            <div id="c13bres2" style="margin-top:8px;display:none">
+              <div style="background:#0a1f1a;border:0.5px solid #00E5CC44;border-radius:6px;padding:8px 12px">
+                <div style="font-size:10px;color:#69F0AE;margin-bottom:3px;font-family:'Oxanium',monospace">РЕЗУЛЬТАТ:</div>
+                <div id="c13bres2-text" style="font-size:12px;color:#fff;line-height:1.7"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="background:#1a0a0a;border:0.5px solid #FF5252aa;border-radius:8px;padding:10px 14px;margin-bottom:10px">
+        <div style="font-size:12px;color:#FF7070;margin-bottom:4px">⚠️ Техніка безпеки</div>
+        <div style="font-size:11px;color:#c09090;line-height:1.65">
+          <b>Не гасіть соду «у ложці»:</b> Весь CO₂ випаровується в повітря, а не залишається в тісті. Змішуйте соду з сухими інгредієнтами, кислоту — у рідку фазу.<br>
+          <b>Температура дріжджів:</b> Вода для тіста з гідратацією &gt;75% — не вище +40°C, інакше дріжджі загинуть. Оптимальна температура замісу: +23–+25°C.
+        </div>
+      </div>
+      <div style="font-size:11px;color:#90a0cc;line-height:1.8">
+        <div style="font-family:'Oxanium',monospace;font-size:10px;color:#7080b8;letter-spacing:2px;margin-bottom:4px">ПРИКЛАДИ:</div>
+        <div style="background:#0d1525;border-left:2px solid #69F0AE;padding:6px 10px;border-radius:0 4px 4px 0;margin-bottom:4px">
+          <b style="color:#69F0AE">Замінник 15 г розпушувача:</b> сода 3.75 г + лимонна кислота 2.25 г + крохмаль 9.0 г
+        </div>
+        <div style="background:#0d1525;border-left:2px solid #69F0AE;padding:6px 10px;border-radius:0 4px 4px 0">
+          <b style="color:#69F0AE">Хліб із 800 г борошна (68%, сіль 2%, дріжджі 0.8%):</b><br>
+          Вода: 800 × 0.68 = <b style="color:#fff">544 мл</b> · Сіль: 800 × 0.02 = <b style="color:#fff">16 г</b> · Дріжджі: 800 × 0.008 = <b style="color:#fff">6.4 г</b>
+        </div>
+      </div>
+    </div>
+  </div><!-- end subgroup 1.2 -->
+
+  <!-- ===== 1.3 М'ЯСНЕ ВИРОБНИЦТВО ===== -->
   <div class="subgroup">
     <div class="subgroup-title">1.3 М'ясне виробництво (ковбаси, шинки, джерки)</div>
-    <div class="item-list">
-      <div class="item-card"><div class="item-card-text">Нітритна сіль: розрахунок NaNO₂ (0,5–0,6%) у суміші зі звичайною сіллю для безпечного дозрівання</div><span class="item-card-badge">⚠️ точний розрахунок</span></div>
-      <div class="item-card"><div class="item-card-text">Вологовтрата при в'яленні (усушка) м'яса та сиру; дозування фосфатів та стартових культур; шприцювання (% розсолу від маси сировини); таблиця зв'язування води у м'ясних емульсіях</div><span class="item-card-badge">📊 таблиця</span></div>
+
+    <!-- CALC 14: Нітритна сіль -->
+    <div class="item-card" style="margin-bottom:10px">
+      <div class="item-card-text" style="font-size:13px;font-weight:600;color:#00E5CC;margin-bottom:6px">🥩 Калькулятор нітритної солі та безпечного дозрівання</div>
+      <div class="item-card-text" style="margin-bottom:8px"><b style="color:#c0d0f0">Призначення:</b> Обчислення маси та співвідношення нітритної солі (0.5–0.6% NaNO₂) та звичайної кухонної солі для безпечного дозрівання, кольороутворення та антибактеріального захисту м'ясних продуктів.</div>
+      <div class="item-card-text" style="margin-bottom:8px"><b style="color:#c0d0f0">Суть:</b> Нітрит натрію (NaNO₂) пригнічує розвиток смертельно небезпечних бактерій <i>Clostridium botulinum</i>, надає м'ясу стійкого рожевого кольору та характерного «шиночного» аромату. У побуті використовують нітритну сіль — суміш кухонної солі з 0.5–0.6% NaNO₂.</div>
+      <div style="background:#0d1120;border:0.5px solid #1e3060;border-radius:8px;padding:12px 14px;margin-bottom:10px">
+        <div style="font-family:'Oxanium',monospace;font-size:11px;color:#69F0AE;margin-bottom:4px">ФОРМУЛИ:</div>
+        <div style="font-size:13px;color:#fff;margin-bottom:3px"><b>m<sub>заг_солі</sub> = M<sub>м'яса</sub> × N<sub>солі</sub></b></div>
+        <div style="font-size:13px;color:#fff;margin-bottom:3px"><b>m<sub>нітр</sub> = m<sub>заг_солі</sub> × P<sub>нітр</sub> / 100</b></div>
+        <div style="font-size:13px;color:#fff;margin-bottom:6px"><b>m<sub>кух</sub> = m<sub>заг_солі</sub> − m<sub>нітр</sub></b></div>
+        <div style="font-size:11px;color:#90a0cc;line-height:1.7">
+          M<sub>м'яса</sub> — маса м'ясної сировини (кг) · N<sub>солі</sub> — норма солі (г/кг)<br>
+          P<sub>нітр</sub> — відсоток нітритної солі у суміші (%) · m<sub>нітр</sub>, m<sub>кух</sub> — маси солей (г)
+        </div>
+        <div style="margin-top:8px;font-size:11px;color:#90a0cc;line-height:1.8">
+          <b style="color:#c0d0f0">Типові норми:</b><br>
+          Сиров'ялені / сирокопчені (балики): 100% нітритна сіль, 25–30 г/кг м'яса<br>
+          Варено-копчені, варені ковбаси, сосиски: суміш 50/50, 18–20 г/кг м'яса<br>
+          Термооброблені шинки: суміш 50/50 або 100% нітритна, 18–22 г/кг
+        </div>
+      </div>
+      <div style="background:#101325;border:0.5px solid #00E5CC33;border-radius:8px;padding:12px 14px;margin-bottom:10px">
+        <div style="font-family:'Oxanium',monospace;font-size:10px;color:#00E5CC;margin-bottom:8px;letter-spacing:2px">🔢 КАЛЬКУЛЯТОР</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px;margin-bottom:8px">
+          <div>
+            <label style="font-size:11px;color:#90a0cc;display:block;margin-bottom:3px">M<sub>м'яса</sub> — маса м'яса (кг)</label>
+            <input id="c14m" type="number" value="3.5" min="0.1" step="0.1" style="width:100%;background:#0d0e1a;border:0.5px solid #2e3a6e;border-radius:6px;padding:7px 10px;color:#fff;font-size:13px;font-family:'Inter',sans-serif">
+          </div>
+          <div>
+            <label style="font-size:11px;color:#90a0cc;display:block;margin-bottom:3px">N<sub>солі</sub> — норма солі (г/кг)</label>
+            <input id="c14n" type="number" value="20" min="5" max="35" style="width:100%;background:#0d0e1a;border:0.5px solid #2e3a6e;border-radius:6px;padding:7px 10px;color:#fff;font-size:13px;font-family:'Inter',sans-serif">
+          </div>
+          <div>
+            <label style="font-size:11px;color:#90a0cc;display:block;margin-bottom:3px">P<sub>нітр</sub> — частка нітритної солі (%)</label>
+            <input id="c14p" type="number" value="50" min="0" max="100" style="width:100%;background:#0d0e1a;border:0.5px solid #2e3a6e;border-radius:6px;padding:7px 10px;color:#fff;font-size:13px;font-family:'Inter',sans-serif">
+          </div>
+        </div>
+        <button onclick="calc14()" style="background:linear-gradient(135deg,#00E5CC22,#00E5CC11);border:0.5px solid #00E5CC;border-radius:6px;padding:8px 20px;color:#00E5CC;font-family:'Oxanium',monospace;font-size:12px;cursor:pointer;letter-spacing:1px">РОЗРАХУВАТИ</button>
+        <div id="c14res" style="margin-top:10px;display:none">
+          <div style="background:#0a1f1a;border:0.5px solid #00E5CC44;border-radius:6px;padding:10px 14px">
+            <div style="font-size:11px;color:#69F0AE;margin-bottom:4px;font-family:'Oxanium',monospace">РЕЗУЛЬТАТ:</div>
+            <div id="c14res-text" style="font-size:14px;color:#fff;line-height:1.7"></div>
+          </div>
+        </div>
+      </div>
+      <div style="background:#1a0a0a;border:0.5px solid #FF5252aa;border-radius:8px;padding:10px 14px;margin-bottom:10px">
+        <div style="font-size:12px;color:#FF7070;margin-bottom:4px">⚠️ Техніка безпеки</div>
+        <div style="font-size:11px;color:#c09090;line-height:1.65">
+          <b>Суворе дозування:</b> Ніколи не перевищуйте норму нітритної солі — надлишок NaNO₂ токсичний.<br>
+          <b>Заборона смаження при T &gt; +170°C:</b> Вироби з нітритною сіллю не можна смажити до обвуглювання (наприклад, на відкритому вогні) — утворюються канцерогенні нітрозаміни.<br>
+          <b>Зберігайте нітритну сіль недоступно для дітей</b> — зовні не відрізняється від кухонної.
+        </div>
+      </div>
+      <div style="font-size:11px;color:#90a0cc;line-height:1.8">
+        <div style="font-family:'Oxanium',monospace;font-size:10px;color:#7080b8;letter-spacing:2px;margin-bottom:4px">ПОКРОКОВА ІНСТРУКЦІЯ:</div>
+        <b style="color:#c0d0f0">Крок 1:</b> Точно зважте м'ясну сировину.<br>
+        <b style="color:#c0d0f0">Крок 2:</b> Визначте тип виробу (термообробка чи в'ялення) та обчисліть масу солей.<br>
+        <b style="color:#c0d0f0">Крок 3:</b> Зважте нітритну та кухонну сіль на ювелірних вагах з точністю до 0.1 г.<br>
+        <b style="color:#c0d0f0">Крок 4:</b> Ретельно перемішайте обидва види солі між собою перед внесенням у фарш.<br>
+        <b style="color:#c0d0f0">Крок 5:</b> Помістіть засолене м'ясо в холодильник при +2–+4°C на 24 години — 14 діб залежно від технології.
+        <div style="margin-top:6px;background:#0d1525;border-left:2px solid #69F0AE;padding:6px 10px;border-radius:0 4px 4px 0">
+          <b style="color:#69F0AE">Приклад:</b> 3.5 кг фаршу для варено-копченої ковбаси, норма 20 г/кг, 50/50:<br>
+          m<sub>заг</sub> = 3.5 × 20 = <b style="color:#fff">70 г</b> → m<sub>нітр</sub> = 70 × 0.5 = <b style="color:#fff">35 г</b> · m<sub>кух</sub> = 70 − 35 = <b style="color:#fff">35 г</b>
+        </div>
+      </div>
     </div>
+
+    <div class="item-card"><div class="item-card-text">Вологовтрата при в'яленні (усушка) м'яса та сиру; дозування фосфатів та стартових культур; шприцювання (% розсолу від маси сировини); таблиця зв'язування води у м'ясних емульсіях</div><span class="item-card-badge">📊 таблиця — у розробці</span></div>
   </div>
 
   <div class="subgroup">
@@ -577,13 +1480,357 @@ body{background:#0d0e1a;color:#ffffff;font-family:'Inter',sans-serif;min-height:
 
 <!-- FOOTER -->
 <div class="footer">
-  <div class="footer-brand">Хімарій · Побутова хімія · v0.1 заготовка</div>
+  <div class="footer-brand">Хімарій · Побутова хімія · v0.1.1</div>
   <a href="index.html" class="footer-back">← Повернутись до основного Хімарію</a>
 </div>
 
 </div><!-- end .kr -->
 
 <script>
+// ===== КАЛЬКУЛЯТОРИ 1.1 =====
+
+// Calc 1: Розведення спирту водою (Фертман)
+function calc1() {
+  const v1 = parseFloat(document.getElementById('c1v1').value);
+  const c1 = parseFloat(document.getElementById('c1c1').value);
+  const c2 = parseFloat(document.getElementById('c1c2').value);
+  const res = document.getElementById('c1res');
+  const txt = document.getElementById('c1res-text');
+  res.style.display = 'block';
+  if (isNaN(v1)||isNaN(c1)||isNaN(c2)||v1<=0||c1<=0||c2<=0||c2>=c1) {
+    txt.innerHTML = '<span style="color:#FF7070">Помилка: перевірте значення. C₂ має бути менше C₁, всі значення > 0.</span>';
+    return;
+  }
+  const vw = (v1 * c1 / c2) - v1;
+  const vtot = v1 + vw;
+  const vtot_kontr = vtot * 0.97; // ≈3% контракція для типового розведення
+  txt.innerHTML = 
+    'Потрібно додати води: <b style="color:#69F0AE">' + vw.toFixed(1) + ' мл</b><br>' +
+    'Теоретичний підсумковий об\'єм: ' + vtot.toFixed(0) + ' мл<br>' +
+    'Підсумковий об\'єм з урахуванням контракції (~3%): ≈<b>' + vtot_kontr.toFixed(0) + ' мл</b><br>' +
+    'Кінцева міцність: <b>' + c2 + '% об.</b>';
+}
+
+// Calc 2: Купажування двох дистилятів
+function calc2() {
+  const v1 = parseFloat(document.getElementById('c2v1').value);
+  const c1 = parseFloat(document.getElementById('c2c1').value);
+  const v2 = parseFloat(document.getElementById('c2v2').value);
+  const c2 = parseFloat(document.getElementById('c2c2').value);
+  const res = document.getElementById('c2res');
+  const txt = document.getElementById('c2res-text');
+  res.style.display = 'block';
+  if (isNaN(v1)||isNaN(c1)||isNaN(v2)||isNaN(c2)||v1<=0||c1<=0||v2<=0||c2<=0) {
+    txt.innerHTML = '<span style="color:#FF7070">Помилка: всі значення мають бути > 0.</span>';
+    return;
+  }
+  const cres = (v1 * c1 + v2 * c2) / (v1 + v2);
+  const vtot = v1 + v2;
+  txt.innerHTML = 
+    'Підсумкова міцність: <b style="color:#69F0AE">' + cres.toFixed(2) + '% об.</b><br>' +
+    'Підсумковий об\'єм суміші: <b>' + vtot.toFixed(0) + ' мл</b>';
+}
+
+// Calc 3: Розведення настоянок цукровим сиропом
+function calc3() {
+  const v1 = parseFloat(document.getElementById('c3v1').value);
+  const c1 = parseFloat(document.getElementById('c3c1').value);
+  const c2 = parseFloat(document.getElementById('c3c2').value);
+  const s2 = parseFloat(document.getElementById('c3s2').value);
+  const res = document.getElementById('c3res');
+  const txt = document.getElementById('c3res-text');
+  res.style.display = 'block';
+  if (isNaN(v1)||isNaN(c1)||isNaN(c2)||isNaN(s2)||v1<=0||c1<=0||c2<=0||s2<0||c2>=c1) {
+    txt.innerHTML = '<span style="color:#FF7070">Помилка: перевірте значення. C₂ < C₁, всі > 0.</span>';
+    return;
+  }
+  const denom = 100 * c2 - s2 * 0.62;
+  if (denom <= 0) {
+    txt.innerHTML = '<span style="color:#FF7070">Помилка: комбінація міцності та цукристості нереалізовна.</span>';
+    return;
+  }
+  const msugar = (v1 * c1 * s2) / denom;
+  const vwater = (v1 * c1 / c2) - v1 - (msugar * 0.62);
+  const vtot = v1 + vwater + msugar * 0.62;
+  txt.innerHTML = 
+    'Маса цукру: <b style="color:#69F0AE">' + msugar.toFixed(1) + ' г</b><br>' +
+    'Об\'єм води для додавання: <b style="color:#69F0AE">' + Math.max(0, vwater).toFixed(0) + ' мл</b><br>' +
+    'Підсумковий об\'єм напою: ≈<b>' + vtot.toFixed(0) + ' мл</b><br>' +
+    'Міцність: <b>' + c2 + '% об.</b> | Цукристість: <b>' + s2 + ' г/100 мл</b>';
+}
+
+// Calc 4: Корекція спиртоміра за T
+function calc4() {
+  const cp = parseFloat(document.getElementById('c4cp').value);
+  const t  = parseFloat(document.getElementById('c4t').value);
+  const res = document.getElementById('c4res');
+  const txt = document.getElementById('c4res-text');
+  res.style.display = 'block';
+  if (isNaN(cp)||isNaN(t)||cp<=0) {
+    txt.innerHTML = '<span style="color:#FF7070">Помилка: введіть коректні значення.</span>';
+    return;
+  }
+  const corr = (t - 20) * 0.37;
+  const cd = cp - corr;
+  const dir = t > 20 ? '(рідина тепліша — ареометр завищував)' : t < 20 ? '(рідина холодніша — ареометр занижував)' : '(температура еталонна, корекція не потрібна)';
+  txt.innerHTML = 
+    'Температурна поправка: <b>' + corr.toFixed(2) + '% об.</b> ' + dir + '<br>' +
+    'Дійсна міцність: <b style="color:#69F0AE">' + cd.toFixed(2) + '% об.</b>';
+}
+
+// Calc 5: Корекція рефрактометра Brix за T
+function calc5() {
+  const bp = parseFloat(document.getElementById('c5bp').value);
+  const t  = parseFloat(document.getElementById('c5t').value);
+  const res = document.getElementById('c5res');
+  const txt = document.getElementById('c5res-text');
+  res.style.display = 'block';
+  if (isNaN(bp)||isNaN(t)||bp<0) {
+    txt.innerHTML = '<span style="color:#FF7070">Помилка: введіть коректні значення.</span>';
+    return;
+  }
+  const corr = (t - 20) * 0.07;
+  const bd = bp + corr;
+  const potAlc = bd * 0.059; // ≈ Brix × 0.059 = потенційна міцність (%)
+  txt.innerHTML = 
+    'Поправка Brix: <b>' + (corr >= 0 ? '+' : '') + corr.toFixed(2) + ' °Brix</b><br>' +
+    'Дійсний вміст цукру: <b style="color:#69F0AE">' + bd.toFixed(2) + ' °Brix</b><br>' +
+    'Приблизна потенційна міцність: <b>' + potAlc.toFixed(1) + '% об.</b>';
+}
+
+// Calc 6: Шапталізація
+function calc6() {
+  const ci = parseFloat(document.getElementById('c6ci').value);
+  const ct = parseFloat(document.getElementById('c6ct').value);
+  const v  = parseFloat(document.getElementById('c6v').value);
+  const res = document.getElementById('c6res');
+  const txt = document.getElementById('c6res-text');
+  res.style.display = 'block';
+  if (isNaN(ci)||isNaN(ct)||isNaN(v)||v<=0||ct<=ci) {
+    txt.innerHTML = '<span style="color:#FF7070">Помилка: C<sub>цільова</sub> має бути більше C<sub>початкова</sub>, V > 0.</span>';
+    return;
+  }
+  if (ct > 16) {
+    txt.innerHTML += '<span style="color:#FF9800">Увага: звичайні винні дріжджі витримують до 14–16% об. Перевищення може не дати результату.</span><br>';
+  }
+  const dc = ct - ci;
+  const mPerL = dc * 17;
+  const mTotal = mPerL * v;
+  const vIncrease = mTotal / 1000 * 0.62; // збільшення об'єму від цукру (≈0.62 л/кг)
+  txt.innerHTML = 
+    'Необхідне підвищення міцності: <b>' + dc.toFixed(1) + '% об.</b><br>' +
+    'Норма цукру: <b>' + mPerL.toFixed(1) + ' г/л</b><br>' +
+    'Загальна маса цукру: <b style="color:#69F0AE">' + mTotal.toFixed(0) + ' г (' + (mTotal/1000).toFixed(3) + ' кг)</b><br>' +
+    'Об\'єм сусла зросте приблизно на: ≈<b>' + vIncrease.toFixed(1) + ' л</b>';
+}
+
+// Calc 7: Зниження кислотності
+function calc7() {
+  const v  = parseFloat(document.getElementById('c7v').value);
+  const ai = parseFloat(document.getElementById('c7ai').value);
+  const at = parseFloat(document.getElementById('c7at').value);
+  const res = document.getElementById('c7res');
+  const txt = document.getElementById('c7res-text');
+  res.style.display = 'block';
+  if (isNaN(v)||isNaN(ai)||isNaN(at)||v<=0||ai<=at||at<=0) {
+    txt.innerHTML = '<span style="color:#FF7070">Помилка: A<sub>початкова</sub> > A<sub>цільова</sub> > 0, V > 0.</span>';
+    return;
+  }
+  const da = ai - at;
+  const mChalk = da * v * 0.67;
+  const vWater = v * (ai / at - 1);
+  let warn = '';
+  if (da > 4) warn = '<br><span style="color:#FF9800">⚠️ Крейдою безпечно знижувати кислотність максимум на 3–4 г/л. При більшому зниженні краще використати водяне розбавлення або комбінацію методів.</span>';
+  txt.innerHTML = 
+    'Різниця кислотності: <b>' + da.toFixed(1) + ' г/л</b><br>' +
+    '<b>Метод 1 — Крейда CaCO₃:</b> <b style="color:#69F0AE">' + mChalk.toFixed(1) + ' г</b>' + warn + '<br>' +
+    '<b>Метод 2 — Водяне розбавлення:</b> <b style="color:#69F0AE">' + vWater.toFixed(1) + ' л</b> (знизить і цукристість — потрібна корекція)';
+}
+
+// Calc 8: Дозування піросульфіту калію
+function calc8() {
+  const v = parseFloat(document.getElementById('c8v').value);
+  const c = parseFloat(document.getElementById('c8c').value);
+  const res = document.getElementById('c8res');
+  const txt = document.getElementById('c8res-text');
+  res.style.display = 'block';
+  if (isNaN(v)||isNaN(c)||v<=0||c<=0) {
+    txt.innerHTML = '<span style="color:#FF7070">Помилка: введіть коректні значення > 0.</span>';
+    return;
+  }
+  const m = v * c / 500;
+  let norm = '';
+  if (c <= 50) norm = 'норма для здорового матеріалу перед бродінням';
+  else if (c <= 100) norm = 'норма для ушкодженого матеріалу';
+  else if (c <= 150) norm = 'підвищена доза — застосовувати обережно';
+  else norm = '<span style="color:#FF5252">передозування! Знизьте норму SO₂.</span>';
+  txt.innerHTML = 
+    'Маса піросульфіту калію: <b style="color:#69F0AE">' + m.toFixed(2) + ' г</b><br>' +
+    'Вихід SO₂: ≈<b>' + (m * 0.5).toFixed(2) + '–' + (m * 0.55).toFixed(2) + ' г</b><br>' +
+    'Норма C<sub>SO₂</sub> = ' + c + ' мг/л — ' + norm + '<br>' +
+    '<b style="color:#FF9800">Пауза перед внесенням ЧКД: 12–24 години</b>';
+}
+
+// ===== БЛОК 2: КУЛІНАРІЯ =====
+
+// Calc 9: Оцтовий калькулятор
+function calc9() {
+  const vrec = parseFloat(document.getElementById('c9vrec').value);
+  const crec = parseFloat(document.getElementById('c9crec').value);
+  const cnav = parseFloat(document.getElementById('c9cnav').value);
+  const res = document.getElementById('c9res');
+  const txt = document.getElementById('c9res-text');
+  res.style.display = 'block';
+  if (isNaN(vrec)||isNaN(crec)||isNaN(cnav)||vrec<=0||crec<=0||cnav<=0) {
+    txt.innerHTML = '<span style="color:#FF7070">Помилка: всі значення мають бути більше 0.</span>';
+    return;
+  }
+  const vnav = (vrec * crec) / cnav;
+  const dvoda = vnav - vrec;
+  let korekcia = '';
+  if (dvoda > 0) korekcia = 'зменшити кількість рідини на <b style="color:#FF9800">' + dvoda.toFixed(1) + ' мл</b>';
+  else if (dvoda < 0) korekcia = 'збільшити кількість рідини на <b style="color:#69F0AE">' + Math.abs(dvoda).toFixed(1) + ' мл</b>';
+  else korekcia = 'корекція рідини не потрібна';
+  txt.innerHTML =
+    'Необхідний об\'єм ' + cnav + '% оцту: <b style="color:#69F0AE">' + vnav.toFixed(1) + ' мл</b><br>' +
+    'Корекція рідини (ΔV<sub>води</sub> = ' + dvoda.toFixed(1) + ' мл): ' + korekcia + '<br>' +
+    '<span style="color:#90a0cc;font-size:12px">Коефіцієнт заміни: ' + (cnav/crec).toFixed(4) + ' (×' + (vnav/vrec).toFixed(3) + ' від об\'єму рецепту)</span>';
+}
+
+// Calc 10: Калькулятор маринаду
+function calc10() {
+  const v  = parseFloat(document.getElementById('c10v').value);
+  const ns = parseFloat(document.getElementById('c10ns').value);
+  const nc = parseFloat(document.getElementById('c10nc').value);
+  const no = parseFloat(document.getElementById('c10no').value);
+  const res = document.getElementById('c10res');
+  const txt = document.getElementById('c10res-text');
+  res.style.display = 'block';
+  if (isNaN(v)||v<=0) {
+    txt.innerHTML = '<span style="color:#FF7070">Помилка: об\'єм банок має бути > 0.</span>';
+    return;
+  }
+  const vmar = v * 0.5;
+  const msil = vmar * ns;
+  const mcuk = vmar * nc;
+  const vocet = vmar * no;
+  txt.innerHTML =
+    'Об\'єм маринаду (V<sub>мар</sub>): <b style="color:#69F0AE">' + vmar.toFixed(1) + ' л</b><br>' +
+    'Маса солі: <b style="color:#69F0AE">' + msil.toFixed(0) + ' г</b><br>' +
+    'Маса цукру: <b style="color:#69F0AE">' + mcuk.toFixed(0) + ' г</b><br>' +
+    'Об\'єм 9% оцту: <b style="color:#69F0AE">' + vocet.toFixed(0) + ' мл</b>';
+}
+
+// Calc 11: Конвертер желатину (Bloom)
+function calc11gel() {
+  const ma  = parseFloat(document.getElementById('c11ma').value);
+  const ba  = parseFloat(document.getElementById('c11ba').value);
+  const bb  = parseFloat(document.getElementById('c11bb').value);
+  const res = document.getElementById('c11res');
+  const txt = document.getElementById('c11res-text');
+  res.style.display = 'block';
+  if (isNaN(ma)||isNaN(ba)||isNaN(bb)||ma<=0||ba<=0||bb<=0) {
+    txt.innerHTML = '<span style="color:#FF7070">Помилка: всі значення мають бути > 0.</span>';
+    return;
+  }
+  const mb = ma * Math.sqrt(ba / bb);
+  let warn = '';
+  if (bb < 125 || bb > 300) warn = '<br><span style="color:#FF9800">⚠️ Значення Bloom поза стандартним діапазоном 125–300.</span>';
+  txt.innerHTML =
+    'Необхідна маса вашого желатину (' + bb + ' Bloom): <b style="color:#69F0AE">' + mb.toFixed(1) + ' г</b>' +
+    '<br><span style="color:#90a0cc;font-size:12px">Коефіцієнт заміни: ×' + (mb/ma).toFixed(4) + '</span>' + warn;
+}
+
+// Calc 12: Інвертний сироп
+function calc12() {
+  const mc  = parseFloat(document.getElementById('c12m').value);
+  const res = document.getElementById('c12res');
+  const txt = document.getElementById('c12res-text');
+  res.style.display = 'block';
+  if (isNaN(mc)||mc<=0) {
+    txt.innerHTML = '<span style="color:#FF7070">Помилка: маса цукру має бути > 0.</span>';
+    return;
+  }
+  const mw   = mc * 0.44;
+  const mkisl = mc * 0.0075;
+  const msoda = mkisl * 0.7;
+  txt.innerHTML =
+    'Вода: <b style="color:#69F0AE">' + mw.toFixed(0) + ' г (' + mw.toFixed(0) + ' мл)</b><br>' +
+    'Лимонна кислота: <b style="color:#69F0AE">' + mkisl.toFixed(1) + ' г</b><br>' +
+    'Харчова сода (для нейтралізації): <b style="color:#69F0AE">' + msoda.toFixed(2) + ' г</b><br>' +
+    '<span style="color:#90a0cc;font-size:12px">Варити при +105–+108°C протягом 35–45 хвилин</span>';
+}
+
+// Calc 13a: Замінник розпушувача
+function calc13bak() {
+  const bp  = parseFloat(document.getElementById('c13bp').value);
+  const res = document.getElementById('c13bres');
+  const txt = document.getElementById('c13bres-text');
+  res.style.display = 'block';
+  if (isNaN(bp)||bp<=0) {
+    txt.innerHTML = '<span style="color:#FF7070">Помилка: маса > 0.</span>';
+    return;
+  }
+  // Склад: 5 частин соди : 3 частини кислоти : 12 частин крохмалю = 20 частин
+  const soda = bp * (5/20);
+  const kisl = bp * (3/20);
+  const kroh = bp * (12/20);
+  txt.innerHTML =
+    'Сода NaHCO₃: <b style="color:#69F0AE">' + soda.toFixed(2) + ' г</b><br>' +
+    'Лимонна кислота: <b style="color:#69F0AE">' + kisl.toFixed(2) + ' г</b><br>' +
+    'Кукурудзяний крохмаль: <b style="color:#69F0AE">' + kroh.toFixed(2) + ' г</b>';
+}
+
+// Calc 13b: Пекарські відсотки
+function calc13bread() {
+  const fl  = parseFloat(document.getElementById('c13flour').value);
+  const hyd = parseFloat(document.getElementById('c13hyd').value);
+  const salt= parseFloat(document.getElementById('c13salt').value);
+  const ye  = parseFloat(document.getElementById('c13yeast').value);
+  const res = document.getElementById('c13bres2');
+  const txt = document.getElementById('c13bres2-text');
+  res.style.display = 'block';
+  if (isNaN(fl)||fl<=0) {
+    txt.innerHTML = '<span style="color:#FF7070">Помилка: маса борошна > 0.</span>';
+    return;
+  }
+  const water = fl * hyd / 100;
+  const msalt = fl * salt / 100;
+  const myeast = fl * ye / 100;
+  const total = fl + water + msalt + myeast;
+  let warn = '';
+  if (hyd > 75) warn = '<br><span style="color:#FF9800">⚠️ Висока гідратація: вода не вище +35°C для безпеки дріжджів.</span>';
+  txt.innerHTML =
+    'Вода: <b style="color:#69F0AE">' + water.toFixed(0) + ' г (' + water.toFixed(0) + ' мл)</b><br>' +
+    'Сіль: <b style="color:#69F0AE">' + msalt.toFixed(1) + ' г</b><br>' +
+    'Сухі дріжджі: <b style="color:#69F0AE">' + myeast.toFixed(1) + ' г</b><br>' +
+    'Загальна маса тіста: ≈<b>' + total.toFixed(0) + ' г</b>' + warn;
+}
+
+// Calc 14: Нітритна сіль
+function calc14() {
+  const m  = parseFloat(document.getElementById('c14m').value);
+  const n  = parseFloat(document.getElementById('c14n').value);
+  const p  = parseFloat(document.getElementById('c14p').value);
+  const res = document.getElementById('c14res');
+  const txt = document.getElementById('c14res-text');
+  res.style.display = 'block';
+  if (isNaN(m)||isNaN(n)||isNaN(p)||m<=0||n<=0||p<0||p>100) {
+    txt.innerHTML = '<span style="color:#FF7070">Помилка: перевірте введені значення.</span>';
+    return;
+  }
+  const mtotal = m * n;
+  const mnitr  = mtotal * (p / 100);
+  const mkuh   = mtotal - mnitr;
+  let warn = '';
+  if (n > 30) warn = '<br><span style="color:#FF5252">⚠️ Норма солі > 30 г/кг — перевірте рецепт!</span>';
+  txt.innerHTML =
+    'Загальна маса соляної суміші: <b style="color:#69F0AE">' + mtotal.toFixed(1) + ' г</b><br>' +
+    'Нітритна сіль (' + p + '%): <b style="color:#69F0AE">' + mnitr.toFixed(1) + ' г</b><br>' +
+    'Кухонна сіль (' + (100-p) + '%): <b style="color:#69F0AE">' + mkuh.toFixed(1) + ' г</b>' + warn;
+}
+
+// ===== НАВІГАЦІЯ =====
 function showPanel(id) {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   const panel = document.getElementById('panel-' + id);
