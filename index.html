@@ -877,6 +877,16 @@ select{color-scheme:dark}select option{background:#111224;color:#ffffff}
   .tc-fields{grid-template-columns:1fr 1fr}
   .fm-grid,.gl-grid{grid-template-columns:1fr}
 }
+/* ===== BANNER: ПОБУТОВА ХІМІЯ ===== */
+.pobut-banner{display:flex;align-items:center;gap:14px;padding:10px 40px;background:linear-gradient(90deg,rgba(0,229,204,.07) 0%,rgba(105,240,174,.05) 50%,rgba(0,229,204,.07) 100%);border-bottom:0.5px solid rgba(0,229,204,0.18);text-decoration:none;transition:background .2s;cursor:pointer}
+.pobut-banner:hover{background:linear-gradient(90deg,rgba(0,229,204,.13) 0%,rgba(105,240,174,.09) 50%,rgba(0,229,204,.13) 100%)}
+.pobut-banner-icon{font-size:22px;flex-shrink:0}
+.pobut-banner-text{flex:1;display:flex;flex-direction:column;gap:1px}
+.pobut-banner-title{font-family:'Oxanium',monospace;font-size:12px;font-weight:700;color:#00E5CC;letter-spacing:.5px}
+.pobut-banner-sub{font-size:11px;color:#8090b8}
+.pobut-banner-arrow{font-size:18px;color:#00E5CC;opacity:.7;flex-shrink:0;transition:transform .2s}
+.pobut-banner:hover .pobut-banner-arrow{transform:translateX(4px)}
+@media(max-width:600px){.pobut-banner{padding:9px 14px;gap:10px}.pobut-banner-title{font-size:11px}.pobut-banner-sub{font-size:10px}}
 </style>
 </head>
 <body>
@@ -961,6 +971,16 @@ select{color-scheme:dark}select option{background:#111224;color:#ffffff}
     </button>
   </div>
 </div>
+
+<!-- BANNER: ПОБУТОВА ХІМІЯ -->
+<a href="pobut-khimiya.html" class="pobut-banner" id="pobut-banner">
+  <div class="pobut-banner-icon">🧴</div>
+  <div class="pobut-banner-text">
+    <span class="pobut-banner-title">Хімарій — побутова хімія</span>
+    <span class="pobut-banner-sub">Хімія, яка допомагає — від соди до антифризу</span>
+  </div>
+  <div class="pobut-banner-arrow">→</div>
+</a>
 
 <!-- GLOBAL SEARCH OVERLAY -->
 <div id="gsearch-overlay" onclick="if(event.target===this)closeGSearch()">

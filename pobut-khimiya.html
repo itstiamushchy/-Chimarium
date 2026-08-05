@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Хімарій — Побутова хімія · ITS_tiamushchy</title>
+<meta name="theme-color" content="#0d0e1a">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Oxanium:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0d0e1a;color:#ffffff;font-family:'Inter',sans-serif;min-height:100vh}
+.kr{font-family:'Inter',sans-serif;background:#0d0e1a;color:#ffffff;position:relative;max-width:1400px;margin:0 auto}
+
+/* HERO */
+.hero{position:relative;padding:24px 40px 20px;display:flex;align-items:center;gap:24px;border-bottom:0.5px solid rgba(0,229,204,0.15)}
+.mol{flex-shrink:0;width:72px;height:72px}.mol svg{width:100%;height:100%}
+.drop-anim{animation:dropPulse 3s ease-in-out infinite}
+@keyframes dropPulse{0%,100%{opacity:.9;transform:scale(1)}50%{opacity:1;transform:scale(1.05)}}
+.brand-label{font-family:'Oxanium',monospace;font-size:9px;letter-spacing:4px;color:#00E5CC;text-transform:uppercase;margin-bottom:4px;opacity:.8}
+.brand-title{font-family:'Oxanium',monospace;font-size:34px;font-weight:900;color:#fff;line-height:1;letter-spacing:-1px;margin-bottom:2px}
+.brand-title span{color:#00E5CC}
+.brand-sub{font-size:11px;color:#c0d0f0;font-weight:300}
+.brand-sub2{font-size:10px;color:#69F0AE;font-weight:300;margin-top:2px;opacity:.8}
+.ver{position:absolute;top:10px;right:16px;font-family:'Oxanium',monospace;font-size:9px;color:#90a0cc;letter-spacing:2px}
+
+/* BACK BUTTON */
+.back-btn{display:inline-flex;align-items:center;gap:7px;padding:7px 16px;background:#111224;border:0.5px solid rgba(79,195,247,0.2);border-radius:20px;color:#4FC3F7;font-size:12px;font-family:'Inter',sans-serif;text-decoration:none;transition:all .18s;cursor:pointer;margin-top:8px}
+.back-btn:hover{background:#1a1f3a;border-color:#4FC3F7;color:#fff}
+
+/* NAV */
+.nav{display:flex;align-items:center;padding:0 40px;border-bottom:0.5px solid rgba(0,229,204,0.1);gap:4px;flex-wrap:wrap;overflow-x:auto}
+.nav-btn{padding:11px 16px;font-size:13px;font-weight:500;color:#b0c0e8;cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;background:none;border-top:none;border-left:none;border-right:none;font-family:'Inter',sans-serif;display:flex;align-items:center;gap:5px;white-space:nowrap}
+.nav-btn:hover{color:#c0d0f0}
+.nav-btn.active{color:#00E5CC;border-bottom-color:#00E5CC}
+.nav-divider{width:0.5px;height:20px;background:#1e2240;margin:0 4px;flex-shrink:0}
+
+/* CONTENT */
+.content{padding:20px 40px}
+.panel{display:none}.panel.active{display:block}
+.sec-title{font-family:'Oxanium',monospace;font-size:10px;letter-spacing:3px;color:#00E5CC;text-transform:uppercase;margin-bottom:16px;opacity:.7}
+
+/* HUB GRID */
+.hub-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;margin-bottom:32px}
+.hub-card{background:#141528;border:0.5px solid #1e2240;border-radius:12px;padding:16px 18px;cursor:pointer;transition:all .18s;position:relative;overflow:hidden}
+.hub-card:hover{border-color:#00E5CC;background:#111a26;transform:translateY(-1px)}
+.hub-card-icon{font-size:24px;margin-bottom:8px;display:block}
+.hub-card-title{font-family:'Oxanium',monospace;font-size:13px;font-weight:700;color:#00E5CC;margin-bottom:4px}
+.hub-card-sub{font-size:11px;color:#90a0cc;line-height:1.5}
+.hub-card-count{position:absolute;top:12px;right:14px;font-family:'Oxanium',monospace;font-size:9px;color:#00E5CC;background:rgba(0,229,204,.08);border-radius:10px;padding:2px 8px;border:0.5px solid rgba(0,229,204,.15)}
+.hub-group-label{font-family:'Oxanium',monospace;font-size:9px;letter-spacing:3px;color:#7080b8;text-transform:uppercase;margin:24px 0 10px;padding-bottom:6px;border-bottom:0.5px solid #1e2240}
+
+/* GROUP PANEL */
+.panel-header{display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:16px;border-bottom:0.5px solid #1e2240}
+.panel-header-icon{font-size:32px;flex-shrink:0}
+.panel-header-title{font-family:'Oxanium',monospace;font-size:20px;font-weight:700;color:#fff}
+.panel-header-sub{font-size:12px;color:#90a0cc;margin-top:3px}
+
+/* SUBGROUP */
+.subgroup{margin-bottom:24px}
+.subgroup-title{font-family:'Oxanium',monospace;font-size:11px;letter-spacing:2px;color:#00E5CC;text-transform:uppercase;margin-bottom:10px;padding-left:10px;border-left:2px solid #00E5CC;opacity:.85}
+.item-list{display:flex;flex-direction:column;gap:6px}
+.item-card{background:#141528;border:0.5px solid #1e2240;border-radius:8px;padding:12px 16px;transition:all .15s;position:relative}
+.item-card:hover{border-color:#00E5CC;background:#111a26}
+.item-card-text{font-size:12px;color:#c0d0f0;line-height:1.6}
+.item-card-badge{display:inline-block;font-family:'Oxanium',monospace;font-size:9px;color:#7080b8;background:#111224;border:0.5px solid #1e2240;border-radius:4px;padding:1px 7px;margin-top:6px}
+
+/* PLACEHOLDER */
+.placeholder-notice{background:#0a1520;border:0.5px solid #1e3060;border-radius:10px;padding:14px 18px;margin-top:18px;display:flex;align-items:flex-start;gap:12px}
+.placeholder-notice-icon{font-size:18px;flex-shrink:0;margin-top:1px}
+.placeholder-notice-text{font-size:12px;color:#7080b8;line-height:1.65}
+.placeholder-notice-text b{color:#4FC3F7}
+
+/* FOOTER */
+.footer{padding:16px 40px;border-top:0.5px solid #1e2240;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.footer-brand{font-family:'Oxanium',monospace;font-size:10px;color:#7080b8;letter-spacing:2px}
+.footer-back{display:inline-flex;align-items:center;gap:6px;color:#4FC3F7;font-size:11px;text-decoration:none;transition:color .15s}
+.footer-back:hover{color:#fff}
+
+/* MOBILE */
+@media(max-width:768px){
+  .hero{padding:12px 14px;gap:14px}
+  .brand-title{font-size:24px}
+  .nav{padding:0 8px}
+  .nav-btn{padding:9px 10px;font-size:12px}
+  .content{padding:14px 12px}
+  .hub-grid{grid-template-columns:1fr}
+  .footer{padding:12px 14px;flex-direction:column;align-items:flex-start;gap:8px}
+}
+@media(max-width:480px){
+  .brand-title{font-size:20px}
+  .brand-sub{font-size:10px}
+}
+</style>
+</head>
+<body>
+<div class="kr">
+
+<!-- HERO -->
+<div class="hero">
+  <div class="ver">v0.1-заготовка</div>
+  <div class="mol">
+    <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <defs><filter id="glow2"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+      <!-- Колба -->
+      <g class="drop-anim">
+        <ellipse cx="60" cy="85" rx="26" ry="18" fill="rgba(0,229,204,0.12)" stroke="#00E5CC" stroke-width="1" opacity="0.7"/>
+        <path d="M48 55 L40 85 Q60 100 80 85 L72 55 Z" fill="rgba(0,229,204,0.06)" stroke="#00E5CC" stroke-width="1" stroke-linejoin="round"/>
+        <rect x="50" y="30" width="20" height="28" fill="rgba(0,229,204,0.06)" stroke="#00E5CC" stroke-width="1"/>
+        <line x1="50" y1="44" x2="70" y2="44" stroke="#00E5CC" stroke-width="0.5" opacity="0.4"/>
+        <!-- Bubbles -->
+        <circle cx="55" cy="78" r="3" fill="#69F0AE" opacity="0.7" filter="url(#glow2)"/>
+        <circle cx="65" cy="72" r="2" fill="#00E5CC" opacity="0.6"/>
+        <circle cx="60" cy="82" r="2.5" fill="#4FC3F7" opacity="0.5"/>
+      </g>
+    </svg>
+  </div>
+  <div>
+    <div class="brand-label">Хімарій · Новий напрямок</div>
+    <div class="brand-title">Побутова <span>хімія</span></div>
+    <div class="brand-sub">Хімія стає зрозумілою — від елементів до реакцій</div>
+    <div class="brand-sub2">Хімія, яка допомагає</div>
+    <a href="index.html" class="back-btn">← Повернутись до Хімарію</a>
+  </div>
+</div>
+
+<!-- NAV -->
+<div class="nav">
+  <button class="nav-btn active" onclick="showPanel('hub')">🏠 Всі напрямки</button>
+  <div class="nav-divider"></div>
+  <button class="nav-btn" onclick="showPanel('g1')">🍶 Їжа і напої</button>
+  <button class="nav-btn" onclick="showPanel('g2')">🌱 Сад і природа</button>
+  <button class="nav-btn" onclick="showPanel('g3')">🏠 Прибирання</button>
+  <button class="nav-btn" onclick="showPanel('g4')">🧴 Косметика</button>
+  <div class="nav-divider"></div>
+  <button class="nav-btn" onclick="showPanel('g5')">🔧 Майстерня</button>
+  <button class="nav-btn" onclick="showPanel('g6')">⚗️ Металообробка</button>
+  <button class="nav-btn" onclick="showPanel('g7')">🎨 Фарби та покриття</button>
+  <div class="nav-divider"></div>
+  <button class="nav-btn" onclick="showPanel('g8')">📚 Реставрація</button>
+  <button class="nav-btn" onclick="showPanel('g9')">💧 Вода і клімат</button>
+  <button class="nav-btn" onclick="showPanel('g10')">🏕️ Туризм</button>
+  <button class="nav-btn" onclick="showPanel('g11')">📷 Фотографія</button>
+  <button class="nav-btn" onclick="showPanel('g12')">📋 Довідник</button>
+</div>
+
+<div class="content">
+
+<!-- HUB -->
+<div class="panel active" id="panel-hub">
+  <div class="sec-title">Побутова хімія — 12 напрямків</div>
+
+  <div class="hub-group-label">Кухня та побут</div>
+  <div class="hub-grid">
+    <div class="hub-card" onclick="showPanel('g1')">
+      <span class="hub-card-icon">🍶</span>
+      <div class="hub-card-count">5 підгруп</div>
+      <div class="hub-card-title">Їжа, напої та консервація</div>
+      <div class="hub-card-sub">Алкоголь, дистиляція, виноробство, кулінарія, консервація, м'ясне виробництво, бджільництво</div>
+    </div>
+    <div class="hub-card" onclick="showPanel('g3')">
+      <span class="hub-card-icon">🏠</span>
+      <div class="hub-card-count">4 підгрупи</div>
+      <div class="hub-card-title">Прибирання, дезінфекція та догляд</div>
+      <div class="hub-card-sub">Антисептики, засоби для миття, миловаріння, СПА-засоби вдома</div>
+    </div>
+    <div class="hub-card" onclick="showPanel('g4')">
+      <span class="hub-card-icon">🧴</span>
+      <div class="hub-card-count">3 підгрупи</div>
+      <div class="hub-card-title">Домашня косметика, гігієна та фітотерапія</div>
+      <div class="hub-card-sub">Гігієнічні розчини, трав'яні препарати, мило, шампуні, бальзами, скраби</div>
+    </div>
+  </div>
+
+  <div class="hub-group-label">Сад, природа та тваринництво</div>
+  <div class="hub-grid">
+    <div class="hub-card" onclick="showPanel('g2')">
+      <span class="hub-card-icon">🌱</span>
+      <div class="hub-card-count">6 підгруп</div>
+      <div class="hub-card-title">Сад, город, природа та тваринництво</div>
+      <div class="hub-card-sub">Агрохімія, басейни, акваріум, грибництво, компостування, птахівництво, насіння</div>
+    </div>
+  </div>
+
+  <div class="hub-group-label">Майстерня та ремонт</div>
+  <div class="hub-grid">
+    <div class="hub-card" onclick="showPanel('g5')">
+      <span class="hub-card-icon">🔧</span>
+      <div class="hub-card-count">5 підгруп</div>
+      <div class="hub-card-title">Майстерня, будівництво та ремонт</div>
+      <div class="hub-card-sub">Автохімія, смоли, бетон та будрозчини, обробка деревини та шкіри</div>
+    </div>
+    <div class="hub-card" onclick="showPanel('g6')">
+      <span class="hub-card-icon">⚗️</span>
+      <div class="hub-card-count">5 підгруп</div>
+      <div class="hub-card-title">Металообробка, ювелірна справа та ремесла</div>
+      <div class="hub-card-sub">Травлення, гальваніка, патинування, пайка, кераміка та гончарство</div>
+    </div>
+    <div class="hub-card" onclick="showPanel('g7')">
+      <span class="hub-card-icon">🎨</span>
+      <div class="hub-card-count">5 підгруп</div>
+      <div class="hub-card-title">Художні матеріали, фарби та покриття</div>
+      <div class="hub-card-sub">Художні фарби, будівельні покриття, антикорозійні склади, антипірени, текстиль</div>
+    </div>
+  </div>
+
+  <div class="hub-group-label">Спеціальні матеріали та системи</div>
+  <div class="hub-grid">
+    <div class="hub-card" onclick="showPanel('g8')">
+      <span class="hub-card-icon">📚</span>
+      <div class="hub-card-count">5 підгруп</div>
+      <div class="hub-card-title">Реставрація, папір, скло та природні клеї</div>
+      <div class="hub-card-sub">Реставрація антикваріату, саморобне паперотворення, обробка скла, природні клеї, шовківництво</div>
+    </div>
+    <div class="hub-card" onclick="showPanel('g9')">
+      <span class="hub-card-icon">💧</span>
+      <div class="hub-card-count">5 підгруп</div>
+      <div class="hub-card-title">Вода, клімат та інженерні системи</div>
+      <div class="hub-card-sub">Водопідготовка, септики, опалення, холодоагенти, зберігання резервів, сорбенти</div>
+    </div>
+    <div class="hub-card" onclick="showPanel('g10')">
+      <span class="hub-card-icon">🏕️</span>
+      <div class="hub-card-count">2 підгрупи</div>
+      <div class="hub-card-title">Туризм, похід та аварійні ситуації</div>
+      <div class="hub-card-sub">Очищення води в поході, хімічні грілки, польові миючі засоби</div>
+    </div>
+    <div class="hub-card" onclick="showPanel('g11')">
+      <span class="hub-card-icon">📷</span>
+      <div class="hub-card-count">1 підгрупа</div>
+      <div class="hub-card-title">Оптика, фотографія та аналоговий друк</div>
+      <div class="hub-card-sub">Проявники, фіксажі, регенерація розчинів аналогової фотографії</div>
+    </div>
+    <div class="hub-card" onclick="showPanel('g12')">
+      <span class="hub-card-icon">📋</span>
+      <div class="hub-card-count">4 позиції</div>
+      <div class="hub-card-title">Довідниково-табличний блок</div>
+      <div class="hub-card-sub">Таблиця густин, мас, сумісності хімікатів, конвертер одиниць</div>
+    </div>
+  </div>
+
+  <div class="placeholder-notice">
+    <span class="placeholder-notice-icon">🚧</span>
+    <div class="placeholder-notice-text">
+      <b>Це заготовка напрямку.</b> Калькулятори, розрахунки та інтерактивні довідники для кожного розділу будуть додаватись поетапно. Натисніть на будь-яку групу — вона вже містить структурований перелік тем.
+    </div>
+  </div>
+</div>
+
+<!-- G1: ЇЖА, НАПОЇ ТА КОНСЕРВАЦІЯ -->
+<div class="panel" id="panel-g1">
+  <div class="panel-header">
+    <div class="panel-header-icon">🍶</div>
+    <div>
+      <div class="panel-header-title">Їжа, напої та консервація</div>
+      <div class="panel-header-sub">Алкоголь · Кулінарія · М'ясне виробництво · Бджільництво · Молекулярна кухня</div>
+    </div>
+  </div>
+
+  <div class="subgroup">
+    <div class="subgroup-title">1.1 Алкоголь, дистиляція та виноробство</div>
+    <div class="item-list">
+      <div class="item-card"><div class="item-card-text">Розведення та купажування: розрахунок води для розведення спирту/самогону з урахуванням контракції; змішування дистилятів різної міцності; розведення настоянок цукровим сиропом</div><span class="item-card-badge">🔢 калькулятор</span></div>
+      <div class="item-card"><div class="item-card-text">Корекція вимірювань: поправка показань спиртоміра за температурою; перерахунок оптичного та цифрового рефрактометра (Brix, цукор, T-корекція)</div><span class="item-card-badge">📐 формула</span></div>
+      <div class="item-card"><div class="item-card-text">Фракційна перегонка: розрахунок об'єму «голів» (3–10% від АС); вихід «тіла» та «хвостів»; обчислення абсолютного спирту у сирці</div><span class="item-card-badge">🔢 калькулятор</span></div>
+      <div class="item-card"><div class="item-card-text">Брага та ферментація: гідромодуль (цукор:вода); потенційна міцність за щільністю; дозування дріжджів; перерахунок Brix / Plato / SG / g/l; праймінг пива/сидру</div><span class="item-card-badge">🔢 калькулятор</span></div>
+      <div class="item-card"><div class="item-card-text">Виноробство: шапталізація (підвищення міцності); зниження кислотності (вода, мармур, крейда); дозування піросульфіту калію для стерилізації</div><span class="item-card-badge">📐 формула</span></div>
+    </div>
+  </div>
+
+  <div class="subgroup">
+    <div class="subgroup-title">1.2 Кулінарія, випічка та кондитерська справа</div>
+    <div class="item-list">
+      <div class="item-card"><div class="item-card-text">Оцтовий калькулятор: 70% есенція → 3/5/6/9% столовий оцет; взаємозаміна 6% і 9%; перерахунок бальзамічного, яблучного, винного оцту</div><span class="item-card-badge">🔢 калькулятор</span></div>
+      <div class="item-card"><div class="item-card-text">Соління, маринади та розсоли: концентрація солі (% або g/l) для квашення і консервації; сухе соління (% від маси сировини); розрахунок цукру, оцту та спецій на об'єм банок</div><span class="item-card-badge">🔢 калькулятор</span></div>
+      <div class="item-card"><div class="item-card-text">Кондитерська справа: таблиця проб цукрового сиропу за T°C; конвертер желюючих агентів (желатин Bloom, агар-агар, пектин); розрахунок інвертного сиропу</div><span class="item-card-badge">📊 таблиця</span></div>
+      <div class="item-card"><div class="item-card-text">Випічка: погашення соди (сода + лимонна кислота/оцет); Baker's Percentages — вологість, сіль, дріжджі від маси борошна</div><span class="item-card-badge">🔢 калькулятор</span></div>
+    </div>
+  </div>
+
+  <div class="subgroup">
+    <div class="subgroup-title">1.3 М'ясне виробництво (ковбаси, шинки, джерки)</div>
+    <div class="item-list">
+      <div class="item-card"><div class="item-card-text">Нітритна сіль: розрахунок NaNO₂ (0,5–0,6%) у суміші зі звичайною сіллю для безпечного дозрівання</div><span class="item-card-badge">⚠️ точний розрахунок</span></div>
+      <div class="item-card"><div class="item-card-text">Вологовтрата при в'яленні (усушка) м'яса та сиру; дозування фосфатів та стартових культур; шприцювання (% розсолу від маси сировини); таблиця зв'язування води у м'ясних емульсіях</div><span class="item-card-badge">📊 таблиця</span></div>
+    </div>
+  </div>
+
+  <div class="subgroup">
+    <div class="subgroup-title">1.4 Плодово-ягідна переробка, сушіння та бджільництво</div>
+    <div class="item-list">
+      <div class="item-card"><div class="item-card-text">Дегідратація: коефіцієнт усушки для фруктів, овочів, грибів, пастили; таблиця залишкової вологості сухофруктів для тривалого зберігання</div><span class="item-card-badge">📊 таблиця</span></div>
+      <div class="item-card"><div class="item-card-text">Соки: вихід соку з різної сировини (% від маси); дозування пектинази для освітлення та збільшення виходу</div><span class="item-card-badge">📐 формула</span></div>
+      <div class="item-card"><div class="item-card-text">Бджільництво: цукрові сиропи (1:1, 1.5:1, 2:1) для підгодівлі; розрахунок канді та препаратів; спиртові та масляні настоянки прополісу (10%, 20%, 30%); воскові свічки та захисні мастики</div><span class="item-card-badge">🔢 калькулятор</span></div>
+    </div>
+  </div>
+
+  <div class="subgroup">
+    <div class="subgroup-title">1.5 Молекулярна кулінарія вдома</div>
+    <div class="item-list">
+      <div class="item-card"><div class="item-card-text">Сферифікація: точний розрахунок альгінату натрію (0,5–1%) та лактату/хлориду кальцію для прямої та зворотної сферифікації</div><span class="item-card-badge">🔢 калькулятор</span></div>
+      <div class="item-card"><div class="item-card-text">Стабілізація соусів: дозування ксантанової камеді для загущення без нагрівання</div><span class="item-card-badge">📐 формула</span></div>
+    </div>
+  </div>
+  <div class="placeholder-notice"><span class="placeholder-notice-icon">🚧</span><div class="placeholder-notice-text">Калькулятори для цього розділу у розробці. Незабаром тут з'являться інтерактивні розрахунки.</div></div>
+</div>
+
+<!-- G2: САД, ГОРОД, ПРИРОДА -->
+<div class="panel" id="panel-g2">
+  <div class="panel-header"><div class="panel-header-icon">🌱</div><div><div class="panel-header-title">Сад, город, природа та тваринництво</div><div class="panel-header-sub">Агрохімія · Басейни · Акваріум · Грибництво · Птахівництво · Насіння</div></div></div>
+
+  <div class="subgroup"><div class="subgroup-title">2.1 Агрохімія: сад і город</div><div class="item-list">
+    <div class="item-card"><div class="item-card-text">Перерахунок дозувань отрутохімікатів (g/га, kg/га → грами на 10 л ранцевого обприскувача); концентрація робочого розчину (% або ml/l)</div><span class="item-card-badge">🔢 калькулятор</span></div>
+    <div class="item-card"><div class="item-card-text">Бордоська рідина: мідний купорос + негашене вапно → нейтральний 1% розчин; Бургундська рідина: мідний купорос + кальцинована сода</div><span class="item-card-badge">📐 формула</span></div>
+    <div class="item-card"><div class="item-card-text">Сумісність у бакових сумішах (інсектициди, фунгіциди, добрива); розрахунок NPK з мінеральних солей; підкислення ґрунту (сірка, алюмінієві квасці — під гортензії, лохину, рododendrons)</div><span class="item-card-badge">📊 таблиця</span></div>
+    <div class="item-card"><div class="item-card-text">Калькулятор EC/TDS та солоності поживного розчину для гідропоніки та крапельного поливу</div><span class="item-card-badge">🔢 калькулятор</span></div>
+  </div></div>
+
+  <div class="subgroup"><div class="subgroup-title">2.2 Басейни та штучні водойми</div><div class="item-list">
+    <div class="item-card"><div class="item-card-text">Шокове хлорування (гранули хлору на m³); регулювання pH (pH-мінус та pH-плюс для рівня 7,2–7,6); дозування альгіцидів та флокулянтів; сіль для хлоргенератора</div><span class="item-card-badge">🔢 калькулятор</span></div>
+  </div></div>
+
+  <div class="subgroup"><div class="subgroup-title">2.3 Акваріумістика</div><div class="item-list">
+    <div class="item-card"><div class="item-card-text">Карбонатна та загальна твердість (KH, GH); змішування водопровідної та осмосованої води; дозування Макро (N, P, K) та Мікро (Fe) добрив у PPM; безпечна доза сайдексу проти чорної бороди</div><span class="item-card-badge">🔢 калькулятор</span></div>
+  </div></div>
+
+  <div class="subgroup"><div class="subgroup-title">2.4 Грибництво, компостування та біогумус</div><div class="item-list">
+    <div class="item-card"><div class="item-card-text">Вологість субстрату (солома, тирса, шелуха) для гливи та печериць; pH-коригування гіпсом, крейдою, вапном; норма внесення міцелію (% від маси субстрату)</div><span class="item-card-badge">🔢 калькулятор</span></div>
+    <div class="item-card"><div class="item-card-text">Співвідношення C:N для прискореного компостування; норма доломітового борошна/попелу для розкислення купи</div><span class="item-card-badge">📐 формула</span></div>
+  </div></div>
+
+  <div class="subgroup"><div class="subgroup-title">2.5 Птахівництво, тваринництво та кормоприготування</div><div class="item-list">
+    <div class="item-card"><div class="item-card-text">Втрата маси яєць під час інкубації (% вологості по вікам); дезінфекція інкубаторів (марганцівка, пероксид); протеїновий та енергетичний баланс комбікорму (матриця Пірсона)</div><span class="item-card-badge">📊 таблиця</span></div>
+    <div class="item-card"><div class="item-card-text">Дозування підкислювачів води (лимонна, яблучна, ортофосфорна кислота); розрахунок внесення преміксів та вітамінів на об'єм води/корму</div><span class="item-card-badge">🔢 калькулятор</span></div>
+  </div></div>
+
+  <div class="subgroup"><div class="subgroup-title">2.6 Зберігання та обробка насіннєвого матеріалу</div><div class="item-list">
+    <div class="item-card"><div class="item-card-text">Дозування стимуляторів росту та протруйників (KMnO₄, H₂O₂, бурштинова кислота); сольові розчини для калібрування насіння методом спливання</div><span class="item-card-badge">📐 формула</span></div>
+  </div></div>
+  <div class="placeholder-notice"><span class="placeholder-notice-icon">🚧</span><div class="placeholder-notice-text">Калькулятори для цього розділу у розробці.</div></div>
+</div>
+
+<!-- G3: ПРИБИРАННЯ -->
+<div class="panel" id="panel-g3">
+  <div class="panel-header"><div class="panel-header-icon">🏠</div><div><div class="panel-header-title">Прибирання, дезінфекція та догляд за будинком</div><div class="panel-header-sub">Антисептики · Побутова хімія · Миловаріння · СПА вдома</div></div></div>
+
+  <div class="subgroup"><div class="subgroup-title">3.1 Дезінфекція та антисептики</div><div class="item-list">
+    <div class="item-card"><div class="item-card-text">70% спиртовий антисептик з 96% етанолу або 99% ізопропанолу (з гліцерином та перекисом)</div><span class="item-card-badge">🔢 калькулятор</span></div>
+    <div class="item-card"><div class="item-card-text">Розведення «Білизни» та хлорвмісних препаратів: розрахунок PPM активного хлору для обробки поверхонь</div><span class="item-card-badge">🔢 калькулятор</span></div>
+    <div class="item-card"><div class="item-card-text">Розведення перекису водню з 30–35% (пергідроль) до 3% побутового</div><span class="item-card-badge">📐 формула</span></div>
+  </div></div>
+
+  <div class="subgroup"><div class="subgroup-title">3.2 Побутова хімія та видалення нальоту</div><div class="item-list">
+    <div class="item-card"><div class="item-card-text">Лимонна або щавлева кислота для видалення вапняного нальоту та іржі; нейтралізація пролитих агресивних засобів (кислота ↔ луг)</div><span class="item-card-badge">📐 формула</span></div>
+    <div class="item-card"><div class="item-card-text">Засоби для миття вікон (нашатирний спирт + ізопропанол); поліролі для меблів (восково-скипидарні та силіконові емульсії)</div><span class="item-card-badge">🔢 калькулятор</span></div>
+    <div class="item-card"><div class="item-card-text">Розкоксовуючі та знежирювальні розчини (ізопропанол, NaOH, ПАР); ферментні суміші проти органічних запахів (сеча, сирість, гар); сода+оцет для пластику та холодильника</div><span class="item-card-badge">📐 формула</span></div>
+  </div></div>
+
+  <div class="subgroup"><div class="subgroup-title">3.3 Миловаріння (Soap Calculator)</div><div class="item-list">
+    <div class="item-card"><div class="item-card-text">Розрахунок маси лугу (NaOH для твердого, KOH для рідкого мила) на основі числа омилення олій; розрахунок % пережиру (Superfat); об'єм води для розчинення лугу</div><span class="item-card-badge">🔢 калькулятор</span></div>
+  </div></div>
+
+  <div class="subgroup"><div class="subgroup-title">3.4 СПА вдома — мийні та купальні засоби</div><div class="item-list">
+    <div class="item-card"><div class="item-card-text">Бомбочки для ванни: сода + лимонна кислота (1:2) для повної нейтралізації; масляна фаза + твін-80 для розчинення олій без плівки</div><span class="item-card-badge">🔢 калькулятор</span></div>
+    <div class="item-card"><div class="item-card-text">Пральний гель: мильна стружка + кальцинована сода + бура (безфосфатний)</div><span class="item-card-badge">📐 формула</span></div>
+  </div></div>
+  <div class="placeholder-notice"><span class="placeholder-notice-icon">🚧</span><div class="placeholder-notice-text">Калькулятори для цього розділу у розробці.</div></div>
+</div>
+
+<!-- G4: КОСМЕТИКА -->
+<div class="panel" id="panel-g4">
+  <div class="panel-header"><div class="panel-header-icon">🧴</div><div><div class="panel-header-title">Домашня косметика, гігієна та фітотерапія</div><div class="panel-header-sub">Гігієнічні засоби · Трав'яні препарати · Мило та шампуні · Доглядова косметика</div></div></div>
+
+  <div class="subgroup"><div class="subgroup-title">4.1 Профілактичні та гігієнічні засоби</div><div class="item-list">
+    <div class="item-card"><div class="item-card-text">Водні настої трав (ромашка, шавлія, календула, м'ята) для полоскання та обробки шкіри; парові інгаляції з ефірними оліями (1–2 краплі на об'єм)</div><span class="item-card-badge">📐 формула</span></div>
+    <div class="item-card"><div class="item-card-text">Ізотонічний (0,9%) та гіпертонічний (2–3%) сольові розчини для гігієни носоглотки; содово-сольовий розчин з йодом для полоскання ротової порожнини</div><span class="item-card-badge">🔢 калькулятор</span></div>
+  </div></div>
+
+  <div class="subgroup"><div class="subgroup-title">4.2 Компреси та зовнішні засоби</div><div class="item-list">
+    <div class="item-card"><div class="item-card-text">Спиртові настоянки прополісу або трав для зовнішнього розтирання суглобів; масляні витяжки (мацерати) зі звіробою, календули, обліпихи</div><span class="item-card-badge">📐 формула</span></div>
+  </div></div>
+
+  <div class="subgroup"><div class="subgroup-title">4.3 Мило, шампуні та доглядова косметика</div><div class="item-list">
+    <div class="item-card"><div class="item-card-text">Олійно-лужний баланс (число омилення) для твердого (NaOH) та рідкого (KOH) мила — гарячий і холодний способи; тверді шампуні на основі кокосульфату, кокоїл ізетіонату</div><span class="item-card-badge">🔢 калькулятор</span></div>
+    <div class="item-card"><div class="item-card-text">Масляна та водна фаза для живильних кремів; вибір натуральних емульгаторів (бджолиний віск, олівацій, цетиловий спирт); захисні бальзами для губ та рук (баттери + рідкі олії)</div><span class="item-card-badge">📐 формула</span></div>
+    <div class="item-card"><div class="item-card-text">Бомбочки для ванни: сода + лимонна кислота + наповнювач (2:1:1); скраби для тіла (цукор, сіль, кавова гуща + олії)</div><span class="item-card-badge">🔢 калькулятор</span></div>
+  </div></div>
+  <div class="placeholder-notice"><span class="placeholder-notice-icon">🚧</span><div class="placeholder-notice-text">Калькулятори для цього розділу у розробці.</div></div>
+</div>
+
+<!-- G5: МАЙСТЕРНЯ -->
+<div class="panel" id="panel-g5">
+  <div class="panel-header"><div class="panel-header-icon">🔧</div><div><div class="panel-header-title">Майстерня, будівництво та ремонт</div><div class="panel-header-sub">Автохімія · Смоли · Будрозчини · Деревина · Шкіра</div></div></div>
+
+  <div class="subgroup"><div class="subgroup-title">5.1 Автохімія</div><div class="item-list">
+    <div class="item-card"><div class="item-card-text">Антифриз: розведення концентрату пропіленгліколю/антифризу водою під бажану T замерзання; концентрат омивача скла (літній і зимовий)</div><span class="item-card-badge">🔢 калькулятор</span></div>
+    <div class="item-card"><div class="item-card-text">Промивання радіатора (лимонна кислота або трилон Б); електроліт для акумулятора (H₂SO₄ + дистильована вода, густин 1,28 г/см³); силіконові відновники для гумових ущільнювачів</div><span class="item-card-badge">📐 формула</span></div>
+  </div></div>
+
+  <div class="subgroup"><div class="subgroup-title">5.2 Епоксидні, поліефірні смоли та силікони</div><div class="item-list">
+    <div class="item-card"><div class="item-card-text">Точний розрахунок пропорцій смола:затверджувач; додавання пластифікатора (ДБФ) та прискорювача; об'єм смоли для заливки форм і стільниць</div><span class="item-card-badge">🔢 калькулятор</span></div>
+    <div class="item-card"><div class="item-card-text">Двокомпонентні силікони (олов'яний та платиновий каталізатор) для гнучких форм; силіконове масло (ПМС) для пом'якшення та текучості</div><span class="item-card-badge">📐 формула</span></div>
+  </div></div>
+
+  <div class="subgroup"><div class="subgroup-title">5.3 Будівництво та саморобні розчини</div><div class="item-list">
+    <div class="item-card"><div class="item-card-text">Цементно-піщані суміші (М400, М500); водоцементне співвідношення (В/Ц) для міцності бетону; рідке скло, пластифікатори та протиморозні добавки</div><span class="item-card-badge">🔢 калькулятор</span></div>
+    <div class="item-card"><div class="item-card-text">Ґрунтовки глибокого проникнення з концентратів; розведення фарб, лаків та емалей розчинниками (646, уайт-спірит, ксилол, ацетон) для краскопульта або пензля</div><span class="item-card-badge">📐 формула</span></div>
+  </div></div>
+
+  <div class="subgroup"><div class="subgroup-title">5.4 Захист та обробка деревини</div><div class="item-list">
+    <div class="item-card"><div class="item-card-text">Масляно-воскові суміші (лляна олія + бджолиний віск + скипидар); моріння залізним купоросом або чаєм/кавою; захист від гниття (фтористий натрій, мідний купорос)</div><span class="item-card-badge">📐 формула</span></div>
+  </div></div>
+
+  <div class="subgroup"><div class="subgroup-title">5.5 Виделка, дублення та догляд за шкірою</div><div class="item-list">
+    <div class="item-card"><div class="item-card-text">Пікель (оцтова/сірчана кислота + сіль) для обробки шкур; жирові емульсії для пом'якшення; рослинне та хромове дублення (таніни або хромові квасці)</div><span class="item-card-badge">📐 формула</span></div>
+  </div></div>
+  <div class="placeholder-notice"><span class="placeholder-notice-icon">🚧</span><div class="placeholder-notice-text">Калькулятори для цього розділу у розробці.</div></div>
+</div>
+
+<!-- G6: МЕТАЛООБРОБКА -->
+<div class="panel" id="panel-g6">
+  <div class="panel-header"><div class="panel-header-icon">⚗️</div><div><div class="panel-header-title">Металообробка, ювелірна справа та ремесла</div><div class="panel-header-sub">Травлення · Гальваніка · Патинування · Пайка · Кераміка</div></div></div>
+
+  <div class="subgroup"><div class="subgroup-title">6.1 Травлення металів</div><div class="item-list">
+    <div class="item-card"><div class="item-card-text">Хлорне залізо (FeCl₃): потрібна густин розчину для травлення міді/латуні; саморобна суміш: H₂O₂ + лимонна кислота + сіль</div><span class="item-card-badge">🔢 калькулятор</span></div>
+  </div></div>
+
+  <div class="subgroup"><div class="subgroup-title">6.2 Патинування, воронування та чорніння</div><div class="item-list">
+    <div class="item-card"><div class="item-card-text">Чорніння сталі: сірчана печінка, сполуки амонію, кислоти; патинування міді та бронзи (мідний купорос + аміак)</div><span class="item-card-badge">📐 формула</span></div>
+  </div></div>
+
+  <div class="subgroup"><div class="subgroup-title">6.3 Пайка та флюси</div><div class="item-list">
+    <div class="item-card"><div class="item-card-text">Каніфольно-спиртові флюси (ФКЕ): каніфоль + ізопропанол; травлена кислота для пайки (цинк + HCl); відбіли для зняття флюсу; ультразвукові ванни (нашатир + мило)</div><span class="item-card-badge">📐 формула</span></div>
+  </div></div>
+
+  <div class="subgroup"><div class="subgroup-title">6.4 Домашня гальваніка та гальванопластика</div><div class="item-list">
+    <div class="item-card"><div class="item-card-text">Склад електроліту (мідний купорос + H₂SO₄); щільність струму на площу (А/дм²); захисні лаки для маскування; графітизація неметалевих предметів</div><span class="item-card-badge">🔢 калькулятор</span></div>
+  </div></div>
+
+  <div class="subgroup"><div class="subgroup-title">6.5 Кераміка, гончарство та ливарництво</div><div class="item-list">
+    <div class="item-card"><div class="item-card-text">Вологість та густина глазурного шлікеру; дефлокулянти (рідке скло, сода); рецепти глазурей; усадка глини/гіпсу; пропорції гіпс:вода для ливарних форм</div><span class="item-card-badge">📐 формула</span></div>
+  </div></div>
+  <div class="placeholder-notice"><span class="placeholder-notice-icon">🚧</span><div class="placeholder-notice-text">Калькулятори для цього розділу у розробці.</div></div>
+</div>
+
+<!-- G7: ФАРБИ ТА ПОКРИТТЯ -->
+<div class="panel" id="panel-g7">
+  <div class="panel-header"><div class="panel-header-icon">🎨</div><div><div class="panel-header-title">Художні матеріали, фарби та покриття</div><div class="panel-header-sub">Художні фарби · Будівельні покриття · Антикорозійні склади · Антипірени · Текстиль</div></div></div>
+
+  <div class="subgroup"><div class="subgroup-title">7.1 Художні фарби та графічні матеріали</div><div class="item-list">
+    <div class="item-card"><div class="item-card-text">Перетирання сухих пігментів з лляною/горіховою олією для олійних фарб; яєчна емульсія (жовток + оцет/вода) для темпери; гуміарабік + гліцерин + мед для акварелі та гуаші</div><span class="item-card-badge">📐 формула</span></div>
+    <div class="item-card"><div class="item-card-text">Пасть: зв'язуюче (трагакант, гуміарабік, КМЦ) + пігмент + крейда; природні смоли (даммара, каніфоль, шелак) у скипидарі або спирті для лаків</div><span class="item-card-badge">📐 формула</span></div>
+  </div></div>
+
+  <div class="subgroup"><div class="subgroup-title">7.2 Будівельні та фасадні фарби</div><div class="item-list">
+    <div class="item-card"><div class="item-card-text">Вапняна фарба (гашене вапно + сіль + оліфа); силікатна фарба (рідке скло + мінеральні пігменти); казеїновий клей і фарба (сир + вапно або нашатир)</div><span class="item-card-badge">📐 формула</span></div>
+    <div class="item-card"><div class="item-card-text">Шведська та Фінська фарби: борошно + залізний/мідний купорос + сіль + сурик/охра + лляна олія (термін служби 15–20 років для деревини)</div><span class="item-card-badge">📐 формула</span></div>
+  </div></div>
+
+  <div class="subgroup"><div class="subgroup-title">7.3 Антикорозійні та термостійкі покриття</div><div class="item-list">
+    <div class="item-card"><div class="item-card-text">Графітове покриття (графіт + оліфа/епоксидна смола) для захисту металу; термостійке покриття (КО-85 + алюмінієва пудра «серебрянка», витримує 400–600°C)</div><span class="item-card-badge">📐 формула</span></div>
+  </div></div>
+
+  <div class="subgroup"><div class="subgroup-title">7.4 Протигрибкові та вогнетривкі суміші</div><div class="item-list">
+    <div class="item-card"><div class="item-card-text">Антисептики для деревини (мідний/залізний купорос, фтористий натрій, бура); ЧАС-містні глибокопроникаючі протигрибкові розчини</div><span class="item-card-badge">📐 формула</span></div>
+    <div class="item-card"><div class="item-card-text">Вогнебіозахист деревини: бура (Na₂B₄O₇) + борна кислота (H₃BO₃) у співвідношенні 1:1 або 3:5; фосфат та сульфат амонію; обмазки для печей (глина + шамот + рідке скло)</div><span class="item-card-badge">🔢 калькулятор</span></div>
+  </div></div>
+
+  <div class="subgroup"><div class="subgroup-title">7.5 Текстиль: фарбування та догляд за одягом</div><div class="item-list">
+    <div class="item-card"><div class="item-card-text">Кількість барвників від маси сухої тканини; фіксатори: сіль (бавовна, льон) або оцет (вовна, шовк); вибілювання (гідросульфіт натрію або перекис)</div><span class="item-card-badge">🔢 калькулятор</span></div>
+    <div class="item-card"><div class="item-card-text">Виводники плям (нашатир, ацетон, щавлева кислота, гліцерин); визначення pH для безпечного прання різних типів волокон</div><span class="item-card-badge">📊 таблиця</span></div>
+  </div></div>
+  <div class="placeholder-notice"><span class="placeholder-notice-icon">🚧</span><div class="placeholder-notice-text">Калькулятори для цього розділу у розробці.</div></div>
+</div>
+
+<!-- G8: РЕСТАВРАЦІЯ -->
+<div class="panel" id="panel-g8">
+  <div class="panel-header"><div class="panel-header-icon">📚</div><div><div class="panel-header-title">Реставрація, папір, скло та природні клеї</div><div class="panel-header-sub">Реставрація · Паперотворення · Склярна справа · Природні клеї · Шовківництво</div></div></div>
+
+  <div class="subgroup"><div class="subgroup-title">8.1 Реставрація та музейна справа</div><div class="item-list">
+    <div class="item-card"><div class="item-card-text">Трилон Б (5–10%) для м'якого очищення мідних та бронзових монет без пошкодження; мильні та спиртово-бензинові ванни для знежирення антикваріату</div><span class="item-card-badge">📐 формула</span></div>
+  </div></div>
+
+  <div class="subgroup"><div class="subgroup-title">8.2 Саморобне паперотворення</div><div class="item-list">
+    <div class="item-card"><div class="item-card-text">Пульпа: сухе волокно (макулатура, бавовна, льон) до води для заданої щільності; NaOH або кальцинована сода для розварювання грубих рослинних волокон</div><span class="item-card-badge">📐 формула</span></div>
+    <div class="item-card"><div class="item-card-text">Проклеювання: желатин, крохмаль, каніфольне мило, квасці — щоб чорнило не розпливалося; мінеральні наповнювачі (крейда, каолін) для білизни та гладкості</div><span class="item-card-badge">📐 формула</span></div>
+    <div class="item-card"><div class="item-card-text">Мармуровий папір (Ебру): карагінан або КМЦ як основа + бичача жовч у фарбах; вощанка: бджолиний віск + лляна олія + каніфоль; нейтралізація кислотності старих книг (Ca/Mg гідрокарбонат)</div><span class="item-card-badge">📐 формула</span></div>
+  </div></div>
+
+  <div class="subgroup"><div class="subgroup-title">8.3 Обробка скла (склярна справа)</div><div class="item-list">
+    <div class="item-card"><div class="item-card-text">Матирування скла: пасти та розчини на основі фториду амонію (безпечна альтернатива плавиковій кислоті); ЗОР для різання та свердління (гас + скипидар + олія)</div><span class="item-card-badge">⚠️ обережно</span></div>
+    <div class="item-card"><div class="item-card-text">Полірування скла та оптичних лінз: суспензія оксиду церію або крокусу (оксид заліза) для видалення подряпин</div><span class="item-card-badge">📐 формула</span></div>
+  </div></div>
+
+  <div class="subgroup"><div class="subgroup-title">8.4 Природні клеї, смоли та герметики</div><div class="item-list">
+    <div class="item-card"><div class="item-card-text">Кістковий/міздровий столярний клей (60°C, відновлення та пропорції з водою); борошняний і крохмальний клейстер з мідним купоросом (антипліснявний); казеїновий клей для деревини</div><span class="item-card-badge">📐 формула</span></div>
+    <div class="item-card"><div class="item-card-text">Сосновий вар для конопачення (смола + каніфоль + зола + олія); замазки для скла, печей та кераміки (оліфа, крейда, гліцерин, гліт)</div><span class="item-card-badge">📐 формула</span></div>
+  </div></div>
+
+  <div class="subgroup"><div class="subgroup-title">8.5 Шовківництво та натуральні волокна</div><div class="item-list">
+    <div class="item-card"><div class="item-card-text">Дегумування коконів: кальцинована сода або мило для виварювання та видалення серицину; кислотні розчини для пом'якшення грубих волокон (льон, коноплі, кропива)</div><span class="item-card-badge">📐 формула</span></div>
+  </div></div>
+  <div class="placeholder-notice"><span class="placeholder-notice-icon">🚧</span><div class="placeholder-notice-text">Калькулятори для цього розділу у розробці.</div></div>
+</div>
+
+<!-- G9: ВОДА І КЛІМАТ -->
+<div class="panel" id="panel-g9">
+  <div class="panel-header"><div class="panel-header-icon">💧</div><div><div class="panel-header-title">Вода, клімат та інженерні системи</div><div class="panel-header-sub">Водопідготовка · Опалення · Холодоагенти · Резерви · Сорбенти</div></div></div>
+
+  <div class="subgroup"><div class="subgroup-title">9.1 Сантехніка та водопідготовка</div><div class="item-list">
+    <div class="item-card"><div class="item-card-text">Сольовий розчин (NaCl) для регенерації іонообмінної смоли пом'якшувача; коагулянти для очищення від заліза та сірководню (аерація + гіпохлорит)</div><span class="item-card-badge">🔢 калькулятор</span></div>
+    <div class="item-card"><div class="item-card-text">Дозування біопрепаратів (ферменти та бактерії) для септика; розчини для консервації/розконсервації септика на зиму</div><span class="item-card-badge">📐 формула</span></div>
+  </div></div>
+
+  <div class="subgroup"><div class="subgroup-title">9.2 Автономне опалення та клімат</div><div class="item-list">
+    <div class="item-card"><div class="item-card-text">Розведення пропіленгліколю або етиленгліколю водою під задану T замерзання системи опалення</div><span class="item-card-badge">🔢 калькулятор</span></div>
+    <div class="item-card"><div class="item-card-text">Теплотворна здатність дров (від вологості та виду деревини); теплотворна здатність вугілля, торфобрикету, паливних палет</div><span class="item-card-badge">📊 таблиця</span></div>
+  </div></div>
+
+  <div class="subgroup"><div class="subgroup-title">9.3 Холодоагенти та кліматичне обладнання</div><div class="item-list">
+    <div class="item-card"><div class="item-card-text">Маса заправки фреону (R134a, R410a, R32) за тиском та температурою; об'єм компресорного масла при заміні; точка роси та відносна вологість для запобігання конденсату в підвалі</div><span class="item-card-badge">📐 формула</span></div>
+  </div></div>
+
+  <div class="subgroup"><div class="subgroup-title">9.4 Зберігання продовольчих резервів</div><div class="item-list">
+    <div class="item-card"><div class="item-card-text">Поглиначі кисню (Oxygen Absorbers, cc/ml) залежно від об'єму контейнера та типу продукту; дозування силікагелю на одиницю об'єму для крупи, насіння, інструментів</div><span class="item-card-badge">🔢 калькулятор</span></div>
+  </div></div>
+
+  <div class="subgroup"><div class="subgroup-title">9.5 Сушильні агенти та сорбенти</div><div class="item-list">
+    <div class="item-card"><div class="item-card-text">Регенерація силікагелю, активованого вугілля та цеолітів (температурні режими та час прожарювання); прокалювання CaCl₂ та CuSO₄/MgSO₄ для ексикаторів</div><span class="item-card-badge">📊 таблиця</span></div>
+  </div></div>
+  <div class="placeholder-notice"><span class="placeholder-notice-icon">🚧</span><div class="placeholder-notice-text">Калькулятори для цього розділу у розробці.</div></div>
+</div>
+
+<!-- G10: ТУРИЗМ -->
+<div class="panel" id="panel-g10">
+  <div class="panel-header"><div class="panel-header-icon">🏕️</div><div><div class="panel-header-title">Туризм, похід та аварійні ситуації</div><div class="panel-header-sub">Виживання на природі · Очищення води · Польові засоби</div></div></div>
+
+  <div class="subgroup"><div class="subgroup-title">10.1 Очищення та знезараження води в поході</div><div class="item-list">
+    <div class="item-card"><div class="item-card-text">Дозування аптечного йоду (5%) або перекису водню на літр річкової води для знезараження</div><span class="item-card-badge">🔢 калькулятор</span></div>
+    <div class="item-card"><div class="item-card-text">Розрахунок марганцівки (KMnO₄) для отримання слабко-рожевого дезінфікуючого розчину</div><span class="item-card-badge">🔢 калькулятор</span></div>
+  </div></div>
+
+  <div class="subgroup"><div class="subgroup-title">10.2 Саморобні джерела тепла, холоду та польова гігієна</div><div class="item-list">
+    <div class="item-card"><div class="item-card-text">Хімічна грілка: ацетат натрію + вода; охолоджуючий пакет: аміачна селітра або сечовина + вода</div><span class="item-card-badge">🔢 калькулятор</span></div>
+    <div class="item-card"><div class="item-card-text">Польові миючі засоби: суха гірчиця + сода + подрібнене мило — розкладаються в природі без шкоди довкіллю</div><span class="item-card-badge">📐 формула</span></div>
+  </div></div>
+  <div class="placeholder-notice"><span class="placeholder-notice-icon">🚧</span><div class="placeholder-notice-text">Калькулятори для цього розділу у розробці.</div></div>
+</div>
+
+<!-- G11: ФОТОГРАФІЯ -->
+<div class="panel" id="panel-g11">
+  <div class="panel-header"><div class="panel-header-icon">📷</div><div><div class="panel-header-title">Оптика, фотографія та аналоговий хімічний друк</div><div class="panel-header-sub">Проявники · Фіксажі · Регенерація розчинів</div></div></div>
+
+  <div class="subgroup"><div class="subgroup-title">11.1 Проявники, фіксажі та регенерація</div><div class="item-list">
+    <div class="item-card"><div class="item-card-text">Проявники: метол, гідрохінон, фенідон — вагові співвідношення компонентів для приготування стандартних розчинів</div><span class="item-card-badge">📐 формула</span></div>
+    <div class="item-card"><div class="item-card-text">Фіксажі: кислий та нейтральний (тіосульфат натрію + метабісульфіт) — пропорції та порядок розчинення</div><span class="item-card-badge">📐 формула</span></div>
+    <div class="item-card"><div class="item-card-text">Регенерація виснаженого проявника та корекція часу проявлення залежно від температури розчину (18–24°C)</div><span class="item-card-badge">🔢 калькулятор</span></div>
+  </div></div>
+  <div class="placeholder-notice"><span class="placeholder-notice-icon">🚧</span><div class="placeholder-notice-text">Калькулятори для цього розділу у розробці.</div></div>
+</div>
+
+<!-- G12: ДОВІДНИК -->
+<div class="panel" id="panel-g12">
+  <div class="panel-header"><div class="panel-header-icon">📋</div><div><div class="panel-header-title">Довідниково-табличний блок</div><div class="panel-header-sub">Густини · Маси · Сумісність · Конвертер одиниць</div></div></div>
+
+  <div class="subgroup"><div class="subgroup-title">12.1 Довідкові таблиці для побуту</div><div class="item-list">
+    <div class="item-card"><div class="item-card-text">Таблиця густини побутових рідин: спирт різних концентрацій, олія, оцет, мед, сиропи, антифриз, кислоти</div><span class="item-card-badge">📊 таблиця</span></div>
+    <div class="item-card"><div class="item-card-text">Таблиця об'ємів та мас: скільки грамів солі / цукру / соди / борошна в чайній ложці, їдальній ложці, склянці</div><span class="item-card-badge">📊 таблиця</span></div>
+    <div class="item-card"><div class="item-card-text">Таблиця сумісності побутових хімікатів: що категорично заборонено змішувати. Приклади: «Білизна» + Оцет = токсичний хлор; перекис + марганцівка = вибухова суміш</div><span class="item-card-badge">⚠️ безпека</span></div>
+    <div class="item-card"><div class="item-card-text">Перекладач одиниць: л, мл, м³, куб. фути, галони (США/Великобританія), рідкі унції (fl oz), пінти, градуси Proof ↔ % об.</div><span class="item-card-badge">🔢 конвертер</span></div>
+  </div></div>
+  <div class="placeholder-notice"><span class="placeholder-notice-icon">🚧</span><div class="placeholder-notice-text">Інтерактивні таблиці та конвертери для цього розділу у розробці.</div></div>
+</div>
+
+</div><!-- end .content -->
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-brand">Хімарій · Побутова хімія · v0.1 заготовка</div>
+  <a href="index.html" class="footer-back">← Повернутись до основного Хімарію</a>
+</div>
+
+</div><!-- end .kr -->
+
+<script>
+function showPanel(id) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  const panel = document.getElementById('panel-' + id);
+  if (panel) panel.classList.add('active');
+
+  // Nav highlight
+  document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+  const map = {
+    'hub': 0, 'g1': 1, 'g2': 2, 'g3': 3, 'g4': 4,
+    'g5': 5, 'g6': 6, 'g7': 7, 'g8': 8, 'g9': 9,
+    'g10': 10, 'g11': 11, 'g12': 12
+  };
+  const btns = document.querySelectorAll('.nav-btn');
+  if (map[id] !== undefined && btns[map[id]]) {
+    btns[map[id]].classList.add('active');
+  }
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
