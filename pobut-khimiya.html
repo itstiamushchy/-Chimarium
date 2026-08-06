@@ -1582,10 +1582,402 @@ body{background:#0d0e1a;color:#ffffff;font-family:'Inter',sans-serif;min-height:
     </div>
   </div>
 
-  <div class="subgroup"><div class="subgroup-title">2.4 Грибництво, компостування та біогумус</div><div class="item-list">
-    <div class="item-card"><div class="item-card-text">Вологість субстрату (солома, тирса, шелуха) для гливи та печериць; pH-коригування гіпсом, крейдою, вапном; норма внесення міцелію (% від маси субстрату)</div><span class="item-card-badge">🔢 калькулятор</span></div>
-    <div class="item-card"><div class="item-card-text">Співвідношення C:N для прискореного компостування; норма доломітового борошна/попелу для розкислення купи</div><span class="item-card-badge">📐 формула</span></div>
-  </div></div>
+  <div class="subgroup">
+    <div class="subgroup-title">2.4 Грибництво, компостування та біогумус</div>
+
+    <!-- ===== CALC G2-4-1: Вологість субстрату для гливи та печериць ===== -->
+    <div class="item-card" style="margin-bottom:10px">
+      <div class="item-card-text" style="font-size:13px;font-weight:600;color:#00E5CC;margin-bottom:6px">🍄 Розрахунок вологості субстрату для гливи та печериць</div>
+      <div class="item-card-text" style="margin-bottom:8px"><b style="color:#c0d0f0">Призначення:</b> Визначення та регулювання відносної вологості (W) рослинної сировини (солома, тирса, лушпиння) для створення оптимального гідротермічного середовища розвитку міцелію.</div>
+      <div class="item-card-text" style="margin-bottom:8px"><b style="color:#c0d0f0">Суть:</b> Міцелій грибів на 90% складається з води та поглинає поживні речовини виключно у вигляді водних розчинів. Нестача вологи (&lt;60%) сповільнює ріст гіфів, призводить до висихання субстрату та загибелі зародків плодових тіл (примордіїв). Надлишок вологи (&gt;75%) заповнює повітряні пори, створюючи анаеробні (безкисневі) умови — закисання субстрату, розвиток бактеріозу та плісняви (триходерми).</div>
+      <div style="background:#0d1120;border:0.5px solid #1e3060;border-radius:8px;padding:12px 14px;margin-bottom:10px">
+        <div style="font-family:'Oxanium',monospace;font-size:11px;color:#69F0AE;margin-bottom:6px">ФОРМУЛИ:</div>
+        <div style="font-size:14px;color:#fff;margin-bottom:4px"><b>W = (M<sub>волог</sub> − M<sub>сух</sub>) / M<sub>волог</sub> × 100%</b></div>
+        <div style="font-size:14px;color:#fff;margin-bottom:8px"><b>V<sub>води</sub> = M<sub>сух</sub> × (W<sub>ціль</sub>/(100−W<sub>ціль</sub>) − W<sub>поч</sub>/(100−W<sub>поч</sub>))</b></div>
+        <div style="font-size:11px;color:#90a0cc;line-height:1.7">
+          M<sub>сух</sub> — маса сухої сировини (кг)<br>
+          W<sub>поч</sub> — початкова вологість повітряно-сухої сировини (зазвичай 10…12%)<br>
+          W<sub>ціль</sub> — необхідна робоча вологість субстрату (%)<br>
+          V<sub>води</sub> — необхідний об'єм/маса води для додавання (л або кг)
+        </div>
+        <div style="margin-top:8px;font-size:11px;color:#7080b8;line-height:1.7">
+          <b style="color:#c0d0f0">Оптимальна вологість:</b> Глива — 65…70% | Печериця — 64…68% | Шиїтаке — 55…60%
+        </div>
+        <div style="margin-top:6px;font-size:11px;color:#7080b8;line-height:1.7">
+          <b style="color:#c0d0f0">Водопоглинання сировини:</b><br>
+          Солома пшенична/ячмінна — W<sub>поч</sub> 10…12%, макс. 2.5…3.0 л/кг, W<sub>ціль</sub> 68…70%<br>
+          Лушпиння соняшника — W<sub>поч</sub> 8…10%, макс. 1.3…1.6 л/кг, W<sub>ціль</sub> 63…65%<br>
+          Тирса листяних (бук, дуб) — W<sub>поч</sub> 12…15%, макс. 1.2…1.5 л/кг, W<sub>ціль</sub> 60…63%<br>
+          Костриця льону/коноплі — W<sub>поч</sub> 10%, макс. 2.0…2.2 л/кг, W<sub>ціль</sub> 65…68%
+        </div>
+      </div>
+      <!-- Калькулятор G2-4-1 -->
+      <div style="background:#101325;border:0.5px solid #00E5CC33;border-radius:8px;padding:12px 14px;margin-bottom:10px">
+        <div style="font-family:'Oxanium',monospace;font-size:10px;color:#00E5CC;margin-bottom:8px;letter-spacing:2px">🔢 КАЛЬКУЛЯТОР</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px;margin-bottom:8px">
+          <div>
+            <label style="font-size:11px;color:#90a0cc;display:block;margin-bottom:3px">M<sub>сух</sub> — маса сухої сировини (кг)</label>
+            <input id="g24c1m" type="number" value="10" min="0.1" step="0.1" style="width:100%;background:#0d0e1a;border:0.5px solid #2e3a6e;border-radius:6px;padding:7px 10px;color:#fff;font-size:13px;font-family:'Inter',sans-serif">
+          </div>
+          <div>
+            <label style="font-size:11px;color:#90a0cc;display:block;margin-bottom:3px">W<sub>поч</sub> — початкова вологість (%)</label>
+            <input id="g24c1wp" type="number" value="10" min="0" max="50" step="1" style="width:100%;background:#0d0e1a;border:0.5px solid #2e3a6e;border-radius:6px;padding:7px 10px;color:#fff;font-size:13px;font-family:'Inter',sans-serif">
+          </div>
+          <div>
+            <label style="font-size:11px;color:#90a0cc;display:block;margin-bottom:3px">W<sub>ціль</sub> — цільова вологість (%)</label>
+            <select id="g24c1wt" style="width:100%;background:#0d0e1a;border:0.5px solid #2e3a6e;border-radius:6px;padding:7px 10px;color:#fff;font-size:13px;font-family:'Inter',sans-serif">
+              <option value="68" selected>68% (глива / солома)</option>
+              <option value="65">65% (глива / лушпиння)</option>
+              <option value="66">66% (печериця)</option>
+              <option value="60">60% (шиїтаке / тирса)</option>
+            </select>
+          </div>
+        </div>
+        <button onclick="calcG24C1()" style="background:linear-gradient(135deg,#00E5CC22,#00E5CC11);border:0.5px solid #00E5CC;border-radius:6px;padding:8px 20px;color:#00E5CC;font-family:'Oxanium',monospace;font-size:12px;cursor:pointer;letter-spacing:1px">РОЗРАХУВАТИ</button>
+        <div id="g24c1res" style="margin-top:10px;display:none">
+          <div style="background:#0a1f1a;border:0.5px solid #00E5CC44;border-radius:6px;padding:10px 14px">
+            <div style="font-size:11px;color:#69F0AE;margin-bottom:4px;font-family:'Oxanium',monospace">РЕЗУЛЬТАТ:</div>
+            <div id="g24c1res-text" style="font-size:14px;color:#fff;line-height:1.7"></div>
+          </div>
+        </div>
+      </div>
+      <!-- Небезпека -->
+      <div style="background:#1a0a0a;border:0.5px solid #FF5252aa;border-radius:8px;padding:10px 14px;margin-bottom:10px">
+        <div style="font-size:12px;color:#FF7070;margin-bottom:4px">⚠️ Техніка безпеки</div>
+        <div style="font-size:11px;color:#c09090;line-height:1.65">
+          <b>Пастеризація:</b> При термічній обробці субстрату (70…80°C протягом 8…12 годин) уникайте контакту з паром — ризик опіків!<br>
+          <b>Перезволоження:</b> Надмірна вологість (&gt;75%) створює анаеробне середовище, що призводить до закисання субстрату, бактеріозу та плісняви (триходерма). Завжди перевіряйте тестом стиснення.
+        </div>
+      </div>
+      <!-- Інструкція -->
+      <div style="font-size:11px;color:#90a0cc;line-height:1.8">
+        <div style="font-family:'Oxanium',monospace;font-size:10px;color:#7080b8;letter-spacing:2px;margin-bottom:4px">ПОКРОКОВА ІНСТРУКЦІЯ:</div>
+        <b style="color:#c0d0f0">Крок 1:</b> Зважте суху сировину (солому, тирсу або лушпиння) на вагах.<br>
+        <b style="color:#c0d0f0">Крок 2:</b> Визначте початкову вологість сировини (для повітряно-сухої — зазвичай 10…12%).<br>
+        <b style="color:#c0d0f0">Крок 3:</b> Оберіть цільову вологість згідно з видом гриба (глива 65–70%, печериця 64–68%, шиїтаке 55–60%).<br>
+        <b style="color:#c0d0f0">Крок 4:</b> Розрахуйте необхідний об'єм води за формулою або калькулятором.<br>
+        <b style="color:#c0d0f0">Крок 5:</b> Рівномірно змочіть сировину, перемішуючи кожні 15…20 хв протягом 6…12 годин замочування.<br>
+        <b style="color:#c0d0f0">Крок 6:</b> Перевірте вологість експрес-тестом: стисніть субстрат у кулаці — при 65…70% між пальцями мають з'являтися краплі води, але вона не повинна стікати цівкою.
+        <div style="margin-top:6px;background:#0d1525;border-left:2px solid #69F0AE;padding:6px 10px;border-radius:0 4px 4px 0">
+          <b style="color:#69F0AE">Приклад (10 кг соломи, W<sub>поч</sub>=10%, W<sub>ціль</sub>=68%):</b><br>
+          V<sub>води</sub> = 10 × (68/(100−68) − 10/(100−10))<br>
+          = 10 × (68/32 − 10/90) = 10 × (2.125 − 0.111) = <b style="color:#fff">20.14 л</b><br>
+          Загальна маса зволоженого субстрату: 10 + 20.14 = <b style="color:#fff">30.14 кг</b>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== CALC G2-4-2: Дозування гіпсу, крейди та вапна для pH ===== -->
+    <div class="item-card" style="margin-bottom:10px">
+      <div class="item-card-text" style="font-size:13px;font-weight:600;color:#00E5CC;margin-bottom:6px">⚗️ Дозування гіпсу, крейди та вапна для регулювання pH субстрату</div>
+      <div class="item-card-text" style="margin-bottom:8px"><b style="color:#c0d0f0">Призначення:</b> Внесення мінеральних добавок для стабілізації кислотності (pH), покращення структури та збагачення субстрату кальцієм (Ca) і сіркою (S).</div>
+      <div class="item-card-text" style="margin-bottom:8px"><b style="color:#c0d0f0">Суть:</b> Міцелій у процесі життєдіяльності виділяє органічні кислоти, які закислюють середовище. Додавання карбонату та сульфату кальцію створює буферну систему, що утримує pH у безпечному діапазоні. Гіпс (CaSO₄·2H₂O) покращує структуру, запобігає злипанню, практично не змінює pH. Крейда (CaCO₃) м'яко підлужує субстрат до pH 7.2…7.5. Гашене вапно Ca(OH)₂ — сильний лужний агент для підняття pH до 10…12 при гарячій обробці, що знищує конкурентні гриби та бактерії.</div>
+      <div style="background:#0d1120;border:0.5px solid #1e3060;border-radius:8px;padding:12px 14px;margin-bottom:10px">
+        <div style="font-family:'Oxanium',monospace;font-size:11px;color:#69F0AE;margin-bottom:6px">ФОРМУЛА:</div>
+        <div style="font-size:14px;color:#fff;margin-bottom:8px"><b>M<sub>добавки</sub> = M<sub>сух.сировини</sub> × Норма% / 100</b></div>
+        <div style="font-size:11px;color:#90a0cc;line-height:1.7">
+          M<sub>сух.сировини</sub> — маса сухої сировини (кг)<br>
+          Норма% — відсоток від сухої маси для обраного компонента
+        </div>
+        <div style="margin-top:8px;font-size:11px;color:#7080b8;line-height:1.7">
+          <b style="color:#c0d0f0">Норми внесення (% від сухої маси):</b><br>
+          Гіпс (CaSO₄·2H₂O) — 2.0…3.0% (200…300 г на 10 кг) — аерація, Ca і S<br>
+          Крейда (CaCO₃) — 1.0…2.0% (100…200 г на 10 кг) — pH 6.8…7.5<br>
+          Гашене вапно Ca(OH)₂ — 1.0…1.5% (100…150 г на 10 кг) — лужна пастеризація
+        </div>
+      </div>
+      <!-- Калькулятор G2-4-2 -->
+      <div style="background:#101325;border:0.5px solid #00E5CC33;border-radius:8px;padding:12px 14px;margin-bottom:10px">
+        <div style="font-family:'Oxanium',monospace;font-size:10px;color:#00E5CC;margin-bottom:8px;letter-spacing:2px">🔢 КАЛЬКУЛЯТОР</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px;margin-bottom:8px">
+          <div>
+            <label style="font-size:11px;color:#90a0cc;display:block;margin-bottom:3px">M<sub>сух</sub> — маса сухої сировини (кг)</label>
+            <input id="g24c2m" type="number" value="10" min="0.1" step="0.1" style="width:100%;background:#0d0e1a;border:0.5px solid #2e3a6e;border-radius:6px;padding:7px 10px;color:#fff;font-size:13px;font-family:'Inter',sans-serif">
+          </div>
+          <div>
+            <label style="font-size:11px;color:#90a0cc;display:block;margin-bottom:3px">Компонент</label>
+            <select id="g24c2t" style="width:100%;background:#0d0e1a;border:0.5px solid #2e3a6e;border-radius:6px;padding:7px 10px;color:#fff;font-size:13px;font-family:'Inter',sans-serif">
+              <option value="gypsum" selected>Гіпс (CaSO₄·2H₂O) — 2.5%</option>
+              <option value="chalk">Крейда (CaCO₃) — 1.5%</option>
+              <option value="lime">Гашене вапно Ca(OH)₂ — 1.25%</option>
+            </select>
+          </div>
+        </div>
+        <button onclick="calcG24C2()" style="background:linear-gradient(135deg,#00E5CC22,#00E5CC11);border:0.5px solid #00E5CC;border-radius:6px;padding:8px 20px;color:#00E5CC;font-family:'Oxanium',monospace;font-size:12px;cursor:pointer;letter-spacing:1px">РОЗРАХУВАТИ</button>
+        <div id="g24c2res" style="margin-top:10px;display:none">
+          <div style="background:#0a1f1a;border:0.5px solid #00E5CC44;border-radius:6px;padding:10px 14px">
+            <div style="font-size:11px;color:#69F0AE;margin-bottom:4px;font-family:'Oxanium',monospace">РЕЗУЛЬТАТ:</div>
+            <div id="g24c2res-text" style="font-size:14px;color:#fff;line-height:1.7"></div>
+          </div>
+        </div>
+      </div>
+      <!-- Небезпека -->
+      <div style="background:#1a0a0a;border:0.5px solid #FF5252aa;border-radius:8px;padding:10px 14px;margin-bottom:10px">
+        <div style="font-size:12px;color:#FF7070;margin-bottom:4px">⚠️ Техніка безпеки</div>
+        <div style="font-size:11px;color:#c09090;line-height:1.65">
+          <b>Гашене вапно Ca(OH)₂:</b> Використовувати лише при гарячій гідротермічній обробці. Розчин з pH 10…12 — подразнює шкіру та очі, працювати в рукавичках.<br>
+          <b>Не плутати з негашеним вапном (CaO)!</b> Негашене вапно бурхливо реагує з водою з виділенням тепла, може спричинити термічні та хімічні опіки.<br>
+          <b>Респіратор:</b> При роботі з порошковими добавками (крейда, гіпс, вапно) використовуйте пиловий респіратор.
+        </div>
+      </div>
+      <!-- Інструкція -->
+      <div style="font-size:11px;color:#90a0cc;line-height:1.8">
+        <div style="font-family:'Oxanium',monospace;font-size:10px;color:#7080b8;letter-spacing:2px;margin-bottom:4px">ПОКРОКОВА ІНСТРУКЦІЯ:</div>
+        <b style="color:#c0d0f0">Крок 1:</b> Зважте суху сировину перед замочуванням.<br>
+        <b style="color:#c0d0f0">Крок 2:</b> Розрахуйте дозу добавки за калькулятором або таблицею норм.<br>
+        <b style="color:#c0d0f0">Крок 3:</b> Рівномірно розподіліть порошок по поверхні сировини перед зволоженням.<br>
+        <b style="color:#c0d0f0">Крок 4:</b> Ретельно перемішайте субстрат для рівномірного розподілу добавки.<br>
+        <b style="color:#c0d0f0">Крок 5:</b> Додайте воду та проведіть пастеризацію згідно з обраною технологією.
+        <div style="margin-top:6px;background:#0d1525;border-left:2px solid #69F0AE;padding:6px 10px;border-radius:0 4px 4px 0">
+          <b style="color:#69F0AE">Приклад (10 кг сухої соломи, гіпс 2.5%):</b><br>
+          M<sub>гіпсу</sub> = 10 × 2.5 / 100 = <b style="color:#fff">250 г</b><br>
+          Додати 250 г гіпсу рівномірно до 10 кг сухої соломи перед зволоженням.
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== CALC G2-4-3: Норма внесення міцелію ===== -->
+    <div class="item-card" style="margin-bottom:10px">
+      <div class="item-card-text" style="font-size:13px;font-weight:600;color:#00E5CC;margin-bottom:6px">🌱 Розрахунок норми внесення міцелію</div>
+      <div class="item-card-text" style="margin-bottom:8px"><b style="color:#c0d0f0">Призначення:</b> Визначення оптимальної кількості посівного матеріалу (зернового або агарового міцелію) на масу готового зволоженого субстрату для інокуляції (посіву).</div>
+      <div class="item-card-text" style="margin-bottom:8px"><b style="color:#c0d0f0">Суть:</b> Швидкість обрастання субстрату прямо залежить від кількості точок росту. Чим швидше міцелій освоїть блок, тим менше шансів у патогенних мікроорганізмів (плесеней, бактерій) розвинутися в субстраті.</div>
+      <div style="background:#0d1120;border:0.5px solid #1e3060;border-radius:8px;padding:12px 14px;margin-bottom:10px">
+        <div style="font-family:'Oxanium',monospace;font-size:11px;color:#69F0AE;margin-bottom:6px">ФОРМУЛА:</div>
+        <div style="font-size:14px;color:#fff;margin-bottom:8px"><b>M<sub>міцелію</sub> = M<sub>звол.субстрату</sub> × %<sub>внесення</sub> / 100</b></div>
+        <div style="font-size:11px;color:#90a0cc;line-height:1.7">
+          M<sub>звол.субстрату</sub> — маса зволоженого (готового) субстрату (кг)<br>
+          %<sub>внесення</sub> — норма внесення міцелію (%)
+        </div>
+        <div style="margin-top:8px;font-size:11px;color:#7080b8;line-height:1.7">
+          <b style="color:#c0d0f0">Норми зернового міцелію:</b><br>
+          Глива (на соломі/лушпинні) — 3.0…5.0% від маси зволоженого субстрату<br>
+          Печериця (на компості) — 0.5…0.7% від маси компосту<br>
+          Шиїтаке / Енокі (на тирсі) — 3.0…7.0% від маси зволоженого субстрату
+        </div>
+      </div>
+      <!-- Калькулятор G2-4-3 -->
+      <div style="background:#101325;border:0.5px solid #00E5CC33;border-radius:8px;padding:12px 14px;margin-bottom:10px">
+        <div style="font-family:'Oxanium',monospace;font-size:10px;color:#00E5CC;margin-bottom:8px;letter-spacing:2px">🔢 КАЛЬКУЛЯТОР</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px;margin-bottom:8px">
+          <div>
+            <label style="font-size:11px;color:#90a0cc;display:block;margin-bottom:3px">M<sub>субстрату</sub> — маса зволоженого субстрату (кг)</label>
+            <input id="g24c3m" type="number" value="30" min="0.1" step="0.1" style="width:100%;background:#0d0e1a;border:0.5px solid #2e3a6e;border-radius:6px;padding:7px 10px;color:#fff;font-size:13px;font-family:'Inter',sans-serif">
+          </div>
+          <div>
+            <label style="font-size:11px;color:#90a0cc;display:block;margin-bottom:3px">Вид гриба (норма внесення)</label>
+            <select id="g24c3t" style="width:100%;background:#0d0e1a;border:0.5px solid #2e3a6e;border-radius:6px;padding:7px 10px;color:#fff;font-size:13px;font-family:'Inter',sans-serif">
+              <option value="4" selected>Глива — 4%</option>
+              <option value="3">Глива (мін.) — 3%</option>
+              <option value="5">Глива (макс.) — 5%</option>
+              <option value="0.6">Печериця — 0.6%</option>
+              <option value="5">Шиїтаке — 5%</option>
+              <option value="7">Шиїтаке (макс.) — 7%</option>
+            </select>
+          </div>
+        </div>
+        <button onclick="calcG24C3()" style="background:linear-gradient(135deg,#00E5CC22,#00E5CC11);border:0.5px solid #00E5CC;border-radius:6px;padding:8px 20px;color:#00E5CC;font-family:'Oxanium',monospace;font-size:12px;cursor:pointer;letter-spacing:1px">РОЗРАХУВАТИ</button>
+        <div id="g24c3res" style="margin-top:10px;display:none">
+          <div style="background:#0a1f1a;border:0.5px solid #00E5CC44;border-radius:6px;padding:10px 14px">
+            <div style="font-size:11px;color:#69F0AE;margin-bottom:4px;font-family:'Oxanium',monospace">РЕЗУЛЬТАТ:</div>
+            <div id="g24c3res-text" style="font-size:14px;color:#fff;line-height:1.7"></div>
+          </div>
+        </div>
+      </div>
+      <!-- Небезпека -->
+      <div style="background:#1a0a0a;border:0.5px solid #FF5252aa;border-radius:8px;padding:10px 14px;margin-bottom:10px">
+        <div style="font-size:12px;color:#FF7070;margin-bottom:4px">⚠️ Техніка безпеки</div>
+        <div style="font-size:11px;color:#c09090;line-height:1.65">
+          <b>Стерильність:</b> Інокуляцію проводити при температурі субстрату не вище 28…30°C — вищі температури вбивають міцелій.<br>
+          <b>Гігієна:</b> Працювати в чистих рукавичках, протерти поверхню спиртом 70%. Будь-яке контамінування (зелена або чорна пліснява) — утилізувати блок.<br>
+          <b>Зберігання міцелію:</b> Зерновий міцелій зберігати при +2…+5°C. При кімнатній температурі він проростає в пакеті протягом 3…5 днів.
+        </div>
+      </div>
+      <!-- Інструкція -->
+      <div style="font-size:11px;color:#90a0cc;line-height:1.8">
+        <div style="font-family:'Oxanium',monospace;font-size:10px;color:#7080b8;letter-spacing:2px;margin-bottom:4px">ПОКРОКОВА ІНСТРУКЦІЯ:</div>
+        <b style="color:#c0d0f0">Крок 1:</b> Переконайтесь, що субстрат пройшов пастеризацію та охолов до 25…28°C.<br>
+        <b style="color:#c0d0f0">Крок 2:</b> Зважте зволожений субстрат.<br>
+        <b style="color:#c0d0f0">Крок 3:</b> Розрахуйте дозу міцелію за формулою або калькулятором.<br>
+        <b style="color:#c0d0f0">Крок 4:</b> Розкришіть зерновий міцелій руками в чистих рукавичках, не допускаючи грудок.<br>
+        <b style="color:#c0d0f0">Крок 5:</b> Рівномірно перемішайте міцелій із субстратом пошарово (субстрат — міцелій — субстрат).<br>
+        <b style="color:#c0d0f0">Крок 6:</b> Щільно упакуйте в поліетиленові мішки з перфорацією (отвори ∅10 мм через 10…15 см).
+        <div style="margin-top:6px;background:#0d1525;border-left:2px solid #69F0AE;padding:6px 10px;border-radius:0 4px 4px 0">
+          <b style="color:#69F0AE">Приклад (30 кг субстрату, глива 4%):</b><br>
+          M<sub>міцелію</sub> = 30 × 4 / 100 = <b style="color:#fff">1.2 кг</b><br>
+          Рівномірно внести 1.2 кг зернового міцелію на 30 кг субстрату.
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== CALC G2-4-4: Співвідношення C:N для компостування ===== -->
+    <div class="item-card" style="margin-bottom:10px">
+      <div class="item-card-text" style="font-size:13px;font-weight:600;color:#00E5CC;margin-bottom:6px">♻️ Розрахунок співвідношення C:N для прискореного компостування</div>
+      <div class="item-card-text" style="margin-bottom:8px"><b style="color:#c0d0f0">Призначення:</b> Підбір та пропорціонування компонентів компостної купи (вуглецевовмісних «коричневих» та азотовмісних «зелених» матеріалів) для оптимізації термофільної ферментації.</div>
+      <div class="item-card-text" style="margin-bottom:8px"><b style="color:#c0d0f0">Суть:</b> Аеробні компостуючі бактерії та гриби використовують вуглець (C) як джерело енергії, а азот (N) — для синтезу білків і побудови нових клітин. Оптимальне C:N = 25:1…30:1. При C:N &gt; 40:1 (перевага тирси, соломи) — процес різко уповільнюється, купа не розігрівається. При C:N &lt; 15:1 (надлишок гною, сечовини) — азот виділяється у вигляді аміаку (NH₃) з їдким запахом.</div>
+      <div style="background:#0d1120;border:0.5px solid #1e3060;border-radius:8px;padding:12px 14px;margin-bottom:10px">
+        <div style="font-family:'Oxanium',monospace;font-size:11px;color:#69F0AE;margin-bottom:6px">ФОРМУЛА (для двох компонентів):</div>
+        <div style="font-size:14px;color:#fff;margin-bottom:8px"><b>(C:N)<sub>суміш</sub> = (M₁×C₁ + M₂×C₂) / (M₁×N₁ + M₂×N₂)</b></div>
+        <div style="font-size:11px;color:#90a0cc;line-height:1.7">
+          M₁, M₂ — маси компонентів (кг)<br>
+          C₁, C₂ — вміст вуглецю в кожному компоненті (%)<br>
+          N₁, N₂ — вміст азоту в кожному компоненті (%)
+        </div>
+        <div style="margin-top:8px;font-size:11px;color:#7080b8;line-height:1.7">
+          <b style="color:#c0d0f0">Таблиця C:N матеріалів:</b><br>
+          Солома пшенична — C:N 80:1, N 0.6% (коричневі)<br>
+          Тирса листяна — C:N 400…500:1, N 0.1% (коричневі)<br>
+          Сухе листя — C:N 50…60:1, N 0.9% (коричневі)<br>
+          Картон/Папір — C:N 350…400:1, N 0.2% (коричневі)<br>
+          Скошена трава — C:N 15…20:1, N 2.5% (зелені)<br>
+          Курячий послід — C:N 10…12:1, N 3.5…4.5% (зелені)<br>
+          Гній ВРХ — C:N 20…25:1, N 1.5…2.0% (зелені)<br>
+          Харчові відходи — C:N 15…20:1, N 2.0% (зелені)
+        </div>
+        <div style="margin-top:6px;font-size:11px;color:#7080b8">
+          <b style="color:#c0d0f0">Правило об'ємного змішування:</b> 2–3 частини «коричневих» на 1 частину «зелених» ≈ C:N 30:1
+        </div>
+      </div>
+      <!-- Калькулятор G2-4-4 -->
+      <div style="background:#101325;border:0.5px solid #00E5CC33;border-radius:8px;padding:12px 14px;margin-bottom:10px">
+        <div style="font-family:'Oxanium',monospace;font-size:10px;color:#00E5CC;margin-bottom:8px;letter-spacing:2px">🔢 КАЛЬКУЛЯТОР</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px;margin-bottom:8px">
+          <div>
+            <label style="font-size:11px;color:#90a0cc;display:block;margin-bottom:3px">Компонент 1 (коричневий)</label>
+            <select id="g24c4t1" style="width:100%;background:#0d0e1a;border:0.5px solid #2e3a6e;border-radius:6px;padding:7px 10px;color:#fff;font-size:13px;font-family:'Inter',sans-serif">
+              <option value="80_0.6" selected>Солома пшенична (C:N 80:1)</option>
+              <option value="450_0.1">Тирса листяна (C:N 450:1)</option>
+              <option value="55_0.9">Сухе листя (C:N 55:1)</option>
+              <option value="375_0.2">Картон/Папір (C:N 375:1)</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size:11px;color:#90a0cc;display:block;margin-bottom:3px">M₁ — маса компонента 1 (кг)</label>
+            <input id="g24c4m1" type="number" value="30" min="0.1" step="0.1" style="width:100%;background:#0d0e1a;border:0.5px solid #2e3a6e;border-radius:6px;padding:7px 10px;color:#fff;font-size:13px;font-family:'Inter',sans-serif">
+          </div>
+          <div>
+            <label style="font-size:11px;color:#90a0cc;display:block;margin-bottom:3px">Компонент 2 (зелений)</label>
+            <select id="g24c4t2" style="width:100%;background:#0d0e1a;border:0.5px solid #2e3a6e;border-radius:6px;padding:7px 10px;color:#fff;font-size:13px;font-family:'Inter',sans-serif">
+              <option value="17.5_2.5" selected>Скошена трава (C:N 17.5:1)</option>
+              <option value="11_4.0">Курячий послід (C:N 11:1)</option>
+              <option value="22.5_1.75">Гній ВРХ (C:N 22.5:1)</option>
+              <option value="17.5_2.0">Харчові відходи (C:N 17.5:1)</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size:11px;color:#90a0cc;display:block;margin-bottom:3px">M₂ — маса компонента 2 (кг)</label>
+            <input id="g24c4m2" type="number" value="15" min="0.1" step="0.1" style="width:100%;background:#0d0e1a;border:0.5px solid #2e3a6e;border-radius:6px;padding:7px 10px;color:#fff;font-size:13px;font-family:'Inter',sans-serif">
+          </div>
+        </div>
+        <button onclick="calcG24C4()" style="background:linear-gradient(135deg,#00E5CC22,#00E5CC11);border:0.5px solid #00E5CC;border-radius:6px;padding:8px 20px;color:#00E5CC;font-family:'Oxanium',monospace;font-size:12px;cursor:pointer;letter-spacing:1px">РОЗРАХУВАТИ</button>
+        <div id="g24c4res" style="margin-top:10px;display:none">
+          <div style="background:#0a1f1a;border:0.5px solid #00E5CC44;border-radius:6px;padding:10px 14px">
+            <div style="font-size:11px;color:#69F0AE;margin-bottom:4px;font-family:'Oxanium',monospace">РЕЗУЛЬТАТ:</div>
+            <div id="g24c4res-text" style="font-size:14px;color:#fff;line-height:1.7"></div>
+          </div>
+        </div>
+      </div>
+      <!-- Небезпека -->
+      <div style="background:#1a0a0a;border:0.5px solid #FF5252aa;border-radius:8px;padding:10px 14px;margin-bottom:10px">
+        <div style="font-size:12px;color:#FF7070;margin-bottom:4px">⚠️ Техніка безпеки</div>
+        <div style="font-size:11px;color:#c09090;line-height:1.65">
+          <b>Аміак (NH₃):</b> При надлишку азотних компонентів (C:N &lt; 15:1) виділяється їдкий аміак — працюйте на відкритому повітрі або у провітрюваному приміщенні.<br>
+          <b>Температура купи:</b> У термофільній фазі (55…70°C) — не занурюйте руки без захисних рукавичок, ризик термічних опіків.<br>
+          <b>Біологічна небезпека:</b> Свіжий курячий послід може містити сальмонелу та кишкову паличку — працювати в рукавичках, мити руки після роботи.
+        </div>
+      </div>
+      <!-- Інструкція -->
+      <div style="font-size:11px;color:#90a0cc;line-height:1.8">
+        <div style="font-family:'Oxanium',monospace;font-size:10px;color:#7080b8;letter-spacing:2px;margin-bottom:4px">ПОКРОКОВА ІНСТРУКЦІЯ:</div>
+        <b style="color:#c0d0f0">Крок 1:</b> Визначте наявні матеріали та їх C:N за таблицею.<br>
+        <b style="color:#c0d0f0">Крок 2:</b> Зважте кожен компонент окремо.<br>
+        <b style="color:#c0d0f0">Крок 3:</b> Розрахуйте підсумковий C:N за формулою або калькулятором. Ціль — 25:1…30:1.<br>
+        <b style="color:#c0d0f0">Крок 4:</b> Подрібніть великі фракції (солому — до 5…10 см, гілки — до 2…3 см) для прискорення розкладання.<br>
+        <b style="color:#c0d0f0">Крок 5:</b> Пошарово укладіть купу: шар коричневих 15…20 см → шар зелених 5…10 см → повторити.<br>
+        <b style="color:#c0d0f0">Крок 6:</b> Зволожте купу до 50…60% вологості. Перевертайте купу кожні 5…7 днів.
+        <div style="margin-top:6px;background:#0d1525;border-left:2px solid #69F0AE;padding:6px 10px;border-radius:0 4px 4px 0">
+          <b style="color:#69F0AE">Правило:</b> 2–3 об'ємні частини «коричневих» на 1 частину «зелених» ≈ C:N 30:1. Купа має розігрітися до 55…65°C за 3…5 днів — це ознака правильної пропорції.
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== CALC G2-4-5: Розкислення компосту та вермикультури ===== -->
+    <div class="item-card" style="margin-bottom:10px">
+      <div class="item-card-text" style="font-size:13px;font-weight:600;color:#00E5CC;margin-bottom:6px">🪱 Норма доломітового борошна/попелу для розкислення компосту та вермикультури</div>
+      <div class="item-card-text" style="margin-bottom:8px"><b style="color:#c0d0f0">Призначення:</b> Нейтралізація надлишкової кислотності компостної маси та субстрату для дощових/каліфорнійських хробаків (Eisenia fetida).</div>
+      <div class="item-card-text" style="margin-bottom:8px"><b style="color:#c0d0f0">Суть:</b> На початкових стадіях розкладання органіки аеробні бактерії виділяють органічні кислоти (оцтову, молочну, масляну), що знижує pH до 4.5…5.5. Для аеробного компостування необхідний pH 6.5…8.0. Для вермикультури зниження pH &lt; 6.0 є смертельним (білковий отруєння та «кислотний пронос» у червів). Доломітове борошно (CaCO₃·MgCO₃) — м'який розкислювач, збагачує Mg. Деревний попіл — швидкодіючий, багатий на K і P. Крейда (CaCO₃) — стандартний розкислювач.</div>
+      <div style="background:#0d1120;border:0.5px solid #1e3060;border-radius:8px;padding:12px 14px;margin-bottom:10px">
+        <div style="font-family:'Oxanium',monospace;font-size:11px;color:#69F0AE;margin-bottom:6px">ФОРМУЛА:</div>
+        <div style="font-size:14px;color:#fff;margin-bottom:8px"><b>M<sub>розкислювача</sub> = V<sub>компосту</sub> × Норма (кг/м³)</b></div>
+        <div style="font-size:11px;color:#90a0cc;line-height:1.7">
+          V<sub>компосту</sub> — об'єм компосту або субстрату (м³)<br>
+          Норма — стандартна або підвищена (при pH &lt; 5.0) доза (кг/м³)
+        </div>
+        <div style="margin-top:8px;font-size:11px;color:#7080b8;line-height:1.7">
+          <b style="color:#c0d0f0">Норми внесення на 1 м³:</b><br>
+          Доломітове борошно — 2.0…3.0 кг/м³ (стандарт) | 4.0…5.0 кг/м³ (pH &lt; 5.0)<br>
+          Деревний попіл — 1.5…2.5 кг/м³ (стандарт) | 3.0…4.0 кг/м³ (pH &lt; 5.0)<br>
+          Крейда мелена — 1.5…2.0 кг/м³ (стандарт) | 3.0 кг/м³ (pH &lt; 5.0)
+        </div>
+      </div>
+      <!-- Калькулятор G2-4-5 -->
+      <div style="background:#101325;border:0.5px solid #00E5CC33;border-radius:8px;padding:12px 14px;margin-bottom:10px">
+        <div style="font-family:'Oxanium',monospace;font-size:10px;color:#00E5CC;margin-bottom:8px;letter-spacing:2px">🔢 КАЛЬКУЛЯТОР</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px;margin-bottom:8px">
+          <div>
+            <label style="font-size:11px;color:#90a0cc;display:block;margin-bottom:3px">V — об'єм компосту/субстрату (м³)</label>
+            <input id="g24c5v" type="number" value="1" min="0.01" step="0.01" style="width:100%;background:#0d0e1a;border:0.5px solid #2e3a6e;border-radius:6px;padding:7px 10px;color:#fff;font-size:13px;font-family:'Inter',sans-serif">
+          </div>
+          <div>
+            <label style="font-size:11px;color:#90a0cc;display:block;margin-bottom:3px">Розкислювач</label>
+            <select id="g24c5t" style="width:100%;background:#0d0e1a;border:0.5px solid #2e3a6e;border-radius:6px;padding:7px 10px;color:#fff;font-size:13px;font-family:'Inter',sans-serif">
+              <option value="dolomite" selected>Доломітове борошно</option>
+              <option value="ash">Деревний попіл</option>
+              <option value="chalk">Крейда мелена</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size:11px;color:#90a0cc;display:block;margin-bottom:3px">Кислотність</label>
+            <select id="g24c5ph" style="width:100%;background:#0d0e1a;border:0.5px solid #2e3a6e;border-radius:6px;padding:7px 10px;color:#fff;font-size:13px;font-family:'Inter',sans-serif">
+              <option value="normal" selected>Стандартна (pH 5.0…6.5)</option>
+              <option value="high">Висока кислотність (pH &lt; 5.0)</option>
+            </select>
+          </div>
+        </div>
+        <button onclick="calcG24C5()" style="background:linear-gradient(135deg,#00E5CC22,#00E5CC11);border:0.5px solid #00E5CC;border-radius:6px;padding:8px 20px;color:#00E5CC;font-family:'Oxanium',monospace;font-size:12px;cursor:pointer;letter-spacing:1px">РОЗРАХУВАТИ</button>
+        <div id="g24c5res" style="margin-top:10px;display:none">
+          <div style="background:#0a1f1a;border:0.5px solid #00E5CC44;border-radius:6px;padding:10px 14px">
+            <div style="font-size:11px;color:#69F0AE;margin-bottom:4px;font-family:'Oxanium',monospace">РЕЗУЛЬТАТ:</div>
+            <div id="g24c5res-text" style="font-size:14px;color:#fff;line-height:1.7"></div>
+          </div>
+        </div>
+      </div>
+      <!-- Небезпека -->
+      <div style="background:#1a0a0a;border:0.5px solid #FF5252aa;border-radius:8px;padding:10px 14px;margin-bottom:10px">
+        <div style="font-size:12px;color:#FF7070;margin-bottom:4px">⚠️ Техніка безпеки</div>
+        <div style="font-size:11px;color:#c09090;line-height:1.65">
+          <b>🚨 НІКОЛИ не використовуйте негашене вапно (CaO) для вермикультури!</b> Воно викликає важкі хімічні опіки та загибель червів!<br>
+          <b>Поступовість:</b> Додавайте розкислювачі (доломітку або крейду) невеликими порціями за 1–2 тижні до заселення хробаків, ретельно перемішуючи та зволожуючи субстрат.<br>
+          <b>Респіратор:</b> При розсипанні порошкових розкислювачів використовуйте пиловий респіратор.
+        </div>
+      </div>
+      <!-- Інструкція -->
+      <div style="font-size:11px;color:#90a0cc;line-height:1.8">
+        <div style="font-family:'Oxanium',monospace;font-size:10px;color:#7080b8;letter-spacing:2px;margin-bottom:4px">ПОКРОКОВА ІНСТРУКЦІЯ:</div>
+        <b style="color:#c0d0f0">Крок 1:</b> Визначте об'єм компосту/субстрату (довжина × ширина × висота купи або ємності).<br>
+        <b style="color:#c0d0f0">Крок 2:</b> Визначте поточну кислотність pH-метром або лакмусовим папірцем.<br>
+        <b style="color:#c0d0f0">Крок 3:</b> Оберіть розкислювач та розрахуйте дозу за калькулятором.<br>
+        <b style="color:#c0d0f0">Крок 4:</b> Рівномірно розсипте розкислювач по поверхні та ретельно перемішайте.<br>
+        <b style="color:#c0d0f0">Крок 5:</b> Зволожте субстрат до 60…70% вологості та залиште на 1–2 тижні для стабілізації pH.<br>
+        <b style="color:#c0d0f0">Крок 6:</b> Повторно виміряйте pH перед заселенням червів — має бути 6.5…7.5.
+        <div style="margin-top:6px;background:#0d1525;border-left:2px solid #69F0AE;padding:6px 10px;border-radius:0 4px 4px 0">
+          <b style="color:#69F0AE">Приклад (1 м³ компосту, доломітове борошно, стандарт):</b><br>
+          M = 1 × 2.5 = <b style="color:#fff">2.5 кг</b> доломітового борошна<br>
+          Рівномірно розподілити по об'єму, перемішати, зволожити.
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end subgroup 2.4 -->
 
   <div class="subgroup"><div class="subgroup-title">2.5 Птахівництво, тваринництво та кормоприготування</div><div class="item-list">
     <div class="item-card"><div class="item-card-text">Втрата маси яєць під час інкубації (% вологості по вікам); дезінфекція інкубаторів (марганцівка, пероксид); протеїновий та енергетичний баланс комбікорму (матриця Пірсона)</div><span class="item-card-badge">📊 таблиця</span></div>
@@ -1595,7 +1987,7 @@ body{background:#0d0e1a;color:#ffffff;font-family:'Inter',sans-serif;min-height:
   <div class="subgroup"><div class="subgroup-title">2.6 Зберігання та обробка насіннєвого матеріалу</div><div class="item-list">
     <div class="item-card"><div class="item-card-text">Дозування стимуляторів росту та протруйників (KMnO₄, H₂O₂, бурштинова кислота); сольові розчини для калібрування насіння методом спливання</div><span class="item-card-badge">📐 формула</span></div>
   </div></div>
-  <div class="placeholder-notice"><span class="placeholder-notice-icon">🚧</span><div class="placeholder-notice-text">Калькулятори для підрозділів 2.4–2.6 у розробці.</div></div>
+  <div class="placeholder-notice"><span class="placeholder-notice-icon">🚧</span><div class="placeholder-notice-text">Калькулятори для підрозділів 2.5–2.6 у розробці.</div></div>
 </div>
 
 <!-- G3: ПРИБИРАННЯ -->
@@ -3555,10 +3947,343 @@ body{background:#0d0e1a;color:#ffffff;font-family:'Inter',sans-serif;min-height:
     <div class="item-card"><div class="item-card-text">Дозування біопрепаратів (ферменти та бактерії) для септика; розчини для консервації/розконсервації септика на зиму</div><span class="item-card-badge">📐 формула</span></div>
   </div></div>
 
-  <div class="subgroup"><div class="subgroup-title">9.2 Автономне опалення та клімат</div><div class="item-list">
-    <div class="item-card"><div class="item-card-text">Розведення пропіленгліколю або етиленгліколю водою під задану T замерзання системи опалення</div><span class="item-card-badge">🔢 калькулятор</span></div>
-    <div class="item-card"><div class="item-card-text">Теплотворна здатність дров (від вологості та виду деревини); теплотворна здатність вугілля, торфобрикету, паливних палет</div><span class="item-card-badge">📊 таблиця</span></div>
-  </div></div>
+  <div class="subgroup">
+    <div class="subgroup-title">9.2 Автономне опалення та клімат</div>
+
+    <!-- ===== CALC G9-1: Розведення гліколю ===== -->
+    <div class="item-card" style="margin-bottom:10px">
+      <div class="item-card-text" style="font-size:13px;font-weight:600;color:#00E5CC;margin-bottom:6px">🧪 Розведення пропіленгліколю або етиленгліколю водою для захисту системи опалення від замерзання</div>
+      <div class="item-card-text" style="margin-bottom:8px"><b style="color:#c0d0f0">Призначення:</b> Приготування незамерзаючого теплоносія (антифризу) заданої температури кристалізації для заповнення замкнутих систем опалення, теплових насосів та сонячних колекторів.</div>
+      <div class="item-card-text" style="margin-bottom:8px"><b style="color:#c0d0f0">Фізико-хімічна суть:</b> Водні розчини двоатомних спиртів (гліколів) мають температуру замерзання значно нижчу за чисту воду. При кристалізації розчин не розширюється (не розриває труби), а перетворюється на кашоподібний гель, не пошкоджуючи систему. Пропіленгліколь (C₃H₈O₂) — нетоксичний, рекомендований для двоконтурних котлів. Етиленгліколь (C₂H₆O₂) — <b style="color:#FF7070">сильна отрута</b> (смертельна доза 50–100 мл), заборонений для двоконтурних котлів та відкритих систем.</div>
+
+      <div style="background:#0d1120;border:0.5px solid #1e3060;border-radius:8px;padding:12px 14px;margin-bottom:10px">
+        <div style="font-family:'Oxanium',monospace;font-size:11px;color:#69F0AE;margin-bottom:6px">ФОРМУЛИ:</div>
+        <div style="font-size:14px;color:#fff;margin-bottom:4px"><b>V<sub>гліколь</sub> = V<sub>системи</sub> × C<sub>%</sub> / 100</b></div>
+        <div style="font-size:13px;color:#c0d0f0;margin-bottom:8px"><b>V<sub>вода</sub> = V<sub>системи</sub> − V<sub>гліколь</sub></b></div>
+        <div style="font-size:11px;color:#90a0cc;line-height:1.7">
+          V<sub>системи</sub> — загальний внутрішній об'єм системи опалення (л)<br>
+          C<sub>%</sub> — необхідна об'ємна концентрація гліколю (%) з таблиці<br>
+          V<sub>гліколь</sub> — необхідний об'єм концентрованого гліколю (л)<br>
+          V<sub>вода</sub> — необхідний об'єм дистильованої/знесоленої води (л)
+        </div>
+      </div>
+
+      <div style="background:#0d1120;border:0.5px solid #1e3060;border-radius:8px;padding:12px 14px;margin-bottom:10px">
+        <div style="font-family:'Oxanium',monospace;font-size:11px;color:#69F0AE;margin-bottom:6px">ТАБЛИЦЯ: ТЕМПЕРАТУРА ЗАМЕРЗАННЯ / КОНЦЕНТРАЦІЯ ГЛІКОЛЮ</div>
+        <div style="overflow-x:auto">
+          <table style="width:100%;border-collapse:collapse;font-size:11px;color:#c0d0f0">
+            <tr style="border-bottom:0.5px solid #1e224066">
+              <td style="padding:6px"><b style="color:#fff">T<sub>зам</sub>, °C</b></td>
+              <td style="text-align:center"><b style="color:#fff">Частка гліколю, %</b></td>
+              <td style="text-align:center"><b style="color:#fff">Вода на 100 л, л</b></td>
+              <td style="text-align:center"><b style="color:#fff">Гліколь на 100 л, л</b></td>
+              <td style="text-align:center"><b style="color:#fff">ρ при +20°C, г/см³</b></td>
+            </tr>
+            <tr style="border-bottom:0.5px solid #1e224066"><td style="padding:6px">−10</td><td style="text-align:center">25</td><td style="text-align:center">75</td><td style="text-align:center">25</td><td style="text-align:center">1.023</td></tr>
+            <tr style="border-bottom:0.5px solid #1e224066"><td style="padding:6px">−15</td><td style="text-align:center">33</td><td style="text-align:center">67</td><td style="text-align:center">33</td><td style="text-align:center">1.032</td></tr>
+            <tr style="border-bottom:0.5px solid #1e224066"><td style="padding:6px">−20</td><td style="text-align:center">40</td><td style="text-align:center">60</td><td style="text-align:center">40</td><td style="text-align:center">1.040</td></tr>
+            <tr style="border-bottom:0.5px solid #1e224066"><td style="padding:6px">−25</td><td style="text-align:center">44</td><td style="text-align:center">56</td><td style="text-align:center">44</td><td style="text-align:center">1.045</td></tr>
+            <tr style="border-bottom:0.5px solid #1e224066"><td style="padding:6px">−30</td><td style="text-align:center">48</td><td style="text-align:center">52</td><td style="text-align:center">48</td><td style="text-align:center">1.050</td></tr>
+            <tr style="border-bottom:0.5px solid #1e224066"><td style="padding:6px">−35</td><td style="text-align:center">52</td><td style="text-align:center">48</td><td style="text-align:center">52</td><td style="text-align:center">1.055</td></tr>
+            <tr><td style="padding:6px">−40</td><td style="text-align:center">56</td><td style="text-align:center">44</td><td style="text-align:center">56</td><td style="text-align:center">1.060</td></tr>
+          </table>
+        </div>
+        <div style="font-size:10px;color:#7080b8;margin-top:6px">Примітка: гліколь розводять виключно дистильованою або знесоленою водою (жорсткість &lt; 5 мг-екв/л) для запобігання утворенню накипу.</div>
+      </div>
+
+      <!-- Калькулятор G9-1 -->
+      <div style="background:#101325;border:0.5px solid #00E5CC33;border-radius:8px;padding:12px 14px;margin-bottom:10px">
+        <div style="font-family:'Oxanium',monospace;font-size:10px;color:#00E5CC;margin-bottom:8px;letter-spacing:2px">🔢 КАЛЬКУЛЯТОР</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px;margin-bottom:8px">
+          <div>
+            <label style="font-size:11px;color:#90a0cc;display:block;margin-bottom:3px">Об'єм системи опалення (л)</label>
+            <input id="g9c1vol" type="number" value="150" min="10" max="5000" step="10" style="width:100%;background:#0d0e1a;border:0.5px solid #2e3a6e;border-radius:6px;padding:7px 10px;color:#fff;font-size:13px;font-family:'Inter',sans-serif">
+          </div>
+          <div>
+            <label style="font-size:11px;color:#90a0cc;display:block;margin-bottom:3px">Температура замерзання</label>
+            <select id="g9c1temp" style="width:100%;background:#0d0e1a;border:0.5px solid #2e3a6e;border-radius:6px;padding:7px 10px;color:#fff;font-size:13px;font-family:'Inter',sans-serif">
+              <option value="25">−10°C (25% гліколю)</option>
+              <option value="33">−15°C (33% гліколю)</option>
+              <option value="40">−20°C (40% гліколю)</option>
+              <option value="44" selected>−25°C (44% гліколю)</option>
+              <option value="48">−30°C (48% гліколю)</option>
+              <option value="52">−35°C (52% гліколю)</option>
+              <option value="56">−40°C (56% гліколю)</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size:11px;color:#90a0cc;display:block;margin-bottom:3px">Тип гліколю</label>
+            <select id="g9c1type" style="width:100%;background:#0d0e1a;border:0.5px solid #2e3a6e;border-radius:6px;padding:7px 10px;color:#fff;font-size:13px;font-family:'Inter',sans-serif">
+              <option value="propylene">Пропіленгліколь (безпечний)</option>
+              <option value="ethylene">Етиленгліколь (токсичний!)</option>
+            </select>
+          </div>
+        </div>
+        <button onclick="calcG9C1()" style="background:linear-gradient(135deg,#00E5CC22,#00E5CC11);border:0.5px solid #00E5CC;border-radius:6px;padding:8px 20px;color:#00E5CC;font-family:'Oxanium',monospace;font-size:12px;cursor:pointer;letter-spacing:1px">РОЗРАХУВАТИ</button>
+        <div id="g9c1res" style="margin-top:10px;display:none">
+          <div style="background:#0a1f1a;border:0.5px solid #00E5CC44;border-radius:6px;padding:10px 14px">
+            <div style="font-size:11px;color:#69F0AE;margin-bottom:4px;font-family:'Oxanium',monospace">РЕЗУЛЬТАТ:</div>
+            <div id="g9c1res-text" style="font-size:14px;color:#fff;line-height:1.7"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Небезпека -->
+      <div style="background:#1a0a0a;border:0.5px solid #FF5252aa;border-radius:8px;padding:10px 14px;margin-bottom:10px">
+        <div style="font-size:12px;color:#FF7070;margin-bottom:4px">⚠️ Техніка безпеки</div>
+        <div style="font-size:11px;color:#c09090;line-height:1.65">
+          <b>Етиленгліколь — смертельно отруйний!</b> Смертельна доза для людини — 50–100 мл. Категорично заборонений для двоконтурних котлів та відкритих систем. При роботі — рукавички та захисні окуляри.<br>
+          <b>В'язкість та розширення:</b> Гліколеві розчини мають у 2–3 рази вищу в'язкість і на 50% більший коефіцієнт теплового розширення за воду. Розширювальний бак має бути більшим на 40–50% порівняно з водяним.<br>
+          <b>Текучість:</b> Гліколеві розчини мають менший поверхневий натяг за воду — легко проникають через мікротріщини. Усі нарізні з'єднання — ущільнювати стійкими герметиками.<br>
+          <b>Антикорозійні присадки:</b> Чистий гліколь за високих температур окислюється з утворенням кислот. Обов'язково додавати 3–5% антикорозійних та антивспінювальних присадок (інгібіторів корозії).
+        </div>
+      </div>
+
+      <!-- Інструкція -->
+      <div style="font-size:11px;color:#90a0cc;line-height:1.8">
+        <div style="font-family:'Oxanium',monospace;font-size:10px;color:#7080b8;letter-spacing:2px;margin-bottom:4px">ПОКРОКОВА ІНСТРУКЦІЯ:</div>
+        <b style="color:#c0d0f0">Крок 1:</b> Визначте загальний внутрішній об'єм системи опалення (паспорт котла + розрахунок труб та радіаторів).<br>
+        <b style="color:#c0d0f0">Крок 2:</b> За таблицею визначте необхідну концентрацію гліколю для бажаної T замерзання.<br>
+        <b style="color:#c0d0f0">Крок 3:</b> Розрахуйте об'єм гліколю та дистильованої води за формулами.<br>
+        <b style="color:#c0d0f0">Крок 4:</b> У чистій ємності змішайте гліколь з дистильованою водою (жорсткість &lt; 5 мг-екв/л).<br>
+        <b style="color:#c0d0f0">Крок 5:</b> Додайте 3–5% антикорозійних присадок (інгібіторів корозії).<br>
+        <b style="color:#c0d0f0">Крок 6:</b> Заповніть систему через зливний кран або спеціальний насос, видаліть повітря з радіаторів.
+        <div style="margin-top:6px;background:#0d1525;border-left:2px solid #69F0AE;padding:6px 10px;border-radius:0 4px 4px 0">
+          <b style="color:#69F0AE">Практичний приклад (V<sub>системи</sub> = 150 л, захист до −25°C, пропіленгліколь):</b><br>
+          З таблиці: C = 44%<br>
+          V<sub>гліколь</sub> = 150 × 44 / 100 = <b style="color:#fff">66 л</b> пропіленгліколю<br>
+          V<sub>вода</sub> = 150 − 66 = <b style="color:#fff">84 л</b> дистильованої води
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== CALC G9-2: Теплотворна здатність дров ===== -->
+    <div class="item-card" style="margin-bottom:10px">
+      <div class="item-card-text" style="font-size:13px;font-weight:600;color:#00E5CC;margin-bottom:6px">🔥 Теплотворна здатність дров залежно від вологості та породи деревини</div>
+      <div class="item-card-text" style="margin-bottom:8px"><b style="color:#c0d0f0">Призначення:</b> Обчислення дійсної нижчої теплоти згоряння деревини залежно від відносної вологості та вибір оптимального палива за вагою або об'ємом (складометрами).</div>
+      <div class="item-card-text" style="margin-bottom:8px"><b style="color:#c0d0f0">Фізико-хімічна суть:</b> Абсолютно суха деревина будь-якої породи має майже однаковий хімічний склад (≈50% C, 6% H, 44% O) і однакову теплотворність ≈18.5 МДж/кг (5.14 кВт·год/кг). Волога у сирих дровах знижує ефективність: зменшує частку паливної маси та витрачає значну частину енергії на випаровування (≈2.26 МДж на 1 кг води).</div>
+
+      <div style="background:#0d1120;border:0.5px solid #1e3060;border-radius:8px;padding:12px 14px;margin-bottom:10px">
+        <div style="font-family:'Oxanium',monospace;font-size:11px;color:#69F0AE;margin-bottom:6px">ФОРМУЛА МЕНДЕЛЄЄВА (для деревини):</div>
+        <div style="font-size:14px;color:#fff;margin-bottom:4px"><b>Q<sub>i</sub><sup>r</sup> = Q<sub>i</sub><sup>d</sup> × (1 − W/100) − 0.0244 × W</b> <span style="color:#90a0cc;font-size:11px">[МДж/кг]</span></div>
+        <div style="font-size:13px;color:#c0d0f0;margin-bottom:8px"><b>Q<sub>i</sub><sup>r</sup> = 5.14 × (1 − W/100) − 0.00678 × W</b> <span style="color:#90a0cc;font-size:11px">[кВт·год/кг]</span></div>
+        <div style="font-size:11px;color:#90a0cc;line-height:1.7">
+          Q<sub>i</sub><sup>r</sup> — нижча теплота згоряння робочого палива<br>
+          Q<sub>i</sub><sup>d</sup> — теплота згоряння абсолютно сухої деревини (≈18.5 МДж/кг)<br>
+          W — відносна вологість деревини (%)
+        </div>
+      </div>
+
+      <div style="background:#0d1120;border:0.5px solid #1e3060;border-radius:8px;padding:12px 14px;margin-bottom:10px">
+        <div style="font-family:'Oxanium',monospace;font-size:11px;color:#69F0AE;margin-bottom:6px">ТАБЛИЦЯ: ТЕПЛОТВОРНІСТЬ ДРОВ РІЗНОЇ ВОЛОГОСТІ</div>
+        <div style="overflow-x:auto">
+          <table style="width:100%;border-collapse:collapse;font-size:11px;color:#c0d0f0">
+            <tr style="border-bottom:0.5px solid #1e224066">
+              <td style="padding:6px"><b style="color:#fff">Стан дров</b></td>
+              <td style="text-align:center"><b style="color:#fff">W, %</b></td>
+              <td style="text-align:center"><b style="color:#fff">Q, МДж/кг</b></td>
+              <td style="text-align:center"><b style="color:#fff">Q, кВт·год/кг</b></td>
+              <td style="text-align:center"><b style="color:#fff">Ефективність</b></td>
+            </tr>
+            <tr style="border-bottom:0.5px solid #1e224066"><td style="padding:6px">Абсолютно сухі (камерна сушка)</td><td style="text-align:center">0</td><td style="text-align:center">18.5</td><td style="text-align:center">5.14</td><td style="text-align:center">100%</td></tr>
+            <tr style="border-bottom:0.5px solid #1e224066"><td style="padding:6px">Сухі приміщення (2 роки)</td><td style="text-align:center">15</td><td style="text-align:center">15.3</td><td style="text-align:center">4.25</td><td style="text-align:center">83%</td></tr>
+            <tr style="border-bottom:0.5px solid #1e224066"><td style="padding:6px">Повітряно-сухі (навіс, 1 рік)</td><td style="text-align:center">20</td><td style="text-align:center">14.3</td><td style="text-align:center">3.97</td><td style="text-align:center">77%</td></tr>
+            <tr style="border-bottom:0.5px solid #1e224066"><td style="padding:6px">Напівсухі (4–6 місяців)</td><td style="text-align:center">35</td><td style="text-align:center">11.2</td><td style="text-align:center">3.11</td><td style="text-align:center">60%</td></tr>
+            <tr style="border-bottom:0.5px solid #1e224066"><td style="padding:6px">Свіжозрубані</td><td style="text-align:center">50</td><td style="text-align:center">8.0</td><td style="text-align:center">2.22</td><td style="text-align:center">43%</td></tr>
+            <tr><td style="padding:6px">Сплавні / мокрі</td><td style="text-align:center">60</td><td style="text-align:center">6.0</td><td style="text-align:center">1.67</td><td style="text-align:center">32%</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div style="background:#0d1120;border:0.5px solid #1e3060;border-radius:8px;padding:12px 14px;margin-bottom:10px">
+        <div style="font-family:'Oxanium',monospace;font-size:11px;color:#69F0AE;margin-bottom:6px">ТАБЛИЦЯ: ГУСТИНИ ТА ОБ'ЄМНА ТЕПЛОТВОРНІСТЬ ПОРІД (W=20%)</div>
+        <div style="overflow-x:auto">
+          <table style="width:100%;border-collapse:collapse;font-size:11px;color:#c0d0f0">
+            <tr style="border-bottom:0.5px solid #1e224066">
+              <td style="padding:6px"><b style="color:#fff">Порода</b></td>
+              <td style="text-align:center"><b style="color:#fff">ρ, кг/м³</b></td>
+              <td style="text-align:center"><b style="color:#fff">кВт·год/скл.м</b></td>
+              <td style="text-align:center"><b style="color:#fff">≈ л дизпалива</b></td>
+            </tr>
+            <tr style="border-bottom:0.5px solid #1e224066"><td style="padding:6px">Граб</td><td style="text-align:center">750</td><td style="text-align:center">2100</td><td style="text-align:center">≈210</td></tr>
+            <tr style="border-bottom:0.5px solid #1e224066"><td style="padding:6px">Дуб черешчатий</td><td style="text-align:center">690</td><td style="text-align:center">1930</td><td style="text-align:center">≈193</td></tr>
+            <tr style="border-bottom:0.5px solid #1e224066"><td style="padding:6px">Ясень / Бук</td><td style="text-align:center">680</td><td style="text-align:center">1900</td><td style="text-align:center">≈190</td></tr>
+            <tr style="border-bottom:0.5px solid #1e224066"><td style="padding:6px">Береза</td><td style="text-align:center">630</td><td style="text-align:center">1750</td><td style="text-align:center">≈175</td></tr>
+            <tr style="border-bottom:0.5px solid #1e224066"><td style="padding:6px">Сосна</td><td style="text-align:center">500</td><td style="text-align:center">1400</td><td style="text-align:center">≈140</td></tr>
+            <tr><td style="padding:6px">Вільха / Осіна</td><td style="text-align:center">450</td><td style="text-align:center">1250</td><td style="text-align:center">≈125</td></tr>
+          </table>
+        </div>
+        <div style="font-size:10px;color:#7080b8;margin-top:6px">1 складометр (скл.м) = штабель 1×1×1 м з порожнечами. Коефіцієнт повнодеревності для колотих дров ≈ 0.70 (1 скл.м ≈ 0.7 м³ суцільної деревини).</div>
+      </div>
+
+      <!-- Калькулятор G9-2 -->
+      <div style="background:#101325;border:0.5px solid #00E5CC33;border-radius:8px;padding:12px 14px;margin-bottom:10px">
+        <div style="font-family:'Oxanium',monospace;font-size:10px;color:#00E5CC;margin-bottom:8px;letter-spacing:2px">🔢 КАЛЬКУЛЯТОР ТЕПЛОТВОРНОСТІ ДРОВ</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px;margin-bottom:8px">
+          <div>
+            <label style="font-size:11px;color:#90a0cc;display:block;margin-bottom:3px">Вологість деревини W (%)</label>
+            <select id="g9c2w" style="width:100%;background:#0d0e1a;border:0.5px solid #2e3a6e;border-radius:6px;padding:7px 10px;color:#fff;font-size:13px;font-family:'Inter',sans-serif">
+              <option value="0">0% — абсолютно сухі (камерна сушка)</option>
+              <option value="15">15% — сухі приміщення (2 роки)</option>
+              <option value="20" selected>20% — повітряно-сухі (навіс, 1 рік)</option>
+              <option value="35">35% — напівсухі (4–6 місяців)</option>
+              <option value="50">50% — свіжозрубані</option>
+              <option value="60">60% — сплавні / мокрі</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size:11px;color:#90a0cc;display:block;margin-bottom:3px">Потреба тепла (кВт·год)</label>
+            <input id="g9c2need" type="number" value="4000" min="100" max="100000" step="100" style="width:100%;background:#0d0e1a;border:0.5px solid #2e3a6e;border-radius:6px;padding:7px 10px;color:#fff;font-size:13px;font-family:'Inter',sans-serif">
+          </div>
+          <div>
+            <label style="font-size:11px;color:#90a0cc;display:block;margin-bottom:3px">ККД котла (%)</label>
+            <input id="g9c2eff" type="number" value="80" min="50" max="98" step="1" style="width:100%;background:#0d0e1a;border:0.5px solid #2e3a6e;border-radius:6px;padding:7px 10px;color:#fff;font-size:13px;font-family:'Inter',sans-serif">
+          </div>
+        </div>
+        <button onclick="calcG9C2()" style="background:linear-gradient(135deg,#00E5CC22,#00E5CC11);border:0.5px solid #00E5CC;border-radius:6px;padding:8px 20px;color:#00E5CC;font-family:'Oxanium',monospace;font-size:12px;cursor:pointer;letter-spacing:1px">РОЗРАХУВАТИ</button>
+        <div id="g9c2res" style="margin-top:10px;display:none">
+          <div style="background:#0a1f1a;border:0.5px solid #00E5CC44;border-radius:6px;padding:10px 14px">
+            <div style="font-size:11px;color:#69F0AE;margin-bottom:4px;font-family:'Oxanium',monospace">РЕЗУЛЬТАТ:</div>
+            <div id="g9c2res-text" style="font-size:14px;color:#fff;line-height:1.7"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Небезпека -->
+      <div style="background:#1a0a0a;border:0.5px solid #FF5252aa;border-radius:8px;padding:10px 14px;margin-bottom:10px">
+        <div style="font-size:12px;color:#FF7070;margin-bottom:4px">⚠️ Техніка безпеки</div>
+        <div style="font-size:11px;color:#c09090;line-height:1.65">
+          <b>Сажа та креозот:</b> Спалювання вологих дров (W &gt; 35%) призводить до інтенсивного осадження креозоту в димоході — загроза пожежі. Очищуйте димохід щонайменше 2 рази за опалювальний сезон.<br>
+          <b>Чадний газ (CO):</b> Закриття димової заслінки до повного згоряння вугілля призводить до отруєння CO — без запаху та кольору, смертельно небезпечний. Встановіть датчик CO.<br>
+          <b>Зберігання дров:</b> Колоті дрова сушіть у провітрюваному навісі щонайменше 12 місяців перед спалюванням.
+        </div>
+      </div>
+
+      <!-- Інструкція -->
+      <div style="font-size:11px;color:#90a0cc;line-height:1.8">
+        <div style="font-family:'Oxanium',monospace;font-size:10px;color:#7080b8;letter-spacing:2px;margin-bottom:4px">ПОКРОКОВА ІНСТРУКЦІЯ:</div>
+        <b style="color:#c0d0f0">Крок 1:</b> Визначте вологість дров (за часом сушки або вологоміром).<br>
+        <b style="color:#c0d0f0">Крок 2:</b> З таблиці або формули визначте теплотворність Q (кВт·год/кг).<br>
+        <b style="color:#c0d0f0">Крок 3:</b> Визначте потрібну кількість тепла з урахуванням ККД котла.<br>
+        <b style="color:#c0d0f0">Крок 4:</b> Розрахуйте необхідну масу дров: M = E<sub>потреба</sub> / (Q × η).<br>
+        <b style="color:#c0d0f0">Крок 5:</b> Перерахуйте на складометри, якщо потрібно: скл.м = M / (ρ × 0.70).
+        <div style="margin-top:6px;background:#0d1525;border-left:2px solid #69F0AE;padding:6px 10px;border-radius:0 4px 4px 0">
+          <b style="color:#69F0AE">Практичний приклад (4000 кВт·год, ККД=80%, дуб):</b><br>
+          E<sub>палива</sub> = 4000 / 0.8 = 5000 кВт·год<br>
+          а) W=20%: M = 5000 / 3.97 ≈ <b style="color:#fff">1259 кг</b> (≈2.6 скл.м дубу)<br>
+          б) W=50%: M = 5000 / 2.22 ≈ <b style="color:#fff">2252 кг</b> — на 80% більше, підвищена сажа та креозот
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== CALC G9-3: Теплотворність вугілля, торфобрикетів, пелет ===== -->
+    <div class="item-card" style="margin-bottom:10px">
+      <div class="item-card-text" style="font-size:13px;font-weight:600;color:#00E5CC;margin-bottom:6px">⚖️ Порівняння теплотворності вугілля, торфобрикетів та паливних пелет</div>
+      <div class="item-card-text" style="margin-bottom:8px"><b style="color:#c0d0f0">Призначення:</b> Порівняльний розрахунок теплотворних характеристик та собівартості 1 кВт·год тепла для різних видів твердого палива.</div>
+      <div class="item-card-text" style="margin-bottom:8px"><b style="color:#c0d0f0">Фізико-хімічна суть:</b> Антрацит (75–95% C) має найвищу питому теплоту згоряння серед твердого палива, але підвищену зольність. Торфобрикети — помірна теплотворність, висока зольність (10–15%), тривалий час тління. Паливні пелети — спресована деревина/лушпиння, завдяки низькій вологості (6–9%) наближаються за теплотворністю до вугілля при мінімальній зольності.</div>
+
+      <div style="background:#0d1120;border:0.5px solid #1e3060;border-radius:8px;padding:12px 14px;margin-bottom:10px">
+        <div style="font-family:'Oxanium',monospace;font-size:11px;color:#69F0AE;margin-bottom:6px">ПОРІВНЯЛЬНА ТАБЛИЦЯ ВИДІВ ПАЛИВА</div>
+        <div style="overflow-x:auto">
+          <table style="width:100%;border-collapse:collapse;font-size:11px;color:#c0d0f0">
+            <tr style="border-bottom:0.5px solid #1e224066">
+              <td style="padding:6px"><b style="color:#fff">Вид палива</b></td>
+              <td style="text-align:center"><b style="color:#fff">W, %</b></td>
+              <td style="text-align:center"><b style="color:#fff">Зола, %</b></td>
+              <td style="text-align:center"><b style="color:#fff">Q, МДж/кг</b></td>
+              <td style="text-align:center"><b style="color:#fff">Q, кВт·год/кг</b></td>
+            </tr>
+            <tr style="border-bottom:0.5px solid #1e224066"><td style="padding:6px">Антрацит (АМ/АО)</td><td style="text-align:center">5–7</td><td style="text-align:center">10–15</td><td style="text-align:center">27.0–30.0</td><td style="text-align:center">7.50–8.33</td></tr>
+            <tr style="border-bottom:0.5px solid #1e224066"><td style="padding:6px">Кам'яне вугілля (ДГО/Г)</td><td style="text-align:center">8–12</td><td style="text-align:center">15–25</td><td style="text-align:center">21.0–24.0</td><td style="text-align:center">5.83–6.67</td></tr>
+            <tr style="border-bottom:0.5px solid #1e224066"><td style="padding:6px">Пелети з лушпиння соняшника</td><td style="text-align:center">7–9</td><td style="text-align:center">3–5</td><td style="text-align:center">18.5–20.0</td><td style="text-align:center">5.14–5.56</td></tr>
+            <tr style="border-bottom:0.5px solid #1e224066"><td style="padding:6px">Деревні пелети / брикети (DIN+)</td><td style="text-align:center">6–8</td><td style="text-align:center">0.5–1.5</td><td style="text-align:center">17.5–19.0</td><td style="text-align:center">4.86–5.28</td></tr>
+            <tr style="border-bottom:0.5px solid #1e224066"><td style="padding:6px">Торфобрикети</td><td style="text-align:center">15–18</td><td style="text-align:center">12–18</td><td style="text-align:center">14.0–15.5</td><td style="text-align:center">3.89–4.30</td></tr>
+            <tr style="border-bottom:0.5px solid #1e224066"><td style="padding:6px">Буре вугілля</td><td style="text-align:center">20–30</td><td style="text-align:center">20–30</td><td style="text-align:center">12.0–14.0</td><td style="text-align:center">3.33–3.89</td></tr>
+            <tr><td style="padding:6px">Дрова сухі (W=20%)</td><td style="text-align:center">20</td><td style="text-align:center">1</td><td style="text-align:center">14.3</td><td style="text-align:center">3.97</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div style="background:#0d1120;border:0.5px solid #1e3060;border-radius:8px;padding:12px 14px;margin-bottom:10px">
+        <div style="font-family:'Oxanium',monospace;font-size:11px;color:#69F0AE;margin-bottom:6px">ФОРМУЛА ВАРТОСТІ 1 кВт·год ТЕПЛА:</div>
+        <div style="font-size:14px;color:#fff;margin-bottom:4px"><b>C<sub>кВт·год</sub> = P<sub>кг</sub> / (Q<sub>i</sub><sup>r</sup> × η<sub>котла</sub>)</b></div>
+        <div style="font-size:11px;color:#90a0cc;line-height:1.7">
+          C<sub>кВт·год</sub> — собівартість 1 кВт·год корисного тепла (грн/кВт·год)<br>
+          P<sub>кг</sub> — вартість 1 кг палива (грн/кг)<br>
+          Q<sub>i</sub><sup>r</sup> — теплотворна здатність палива (кВт·год/кг)<br>
+          η<sub>котла</sub> — ККД котла у частках (наприклад 0.75)
+        </div>
+      </div>
+
+      <!-- Калькулятор G9-3 -->
+      <div style="background:#101325;border:0.5px solid #00E5CC33;border-radius:8px;padding:12px 14px;margin-bottom:10px">
+        <div style="font-family:'Oxanium',monospace;font-size:10px;color:#00E5CC;margin-bottom:8px;letter-spacing:2px">🔢 КАЛЬКУЛЯТОР СОБІВАРТОСТІ ТЕПЛА</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px;margin-bottom:8px">
+          <div>
+            <label style="font-size:11px;color:#90a0cc;display:block;margin-bottom:3px">Вид палива</label>
+            <select id="g9c3fuel" style="width:100%;background:#0d0e1a;border:0.5px solid #2e3a6e;border-radius:6px;padding:7px 10px;color:#fff;font-size:13px;font-family:'Inter',sans-serif">
+              <option value="7.92">Антрацит (7.92 кВт·год/кг)</option>
+              <option value="6.25">Кам'яне вугілля (6.25 кВт·год/кг)</option>
+              <option value="5.35">Пелети соняшника (5.35 кВт·год/кг)</option>
+              <option value="5.07">Деревні пелети/брикети (5.07 кВт·год/кг)</option>
+              <option value="4.10">Торфобрикети (4.10 кВт·год/кг)</option>
+              <option value="3.61">Буре вугілля (3.61 кВт·год/кг)</option>
+              <option value="3.97">Дрова сухі W=20% (3.97 кВт·год/кг)</option>
+              <option value="0">Інше (ввести вручну)</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size:11px;color:#90a0cc;display:block;margin-bottom:3px">Q палива (кВт·год/кг) — якщо «Інше»</label>
+            <input id="g9c3q" type="number" value="5.07" min="0.5" max="15" step="0.01" style="width:100%;background:#0d0e1a;border:0.5px solid #2e3a6e;border-radius:6px;padding:7px 10px;color:#fff;font-size:13px;font-family:'Inter',sans-serif">
+          </div>
+          <div>
+            <label style="font-size:11px;color:#90a0cc;display:block;margin-bottom:3px">Ціна палива (грн/кг)</label>
+            <input id="g9c3price" type="number" value="8.00" min="0.1" max="100" step="0.1" style="width:100%;background:#0d0e1a;border:0.5px solid #2e3a6e;border-radius:6px;padding:7px 10px;color:#fff;font-size:13px;font-family:'Inter',sans-serif">
+          </div>
+          <div>
+            <label style="font-size:11px;color:#90a0cc;display:block;margin-bottom:3px">ККД котла (%)</label>
+            <input id="g9c3eff" type="number" value="75" min="50" max="98" step="1" style="width:100%;background:#0d0e1a;border:0.5px solid #2e3a6e;border-radius:6px;padding:7px 10px;color:#fff;font-size:13px;font-family:'Inter',sans-serif">
+          </div>
+        </div>
+        <button onclick="calcG9C3()" style="background:linear-gradient(135deg,#00E5CC22,#00E5CC11);border:0.5px solid #00E5CC;border-radius:6px;padding:8px 20px;color:#00E5CC;font-family:'Oxanium',monospace;font-size:12px;cursor:pointer;letter-spacing:1px">РОЗРАХУВАТИ</button>
+        <div id="g9c3res" style="margin-top:10px;display:none">
+          <div style="background:#0a1f1a;border:0.5px solid #00E5CC44;border-radius:6px;padding:10px 14px">
+            <div style="font-size:11px;color:#69F0AE;margin-bottom:4px;font-family:'Oxanium',monospace">РЕЗУЛЬТАТ:</div>
+            <div id="g9c3res-text" style="font-size:14px;color:#fff;line-height:1.7"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Небезпека -->
+      <div style="background:#1a0a0a;border:0.5px solid #FF5252aa;border-radius:8px;padding:10px 14px;margin-bottom:10px">
+        <div style="font-size:12px;color:#FF7070;margin-bottom:4px">⚠️ Техніка безпеки</div>
+        <div style="font-size:11px;color:#c09090;line-height:1.65">
+          <b>Вугільний пил:</b> Дрібні фракції кам'яного вугілля вибухонебезпечні — зберігати у провітрюваному приміщенні, не допускати скупчення пилу.<br>
+          <b>Зола антрациту:</b> Містить важкі метали та радіонукліди — утилізувати відповідально, не розсипати на город.<br>
+          <b>Торфобрикети:</b> Схильні до самозаймання при тривалому зберіганні великими штабелями — забезпечити вентиляцію.<br>
+          <b>Пелети:</b> Зберігати в сухому місці (вологість понад 15% — втрата якості, розбухання, пліснява).
+        </div>
+      </div>
+
+      <!-- Інструкція -->
+      <div style="font-size:11px;color:#90a0cc;line-height:1.8">
+        <div style="font-family:'Oxanium',monospace;font-size:10px;color:#7080b8;letter-spacing:2px;margin-bottom:4px">ПОКРОКОВА ІНСТРУКЦІЯ:</div>
+        <b style="color:#c0d0f0">Крок 1:</b> Визначте потрібну кількість тепла для опалення за сезон / місяць (кВт·год).<br>
+        <b style="color:#c0d0f0">Крок 2:</b> Визначте ККД вашого котла (паспортні дані).<br>
+        <b style="color:#c0d0f0">Крок 3:</b> З таблиці виберіть доступні види палива та їхню теплотворність.<br>
+        <b style="color:#c0d0f0">Крок 4:</b> Дізнайтеся актуальні ціни палива у вашому регіоні (грн/кг).<br>
+        <b style="color:#c0d0f0">Крок 5:</b> Розрахуйте собівартість 1 кВт·год для кожного виду за формулою.<br>
+        <b style="color:#c0d0f0">Крок 6:</b> Порівняйте — врахуйте також зольність, зручність подачі та екологічність.
+        <div style="margin-top:6px;background:#0d1525;border-left:2px solid #69F0AE;padding:6px 10px;border-radius:0 4px 4px 0">
+          <b style="color:#69F0AE">Практичний приклад (брикети 8.00 грн/кг, Q=4.9 кВт·год/кг vs вугілля 11.00 грн/кг, Q=6.2 кВт·год/кг, ККД=75%):</b><br>
+          C<sub>брикети</sub> = 8.00 / (4.9 × 0.75) = 8.00 / 3.675 ≈ <b style="color:#fff">2.18 грн/кВт·год</b><br>
+          C<sub>вугілля</sub> = 11.00 / (6.2 × 0.75) = 11.00 / 4.65 ≈ <b style="color:#fff">2.37 грн/кВт·год</b><br>
+          Висновок: брикети на ≈8% дешевші, значно менше золи та відсутність їдкого диму.
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end subgroup 9.2 -->
 
   <div class="subgroup"><div class="subgroup-title">9.3 Холодоагенти та кліматичне обладнання</div><div class="item-list">
     <div class="item-card"><div class="item-card-text">Маса заправки фреону (R134a, R410a, R32) за тиском та температурою; об'єм компресорного масла при заміні; точка роси та відносна вологість для запобігання конденсату в підвалі</div><span class="item-card-badge">📐 формула</span></div>
@@ -4549,6 +5274,141 @@ function calcG3C3() {
     '<span style="color:#FF9800">⚠️ Лити пергідроль у воду! Лише дистильована вода!</span>';
 }
 
+
+// ===== G2-4: ГРИБНИЦТВО, КОМПОСТУВАННЯ ТА БІОГУМУС =====
+
+// G2-4-C1: Вологість субстрату
+function calcG24C1() {
+  var m = parseFloat(document.getElementById('g24c1m').value);
+  var wp = parseFloat(document.getElementById('g24c1wp').value);
+  var wt = parseFloat(document.getElementById('g24c1wt').value);
+  var res = document.getElementById('g24c1res');
+  var txt = document.getElementById('g24c1res-text');
+  res.style.display = 'block';
+  if (isNaN(m)||m<=0||isNaN(wp)||wp<0||wp>=100||isNaN(wt)||wt<=0||wt>=100) {
+    txt.innerHTML = '<span style="color:#FF7070">Помилка: перевірте введені значення.</span>'; return;
+  }
+  if (wt <= wp) {
+    txt.innerHTML = '<span style="color:#FF7070">Помилка: цільова вологість має бути більшою за початкову.</span>'; return;
+  }
+  var vWater = m * (wt / (100 - wt) - wp / (100 - wp));
+  var mTotal = m + vWater;
+  var assessment = '';
+  if (wt >= 64 && wt <= 70) assessment = '<span style="color:#69F0AE">✓ Оптимально для гливи/печериці</span>';
+  else if (wt >= 55 && wt <= 63) assessment = '<span style="color:#69F0AE">✓ Оптимально для шиїтаке</span>';
+  else if (wt > 75) assessment = '<span style="color:#FF9800">⚠️ Ризик перезволоження — можливе закисання!</span>';
+  else assessment = '<span style="color:#4FC3F7">ℹ️ Перевірте оптимум для обраного виду гриба</span>';
+  txt.innerHTML =
+    'Необхідний об\'єм води: <b style="color:#69F0AE">' + vWater.toFixed(2) + ' л</b><br>' +
+    'Загальна маса зволоженого субстрату: <b style="color:#69F0AE">' + mTotal.toFixed(2) + ' кг</b><br>' +
+    'Вихідна суха маса: <b>' + m + ' кг</b> | W<sub>поч</sub>: ' + wp + '% → W<sub>ціль</sub>: ' + wt + '%<br>' +
+    assessment + '<br>' +
+    '<span style="color:#90a0cc;font-size:12px">Експрес-тест: стисніть субстрат у кулаці — краплі між пальцями є, але цівкою не тече.</span>';
+}
+
+// G2-4-C2: Дозування гіпсу/крейди/вапна
+function calcG24C2() {
+  var m = parseFloat(document.getElementById('g24c2m').value);
+  var t = document.getElementById('g24c2t').value;
+  var res = document.getElementById('g24c2res');
+  var txt = document.getElementById('g24c2res-text');
+  res.style.display = 'block';
+  if (isNaN(m)||m<=0) {
+    txt.innerHTML = '<span style="color:#FF7070">Помилка: введіть масу > 0.</span>'; return;
+  }
+  var name, pct, func;
+  if (t === 'gypsum') { name = 'Гіпс (CaSO₄·2H₂O)'; pct = 2.5; func = 'аерація, джерело Ca і S, запобігання грудкуванню'; }
+  else if (t === 'chalk') { name = 'Крейда (CaCO₃)'; pct = 1.5; func = 'підтримання pH 6.8…7.5, заповнення кальцієвого дефіциту'; }
+  else { name = 'Гашене вапно Ca(OH)₂'; pct = 1.25; func = 'захисна лужна пастеризація при гарячій замочці'; }
+  var dose = m * pct / 100;
+  txt.innerHTML =
+    name + ': <b style="color:#69F0AE">' + (dose * 1000).toFixed(0) + ' г (' + dose.toFixed(3) + ' кг)</b><br>' +
+    'Норма: <b>' + pct + '%</b> від сухої маси ' + m + ' кг<br>' +
+    'Функція: ' + func;
+}
+
+// G2-4-C3: Норма внесення міцелію
+function calcG24C3() {
+  var m = parseFloat(document.getElementById('g24c3m').value);
+  var pct = parseFloat(document.getElementById('g24c3t').value);
+  var res = document.getElementById('g24c3res');
+  var txt = document.getElementById('g24c3res-text');
+  res.style.display = 'block';
+  if (isNaN(m)||m<=0||isNaN(pct)||pct<=0) {
+    txt.innerHTML = '<span style="color:#FF7070">Помилка: введіть коректні значення.</span>'; return;
+  }
+  var mMyc = m * pct / 100;
+  txt.innerHTML =
+    'Необхідна маса міцелію: <b style="color:#69F0AE">' + mMyc.toFixed(2) + ' кг (' + (mMyc * 1000).toFixed(0) + ' г)</b><br>' +
+    'На <b>' + m + ' кг</b> зволоженого субстрату при нормі <b>' + pct + '%</b><br>' +
+    '<span style="color:#90a0cc;font-size:12px">Рівномірно розкришити та перемішати пошарово. Температура субстрату ≤ 28°C!</span>';
+}
+
+// G2-4-C4: Співвідношення C:N
+function calcG24C4() {
+  var t1 = document.getElementById('g24c4t1').value.split('_');
+  var t2 = document.getElementById('g24c4t2').value.split('_');
+  var m1 = parseFloat(document.getElementById('g24c4m1').value);
+  var m2 = parseFloat(document.getElementById('g24c4m2').value);
+  var res = document.getElementById('g24c4res');
+  var txt = document.getElementById('g24c4res-text');
+  res.style.display = 'block';
+  if (isNaN(m1)||m1<=0||isNaN(m2)||m2<=0) {
+    txt.innerHTML = '<span style="color:#FF7070">Помилка: введіть маси > 0.</span>'; return;
+  }
+  var cn1 = parseFloat(t1[0]);
+  var n1 = parseFloat(t1[1]);
+  var cn2 = parseFloat(t2[0]);
+  var n2 = parseFloat(t2[1]);
+  var c1 = cn1 * n1;
+  var c2 = cn2 * n2;
+  var cnMix = (m1 * c1 + m2 * c2) / (m1 * n1 + m2 * n2);
+  var assessment = '';
+  if (cnMix >= 25 && cnMix <= 35) assessment = '<span style="color:#69F0AE">✓ Оптимально для компостування (25:1…30:1)</span>';
+  else if (cnMix > 35 && cnMix <= 40) assessment = '<span style="color:#FF9800">⚠️ Трохи завищено — додайте більше «зелених» компонентів</span>';
+  else if (cnMix > 40) assessment = '<span style="color:#FF7070">❌ Занадто високий C:N — процес буде дуже повільним. Потрібно більше азотних матеріалів.</span>';
+  else if (cnMix >= 15 && cnMix < 25) assessment = '<span style="color:#FF9800">⚠️ Трохи занижено — можливий запах аміаку. Додайте «коричневих».</span>';
+  else assessment = '<span style="color:#FF7070">❌ Дуже низький C:N — сильні втрати азоту через аміак!</span>';
+  txt.innerHTML =
+    'C:N суміші: <b style="color:#69F0AE">' + cnMix.toFixed(1) + ' : 1</b><br>' +
+    'Загальна маса: <b>' + (m1 + m2).toFixed(1) + ' кг</b> (компонент 1: ' + m1 + ' кг + компонент 2: ' + m2 + ' кг)<br>' +
+    assessment;
+}
+
+// G2-4-C5: Розкислення компосту
+function calcG24C5() {
+  var v = parseFloat(document.getElementById('g24c5v').value);
+  var t = document.getElementById('g24c5t').value;
+  var ph = document.getElementById('g24c5ph').value;
+  var res = document.getElementById('g24c5res');
+  var txt = document.getElementById('g24c5res-text');
+  res.style.display = 'block';
+  if (isNaN(v)||v<=0) {
+    txt.innerHTML = '<span style="color:#FF7070">Помилка: введіть об\'єм > 0.</span>'; return;
+  }
+  var name, normMin, normMax;
+  if (t === 'dolomite') {
+    name = 'Доломітове борошно';
+    normMin = ph === 'high' ? 4.0 : 2.0;
+    normMax = ph === 'high' ? 5.0 : 3.0;
+  } else if (t === 'ash') {
+    name = 'Деревний попіл';
+    normMin = ph === 'high' ? 3.0 : 1.5;
+    normMax = ph === 'high' ? 4.0 : 2.5;
+  } else {
+    name = 'Крейда мелена';
+    normMin = ph === 'high' ? 3.0 : 1.5;
+    normMax = ph === 'high' ? 3.0 : 2.0;
+  }
+  var doseMin = v * normMin;
+  var doseMax = v * normMax;
+  var phLabel = ph === 'high' ? 'висока кислотність (pH < 5.0)' : 'стандартна (pH 5.0…6.5)';
+  txt.innerHTML =
+    name + ': <b style="color:#69F0AE">' + doseMin.toFixed(2) + '…' + doseMax.toFixed(2) + ' кг</b><br>' +
+    'На об\'єм: <b>' + v + ' м³</b> | Кислотність: ' + phLabel + '<br>' +
+    'Норма: ' + normMin + '…' + normMax + ' кг/м³<br>' +
+    '<span style="color:#FF9800">⚠️ Для вермикультури: внести за 1–2 тижні до заселення червів!</span>';
+}
 
 // ===== G2: САД, ГОРОД, БАСЕЙНИ, АКВАРІУМІСТИКА =====
 
@@ -5560,6 +6420,86 @@ function showPanel(id) {
   }
 
   window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ===== G9 CALCS: Автономне опалення ===== */
+
+function calcG9C1() {
+  var vol = parseFloat(document.getElementById('g9c1vol').value);
+  var conc = parseFloat(document.getElementById('g9c1temp').value);
+  var gtype = document.getElementById('g9c1type').value;
+  var res = document.getElementById('g9c1res');
+  var txt = document.getElementById('g9c1res-text');
+  if (isNaN(vol) || vol <= 0) { alert('Введіть коректний об\'єм системи'); return; }
+  var vGlycol = (vol * conc / 100).toFixed(1);
+  var vWater = (vol - parseFloat(vGlycol)).toFixed(1);
+  var tempMap = {25:'-10',33:'-15',40:'-20',44:'-25',48:'-30',52:'-35',56:'-40'};
+  var densMap = {25:'1.023',33:'1.032',40:'1.040',44:'1.045',48:'1.050',52:'1.055',56:'1.060'};
+  var tLabel = tempMap[conc] || conc;
+  var html = 'Об\'єм системи: <b>' + vol + ' л</b><br>';
+  html += 'Тип гліколю: <b>' + (gtype === 'propylene' ? 'Пропіленгліколь (безпечний)' : 'Етиленгліколь (⚠️ токсичний!)') + '</b><br>';
+  html += 'Температура замерзання: <b>' + tLabel + '°C</b> (концентрація ' + conc + '%)<br>';
+  html += 'Об\'єм гліколю 100%: <b style="color:#69F0AE">' + vGlycol + ' л</b><br>';
+  html += 'Об\'єм дистильованої води: <b style="color:#69F0AE">' + vWater + ' л</b><br>';
+  html += 'Густина розчину при +20°C: <b>' + (densMap[conc] || '—') + ' г/см³</b>';
+  if (gtype === 'ethylene') {
+    html += '<br><span style="color:#FF7070">⚠️ Етиленгліколь — смертельно отруйний! Заборонений для двоконтурних котлів та відкритих систем!</span>';
+  }
+  txt.innerHTML = html;
+  res.style.display = 'block';
+}
+
+function calcG9C2() {
+  var w = parseFloat(document.getElementById('g9c2w').value);
+  var need = parseFloat(document.getElementById('g9c2need').value);
+  var eff = parseFloat(document.getElementById('g9c2eff').value) / 100;
+  var res = document.getElementById('g9c2res');
+  var txt = document.getElementById('g9c2res-text');
+  if (isNaN(need) || need <= 0 || isNaN(eff) || eff <= 0) { alert('Введіть коректні дані'); return; }
+  var Qd = 18.5; // МДж/кг
+  var Qr_mj = Qd * (1 - w / 100) - 0.0244 * w;
+  var Qr_kwh = Qr_mj / 3.6;
+  var E_fuel = need / eff;
+  var mass = E_fuel / Qr_kwh;
+  var effPercent = (Qr_kwh / 5.14 * 100).toFixed(0);
+  var html = 'Вологість дров: <b>W = ' + w + '%</b><br>';
+  html += 'Теплотворність: <b>' + Qr_mj.toFixed(1) + ' МДж/кг</b> (' + Qr_kwh.toFixed(2) + ' кВт·год/кг)<br>';
+  html += 'Ефективність відносно сухих: <b>' + effPercent + '%</b><br>';
+  html += 'Потреба з урахуванням ККД (' + (eff * 100).toFixed(0) + '%): <b>' + E_fuel.toFixed(0) + ' кВт·год</b> від палива<br>';
+  html += 'Необхідна маса дров: <b style="color:#69F0AE">' + mass.toFixed(0) + ' кг</b>';
+  // перерахунок на породи
+  var breeds = [
+    {name:'Граб', rho:750}, {name:'Дуб', rho:690}, {name:'Ясень/Бук', rho:680},
+    {name:'Береза', rho:630}, {name:'Сосна', rho:500}, {name:'Вільха/Осіна', rho:450}
+  ];
+  html += '<br><br><span style="color:#7080b8;font-size:12px">Орієнтовна кількість складометрів (при W=' + w + '%):</span><br>';
+  for (var i = 0; i < breeds.length; i++) {
+    var sklm = mass / (breeds[i].rho * 0.70);
+    html += breeds[i].name + ': <b>' + sklm.toFixed(1) + ' скл.м</b> &nbsp; ';
+    if (i === 2) html += '<br>';
+  }
+  txt.innerHTML = html;
+  res.style.display = 'block';
+}
+
+function calcG9C3() {
+  var fuelSel = document.getElementById('g9c3fuel').value;
+  var qManual = parseFloat(document.getElementById('g9c3q').value);
+  var price = parseFloat(document.getElementById('g9c3price').value);
+  var eff = parseFloat(document.getElementById('g9c3eff').value) / 100;
+  var res = document.getElementById('g9c3res');
+  var txt = document.getElementById('g9c3res-text');
+  var q = parseFloat(fuelSel);
+  if (q === 0) q = qManual;
+  if (isNaN(q) || q <= 0 || isNaN(price) || price <= 0 || isNaN(eff) || eff <= 0) { alert('Введіть коректні дані'); return; }
+  var cost = price / (q * eff);
+  var html = 'Теплотворність палива: <b>' + q.toFixed(2) + ' кВт·год/кг</b><br>';
+  html += 'Ціна палива: <b>' + price.toFixed(2) + ' грн/кг</b><br>';
+  html += 'ККД котла: <b>' + (eff * 100).toFixed(0) + '%</b><br>';
+  html += 'Собівартість 1 кВт·год тепла: <b style="color:#69F0AE">' + cost.toFixed(2) + ' грн/кВт·год</b><br>';
+  html += '<span style="color:#7080b8;font-size:12px">Для порівняння: змініть вид палива та ціну, натисніть «РОЗРАХУВАТИ» повторно.</span>';
+  txt.innerHTML = html;
+  res.style.display = 'block';
 }
 </script>
 </body>
