@@ -10,7 +10,21 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Oxanium:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap');
+/* Oxanium — latin */
+@font-face{font-family:'Oxanium';font-style:normal;font-weight:400;font-display:swap;src:url('fonts/oxanium-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Oxanium';font-style:normal;font-weight:700;font-display:swap;src:url('fonts/oxanium-latin-700-normal.woff2') format('woff2')}
+@font-face{font-family:'Oxanium';font-style:normal;font-weight:900;font-display:swap;src:url('fonts/oxanium-latin-900-normal.woff2') format('woff2')}
+/* Inter — latin */
+@font-face{font-family:'Inter';font-style:normal;font-weight:300;font-display:swap;src:url('fonts/inter-latin-300-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-style:normal;font-weight:400;font-display:swap;src:url('fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-style:normal;font-weight:500;font-display:swap;src:url('fonts/inter-latin-500-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-style:normal;font-weight:600;font-display:swap;src:url('fonts/inter-latin-600-normal.woff2') format('woff2')}
+/* Inter — cyrillic */
+@font-face{font-family:'Inter';font-style:normal;font-weight:300;font-display:swap;src:url('fonts/inter-cyrillic-300-normal.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'Inter';font-style:normal;font-weight:400;font-display:swap;src:url('fonts/inter-cyrillic-400-normal.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'Inter';font-style:normal;font-weight:500;font-display:swap;src:url('fonts/inter-cyrillic-500-normal.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'Inter';font-style:normal;font-weight:600;font-display:swap;src:url('fonts/inter-cyrillic-600-normal.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:#0d0e1a;color:#ffffff;font-family:'Inter',sans-serif;min-height:100vh}
 .kr{font-family:'Inter',sans-serif;background:#0d0e1a;color:#ffffff;position:relative;max-width:1400px;margin:0 auto}
@@ -129,6 +143,11 @@ body{background:#0d0e1a;color:#ffffff;font-family:'Inter',sans-serif;min-height:
 .atom-canvas-box svg{width:100%;height:100%}
 .atom-pause-btn{position:absolute;bottom:8px;right:10px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:20px;color:#c0d0f0;font-size:13px;padding:3px 10px;cursor:pointer;display:flex;align-items:center;gap:5px;transition:background .15s,color .15s;line-height:1;user-select:none}
 .atom-pause-btn:hover{background:rgba(255,255,255,0.14);color:#fff}
+.atom-mode-btn{position:absolute;bottom:8px;left:10px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:20px;color:#c0d0f0;font-size:11px;padding:3px 10px;cursor:pointer;transition:background .15s,color .15s;line-height:1;user-select:none;font-family:'Oxanium',monospace;letter-spacing:0.5px}
+.atom-mode-btn:hover{background:rgba(255,255,255,0.14);color:#fff}
+.atom-legend{position:absolute;top:6px;left:50%;transform:translateX(-50%);display:flex;gap:8px;justify-content:center;flex-wrap:wrap;padding:4px 10px;background:rgba(10,11,21,0.75);border-radius:8px;z-index:2}
+.atom-legend span{font-size:9px;color:#7080b8;display:flex;align-items:center;gap:3px}
+.atom-legend .adot{width:8px;height:8px;border-radius:50%;display:inline-block}
 @media(max-width:600px){.atom-canvas-box{height:200px}}
 .modal-body{padding:18px 24px 24px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .mfield{background:#0f1020;border:0.5px solid #1e2240;border-radius:8px;padding:8px 10px}
@@ -706,6 +725,9 @@ select{color-scheme:dark}select option{background:#111224;color:#ffffff}
 .rx-section{margin-bottom:14px}
 .rx-section-head{font-family:'Oxanium',monospace;font-size:10px;letter-spacing:2px;color:#4FC3F7;text-transform:uppercase;margin-bottom:8px;padding:8px 12px;background:#0a0b15;border-radius:6px;display:flex;align-items:center;justify-content:space-between}
 .rx-section-count{font-size:9px;color:#90a0cc}
+.rx-fbtn{background:#141528;border:0.5px solid #1e2240;border-radius:4px;padding:3px 9px;font-size:11px;color:#c0d0f0;cursor:pointer;transition:all .15s;white-space:nowrap}
+.rx-fbtn:hover{border-color:#4FC3F7;color:#fff}
+.rx-fbtn.active{background:#1a2a50;border-color:#4FC3F7;color:#4FC3F7}
 .rx-list{display:flex;flex-direction:column;gap:3px}
 .rx-item{background:#13152a;border:0.5px solid #1c2040;border-radius:5px;padding:8px 12px;font-family:'Oxanium',monospace;font-size:12px;color:#ffffff;display:flex;align-items:center;gap:8px;cursor:pointer;transition:all .15s}
 .rx-item:hover{border-color:#4FC3F7;background:#1a2040;color:#ffffff}
@@ -1076,6 +1098,63 @@ select{color-scheme:dark}select option{background:#111224;color:#ffffff}
       <span class="rx-count">Показано <b id="rx-count">—</b></span>
     </div>
     <div class="rx-cats" id="rx-cats"></div>
+    <div id="rx-filter-panel" style="margin-bottom:14px;display:none">
+      <div style="margin-bottom:8px">
+        <div style="font-size:10px;color:#7080b8;margin-bottom:5px;font-family:'Oxanium',monospace;letter-spacing:1px">⚗️ ЕЛЕМЕНТИ</div>
+        <div id="rx-el-btns" style="display:flex;flex-wrap:wrap;gap:4px"></div>
+      </div>
+      <div style="margin-bottom:8px">
+        <div style="font-size:10px;color:#7080b8;margin-bottom:5px;font-family:'Oxanium',monospace;letter-spacing:1px">🧱 КЛАС СПОЛУК</div>
+        <div style="display:flex;flex-wrap:wrap;gap:4px">
+          <button class="rx-fbtn" data-axis="compounds" data-val="oxide">Оксид</button>
+          <button class="rx-fbtn" data-axis="compounds" data-val="acid">Кислота</button>
+          <button class="rx-fbtn" data-axis="compounds" data-val="base">Основа</button>
+          <button class="rx-fbtn" data-axis="compounds" data-val="salt">Сіль</button>
+          <button class="rx-fbtn" data-axis="compounds" data-val="water">Вода</button>
+          <button class="rx-fbtn" data-axis="compounds" data-val="elem_gas">Ел. газ</button>
+        </div>
+      </div>
+      <div style="margin-bottom:8px">
+        <div style="font-size:10px;color:#7080b8;margin-bottom:5px;font-family:'Oxanium',monospace;letter-spacing:1px">⚡ ПРОЦЕС</div>
+        <div style="display:flex;flex-wrap:wrap;gap:4px">
+          <button class="rx-fbtn" data-axis="processes" data-val="combustion">🔥 Горіння</button>
+          <button class="rx-fbtn" data-axis="processes" data-val="exothermic">♨️ Екзо</button>
+          <button class="rx-fbtn" data-axis="processes" data-val="endothermic">❄️ Ендо</button>
+          <button class="rx-fbtn" data-axis="processes" data-val="reversible">⇌ Зворотна</button>
+          <button class="rx-fbtn" data-axis="processes" data-val="dangerous">⚠️ Небезпечна</button>
+          <button class="rx-fbtn" data-axis="processes" data-val="hydrolysis">💧 Гідроліз</button>
+          <button class="rx-fbtn" data-axis="processes" data-val="neutralization">🧪 Нейтраліз.</button>
+          <button class="rx-fbtn" data-axis="processes" data-val="precipitation">⬇️ Осад</button>
+          <button class="rx-fbtn" data-axis="processes" data-val="photochemical">☀️ Фото</button>
+          <button class="rx-fbtn" data-axis="processes" data-val="catalytic">⚙️ Каталіз</button>
+          <button class="rx-fbtn" data-axis="processes" data-val="high_temp">🌡️ t°</button>
+          <button class="rx-fbtn" data-axis="processes" data-val="complex_formation">🔗 Комплекс</button>
+          <button class="rx-fbtn" data-axis="processes" data-val="polymerization">🔄 Полімер</button>
+          <button class="rx-fbtn" data-axis="processes" data-val="gas_release">💨 Газ↑</button>
+        </div>
+      </div>
+      <div style="margin-bottom:8px">
+        <div style="font-size:10px;color:#7080b8;margin-bottom:5px;font-family:'Oxanium',monospace;letter-spacing:1px">🔬 ГРУПА ПС</div>
+        <div style="display:flex;flex-wrap:wrap;gap:4px">
+          <button class="rx-fbtn" data-axis="groups" data-val="alkali">Лужні</button>
+          <button class="rx-fbtn" data-axis="groups" data-val="alkaline_earth">Лужноземельні</button>
+          <button class="rx-fbtn" data-axis="groups" data-val="transition_fe">Fe/Co/Ni</button>
+          <button class="rx-fbtn" data-axis="groups" data-val="transition_cu">Cu/Ag/Au</button>
+          <button class="rx-fbtn" data-axis="groups" data-val="transition_cr">Cr/Mo/W</button>
+          <button class="rx-fbtn" data-axis="groups" data-val="transition_mn">Mn</button>
+          <button class="rx-fbtn" data-axis="groups" data-val="transition_zn">Zn/Cd/Hg</button>
+          <button class="rx-fbtn" data-axis="groups" data-val="boron_group">B/Al</button>
+          <button class="rx-fbtn" data-axis="groups" data-val="carbon_group">C/Si/Pb</button>
+          <button class="rx-fbtn" data-axis="groups" data-val="nitrogen_group">N/P/As</button>
+          <button class="rx-fbtn" data-axis="groups" data-val="chalcogen">S/Se/Te</button>
+          <button class="rx-fbtn" data-axis="groups" data-val="halogen">Галогени</button>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;margin-top:6px">
+        <span id="rx-filter-count" style="font-size:11px;color:#4FC3F7;font-family:'Oxanium',monospace"></span>
+        <button id="rx-clear" style="font-size:10px;padding:3px 10px;background:#1e2240;border:0.5px solid #4FC3F7;border-radius:4px;color:#4FC3F7;cursor:pointer;display:none" onclick="rxClearFilters()">✕ Скинути</button>
+      </div>
+    </div>
     <div id="rx-list-wrap"></div>
     <!-- Red Flag popup -->
     <div class="rx-popup" id="rx-popup">
@@ -1807,6 +1886,8 @@ select{color-scheme:dark}select option{background:#111224;color:#ffffff}
   </div>
 </div>
 
+<script src="data/calc-registry.js"></script>
+<script src="data/pp-substances.js"></script>
 <script src="data/elements.js"></script>
 <script src="data/atom-animation.js"></script>
 
@@ -2798,391 +2879,7 @@ function injectFavCalcs() {
 
 // ============ ХАБ КАЛЬКУЛЯТОРІВ (аналог Таблиць) ============
 
-const CALC_GROUPS = [
-  {name:'Базові',           icon:'🔢'},
-  {name:'Будова речовини',  icon:'⚛️'},
-  {name:'Неорганіка',       icon:'🧱'},
-  {name:'Стехіометрія',     icon:'⚖️'},
-  {name:'Розчини',          icon:'💧'},
-  {name:'Термодинаміка',    icon:'🔥'},
-  {name:'Кінетика',         icon:'⚡'},
-  {name:'Електрохімія',     icon:'🔋'},
-  {name:'Органіка',         icon:'🧬'},
-  {name:'Аналітика',        icon:'🔬'},
-];
-
-// Реєстр всіх калькуляторів — аналог TABLES_REGISTRY
-const CALCS_REGISTRY = [
-  // ── Базові ──
-  {id:'molar',  title:'Молярна маса сполуки',      icon:'⚗️',  group:'Базові',
-   desc:'Введіть хімічну формулу — отримайте точну молярну масу в г/моль з розбивкою по елементах.',
-   action:()=>showPanel('molar')},
-  {id:'ph',     title:'Калькулятор pH',            icon:'🧪',  group:'Базові',
-   desc:'pH сильних і слабких кислот та основ. Ступінь дисоціації, pOH, Ka і Kb.',
-   action:()=>showPanel('ph')},
-  {id:'phplus', title:'pH розширений',             icon:'🌡️', group:'Базові',
-   desc:'pH буферних систем, двопротонних кислот. Рівняння Гендерсона-Гассельбаха.',
-   action:()=>showPanel('phplus')},
-  {id:'balance',title:'Балансування рівнянь',      icon:'⚖️',  group:'Базові',
-   desc:'Введіть рівняння хімічної реакції — система автоматично розставить коефіцієнти.',
-   action:()=>showPanel('balance')},
-
-  // ── Стехіометрія ──
-  {id:'R01', title:'Відносна атомна маса (ізотопи)',icon:'☢️', group:'Стехіометрія',
-   desc:'Середня атомна маса елемента через частки та маси ізотопів (до 4 ізотопів).',
-   action:()=>ccOpen('1-1-atom','isotope_avg_mass')},
-  {id:'R02', title:'Масова частка елемента ω%',    icon:'📊',  group:'Стехіометрія',
-   desc:'ω(E) = n·Ar(E)/Mr × 100%. Частка елемента за кількістю атомів і молярною масою.',
-   action:()=>ccOpen('1-2-periodic','mass_fraction_element')},
-  {id:'R03', title:'Найпростіша формула за ω%',   icon:'🧪',  group:'Стехіометрія',
-   desc:'Емпірична формула органічної сполуки з масових часток C, H, N, O.',
-   action:()=>ccOpen('5-1-organic-basics','empirical_formula')},
-  {id:'R04', title:'Відносна густина газу D',      icon:'💨',  group:'Стехіометрія',
-   desc:'D = M(A)/M(B). Відносна та абсолютна густина газу відносно водню, повітря чи будь-якого газу.',
-   action:()=>ccOpen('1-5-gases','gas_rel_density')},
-  {id:'R05', title:'Лімітуючий реагент',           icon:'🔬',  group:'Стехіометрія',
-   desc:'Визначає який реагент витратиться першим, надлишок іншого і теоретичну масу продукту.',
-   action:()=>ccOpen('2-3-p-elements','limiting_reagent')},
-  {id:'R06', title:'Вихід продукту η%',            icon:'🎯',  group:'Стехіометрія',
-   desc:'η = m_практ/m_теор × 100%. Ефективність синтезу через порівняння з теоретичним виходом.',
-   action:()=>ccOpen('2-3-p-elements','product_yield')},
-  {id:'R07', title:'Сировина з домішками χ%',      icon:'🏭',  group:'Стехіометрія',
-   desc:'Маса продукту з реальної сировини з урахуванням чистоти (χ%).',
-   action:()=>ccOpen('2-1-inorganic-classes','raw_material_purity')},
-  {id:'s01', title:'Теоретична маса продукту',     icon:'⚖️',  group:'Стехіометрія',
-   desc:'Маса продукту за масою реагента і стехіометрією реакції.',
-   action:()=>ccOpen('2-3-p-elements','V')},
-  {id:'s02', title:'Об\'єм газу за реакцією',      icon:'🫧',  group:'Стехіометрія',
-   desc:'Об\'єм газу (н.у.) з маси реагента і стехіометричних коефіцієнтів.',
-   action:()=>ccOpen('2-3-p-elements','P')},
-
-  // ── Будова атому і зв\'язок ──
-  {id:'a01', title:'Електронна конфігурація',      icon:'⚛️',  group:'Будова речовини',
-   desc:'Конфігурація атома за атомним номером Z: 1s²2s²2p⁶... Принцип Ауфбау.',
-   action:()=>ccOpen('1-1-atom','V')},
-  {id:'a02', title:'Квантові числа останнього e⁻', icon:'🔢',  group:'Будова речовини',
-   desc:'n, l, mₗ, mₛ для зовнішнього електрона атома за Z.',
-   action:()=>ccOpen('1-1-atom','P')},
-  {id:'a03', title:'Валентні електрони',           icon:'💡',  group:'Будова речовини',
-   desc:'Кількість валентних електронів атома за Z. Зв\'язок з групою і хімічними властивостями.',
-   action:()=>ccOpen('1-1-atom','n')},
-  {id:'a04', title:'Атомний радіус за Z',          icon:'📏',  group:'Будова речовини',
-   desc:'Атомний радіус (пм) за атомним номером. Тренди в групах і періодах ПС.',
-   action:()=>ccOpen('1-2-periodic','V')},
-  {id:'a05', title:'Електронегативність (Полінг)',  icon:'🔋',  group:'Будова речовини',
-   desc:'ЕН за шкалою Полінга для атома з заданим Z. Від 0.79 (Cs) до 3.98 (F).',
-   action:()=>ccOpen('1-2-periodic','P')},
-  {id:'a06', title:'Перша енергія іонізації EI₁',  icon:'⚡',  group:'Будова речовини',
-   desc:'EI₁ (кДж/моль) за атомним номером Z. Перший потенціал іонізації елемента.',
-   action:()=>ccOpen('1-2-periodic','n')},
-  {id:'a07', title:'Тип хімічного зв\'язку (ΔEN)', icon:'🔗',  group:'Будова речовини',
-   desc:'ΔEN = |EN_A − EN_B|: неполярний (<0.5), полярний ковалентний, іонний (>1.7).',
-   action:()=>ccOpen('1-3-bond','V')},
-  {id:'a08', title:'Геометрія молекули (VSEPR)',   icon:'📐',  group:'Будова речовини',
-   desc:'Форма молекули за кількістю зв\'язувальних і неподілених пар (VSEPR). Лінійна/тетраедр/піраміда.',
-   action:()=>ccOpen('1-3-bond','P')},
-  {id:'a09', title:'Тип гібридизації',             icon:'🔬',  group:'Будова речовини',
-   desc:'sp, sp², sp³, sp³d, sp³d² за сумою зв\'язувальних і неподілених пар електронів.',
-   action:()=>ccOpen('1-3-bond','n')},
-  {id:'a10', title:'Теплота плавлення Q',          icon:'🌡️', group:'Будова речовини',
-   desc:'Q = m·λ. Теплота, що поглинається при плавленні речовини.',
-   action:()=>ccOpen('1-4-states','V')},
-  {id:'a11', title:'Теплота пароутворення Q',      icon:'♨️',  group:'Будова речовини',
-   desc:'Q = m·r. Теплота, що поглинається при переході рідина → пара.',
-   action:()=>ccOpen('1-4-states','P')},
-  {id:'a12', title:'Молярна теплота переходу',     icon:'🔥',  group:'Будова речовини',
-   desc:'Q = n·ΔH. Теплота фазового переходу через молярну ентальпію.',
-   action:()=>ccOpen('1-4-states','n')},
-  {id:'a13', title:'Ідеальний газ PV=nRT',         icon:'💨',  group:'Будова речовини',
-   desc:'Знаходження P, V, T або n з рівняння стану ідеального газу.',
-   action:()=>ccOpen('1-5-gases','V')},
-  {id:'a14', title:'Закон Дальтона (Pᵢ)',          icon:'🌫️', group:'Будова речовини',
-   desc:'Pᵢ = xᵢ·P_total. Парціальний тиск компонента суміші газів.',
-   action:()=>ccOpen('1-5-gases','1-5-gases_dalton')},
-  {id:'a15', title:'Густина газу при T і P',       icon:'📦',  group:'Будова речовини',
-   desc:'ρ = PM/(RT). Молярна маса з густини або навпаки при заданих T і P.',
-   action:()=>ccOpen('1-5-gases','1-5-gases_density')},
-
-  // ── Неорганічна хімія ──
-  {id:'n01', title:'Формула оксиду Eₓ(O)ᵧ',       icon:'🔴',  group:'Неорганіка',
-   desc:'Формула оксиду за валентністю елемента: E₂Oₙ або EO. Назва і клас сполуки.',
-   action:()=>ccOpen('2-1-inorganic-classes','V')},
-  {id:'n02', title:'Сіль (катіон + аніон)',         icon:'🧂',  group:'Неорганіка',
-   desc:'Формула солі за зарядами катіона і аніона. Правило перехресного множення.',
-   action:()=>ccOpen('2-1-inorganic-classes','P')},
-  {id:'n03', title:'Ступінь окиснення в сполуці',  icon:'🔢',  group:'Неорганіка',
-   desc:'С.О. невідомого елемента: ΣС.О.·n = заряд частинки.',
-   action:()=>ccOpen('2-1-inorganic-classes','n')},
-  {id:'n04', title:'Маса лугу при реакції (MOH)',  icon:'⚗️',  group:'Неорганіка',
-   desc:'Маса NaOH або KOH, що утворюється при взаємодії лужного металу з водою.',
-   action:()=>ccOpen('2-2-s-elements','V')},
-  {id:'n05', title:'Маса Ca(OH)₂ при реакції',     icon:'🧱',  group:'Неорганіка',
-   desc:'Маса Ca(OH)₂ при взаємодії лужноземельного металу з водою.',
-   action:()=>ccOpen('2-2-s-elements','P')},
-  {id:'n06', title:'Стехіометрія горіння металу',  icon:'🔥',  group:'Неорганіка',
-   desc:'Маса оксиду або кількість O₂ при горінні s-металу.',
-   action:()=>ccOpen('2-2-s-elements','n')},
-  {id:'n07', title:'С.О. центрального атома',      icon:'⚛️',  group:'Неорганіка',
-   desc:'С.О. центрального атома комплексу за зарядом комплексу, лігандів і їх кількістю.',
-   action:()=>ccOpen('2-4-d-f-elements','V')},
-  {id:'n08', title:'Координаційне число комплексу',icon:'🔗',  group:'Неорганіка',
-   desc:'КЧ = n(моно) + 2·n(бідент). Координаційне число для моно- і бідентатних лігандів.',
-   action:()=>ccOpen('2-4-d-f-elements','P')},
-  {id:'n09', title:'Заряд комплексного іона',      icon:'⚡',  group:'Неорганіка',
-   desc:'Заряд = С.О.(М) + n·q(L). Заряд комплексу за С.О. і зарядами лігандів.',
-   action:()=>ccOpen('2-4-d-f-elements','n')},
-
-  // ── Стехіометрія ──
-  {id:'s03', title:'Вихід η% (органічний синтез)', icon:'🎯',  group:'Стехіометрія',
-   desc:'η = m_факт/m_теор × 100%. Застосування для синтезу естерів та інших органічних сполук.',
-   action:()=>ccOpen('2-3-p-elements','n')},
-
-  // ── Термодинаміка ──
-  {id:'T01', title:'Закон Гесса — ΔH реакції',    icon:'🔥',  group:'Термодинаміка',
-   desc:'ΔH = ΣΔHf(прод) − ΣΔHf(реаг). Теплота реакції з ентальпій утворення.',
-   action:()=>ccOpen('3-1-thermodynamics','V')},
-  {id:'T02', title:'Енергія Гіббса ΔG',           icon:'♾️',  group:'Термодинаміка',
-   desc:'ΔG = ΔH − T·ΔS. Критерій мимовільності реакції при заданій температурі.',
-   action:()=>ccOpen('3-1-thermodynamics','P')},
-  {id:'T03', title:'Температура рівноваги T*',     icon:'🎯',  group:'Термодинаміка',
-   desc:'T* = ΔH/ΔS при ΔG = 0. Температура зміни знаку ΔG.',
-   action:()=>ccOpen('3-1-thermodynamics','n')},
-  {id:'R12', title:'Закон Кірхгофа ΔH(T)',         icon:'📈',  group:'Термодинаміка',
-   desc:'ΔH(T₂) = ΔH(T₁) + ΔCp·(T₂−T₁). Корекція ентальпії реакції на температуру.',
-   action:()=>ccOpen('3-1-thermodynamics','kirchhoff')},
-  {id:'F01', title:'Рівняння Клаузіуса-Клапейрона',icon:'🌡️',group:'Термодинаміка',
-   desc:'P₂/P₁ = exp[ΔHvap/R·(1/T₁−1/T₂)]. Тиск насиченої пари при новій температурі.',
-   action:()=>ccOpen('3-5-phase','V')},
-  {id:'F02', title:'Кріо/ебуліоскопія (Kf або Kb)',icon:'❄️', group:'Термодинаміка',
-   desc:'ΔT = K·Cm·i. Зниження T замерзання або підвищення T кипіння розчину.',
-   action:()=>ccOpen('3-5-phase','P')},
-  {id:'F03', title:'Тиск пари суміші (Рауль)',     icon:'⚗️',  group:'Термодинаміка',
-   desc:'P = xA·P°A + xB·P°B. Загальний тиск пари ідеальної бінарної суміші.',
-   action:()=>ccOpen('3-5-phase','n')},
-
-  // ── Кінетика ──
-  {id:'K01', title:'Константа швидкості k(T)',     icon:'⚡',  group:'Кінетика',
-   desc:'k = A·e^(−Ea/RT). Рівняння Арреніуса: константа швидкості при заданій T.',
-   action:()=>ccOpen('3-2-kinetics','V')},
-  {id:'K02', title:'Правило Вант-Гоффа γ',        icon:'🌡️', group:'Кінетика',
-   desc:'k₂/k₁ = γ^(ΔT/10). Прискорення реакції при підвищенні температури на 10°C.',
-   action:()=>ccOpen('3-2-kinetics','P')},
-  {id:'K03', title:'Час піврозпаду t½',            icon:'⏱️', group:'Кінетика',
-   desc:'t½ = ln2/k. Час зменшення концентрації вдвічі для реакції першого порядку.',
-   action:()=>ccOpen('3-2-kinetics','n')},
-  {id:'Kc',  title:'Константа рівноваги Kc',      icon:'⇌',   group:'Кінетика',
-   desc:'Kc = [C]^c·[D]^d / ([A]^a·[B]^b). Розрахунок з рівноважних концентрацій.',
-   action:()=>ccOpen('3-3-equilibrium','V')},
-  {id:'Kc2', title:'ICE-таблиця (Kc і C₀)',       icon:'📋',  group:'Кінетика',
-   desc:'Рівноважні концентрації з Kc і початкових C₀ через квадратне рівняння.',
-   action:()=>ccOpen('3-3-equilibrium','P')},
-  {id:'Kc3', title:'Зсув рівноваги Q vs Kc',      icon:'🔄',  group:'Кінетика',
-   desc:'Q vs Kc: якщо Q < Kc — реакція іде вправо, Q > Kc — вліво, Q = Kc — рівновага.',
-   action:()=>ccOpen('3-3-equilibrium','n')},
-  {id:'R15', title:'ICE-таблиця (спрощена)',       icon:'🔢',  group:'Кінетика',
-   desc:'A ⇌ B + C. Рівноважні концентрації з Kc і C₀(A) через ICE-метод.',
-   action:()=>ccOpen('3-3-equilibrium','ice_table_simple')},
-  {id:'R16', title:'Перерахунок Kp ↔ Kc',         icon:'💨',  group:'Кінетика',
-   desc:'Kp = Kc·(RT)^Δn. Взаємний перехід між Kp і Kc для газових реакцій.',
-   action:()=>ccOpen('3-3-equilibrium','kp_kc_convert')},
-  {id:'R17', title:'Знаходження Ea (Арреніус)',    icon:'📐',  group:'Кінетика',
-   desc:'Ea = R·ln(k₂/k₁)/(1/T₁−1/T₂). Енергія активації з двох вимірів k(T).',
-   action:()=>ccOpen('3-2-kinetics','arrhenius_ea')},
-  {id:'R18', title:'C(t) першого порядку',         icon:'📉',  group:'Кінетика',
-   desc:'C(t) = C₀·e^(−kt). Поточна концентрація і час досягнення заданого значення.',
-   action:()=>ccOpen('3-2-kinetics','first_order_decay')},
-  {id:'R27', title:'Кінетика Міхаеліса-Ментен',   icon:'🧬',  group:'Кінетика',
-   desc:'v = Vmax·[S]/(Km+[S]). Швидкість ферментативної реакції. Побудова Lineweaver-Burk.',
-   action:()=>ccOpen('5-5-nitrogen-compounds','michaelis_menten')},
-
-  // ── Електрохімія ──
-  {id:'E01', title:'ЕРС гальванічного елемента',  icon:'🔋',  group:'Електрохімія',
-   desc:'E°_cell = E°_катода − E°_анода. ЕРС, ΔG і константа рівноваги реакції.',
-   action:()=>ccOpen('3-4-electrochemistry','V')},
-  {id:'E02', title:'Рівняння Нернста',             icon:'⚡',  group:'Електрохімія',
-   desc:'E = E° − (RT/nF)·lnQ. Реальний потенціал електрода залежно від концентрацій.',
-   action:()=>ccOpen('3-4-electrochemistry','P')},
-  {id:'E03', title:'Закон Фарадея (маса)',         icon:'⚗️',  group:'Електрохімія',
-   desc:'m = M·I·t/(n·F). Маса речовини при електролізі за струмом і часом.',
-   action:()=>ccOpen('3-4-electrochemistry','n')},
-  {id:'R19', title:'Фарадей розширений (Б/В)',     icon:'🔌',  group:'Електрохімія',
-   desc:'Три режими: знайти m, t або I. Ефективність та об\'єм газу при електролізі.',
-   action:()=>ccOpen('3-4-electrochemistry','faraday_extended')},
-  {id:'R20', title:'Нернст [Ox]/[Red]',            icon:'🔄',  group:'Електрохімія',
-   desc:'E з концентрацій Ox і Red або [Ox]/[Red] з виміряного потенціалу E.',
-   action:()=>ccOpen('3-4-electrochemistry','nernst_extended')},
-
-  // ── Розчини ──
-  {id:'sol_conc', title:'Концентрація розчину',    icon:'💧',  group:'Розчини',
-   desc:'Взаємне перетворення %, моль/л, г/л і нормальності. Формула розбавлення C₁V₁=C₂V₂.',
-   action:()=>showPanel('sol_conc')},
-  {id:'sol_prep', title:'Приготування розчину',    icon:'🔬',  group:'Розчини',
-   desc:'Скільки речовини і води потрібно для розчину заданої масової частки і об\'єму.',
-   action:()=>showPanel('sol_prep')},
-  {id:'sol_gas',  title:'Розчинення газів (Генрі)', icon:'🫧', group:'Розчини',
-   desc:'Закон Генрі: залежність розчинності газу від тиску. Кесонна хвороба, газування.',
-   action:()=>showPanel('sol_gas')},
-  {id:'d01', title:'ω% → C (молярна концентрація)',icon:'🔁',  group:'Розчини',
-   desc:'C = ρ·ω·1000/M. Перетворення масової частки у молярну концентрацію і назад.',
-   action:()=>ccOpen('4-2-concentration','V')},
-  {id:'d02', title:'C (молярна) → Cm (моляльність)',icon:'⚖️', group:'Розчини',
-   desc:'Cm = C·1000/(ρ·1000 − C·M). Перетворення молярності у моляльність.',
-   action:()=>ccOpen('4-2-concentration','P')},
-  {id:'d03', title:'Розведення C₁V₁=C₂V₂',        icon:'💧',  group:'Розчини',
-   desc:'Об\'єм концентрованого розчину для приготування розведеного. C₁V₁ = C₂V₂.',
-   action:()=>ccOpen('4-2-concentration','n')},
-  {id:'d04', title:'s (розчинність) з Ksp',        icon:'🧂',  group:'Розчини',
-   desc:'Розчинність малорозчинної солі з добутку розчинності Ksp для MX, MX₂, MX₃.',
-   action:()=>ccOpen('4-1-dissolving','V')},
-  {id:'d05', title:'Ksp з розчинності s',           icon:'📊',  group:'Розчини',
-   desc:'Ksp з експериментальної розчинності (г/л або моль/л) для різних типів солей.',
-   action:()=>ccOpen('4-1-dissolving','P')},
-  {id:'d06', title:'Умова утворення осаду Q',       icon:'⚗️',  group:'Розчини',
-   desc:'Порівняння добутку іонних концентрацій Q з Ksp: чи утвориться осад при змішуванні.',
-   action:()=>ccOpen('4-1-dissolving','n')},
-  {id:'d07', title:'pH слабкої кислоти',            icon:'🧪',  group:'Розчини',
-   desc:'pH = ½(pKa − lgC). Ступінь дисоціації α і pH слабкої кислоти через Ka і C.',
-   action:()=>ccOpen('4-3-electrolytes','V')},
-  {id:'d08', title:'pH буфера (Гендерсон-Г.)',      icon:'🔬',  group:'Розчини',
-   desc:'pH = pKa + lg([A⁻]/[HA]). Рівняння Гендерсона-Гассельбаха для буферних систем.',
-   action:()=>ccOpen('4-3-electrolytes','P')},
-  {id:'d09', title:'Ступінь дисоціації α',         icon:'⚡',  group:'Розчини',
-   desc:'α = √(Ka/C). Ступінь дисоціації слабкої кислоти через Ka і аналітичну концентрацію.',
-   action:()=>ccOpen('4-3-electrolytes','n')},
-  {id:'d10', title:'Кріоскопія ΔTзам',             icon:'❄️',  group:'Розчини',
-   desc:'ΔTf = Kf·Cm·i. Зниження температури замерзання розчину. Ізотонічний коефіцієнт i.',
-   action:()=>ccOpen('4-4-colligative','V')},
-  {id:'d11', title:'Осмотичний тиск π = iCRT',     icon:'🌊',  group:'Розчини',
-   desc:'π = iCRT. Осмотичний тиск електролітів і неелектролітів при заданих C, T, i.',
-   action:()=>ccOpen('4-4-colligative','P')},
-  {id:'d12', title:'Молярна маса з ΔT (кріоскопія)',icon:'🔭', group:'Розчини',
-   desc:'M = Kf·m_розч/(ΔT·m_розчин). Молярна маса невідомої речовини з кріоскопічного досліду.',
-   action:()=>ccOpen('4-4-colligative','n')},
-  {id:'d13', title:'Поріг коагуляції γ (колоїди)', icon:'🔵',  group:'Розчини',
-   desc:'Мінімальна концентрація електроліту для коагуляції колоїдної системи.',
-   action:()=>ccOpen('4-5-colloids','V')},
-  {id:'d14', title:'Правило Шульце-Гарді (z)',      icon:'⚡',  group:'Розчини',
-   desc:'Коагулювальна дія іона залежить від заряду z: вищий заряд → нижчий поріг коагуляції.',
-   action:()=>ccOpen('4-5-colloids','P')},
-  {id:'R08', title:'Осмотичний тиск (new)',         icon:'🌊',  group:'Розчини',
-   desc:'π = iCRT. Розширений: три режими — знайти π, C або T.',
-   action:()=>ccOpen('4-4-colligative','osmotic_pressure')},
-  {id:'R09', title:'Кріоскопія — молярна маса',    icon:'❄️',  group:'Розчини',
-   desc:'Визначення молярної маси за зниженням T замерзання: ΔTf = Kf·Cm·i.',
-   action:()=>ccOpen('3-5-phase','cryoscopy_molar_mass')},
-  {id:'R10', title:'Ебуліоскопія ΔTb',             icon:'♨️',  group:'Розчини',
-   desc:'Підвищення T кипіння: ΔTb = Kb·Cm·i. Знаходження молярної маси розчиненої речовини.',
-   action:()=>ccOpen('3-5-phase','ebullioscopy')},
-  {id:'R11', title:'Правило змішування розчинів',  icon:'🔀',  group:'Розчини',
-   desc:'C_mix = (m₁C₁+m₂C₂)/(m₁+m₂). Концентрація суміші двох розчинів.',
-   action:()=>ccOpen('4-2-concentration','solution_mixing')},
-  {id:'R13', title:'Іонна сила розчину I',          icon:'⚡',  group:'Розчини',
-   desc:'I = ½·Σ(cᵢ·zᵢ²). Іонна сила для розчину з кількома електролітами.',
-   action:()=>ccOpen('4-3-electrolytes','ionic_strength')},
-  {id:'R14', title:'Коефіцієнт активності γ±',     icon:'📐',  group:'Розчини',
-   desc:'lg(γ±) = −A·z²·√I. Дебай-Хюккель: активна концентрація іонів у розчині.',
-   action:()=>ccOpen('4-3-electrolytes','activity_coefficient')},
-
-  // ── Органіка ──
-  {id:'O01', title:'Ступінь ненасиченості DBE',    icon:'🔗',  group:'Органіка',
-   desc:'DBE = (2C+2+N−H−X)/2. Кількість π-зв\'язків і циклів за формулою.',
-   action:()=>ccOpen('5-1-organic-basics','V')},
-  {id:'O02', title:'Формула за ω% (розширена)',    icon:'🧪',  group:'Органіка',
-   desc:'Емпірична й молекулярна формули за ω(C), ω(H), ω(N), ω(O) та молярною масою.',
-   action:()=>ccOpen('5-1-organic-basics','P')},
-  {id:'O01b',title:'Клас сполуки за DBE',          icon:'📋',  group:'Органіка',
-   desc:'DBE → алкан/алкен/алкін/арен. Інтерпретація класу органічної сполуки.',
-   action:()=>ccOpen('5-1-organic-basics','n')},
-  {id:'R26', title:'DBE + інтерпретація (new)',     icon:'🔗',  group:'Органіка',
-   desc:'DBE з атомного складу + автоматична інтерпретація класу: алкан, алкен, арен тощо.',
-   action:()=>ccOpen('5-1-organic-basics','dbe_check')},
-  {id:'O03', title:'Теплота згоряння вуглеводню',  icon:'🔥',  group:'Органіка',
-   desc:'Q від горіння CₓHᵧ. Об\'єм O₂/повітря для повного горіння.',
-   action:()=>ccOpen('5-2-hydrocarbons','V')},
-  {id:'O03b',title:'Об\'єм O₂/повітря для горіння',icon:'🌬️', group:'Органіка',
-   desc:'V(O₂) і V(повітря) для повного горіння 1 моль вуглеводню CₓHᵧ.',
-   action:()=>ccOpen('5-2-hydrocarbons','P')},
-  {id:'O03c',title:'Формула вуглеводню з горіння', icon:'🧪',  group:'Органіка',
-   desc:'CₓHᵧ з мол. CO₂ і H₂O при горінні. Знаходження x і y за стехіометрією.',
-   action:()=>ccOpen('5-2-hydrocarbons','n')},
-  {id:'O04b',title:'Тип орієнтанта ароматики',     icon:'⚗️',  group:'Органіка',
-   desc:'Орієнтант I/II роду в реакціях бензолу. Позиція електрофільного заміщення.',
-   action:()=>ccOpen('5-3-aromatics','V')},
-  {id:'O04c',title:'Позиція заміщення (арен)',      icon:'🔬',  group:'Органіка',
-   desc:'орто/мета/пара за типом замісника. Прогноз продукту реакції бензолу.',
-   action:()=>ccOpen('5-3-aromatics','P')},
-  {id:'O04', title:'Маса естеру (естерифікація)',   icon:'🍶',  group:'Органіка',
-   desc:'Маса естеру при реакції спирт + кислота.',
-   action:()=>ccOpen('5-4-oxygen-compounds','V')},
-  {id:'O04d',title:'Вихід естерифікації η%',        icon:'🎯',  group:'Органіка',
-   desc:'η = m_факт/m_теор × 100% для реакції естерифікації.',
-   action:()=>ccOpen('5-4-oxygen-compounds','P')},
-  {id:'O04e',title:'Омилення жирів',               icon:'🧼',  group:'Органіка',
-   desc:'Маса NaOH для омилення жиру. n(NaOH) = 3·n(жиру).',
-   action:()=>ccOpen('5-4-oxygen-compounds','n')},
-  {id:'O05', title:'Ізоелектрична точка АК (2 pKa)',icon:'🧬',  group:'Органіка',
-   desc:'pI = (pKa1+pKa2)/2 для амінокислот з двома константами дисоціації.',
-   action:()=>ccOpen('5-5-nitrogen-compounds','V')},
-  {id:'O05b',title:'Маса пептиду з АК',            icon:'⚖️',  group:'Органіка',
-   desc:'M(пептиду) = ΣM(АК) − (n−1)·18. Маса пептиду через суму мас амінокислот.',
-   action:()=>ccOpen('5-5-nitrogen-compounds','P')},
-  {id:'O05c',title:'Заряд АК при заданому pH',     icon:'⚡',  group:'Органіка',
-   desc:'Знак заряду амінокислоти залежно від pH і її ізоелектричної точки pI.',
-   action:()=>ccOpen('5-5-nitrogen-compounds','n')},
-  {id:'R25', title:'Ізоелектрична точка (3 pKa)',  icon:'🔬',  group:'Органіка',
-   desc:'pI для дипептидів і АК з трьома pKa. Форма молекули при заданому pH.',
-   action:()=>ccOpen('5-5-nitrogen-compounds','pi_extended')},
-  {id:'O06', title:'Ступінь полімеризації DPn',    icon:'🔗',  group:'Органіка',
-   desc:'DPn = M(полімеру)/M(ланки). Кількість мономерних ланок у полімері.',
-   action:()=>ccOpen('5-6-polymers','V')},
-  {id:'O06b',title:'Маса мономера і мономерного виходу',icon:'🏭',group:'Органіка',
-   desc:'Маса мономера для синтезу полімеру з урахуванням η%.',
-   action:()=>ccOpen('5-6-polymers','P')},
-  {id:'O06c',title:'M(ланки) полімеру конденсації',icon:'🔗',  group:'Органіка',
-   desc:'M(ланки) = M(мономера) − M(відщепленої молекули). Для поліамідів, поліестерів.',
-   action:()=>ccOpen('5-6-polymers','n')},
-
-  // ── Аналітика ──
-  {id:'A01', title:'Концентрація аналіту (тітриметрія)',icon:'🧪',group:'Аналітика',
-   desc:'C₁ = C₂·V₂/V₁. Молярна концентрація аналіту з результатів титрування.',
-   action:()=>ccOpen('6-2-titrimetry','V')},
-  {id:'A02', title:'Маса аналіту (тітриметрія)',    icon:'⚖️', group:'Аналітика',
-   desc:'m = C·V·M/z. Маса речовини з об\'єму тітранту і фактора еквівалентності.',
-   action:()=>ccOpen('6-2-titrimetry','P')},
-  {id:'A02b',title:'Перевірка стехіометрії титрування',icon:'✔️',group:'Аналітика',
-   desc:'n₁·z₁ = n₂·z₂. Перевірка правильності стехіометрії кислотно-основної реакції.',
-   action:()=>ccOpen('6-2-titrimetry','n')},
-  {id:'Aq01',title:'Іон → реагент і ефект',        icon:'🔍',  group:'Аналітика',
-   desc:'Якісна реакція на іон: реагент, умови, спостережуваний ефект.',
-   action:()=>ccOpen('6-1-qualitative','V')},
-  {id:'Aq02',title:'Ефект → визначення іона',      icon:'🔬',  group:'Аналітика',
-   desc:'За спостережуваним ефектом (колір осаду, газ) визначте, який іон присутній.',
-   action:()=>ccOpen('6-1-qualitative','P')},
-  {id:'A03', title:'Закон БЛБ — оптична густина',  icon:'📡', group:'Аналітика',
-   desc:'A = ε·l·c. Оптична густина через молярний коефіцієнт поглинання.',
-   action:()=>ccOpen('6-3-instrumental','V')},
-  {id:'A04', title:'Концентрація (спектрофотом.)', icon:'🔭',  group:'Аналітика',
-   desc:'c = A/(ε·l). Концентрація речовини зі спектрофотометричних вимірювань.',
-   action:()=>ccOpen('6-3-instrumental','P')},
-  {id:'A05', title:'T% ↔ Оптична густина A',       icon:'📊',  group:'Аналітика',
-   desc:'A = −lg(T%/100). Перетворення між пропусканням і оптичною густиною.',
-   action:()=>ccOpen('6-3-instrumental','n')},
-  {id:'R21', title:'Хроматографія Rf і Rs',         icon:'🌈',  group:'Аналітика',
-   desc:'Rf = d_речовини/d_фронту. Фактор розділення Rs між двома компонентами.',
-   action:()=>ccOpen('6-3-instrumental','chromatography')},
-  {id:'R22', title:'Рідинна екстракція E%',         icon:'💎',  group:'Аналітика',
-   desc:'E% = D·Vorg/(D·Vorg+Vaq)·100. Ступінь вилучення для n стадій.',
-   action:()=>ccOpen('6-2-titrimetry','extraction')},
-  {id:'R23', title:'Закон Брегга-Вульфа',           icon:'📡',  group:'Аналітика',
-   desc:'2d·sinθ = n·λ. Рентгеноструктурний аналіз: d або θ.',
-   action:()=>ccOpen('6-3-instrumental','bragg')},
-  {id:'R24', title:'Радіоактивний розпад N(t)',     icon:'☢️',  group:'Аналітика',
-   desc:'N(t) = N₀·e^(−λt). Залишкова кількість атомів через час піврозпаду.',
-   action:()=>ccOpen('6-3-instrumental','radioactive_decay')},
-  {id:'R28', title:'Щільність кристала ρ',          icon:'💎',  group:'Аналітика',
-   desc:'ρ = n·M/(Na·V_cell). Теоретична щільність кристала з параметрів комірки.',
-   action:()=>ccOpen('6-3-instrumental','crystal_density')},
-];
+// CALC_GROUPS + CALCS_REGISTRY → data/calc-registry.js
 
 let ccCurCat = 'all';
 
@@ -4882,48 +4579,7 @@ function stopTrainer(){if(confirm('Завершити тест достроко�
 // ============ РОЗШИРЕННЯ pH v1.0.6 ============
 
 // База речовин
-const PP_SUBSTANCES={
-  vinegar9:{name:'Оцет 9%',formula:'CH₃COOH (9% розчин)',type:'weak_acid',ka:1.8e-5,molar:150.9,
-    desc:'Оцет — це водний розчин оцтової кислоти (CH₃COOH). 9% означає, що в 100 г оцту міститься 9 г оцтової кислоти. Це слабка кислота — вона дисоціює на іони лише частково.',
-    inputMode:'percent_in_water',defaultPercent:9,defaultMass:100,defaultWater:100,
-    typeLabel:'Слабка кислота',typeColor:'#FF7043'},
-  vinegar6:{name:'Оцет 6%',formula:'CH₃COOH (6% розчин)',type:'weak_acid',ka:1.8e-5,molar:150.9,
-    desc:'Оцет 6% — менш концентрований розчин оцтової кислоти. Використовується у кулінарії.',
-    inputMode:'percent_in_water',defaultPercent:6,defaultMass:100,defaultWater:100,
-    typeLabel:'Слабка кислота',typeColor:'#FF7043'},
-  lemon:{name:'Лимонна кислота',formula:'C₆H₈O₇',type:'weak_acid',ka:7.4e-4,molar:192.12,
-    desc:'Лимонна кислота — органічна трикарбонова кислота. Міститься у цитрусових плодах. Слабка кислота, але досить кисла на смак.',
-    inputMode:'grams_in_water',defaultGrams:10,defaultWater:200,
-    typeLabel:'Слабка кислота',typeColor:'#FF7043'},
-  soda:{name:'Харчова сода (NaHCO₃)',formula:'NaHCO₃',type:'salt_basic',ph_approx:8.3,molar:84.007,
-    desc:'Харчова сода — натрій гідрогенкарбонат. При розчиненні у воді гідролізується і створює слабко лужне середовище. Саме тому соду використовують при печії — вона нейтралізує надлишок кислоти в шлунку.',
-    inputMode:'grams_in_water',defaultGrams:5,defaultWater:200,
-    typeLabel:'Сіль (слабко лужна)',typeColor:'#FFB300'},
-  naoh:{name:'Натрій гідроксид (NaOH)',formula:'NaOH',type:'strong_base',molar:40.00,
-    desc:'NaOH (їдкий натр, каустична сода) — сильна основа. Повністю дисоціює у воді. Дуже небезпечна — викликає хімічні опіки. Використовується для прочищення труб.',
-    inputMode:'grams_in_water',defaultGrams:4,defaultWater:1000,
-    typeLabel:'Сильна основа',typeColor:'#4FC3F7'},
-  hcl:{name:'Хлоридна кислота (HCl)',formula:'HCl',type:'strong_acid',molar:36.461,
-    desc:'HCl (соляна кислота) — сильна кислота. Повністю дисоціює у воді. Саме ця кислота виробляється у шлунку для перетравлення їжі (шлунковий сік). У концентрованому вигляді — надзвичайно небезпечна.',
-    inputMode:'grams_in_water',defaultGrams:3.65,defaultWater:1000,
-    typeLabel:'Сильна кислота',typeColor:'#FF5252'},
-  aspirin:{name:'Аспірин (ацетилсаліцилова кислота)',formula:'C₉H₈O₄',type:'weak_acid',ka:3e-4,molar:180.16,
-    desc:'Аспірин — ацетилсаліцилова кислота. Слабка органічна кислота. Одна таблетка = 500 мг. При розчиненні у воді створює слабко кисле середовище.',
-    inputMode:'tablets',defaultTablets:1,tabletMg:500,defaultWater:250,
-    typeLabel:'Слабка кислота',typeColor:'#FF7043'},
-  nh3:{name:'Аміак / нашатирний спирт (NH₃)',formula:'NH₃',type:'weak_base',kb:1.8e-5,molar:17.031,
-    desc:'Аміак — слабка основа. Нашатирний спирт — 10% водний розчин аміаку. Характерний різкий запах. Використовується як побутовий засіб для чищення (лужне середовище розчиняє жири).',
-    inputMode:'percent_in_water',defaultPercent:10,defaultMass:10,defaultWater:990,
-    typeLabel:'Слабка основа',typeColor:'#69F0AE'},
-  h2so4:{name:'Сірчана кислота (H₂SO₄)',formula:'H₂SO₄',type:'strong_acid_diprotic',molar:98.079,
-    desc:'H₂SO₄ — сильна двопротонна кислота. Повністю дисоціює у воді. Одна з найнебезпечніших кислот — концентрована руйнує тканини миттєво. Розбавлена — входить до складу акумуляторів.',
-    inputMode:'grams_in_water',defaultGrams:9.8,defaultWater:1000,
-    typeLabel:'Сильна кислота (двопротонна)',typeColor:'#FF5252'},
-  ch3cooh:{name:'Оцтова кислота (чиста)',formula:'CH₃COOH',type:'weak_acid',ka:1.8e-5,molar:60.052,
-    desc:'Чиста оцтова кислота — безбарвна рідина з різким запахом. Слабка кислота. Оцет — це лише її 6–9% розчин у воді.',
-    inputMode:'grams_in_water',defaultGrams:6,defaultWater:1000,
-    typeLabel:'Слабка кислота',typeColor:'#FF7043'},
-};
+// PP_SUBSTANCES → data/pp-substances.js
 
 let currentPPSubstance=null;
 
@@ -7687,12 +7343,58 @@ function formatRxEq(eq) {
   return s.replace(/([A-Z][a-z]?\d*(?:\([A-Za-z0-9]+\)\d*)*[A-Za-z0-9]*)+/g, m => `<b>${m}</b>`);
 }
 
+function openReactionsByElement(symbol){
+  closeModalDirect();
+  showPanel('reactions');
+  setTimeout(()=>{
+    // Clear previous filters
+    rxClearFilters();
+    // Activate the element button
+    const btn=document.querySelector('#rx-el-btns .rx-fbtn[data-val="'+symbol+'"]');
+    if(btn){
+      btn.click();
+    } else {
+      // Element not in top-20, filter manually via rxFilter
+      if(typeof rxFilter==='function' && typeof ALL_REACTIONS!=='undefined'){
+        window._RX_FILTERED=rxFilter({elements:[symbol]});
+        const fc=document.getElementById('rx-filter-count');
+        if(fc) fc.textContent=window._RX_FILTERED.length+' реакцій';
+        renderReactions();
+      }
+    }
+  },150);
+}
+function rxClearFilters(){
+  window._RX_FILTERED=null;
+  document.querySelectorAll('#rx-filter-panel .rx-fbtn.active').forEach(b=>b.classList.remove('active'));
+  const fc=document.getElementById('rx-filter-count');if(fc)fc.textContent='';
+  const rc=document.getElementById('rx-clear');if(rc)rc.style.display='none';
+  renderReactions();
+}
 function renderReactions() {
   if (!window._RX_DATA) { renderReactionsInline(); return; }
   const q = (document.getElementById('rx-search').value || '').toLowerCase().replace(/\s/g,'');
   const qRaw = (document.getElementById('rx-search').value || '').toLowerCase();
   const data = window._RX_DATA;
-  const filtered = data.filter(cat => rxCurCat === 'all' || cat.id === rxCurCat);
+
+  // If filter is active, build a virtual section list from filtered flat results
+  const hasFilter = window._RX_FILTERED && document.querySelectorAll('#rx-filter-panel .rx-fbtn.active').length > 0;
+  let filtered;
+  if (hasFilter) {
+    // Group filtered reactions back by section
+    const bySection = {};
+    window._RX_FILTERED.forEach(r => {
+      const sid = r._section || 'unknown';
+      if (!bySection[sid]) {
+        const origCat = data.find(c => c.id === sid);
+        bySection[sid] = { id:sid, label:origCat?.label||sid, icon:origCat?.icon||'⚗️', color:origCat?.color||'#4FC3F7', type:origCat?.type||'', subsections:[{reactions:[]}] };
+      }
+      bySection[sid].subsections[0].reactions.push(r);
+    });
+    filtered = Object.values(bySection).filter(cat => rxCurCat === 'all' || cat.id === rxCurCat);
+  } else {
+    filtered = data.filter(cat => rxCurCat === 'all' || cat.id === rxCurCat);
+  }
   let total = 0, html = '';
 
   for (const cat of filtered) {
@@ -7817,8 +7519,21 @@ function rxClick(eq, isDanger) {
   setTimeout(() => popup.classList.remove('vis'), 8000);
 }
 
-// Load full reactions.json if available
-fetch('reactions.json').then(r=>r.json()).then(d=>{window._RX_DATA=d;if(document.getElementById('panel-reactions').classList.contains('active'))renderReactions();}).catch(()=>{});
+// Load full reactions database
+fetch('reactions_tagged.json').then(r=>r.json()).then(d=>{
+  window._RX_DATA=d;
+  // Build filter index
+  if(typeof rxBuildIndex==='function'){
+    rxBuildIndex(d);
+    document.getElementById('rx-filter-panel').style.display='';
+    rxInitFilter(function(filtered){
+      // Wrap filtered results into _RX_DATA-compatible structure for renderReactions
+      window._RX_FILTERED=filtered;
+      renderReactions();
+    });
+  }
+  if(document.getElementById('panel-reactions').classList.contains('active'))renderReactions();
+}).catch(()=>{});
 
 // ============================================================
 // ГЛОСАРІЙ v1.1.2
@@ -8133,5 +7848,6 @@ window._TOPIC_DATA = {
   <script>if(window._NEW_CALCS_3) Object.assign(TOPIC_CALC_ENGINES, window._NEW_CALCS_3);</script>
   <script src="data/calcs/new_calcs_4.js"></script>
   <script>if(window._NEW_CALCS_4) Object.assign(TOPIC_CALC_ENGINES, window._NEW_CALCS_4);</script>
+<script src="reactions_filter.js"></script>
 </body>
 </html>

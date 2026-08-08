@@ -190,8 +190,12 @@ function openModal(n){
 
   const _oldBox=document.querySelector('.atom-canvas-box');if(_oldBox)_oldBox.remove();
   const _svgBox=document.createElement('div');_svgBox.className='atom-canvas-box';
-  _svgBox.innerHTML='<svg id="atom-svg" viewBox="-130 -130 260 260"></svg><button class="atom-pause-btn" id="atom-pause-btn" onclick="toggleAtomPause()"><span id="atom-pause-icon">⏸</span><span id="atom-pause-label">Пауза</span></button>';
-  mhead.insertAdjacentElement('afterend',_svgBox);if(window.renderAtomAnimation)window.renderAtomAnimation(e,document.getElementById('atom-svg'));
+  _svgBox.innerHTML='<svg id="atom-svg" viewBox="-130 -130 260 260"></svg><button class="atom-mode-btn" id="atom-mode-btn" onclick="cycleAtomMode()"><span id="atom-mode-label">2D Спрощена</span></button><button class="atom-pause-btn" id="atom-pause-btn" onclick="toggleAtomPause()"><span id="atom-pause-icon">⏸</span><span id="atom-pause-label">Пауза</span></button><div class="atom-legend"><span><span class="adot" style="background:#ff6b6b"></span>s</span><span><span class="adot" style="background:#4ade80"></span>p</span><span><span class="adot" style="background:#fbbf24"></span>d</span><span><span class="adot" style="background:#60a5fa"></span>f</span><span><span class="adot" style="background:#facc15"></span>e⁻</span><span><span class="adot" style="border:1.5px dashed #fff;background:transparent"></span>дірка</span></div>';
+  mhead.insertAdjacentElement('afterend',_svgBox);
+  window._currentElement=e;
+  var _mode=localStorage.getItem('atomMode')||'simple2d';
+  document.getElementById('atom-mode-label').textContent=_mode==='simple2d'?'2D Спрощена':_mode==='full2d'?'2D Повна':'3D Спрощена';
+  if(window.renderAtomAnimation)window.renderAtomAnimation(e,document.getElementById('atom-svg'),_mode);
 
   // 2. Орбітальний тип
   const orbType=window.getOrbitalType?getOrbitalType(e):null;
@@ -269,7 +273,9 @@ function openModal(n){
     // 14. Положення в таблиці (wide)
     `<div class="mfield wide"><span class="mf-label">📍 Положення в таблиці</span><span class="mf-value">${e.p} період · ${e.cat==='lanthanide'||e.cat==='actinide'?'f-блок':(e.g?e.g+' група':'—')}</span><span class="mf-hint"><b>Період</b> — горизонтальний рядок. <b>Група</b> — вертикальний стовпець. Номер групи підказує заряд іона для простих металів і неметалів.</span></div>`+
     // 15. Статус-бокс
-    (statusText?`<div class="atom-status-box" style="border-left-color:rgba(${r},${g2},${b},0.6);background:rgba(${r},${g2},${b},0.08)">${statusText}</div>`:'');
+    (statusText?`<div class="atom-status-box" style="border-left-color:rgba(${r},${g2},${b},0.6);background:rgba(${r},${g2},${b},0.08)">${statusText}</div>`:'')+
+    // 16. Кнопка «Реакції з елементом»
+    `<div class="mfield wide" style="text-align:center;padding:6px 0"><button onclick="openReactionsByElement('${e.s}')" style="background:rgba(${r},${g2},${b},0.12);border:0.5px solid rgba(${r},${g2},${b},0.4);border-radius:8px;padding:10px 20px;color:${c};font-size:13px;font-family:'Oxanium',monospace;cursor:pointer;transition:all .15s;letter-spacing:1px" onmouseover="this.style.background='rgba(${r},${g2},${b},0.25)'" onmouseout="this.style.background='rgba(${r},${g2},${b},0.12)'">⚗️ Реакції з ${e.s}</button></div>`;
 
   document.getElementById('overlay').classList.add('open');
 }
@@ -290,6 +296,21 @@ function toggleAtomPause(){
   } else {
     if(window.pauseAtomAnimation)window.pauseAtomAnimation();
     if(icon)icon.textContent='▶';if(label)label.textContent='Грати';
+  }
+}
+function cycleAtomMode(){
+  const modes=['simple2d','full2d','simple3d'];
+  const labels={'simple2d':'2D Спрощена','full2d':'2D Повна','simple3d':'3D Спрощена'};
+  var cur=localStorage.getItem('atomMode')||'simple2d';
+  var idx=(modes.indexOf(cur)+1)%modes.length;
+  cur=modes[idx];
+  localStorage.setItem('atomMode',cur);
+  document.getElementById('atom-mode-label').textContent=labels[cur];
+  if(window._currentElement&&window.renderAtomAnimation){
+    window.renderAtomAnimation(window._currentElement,document.getElementById('atom-svg'),cur);
+    var icon=document.getElementById('atom-pause-icon');
+    var label=document.getElementById('atom-pause-label');
+    if(icon)icon.textContent='⏸';if(label)label.textContent='Пауза';
   }
 }
 function setCat(cat,btn){activeCat=cat;document.querySelectorAll('.fb').forEach(b=>b.classList.remove('on'));btn.classList.add('on');buildTable();}
