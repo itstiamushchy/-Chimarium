@@ -95,22 +95,25 @@
     ],
     "quickValues": [
       {
-        "label": "Cu–Zn (класич. ГЕ)",
-        "P": 1.1,
-        "T_C": 25,
-        "comment": "ЕРС = 1.10 В; ΔG° = −212 кДж"
+        "label": "Cu²⁺/Cu | Zn/Zn²⁺",
+        "E_cathode": 0.34,
+        "E_anode": -0.76,
+        "n_electrons": 2,
+        "comment": "ЕРС=1.10 В"
       },
       {
-        "label": "Електроліз CuSO₄, I=2А, 30хв",
-        "P": 2,
-        "T_C": 30,
-        "comment": "m(Cu) ≈ 1.18 г"
+        "label": "Ag⁺/Ag | Cu/Cu²⁺",
+        "E_cathode": 0.8,
+        "E_anode": 0.34,
+        "n_electrons": 1,
+        "comment": "ЕРС=0.46 В"
       },
       {
-        "label": "Cu²⁺ при [Cu²⁺]=0.01 М",
-        "P": 0.01,
-        "T_C": 25,
-        "comment": "E = 0.281 В"
+        "label": "O₂/H₂O | H₂/H⁺",
+        "E_cathode": 1.23,
+        "E_anode": 0.0,
+        "n_electrons": 4,
+        "comment": "паливний елемент"
       }
     ]
   },
