@@ -165,7 +165,7 @@
           {
             "eq": "H2 + Br2 -> 2HBr",
             "reversible": false,
-            "danger": false,
+            "danger": true,
             "name": "Синтез броміду водню",
             "conditions": "hν або t°",
             "type": "exo",
@@ -228,7 +228,7 @@
           {
             "eq": "2K + Br2 -> 2KBr",
             "reversible": false,
-            "danger": false,
+            "danger": true,
             "name": "Реакція калію з бромом",
             "conditions": "кімн. t°",
             "type": "exo",
@@ -1183,10 +1183,10 @@
             "eq": "3Fe + C -> Fe3C",
             "reversible": false,
             "danger": false,
-            "name": "",
-            "conditions": "",
-            "type": "neutral",
-            "products_desc": ""
+            "name": "Утворення цементиту",
+            "conditions": "t° (900-1000°C), науглерожування",
+            "type": "endo",
+            "products_desc": "Ферум карбід Fe₃C (цементит); тверда фаза сталі"
           },
           {
             "eq": "Ti + O2 -> TiO2",
@@ -1686,7 +1686,7 @@
           {
             "eq": "2NO + Br2 -> 2NOBr",
             "reversible": false,
-            "danger": false,
+            "danger": true,
             "name": "Утворення нітрозилброміду",
             "conditions": "Кімнатна температура або -15°C",
             "type": "exo",
@@ -1984,10 +1984,10 @@
             "eq": "4Fe + 3O2 + 6H2O -> 4Fe(OH)3",
             "reversible": false,
             "danger": false,
-            "name": "",
-            "conditions": "",
-            "type": "neutral",
-            "products_desc": ""
+            "name": "Атмосферне іржавіння заліза (вологе повітря)",
+            "conditions": "Кімнатна t°, волога, кисень",
+            "type": "exo",
+            "products_desc": "Гідроксид феруму(III) Fe(OH)₃; іржа"
           },
           {
             "eq": "4Fe(OH)2 + O2 -> 2Fe2O3*2H2O",
@@ -2010,7 +2010,7 @@
           {
             "eq": "2Al + 3Br2 -> 2AlBr3",
             "reversible": false,
-            "danger": false,
+            "danger": true,
             "name": "Бромування алюмінію",
             "conditions": "без нагрівання (бурхлива реакція з краплями Br2)",
             "type": "exo",
@@ -2415,11 +2415,11 @@
           {
             "eq": "3Fe + 4H2O -> Fe3O4 + 4H2",
             "reversible": false,
-            "danger": false,
-            "name": "",
-            "conditions": "",
-            "type": "neutral",
-            "products_desc": ""
+            "danger": true,
+            "name": "Взаємодія заліза з перегрітою водяною парою",
+            "conditions": "t° (700-800°C)",
+            "type": "exo",
+            "products_desc": "⚠️ Залізна окалина Fe₃O₄ та горючий водень H₂"
           },
           {
             "eq": "Zn + H2O -> ZnO + H2",
@@ -2478,7 +2478,7 @@
           {
             "eq": "2Al + 6H2O -> 2Al(OH)3 + 3H2",
             "reversible": false,
-            "danger": false,
+            "danger": true,
             "name": "Гідроліз алюмінію (знята оксидна плівка)",
             "conditions": "амальгамація Hg або розчин NaOH (зняття плівки)",
             "type": "exo",
@@ -2758,10 +2758,10 @@
             "eq": "3Fe + N2 -> Fe3N",
             "reversible": false,
             "danger": false,
-            "name": "",
-            "conditions": "",
-            "type": "neutral",
-            "products_desc": ""
+            "name": "Азотування поверхні заліза",
+            "conditions": "t° (500-600°C) у струмені N2 або NH3",
+            "type": "endo",
+            "products_desc": "Ферум нітрид Fe₃N; зносостійкий поверхневий шар"
           },
           {
             "eq": "3Ni + N2 -> Ni3N",
@@ -3063,7 +3063,7 @@
           {
             "eq": "Al + P -> AlP",
             "reversible": false,
-            "danger": false,
+            "danger": true,
             "name": "Синтез алюміній фосфіду",
             "conditions": "t° (500-800°C)",
             "type": "exo",
@@ -7318,13 +7318,463 @@
             "products_desc": "Борогідрид натрію; хімічний акумулятор H₂"
           },
           {
-            "eq": "C6H10O6-(PO3H2)2 <=> C3H5O3-PO3H2 + C3H5O3-PO3H2_d",
+            "eq": "C6H10O6-(PO3H2)2 -> C3H5O3-PO3H2 + C3H5O3-PO3H2_d",
             "reversible": false,
             "danger": true,
             "name": "4. Альдольне розщеплення F1",
             "conditions": "6BP",
             "type": "exo",
             "products_desc": "⚠️ FALSE"
+          },
+          {
+            "eq": "C6H6 + 3H2 -> C6H12",
+            "reversible": false,
+            "danger": false,
+            "name": "",
+            "conditions": "",
+            "type": "neutral",
+            "products_desc": ""
+          },
+          {
+            "eq": "C10H8 + 5H2 -> C10H18",
+            "reversible": false,
+            "danger": false,
+            "name": "",
+            "conditions": "",
+            "type": "neutral",
+            "products_desc": ""
+          },
+          {
+            "eq": "C10H8 + 2H2 -> C10H12",
+            "reversible": false,
+            "danger": false,
+            "name": "",
+            "conditions": "",
+            "type": "neutral",
+            "products_desc": ""
+          },
+          {
+            "eq": "C6H5-CH=CH2 + H2 -> C6H5-CH2-CH3",
+            "reversible": false,
+            "danger": false,
+            "name": "",
+            "conditions": "",
+            "type": "neutral",
+            "products_desc": ""
+          },
+          {
+            "eq": "C6H5OH + 3H2 -> C6H11OH",
+            "reversible": false,
+            "danger": false,
+            "name": "",
+            "conditions": "",
+            "type": "neutral",
+            "products_desc": ""
+          },
+          {
+            "eq": "Na2O + Al2O3 -> 2NaAlO2",
+            "reversible": false,
+            "danger": false,
+            "name": "",
+            "conditions": "",
+            "type": "neutral",
+            "products_desc": ""
+          },
+          {
+            "eq": "K2O + Fe2O3 -> 2KFeO2",
+            "reversible": false,
+            "danger": false,
+            "name": "",
+            "conditions": "",
+            "type": "neutral",
+            "products_desc": ""
+          },
+          {
+            "eq": "Li2O + SiO2 -> Li2SiO3",
+            "reversible": false,
+            "danger": false,
+            "name": "",
+            "conditions": "",
+            "type": "neutral",
+            "products_desc": ""
+          },
+          {
+            "eq": "BaO + SiO2 -> BaSiO3",
+            "reversible": false,
+            "danger": false,
+            "name": "",
+            "conditions": "",
+            "type": "neutral",
+            "products_desc": ""
+          },
+          {
+            "eq": "SrO + SiO2 -> SrSiO3",
+            "reversible": false,
+            "danger": false,
+            "name": "",
+            "conditions": "",
+            "type": "neutral",
+            "products_desc": ""
+          },
+          {
+            "eq": "MgO + Al2O3 -> MgAl2O4",
+            "reversible": false,
+            "danger": false,
+            "name": "",
+            "conditions": "",
+            "type": "neutral",
+            "products_desc": ""
+          },
+          {
+            "eq": "FeO + Al2O3 -> FeAl2O4",
+            "reversible": false,
+            "danger": false,
+            "name": "",
+            "conditions": "",
+            "type": "neutral",
+            "products_desc": ""
+          },
+          {
+            "eq": "ZnO + Al2O3 -> ZnAl2O4",
+            "reversible": false,
+            "danger": false,
+            "name": "",
+            "conditions": "",
+            "type": "neutral",
+            "products_desc": ""
+          },
+          {
+            "eq": "CoO + Al2O3 -> CoAl2O4",
+            "reversible": false,
+            "danger": false,
+            "name": "",
+            "conditions": "",
+            "type": "neutral",
+            "products_desc": ""
+          },
+          {
+            "eq": "CuO + Al2O3 -> CuAl2O4",
+            "reversible": false,
+            "danger": false,
+            "name": "",
+            "conditions": "",
+            "type": "neutral",
+            "products_desc": ""
+          },
+          {
+            "eq": "PbO + SiO2 -> PbSiO3",
+            "reversible": false,
+            "danger": false,
+            "name": "",
+            "conditions": "",
+            "type": "neutral",
+            "products_desc": ""
+          },
+          {
+            "eq": "Bi2O3 + 3SO3 -> Bi2(SO4)3",
+            "reversible": false,
+            "danger": false,
+            "name": "",
+            "conditions": "",
+            "type": "neutral",
+            "products_desc": ""
+          },
+          {
+            "eq": "2Cu2O + O2 -> 4CuO",
+            "reversible": false,
+            "danger": false,
+            "name": "",
+            "conditions": "",
+            "type": "neutral",
+            "products_desc": ""
+          },
+          {
+            "eq": "4FeO + O2 -> 2Fe2O3",
+            "reversible": false,
+            "danger": false,
+            "name": "",
+            "conditions": "",
+            "type": "neutral",
+            "products_desc": ""
+          },
+          {
+            "eq": "2PbO + O2 -> 2PbO2",
+            "reversible": false,
+            "danger": false,
+            "name": "",
+            "conditions": "",
+            "type": "neutral",
+            "products_desc": ""
+          },
+          {
+            "eq": "2MnO + O2 -> 2MnO2",
+            "reversible": false,
+            "danger": false,
+            "name": "",
+            "conditions": "",
+            "type": "neutral",
+            "products_desc": ""
+          },
+          {
+            "eq": "Na2O2 + CO -> Na2CO3",
+            "reversible": false,
+            "danger": false,
+            "name": "",
+            "conditions": "",
+            "type": "neutral",
+            "products_desc": ""
+          },
+          {
+            "eq": "2Na2O2 + 2CO2 -> 2Na2CO3 + O2",
+            "reversible": false,
+            "danger": false,
+            "name": "",
+            "conditions": "",
+            "type": "neutral",
+            "products_desc": ""
+          },
+          {
+            "eq": "Fe + F2 -> FeF2",
+            "reversible": false,
+            "danger": true,
+            "name": "Фторування заліза при кімнатній t°",
+            "conditions": "Кімнатна t°, захисний шар F2",
+            "type": "exo",
+            "products_desc": "⚠️ Ферум(II) фторид FeF₂; білий осад/плівка"
+          },
+          {
+            "eq": "7Fe + 8S -> Fe7S8",
+            "reversible": false,
+            "danger": false,
+            "name": "Синтез піротину",
+            "conditions": "t° (500°C) у вакуумній ампулі",
+            "type": "exo",
+            "products_desc": "Піротин Fe₇S₈; нестехіометричний сульфід заліза"
+          },
+          {
+            "eq": "Fe + Se -> FeSe",
+            "reversible": false,
+            "danger": false,
+            "name": "Синтез селеніду заліза",
+            "conditions": "t° (500-600°C) в інертній атмосфері",
+            "type": "exo",
+            "products_desc": "Ферум(II) селенід FeSe; напівпровідникові кристали"
+          },
+          {
+            "eq": "Fe + Te -> FeTe",
+            "reversible": false,
+            "danger": false,
+            "name": "Синтез телуриду заліза",
+            "conditions": "t° (700°C) у вакуумованій ампулі",
+            "type": "exo",
+            "products_desc": "Ферум(II) телурид FeTe; сірі кристали з металевим блиском"
+          },
+          {
+            "eq": "3Fe + 2P -> Fe3P",
+            "reversible": false,
+            "danger": false,
+            "name": "Сплавлення з фосфором",
+            "conditions": "t° (800°C) у вакуумі",
+            "type": "exo",
+            "products_desc": "Тайніт/триферум фосфід Fe₃P; сіра тверда речовина"
+          },
+          {
+            "eq": "Fe + P -> FeP",
+            "reversible": false,
+            "danger": false,
+            "name": "Синтез монофосфіду заліза",
+            "conditions": "t° (900°C) під тиском парів фосфору",
+            "type": "exo",
+            "products_desc": "Ферум(III) фосфід FeP; сірі металоподібні кристали"
+          },
+          {
+            "eq": "Fe + 2P -> FeP2",
+            "reversible": false,
+            "danger": false,
+            "name": "Синтез дифосфіду заліза",
+            "conditions": "t° (700°C) в ампулі",
+            "type": "exo",
+            "products_desc": "Дифосфід заліза FeP₂; чорні кристали"
+          },
+          {
+            "eq": "4Fe + N2 -> Fe4N",
+            "reversible": false,
+            "danger": false,
+            "name": "Іонне азотування заліза",
+            "conditions": "t° (450-550°C), розряд плазми",
+            "type": "endo",
+            "products_desc": "Нітридна фаза Fe₄N; надтвердий захисний шар"
+          },
+          {
+            "eq": "Fe + Si -> FeSi",
+            "reversible": false,
+            "danger": false,
+            "name": "Сплавлення з кремнієм",
+            "conditions": "t° (1200°C) в індукційній печі",
+            "type": "exo",
+            "products_desc": "Ферум силіцид FeSi; компонент феросиліцію"
+          },
+          {
+            "eq": "Fe + 2Si -> FeSi2",
+            "reversible": false,
+            "danger": false,
+            "name": "Утворення дисиліциду заліза",
+            "conditions": "t° (1100°C)",
+            "type": "exo",
+            "products_desc": "Ферум дисиліцид FeSi₂; термоелектрична фаза"
+          },
+          {
+            "eq": "3Fe + Si -> Fe3Si",
+            "reversible": false,
+            "danger": false,
+            "name": "Утворення фази Fe3Si",
+            "conditions": "t° (1250°C)",
+            "type": "exo",
+            "products_desc": "Силіцид заліза Fe₃Si; магнітна м'яка фаза"
+          },
+          {
+            "eq": "3Fe + B -> Fe3B",
+            "reversible": false,
+            "danger": false,
+            "name": "Борування заліза",
+            "conditions": "t° (900-1000°C), насичення бором",
+            "type": "exo",
+            "products_desc": "Борид заліза Fe₃B; зносостійке покриття"
+          },
+          {
+            "eq": "Fe + B -> FeB",
+            "reversible": false,
+            "danger": false,
+            "name": "Синтез монобориду заліза",
+            "conditions": "t° (1100°C) у спекальних печах",
+            "type": "exo",
+            "products_desc": "Моноборид заліза FeB; надтверді кристали"
+          },
+          {
+            "eq": "Fe + 2B -> FeB2",
+            "reversible": false,
+            "danger": false,
+            "name": "Синтез дибориду заліза",
+            "conditions": "t° (1200°C) під високим тиском",
+            "type": "endo",
+            "products_desc": "Диборид заліза FeB₂; надтвердий тугоплавкий матеріал"
+          },
+          {
+            "eq": "Fe + 2As -> FeAs2",
+            "reversible": false,
+            "danger": true,
+            "name": "Сплавлення з миш'яком (льолінгіт)",
+            "conditions": "t° (700°C) у запаяній ампулі",
+            "type": "exo",
+            "products_desc": "⚠️ Ферум диарсенід FeAs₂ (льолінгіт)"
+          },
+          {
+            "eq": "2Fe + O2 + 2H2O -> 2Fe(OH)2",
+            "reversible": false,
+            "danger": false,
+            "name": "Початкова стадія гідролітичного окиснення",
+            "conditions": "Деаерована вода з залишковим O2",
+            "type": "exo",
+            "products_desc": "Гідроксид феруму(II) Fe(OH)₂; зеленкувато-білий осад"
+          },
+          {
+            "eq": "2Fe + 3H2O2 -> 2Fe(OH)3",
+            "reversible": false,
+            "danger": false,
+            "name": "Окиснення заліза пероксидом водню",
+            "conditions": "Кімнатна t°, реактив Фентона (початок)",
+            "type": "exo",
+            "products_desc": "Ферум(III) гідроксид Fe(OH)₃"
+          },
+          {
+            "eq": "4Fe + 3O2 + 2H2O -> 4FeO(OH)",
+            "reversible": false,
+            "danger": false,
+            "name": "Утворення гетиту при атмосферній корозії",
+            "conditions": "Вологе повітря, помірна t°",
+            "type": "exo",
+            "products_desc": "Ферум(III) оксид-гідроксид FeO(OH) (гетит)"
+          },
+          {
+            "eq": "2Fe + 3SO2 + 3O2 -> Fe2(SO4)3",
+            "reversible": false,
+            "danger": false,
+            "name": "Сульфатна корозія заліза у димових газах",
+            "conditions": "t° (300°C)",
+            "type": "exo",
+            "products_desc": "Ферум(III) сульфат"
+          },
+          {
+            "eq": "2Fe + 3H2O + 3O2 -> Fe2O3*3H2O",
+            "reversible": false,
+            "danger": false,
+            "name": "Гідратоване іржавіння заліза",
+            "conditions": "Тривалий контакт з вологою",
+            "type": "exo",
+            "products_desc": "Гідрат оксиду феруму(III)"
+          },
+          {
+            "eq": "3Fe + 2O2 + 2H2O -> Fe3O4*2H2O",
+            "reversible": false,
+            "danger": false,
+            "name": "Магнетитна корозія під плівкою води",
+            "conditions": "Недостача кисню під водою",
+            "type": "exo",
+            "products_desc": "Гідратована залізна окалина"
+          },
+          {
+            "eq": "Fe + 2K3[Fe(CN)6] -> Fe3[Fe(CN)6]2",
+            "reversible": false,
+            "danger": false,
+            "name": "Утворення турнбулевої сині",
+            "conditions": "Водний розчин гексаціаноферату(III)",
+            "type": "exo",
+            "products_desc": "Синій осад (турнбулева синь)"
+          },
+          {
+            "eq": "Fe + Na2O2 -> Na2FeO4",
+            "reversible": false,
+            "danger": false,
+            "name": "Окиснення пероксидом натрію",
+            "conditions": "t° (400°C), спекання",
+            "type": "exo",
+            "products_desc": "Натрій феррат(VI) Na₂FeO₄"
+          },
+          {
+            "eq": "Fe + 5CO <=> Fe(CO)5",
+            "reversible": true,
+            "danger": true,
+            "name": "Синтез пентакарбонілу заліза",
+            "conditions": "t° (150-200°C), тиск 100-200 атм CO",
+            "type": "exo",
+            "products_desc": "⚠️ Ферум(₀) пентакарбоніл Fe(CO)₅; токсична рідка сполука"
+          },
+          {
+            "eq": "Fe + 2CH3I -> CH3FeI",
+            "reversible": false,
+            "danger": true,
+            "name": "Утворення органозалізного реагенту",
+            "conditions": "Низькі t° (-70°C), безводний THF",
+            "type": "exo",
+            "products_desc": "⚠️ Метилферум йодид; металоорганічна сполука"
+          },
+          {
+            "eq": "Fe + 2C2H5I -> C2H5FeI",
+            "reversible": false,
+            "danger": true,
+            "name": "Взаємодія з етилйодидом",
+            "conditions": "Безводний етер, -50°C",
+            "type": "exo",
+            "products_desc": "⚠️ Етилферум йодид"
+          },
+          {
+            "eq": "Fe + C6H5Br -> C6H5FeBr",
+            "reversible": false,
+            "danger": false,
+            "name": "Окиснювальне приєднання до бромобензолу",
+            "conditions": "Активоване залізо (Rieke iron), THF",
+            "type": "exo",
+            "products_desc": "Фенілферум бромід"
           }
         ]
       }
@@ -7951,169 +8401,7 @@
         "title": "1.6. Специфічні неорганічні синтези та взаємодія оксидів",
         "reactions": [
           {
-            "eq": "Na2O + Al2O3 -> 2NaAlO2",
-            "reversible": false,
-            "danger": false,
-            "name": "",
-            "conditions": "",
-            "type": "neutral",
-            "products_desc": ""
-          },
-          {
-            "eq": "K2O + Fe2O3 -> 2KFeO2",
-            "reversible": false,
-            "danger": false,
-            "name": "",
-            "conditions": "",
-            "type": "neutral",
-            "products_desc": ""
-          },
-          {
-            "eq": "Li2O + SiO2 -> Li2SiO3",
-            "reversible": false,
-            "danger": false,
-            "name": "",
-            "conditions": "",
-            "type": "neutral",
-            "products_desc": ""
-          },
-          {
-            "eq": "BaO + SiO2 -> BaSiO3",
-            "reversible": false,
-            "danger": false,
-            "name": "",
-            "conditions": "",
-            "type": "neutral",
-            "products_desc": ""
-          },
-          {
-            "eq": "SrO + SiO2 -> SrSiO3",
-            "reversible": false,
-            "danger": false,
-            "name": "",
-            "conditions": "",
-            "type": "neutral",
-            "products_desc": ""
-          },
-          {
-            "eq": "MgO + Al2O3 -> MgAl2O4",
-            "reversible": false,
-            "danger": false,
-            "name": "",
-            "conditions": "",
-            "type": "neutral",
-            "products_desc": ""
-          },
-          {
-            "eq": "FeO + Al2O3 -> FeAl2O4",
-            "reversible": false,
-            "danger": false,
-            "name": "",
-            "conditions": "",
-            "type": "neutral",
-            "products_desc": ""
-          },
-          {
-            "eq": "ZnO + Al2O3 -> ZnAl2O4",
-            "reversible": false,
-            "danger": false,
-            "name": "",
-            "conditions": "",
-            "type": "neutral",
-            "products_desc": ""
-          },
-          {
-            "eq": "CoO + Al2O3 -> CoAl2O4",
-            "reversible": false,
-            "danger": false,
-            "name": "",
-            "conditions": "",
-            "type": "neutral",
-            "products_desc": ""
-          },
-          {
-            "eq": "CuO + Al2O3 -> CuAl2O4",
-            "reversible": false,
-            "danger": false,
-            "name": "",
-            "conditions": "",
-            "type": "neutral",
-            "products_desc": ""
-          },
-          {
-            "eq": "PbO + SiO2 -> PbSiO3",
-            "reversible": false,
-            "danger": false,
-            "name": "",
-            "conditions": "",
-            "type": "neutral",
-            "products_desc": ""
-          },
-          {
-            "eq": "Bi2O3 + 3SO3 -> Bi2(SO4)3",
-            "reversible": false,
-            "danger": false,
-            "name": "",
-            "conditions": "",
-            "type": "neutral",
-            "products_desc": ""
-          },
-          {
-            "eq": "2Cu2O + O2 -> 4CuO",
-            "reversible": false,
-            "danger": false,
-            "name": "",
-            "conditions": "",
-            "type": "neutral",
-            "products_desc": ""
-          },
-          {
-            "eq": "4FeO + O2 -> 2Fe2O3",
-            "reversible": false,
-            "danger": false,
-            "name": "",
-            "conditions": "",
-            "type": "neutral",
-            "products_desc": ""
-          },
-          {
-            "eq": "2PbO + O2 -> 2PbO2",
-            "reversible": false,
-            "danger": false,
-            "name": "",
-            "conditions": "",
-            "type": "neutral",
-            "products_desc": ""
-          },
-          {
-            "eq": "2MnO + O2 -> 2MnO2",
-            "reversible": false,
-            "danger": false,
-            "name": "",
-            "conditions": "",
-            "type": "neutral",
-            "products_desc": ""
-          },
-          {
             "eq": "2CrO + O2 -> 2CrO3",
-            "reversible": false,
-            "danger": false,
-            "name": "",
-            "conditions": "",
-            "type": "neutral",
-            "products_desc": ""
-          },
-          {
-            "eq": "Na2O2 + CO -> Na2CO3",
-            "reversible": false,
-            "danger": false,
-            "name": "",
-            "conditions": "",
-            "type": "neutral",
-            "products_desc": ""
-          },
-          {
-            "eq": "2Na2O2 + 2CO2 -> 2Na2CO3 + O2",
             "reversible": false,
             "danger": false,
             "name": "",
@@ -8231,15 +8519,6 @@
         "title": "1.8. Гідрування та галогенування ароматичних сполук",
         "reactions": [
           {
-            "eq": "C6H6 + 3H2 -> C6H12",
-            "reversible": false,
-            "danger": false,
-            "name": "",
-            "conditions": "",
-            "type": "neutral",
-            "products_desc": ""
-          },
-          {
             "eq": "C6H6 + 3Cl2 -> C6H6Cl6",
             "reversible": false,
             "danger": true,
@@ -8249,43 +8528,7 @@
             "products_desc": "⚠️ C₆H₆Cl₆ (гексахлоран) — пестицид, токсичний"
           },
           {
-            "eq": "C10H8 + 5H2 -> C10H18",
-            "reversible": false,
-            "danger": false,
-            "name": "",
-            "conditions": "",
-            "type": "neutral",
-            "products_desc": ""
-          },
-          {
-            "eq": "C10H8 + 2H2 -> C10H12",
-            "reversible": false,
-            "danger": false,
-            "name": "",
-            "conditions": "",
-            "type": "neutral",
-            "products_desc": ""
-          },
-          {
-            "eq": "C6H5-CH=CH2 + H2 -> C6H5-CH2-CH3",
-            "reversible": false,
-            "danger": false,
-            "name": "",
-            "conditions": "",
-            "type": "neutral",
-            "products_desc": ""
-          },
-          {
             "eq": "C6H5-CH=CH2 + Br2 -> C6H5-CHBr-CH2Br",
-            "reversible": false,
-            "danger": false,
-            "name": "",
-            "conditions": "",
-            "type": "neutral",
-            "products_desc": ""
-          },
-          {
-            "eq": "C6H5OH + 3H2 -> C6H11OH",
             "reversible": false,
             "danger": false,
             "name": "",
@@ -8656,7 +8899,7 @@
             "name": "Термічний розклад нітриту амонію",
             "conditions": "Слабке нагрівання насиченого водного розчину суміші NH4Cl та NaNO2",
             "type": "endo",
-            "products_desc": "Рівномірне виділення бульбашок чистого інертного газу азоту N₂"
+            "products_desc": "⚠️ Рівномірне виділення бульбашок чистого інертного газу азоту N₂"
           },
           {
             "eq": "2KClO3 -> 2KCl + 3O2",
@@ -8940,7 +9183,7 @@
           {
             "eq": "2CH4 -> C2H2 + 3H2",
             "reversible": false,
-            "danger": false,
+            "danger": true,
             "name": "Високотемпературний піроліз метану",
             "conditions": "1500°C (загартування)",
             "type": "endo",
@@ -10916,6 +11159,33 @@
             "conditions": "енолаза + Mg2+/Mn2+ (інгібується NaF)",
             "type": "endo",
             "products_desc": "Фосфоенолпіруват (PEP) з високоенергетичним зв'язком"
+          },
+          {
+            "eq": "C9H9NO2 -> C9H8O2 + NH3",
+            "reversible": false,
+            "danger": false,
+            "name": "6. Внутрішньомолекулярне дезамінування фенілаланіну",
+            "conditions": "фенілаланінаміак-ліаза (PAL) (у рослин)",
+            "type": "exo",
+            "products_desc": "Транс-корична кислота та аміак (початок фенілпропаноїдного шляху)"
+          },
+          {
+            "eq": "C6H9N3O2 -> C6H7N3O2 + NH3",
+            "reversible": false,
+            "danger": false,
+            "name": "7. Внутрішньомолекулярне дезамінування гістидину",
+            "conditions": "гістидаза (гістидинаміак-ліаза)",
+            "type": "exo",
+            "products_desc": "Уроканова кислота та аміак"
+          },
+          {
+            "eq": "Fe + 2NH3 -> FeN + NH2",
+            "reversible": false,
+            "danger": false,
+            "name": "Термічний розклад аміаку на залізі",
+            "conditions": "t° (500-600°C), нітрована сталь",
+            "type": "endo",
+            "products_desc": "Нітрид заліза та водень/похідні"
           }
         ]
       },
@@ -11391,7 +11661,7 @@
           {
             "eq": "2Al + 6HCl -> 2AlCl3 + 3H2",
             "reversible": false,
-            "danger": false,
+            "danger": true,
             "name": "Розчинення алюмінію в хлоридній кислоті",
             "conditions": "розчин HCl",
             "type": "exo",
@@ -11788,10 +12058,10 @@
             "eq": "Fe + Pb(NO3)2 -> Fe(NO3)2 + Pb",
             "reversible": false,
             "danger": true,
-            "name": "",
-            "conditions": "",
-            "type": "neutral",
-            "products_desc": ""
+            "name": "Витіснення свинцю з нітрату",
+            "conditions": "Кімнатна t°",
+            "type": "exo",
+            "products_desc": "⚠️ Ферум(II) нітрат та дендрити свинцю Pb"
           },
           {
             "eq": "Mg + Pb(NO3)2 -> Mg(NO3)2 + Pb",
@@ -11878,10 +12148,10 @@
             "eq": "Fe + CuCl2 -> FeCl2 + Cu",
             "reversible": false,
             "danger": true,
-            "name": "",
-            "conditions": "",
-            "type": "neutral",
-            "products_desc": ""
+            "name": "Витіснення міді з хлориду міді(II)",
+            "conditions": "Кімнатна t°",
+            "type": "exo",
+            "products_desc": "⚠️ Ферум(II) хлорид FeCl₂ та червоний осад міді"
           },
           {
             "eq": "Zn + CuCl2 -> ZnCl2 + Cu",
@@ -11908,7 +12178,7 @@
             "name": "Витіснення міді з хлориду міді",
             "conditions": "водний розчин CuCl2",
             "type": "exo",
-            "products_desc": "Алюміній хлорид AlCl₃ та осад міді Cu"
+            "products_desc": "⚠️ Алюміній хлорид AlCl₃ та осад міді Cu"
           },
           {
             "eq": "Cl2 + 2KBr -> 2KCl + Br2",
@@ -12030,7 +12300,7 @@
           {
             "eq": "10Al + 3V2O5 -> 5Al2O3 + 6V",
             "reversible": false,
-            "danger": false,
+            "danger": true,
             "name": "Отримання ванадію з ванадій(V) оксиду",
             "conditions": "висока температура",
             "type": "exo",
@@ -12048,7 +12318,7 @@
           {
             "eq": "2Al + 3FeO -> Al2O3 + 3Fe",
             "reversible": false,
-            "danger": false,
+            "danger": true,
             "name": "Відновлення ферум(II) оксиду",
             "conditions": "t° (>800°C)",
             "type": "exo",
@@ -12057,7 +12327,7 @@
           {
             "eq": "8Al + 3Fe3O4 -> 4Al2O3 + 9Fe",
             "reversible": false,
-            "danger": false,
+            "danger": true,
             "name": "Термітна реакція з залізною окалиною",
             "conditions": "підпалювання (>1000°C)",
             "type": "exo",
@@ -12066,7 +12336,7 @@
           {
             "eq": "4Al + 3MnO2 -> 2Al2O3 + 3Mn",
             "reversible": false,
-            "danger": false,
+            "danger": true,
             "name": "Отримання марганцю з диоксиду марганцю",
             "conditions": "підпалювання суміші",
             "type": "exo",
@@ -12075,7 +12345,7 @@
           {
             "eq": "2Al + WO3 -> Al2O3 + W",
             "reversible": false,
-            "danger": false,
+            "danger": true,
             "name": "Спекання з вольфрам(VI) оксидом",
             "conditions": "високотемпературний синтез",
             "type": "exo",
@@ -12421,7 +12691,7 @@
             "name": "49. Магнієтермічне добування берилію з фториду",
             "conditions": "t = 1300 °C",
             "type": "exo",
-            "products_desc": "Металевий берилій та фторид магнію"
+            "products_desc": "⚠️ Металевий берилій та фторид магнію"
           },
           {
             "eq": "SiCl4 + 2Mg -> Si + 2MgCl2",
@@ -12475,7 +12745,7 @@
             "name": "Дихлорування метану",
             "conditions": "hν (світло)",
             "type": "exo",
-            "products_desc": "Дихлорметан (технічний розчинник)"
+            "products_desc": "⚠️ Дихлорметан (технічний розчинник)"
           },
           {
             "eq": "CH2Cl2 + Cl2 -> CHCl3 + HCl",
@@ -12484,7 +12754,7 @@
             "name": "Трихлорування метану",
             "conditions": "hν (світло)",
             "type": "exo",
-            "products_desc": "Хлороформ (CHCl₃)"
+            "products_desc": "⚠️ Хлороформ (CHCl₃)"
           },
           {
             "eq": "CHCl3 + Cl2 -> CCl4 + HCl",
@@ -12493,7 +12763,7 @@
             "name": "Тетрахлорування метану",
             "conditions": "hν (світло)",
             "type": "exo",
-            "products_desc": "Тетрахлорметан (чотирихлористий вуглець)"
+            "products_desc": "⚠️ Тетрахлорметан (чотирихлористий вуглець)"
           },
           {
             "eq": "C2H6 + Cl2 -> C2H5Cl + HCl",
@@ -12592,7 +12862,7 @@
             "name": "Сульфування бензену",
             "conditions": "H2SO4 (конц.) або олеум t°",
             "type": "exo",
-            "products_desc": "Бензенсульфокислота; зворотна реакція при нагріванні з розведеною кислотою"
+            "products_desc": "⚠️ Бензенсульфокислота; зворотна реакція при нагріванні з розведеною кислотою"
           },
           {
             "eq": "C6H5-CH3 + Cl2 -> C6H5-CH2Cl + HCl",
@@ -12840,7 +13110,7 @@
           {
             "eq": "2Al + 2NaOH + 6H2O -> 2Na[Al(OH)4] + 3H2",
             "reversible": false,
-            "danger": false,
+            "danger": true,
             "name": "Розчинення алюмінію у водній лугу",
             "conditions": "водний розчин NaOH",
             "type": "exo",
@@ -12894,7 +13164,7 @@
           {
             "eq": "2Al + 2KOH + 6H2O -> 2K[Al(OH)4] + 3H2",
             "reversible": false,
-            "danger": false,
+            "danger": true,
             "name": "Розчинення алюмінію в їдкому калі",
             "conditions": "водний розчин KOH",
             "type": "exo",
@@ -13236,7 +13506,7 @@
           {
             "eq": "2Al + 6HBr -> 2AlBr3 + 3H2",
             "reversible": false,
-            "danger": false,
+            "danger": true,
             "name": "Розчинення алюмінію в бромводневій кислоті",
             "conditions": "розчин HBr",
             "type": "exo",
@@ -13245,11 +13515,11 @@
           {
             "eq": "Fe + 2HBr -> FeBr2 + H2",
             "reversible": false,
-            "danger": false,
-            "name": "",
-            "conditions": "",
-            "type": "neutral",
-            "products_desc": ""
+            "danger": true,
+            "name": "Розчинення у бромводневій кислоті",
+            "conditions": "Кімнатна t°",
+            "type": "exo",
+            "products_desc": "⚠️ Ферум(II) бромід FeBr₂ та водень H₂"
           },
           {
             "eq": "2Na + 2HBr -> 2NaBr + H2",
@@ -13299,7 +13569,7 @@
           {
             "eq": "2Al + 6HI -> 2AlI3 + 3H2",
             "reversible": false,
-            "danger": false,
+            "danger": true,
             "name": "Розчинення алюмінію в йодводневій кислоті",
             "conditions": "розчин HI",
             "type": "exo",
@@ -13309,10 +13579,10 @@
             "eq": "Fe + 2HI -> FeI2 + H2",
             "reversible": false,
             "danger": false,
-            "name": "",
-            "conditions": "",
-            "type": "neutral",
-            "products_desc": ""
+            "name": "Розчинення у йодоводневій кислоті",
+            "conditions": "Кімнатна t°",
+            "type": "exo",
+            "products_desc": "Ферум(II) йодид FeI₂ та водень H₂"
           },
           {
             "eq": "2Na + 2HI -> 2NaI + H2",
@@ -13372,10 +13642,10 @@
             "eq": "3Fe + 2H3PO4 -> Fe3(PO4)2 + 3H2",
             "reversible": false,
             "danger": false,
-            "name": "",
-            "conditions": "",
-            "type": "neutral",
-            "products_desc": ""
+            "name": "Фосфатування заліза (початкова реакція)",
+            "conditions": "Кімнатна t°",
+            "type": "exo",
+            "products_desc": "Нерозчинний ферум(II) ортофосфат та H₂"
           },
           {
             "eq": "6Na + 2H3PO4 -> 2Na3PO4 + 3H2",
@@ -13920,7 +14190,7 @@
           {
             "eq": "Br2 + C6H5-CH3 -> C6H5-CH2Br + HBr",
             "reversible": false,
-            "danger": false,
+            "danger": true,
             "name": "Радикальне бромування толуолу (у бічний ланцюг)",
             "conditions": "УФ-світло (hν) або t° (110°C), без FeBr3",
             "type": "exo",
@@ -14010,7 +14280,7 @@
           {
             "eq": "Br2 + CH3COOH -> CH2BrCOOH + HBr",
             "reversible": false,
-            "danger": false,
+            "danger": true,
             "name": "Реакція Гелля-Фольгарда-Зелінського (бромування карбонових кислот)",
             "conditions": "Червоний фосфор P (або PBr3), t°",
             "type": "exo",
@@ -14113,7 +14383,7 @@
             "name": "Нітрування нафталіну до 1-нітронафталіну",
             "conditions": "H2SO4, t=60°C",
             "type": "exo",
-            "products_desc": "₁-нітронафталін, вода"
+            "products_desc": "⚠️ ₁-нітронафталін, вода"
           },
           {
             "eq": "3HNO3 + C3H5(OH)3 -> C3H5(ONO2)3 + 3H2O",
@@ -14856,7 +15126,7 @@
           {
             "eq": "2Al + 3PbO -> Al2O3 + 3Pb",
             "reversible": false,
-            "danger": false,
+            "danger": true,
             "name": "Відновлення плюмбум(II) оксиду",
             "conditions": "t° (>700°C)",
             "type": "exo",
@@ -14883,7 +15153,7 @@
           {
             "eq": "2Al + 3CdO -> Al2O3 + 3Cd",
             "reversible": false,
-            "danger": false,
+            "danger": true,
             "name": "Відновлення кадмій(II) оксиду",
             "conditions": "t° (>800°C)",
             "type": "exo",
@@ -14919,7 +15189,7 @@
           {
             "eq": "2Al + Sb2O3 -> Al2O3 + 2Sb",
             "reversible": false,
-            "danger": false,
+            "danger": true,
             "name": "Відновлення антимон(III) оксиду",
             "conditions": "t° (>800°C)",
             "type": "exo",
@@ -14928,7 +15198,7 @@
           {
             "eq": "2Al + As2O3 -> Al2O3 + 2As",
             "reversible": false,
-            "danger": false,
+            "danger": true,
             "name": "Відновлення арсен(III) оксиду",
             "conditions": "t° (>800°C)",
             "type": "exo",
@@ -14941,7 +15211,7 @@
             "name": "Вибухове відновлення меркурій(II) оксиду",
             "conditions": "t°",
             "type": "exo",
-            "products_desc": "TRUE"
+            "products_desc": "⚠️ TRUE"
           },
           {
             "eq": "2Al + 3Ag2O -> Al2O3 + 6Ag",
@@ -17340,7 +17610,7 @@
           {
             "eq": "C6H5NO2 + HNO3 -> C6H4(NO2)2 + H2O",
             "reversible": false,
-            "danger": false,
+            "danger": true,
             "name": "Нітрування нітробензолу до 1",
             "conditions": "3-динітробензолу",
             "type": "exo",
@@ -18544,7 +18814,7 @@
             "products_desc": "⚠️ Етан і CO₂ на аноді; H₂ і NaOH на катоді"
           },
           {
-            "eq": "CO + 3H2 -> CH4 + H2O",
+            "eq": "CO + 3H2 <=> CH4 + H2O",
             "reversible": true,
             "danger": false,
             "name": "Метанування синтез-газу",
@@ -23510,6 +23780,1131 @@
             "conditions": "транскетолаза + TPP + Mg2+",
             "type": "exo",
             "products_desc": "Фруктозо-₆-фосфат (F₆P) та GAP (повернення в гліколіз)"
+          },
+          {
+            "eq": "C5H9NO4 + NAD+ + H2O <=> C5H6O5 + NH3 + NADH + H+",
+            "reversible": true,
+            "danger": false,
+            "name": "1. Пряме окиснювальне дезамінування глутамату (Головне)",
+            "conditions": "глутаматдегідрогеназа (GDH) + ADP/GTP (активатор/інгібітор)",
+            "type": "exo",
+            "products_desc": "а-Кетоглутарат"
+          },
+          {
+            "eq": "C2H5NO2 + H2O + O2 -> C2H2O3 + NH3 + H2O2",
+            "reversible": false,
+            "danger": false,
+            "name": "2. Окиснювальне дезамінування L-амінокислот (Пероксисомальне)",
+            "conditions": "оксидаза L-амінокислот + FMN",
+            "type": "exo",
+            "products_desc": "а-Кетокислота"
+          },
+          {
+            "eq": "C3H7NO3 -> C3H4O3 + NH3",
+            "reversible": false,
+            "danger": false,
+            "name": "3. Неокиснювальне дезамінування серину (Дегідратаційне)",
+            "conditions": "сериндегідратаза + PLP (піридоксальфосфат / вітамін B6)",
+            "type": "exo",
+            "products_desc": "Піруват та аміак; відщеплення води з утворенням енаміну"
+          },
+          {
+            "eq": "C4H9NO3 -> C4H6O3 + NH3",
+            "reversible": false,
+            "danger": false,
+            "name": "4. Неокиснювальне дезамінування треоніну",
+            "conditions": "треоніндегідратаза + PLP",
+            "type": "exo",
+            "products_desc": "а-Кетобутират та аміак"
+          },
+          {
+            "eq": "C3H7NO2S + H2O -> C3H4O3 + NH3 + H2S",
+            "reversible": false,
+            "danger": false,
+            "name": "5. Десульфгідраза цистеїну",
+            "conditions": "цистеїндесульфгідраза + PLP",
+            "type": "exo",
+            "products_desc": "Піруват"
+          },
+          {
+            "eq": "C5H10N2O3 + H2O -> C5H9NO4 + NH3",
+            "reversible": false,
+            "danger": false,
+            "name": "8. Гідролітичне дезамінування глутаміну",
+            "conditions": "глутаміназа (у нирках та печінці)",
+            "type": "exo",
+            "products_desc": "Глутамат та аміак; ключовий механізм знешкодження NH₃ та регуляції pH"
+          },
+          {
+            "eq": "C4H8N2O3 + H2O -> C4H7NO4 + NH3",
+            "reversible": false,
+            "danger": false,
+            "name": "9. Гідролітичне дезамінування аспарагіну",
+            "conditions": "аспарагіназа",
+            "type": "exo",
+            "products_desc": "Аспартат та аміак"
+          },
+          {
+            "eq": "C5H9NO4 + C3H4O3 <=> C5H6O5 + C3H7NO2",
+            "reversible": true,
+            "danger": false,
+            "name": "10. Трансамінування: АЛТ (ALT / GPT)",
+            "conditions": "аланінамінотрансфераза (АЛТ) + PLP",
+            "type": "exo",
+            "products_desc": "а-Кетоглутарат та аланін (перший етап непрямого дезамінування)"
+          },
+          {
+            "eq": "C5H9NO4 + C4H4O5 <=> C5H6O5 + C4H7NO4",
+            "reversible": true,
+            "danger": false,
+            "name": "11. Трансамінування: АСТ (AST / GOT)",
+            "conditions": "аспартатамінотрансфераза (АСТ) + PLP",
+            "type": "exo",
+            "products_desc": "а-Кетоглутарат та аспартат (перенос аміногрупи на аспартат)"
+          },
+          {
+            "eq": "C5H9NO4 + C3H3O3-PO3H2 <=> C5H6O5 + C3H6NO5-P",
+            "reversible": true,
+            "danger": false,
+            "name": "12. Трансамінування до 3-фосфопірувату",
+            "conditions": "фосфосеринамінотрансфераза + PLP",
+            "type": "exo",
+            "products_desc": "а-Кетоглутарат та ₃-фосфосерин (синтез серину)"
+          },
+          {
+            "eq": "CH3COOH + C2H5OH <=> CH3COOC2H5 + H2O",
+            "reversible": true,
+            "danger": false,
+            "name": "Естерифікація оцтової кислоти етанолом",
+            "conditions": "H2SO4 (конц.) t°",
+            "type": "exo",
+            "products_desc": "Етилацетат (фруктовий запах) та вода"
+          },
+          {
+            "eq": "HCOOH + CH3OH <=> HCOOCH3 + H2O",
+            "reversible": true,
+            "danger": false,
+            "name": "Естерифікація мурашиної кислоти метанолом",
+            "conditions": "H2SO4 (конц.) t°",
+            "type": "exo",
+            "products_desc": "Метилформіат та вода"
+          },
+          {
+            "eq": "CH3COOH + CH3OH <=> CH3COOCH3 + H2O",
+            "reversible": true,
+            "danger": false,
+            "name": "Естерифікація оцтової кислоти метанолом",
+            "conditions": "H2SO4 (конц.) t°",
+            "type": "exo",
+            "products_desc": "Метилацетат та вода"
+          },
+          {
+            "eq": "CH3COOH + C3H7OH <=> CH3COOC3H7 + H2O",
+            "reversible": true,
+            "danger": false,
+            "name": "Естерифікація н-пропанолом",
+            "conditions": "H2SO4 (конц.) t°",
+            "type": "exo",
+            "products_desc": "Пропілацетат (запах груші) та вода"
+          },
+          {
+            "eq": "CH3COOH + C4H9OH <=> CH3COOC4H9 + H2O",
+            "reversible": true,
+            "danger": false,
+            "name": "Естерифікація н-бутанолом",
+            "conditions": "H2SO4 (конц.) t°",
+            "type": "exo",
+            "products_desc": "Бутилацетат (банановий розчинник) та вода"
+          },
+          {
+            "eq": "CH3COOH + C5H11OH <=> CH3COOC5H11 + H2O",
+            "reversible": true,
+            "danger": false,
+            "name": "Синтез ізоамілацетату",
+            "conditions": "H2SO4 (конц.) t°",
+            "type": "exo",
+            "products_desc": "Ізоамілацетат (грушева/бананова есенція)"
+          },
+          {
+            "eq": "C3H7COOH + C2H5OH <=> C3H7COOC2H5 + H2O",
+            "reversible": true,
+            "danger": false,
+            "name": "Естерифікація масляної кислоти",
+            "conditions": "H2SO4 (конц.) t°",
+            "type": "exo",
+            "products_desc": "Етилбутират (ананасовий запах) та вода"
+          },
+          {
+            "eq": "C3H7COOH + CH3OH <=> C3H7COOCH3 + H2O",
+            "reversible": true,
+            "danger": false,
+            "name": "Синтез метилбутирату",
+            "conditions": "H2SO4 (конц.) t°",
+            "type": "exo",
+            "products_desc": "Метилбутират (запах яблук)"
+          },
+          {
+            "eq": "C5H11COOH + C2H5OH <=> C5H11COOC2H5 + H2O",
+            "reversible": true,
+            "danger": false,
+            "name": "Естерифікація капронової кислоти",
+            "conditions": "H2SO4 (конц.) t°",
+            "type": "exo",
+            "products_desc": "Етилгексаноат (виноградний запах)"
+          },
+          {
+            "eq": "C6H4(OH)COOH + CH3OH <=> C6H4(OH)COOCH3 + H2O",
+            "reversible": true,
+            "danger": false,
+            "name": "Естерифікація саліцилової кислоти",
+            "conditions": "H2SO4 (конц.) t°",
+            "type": "exo",
+            "products_desc": "Метилсаліцилат (запах гаультерії"
+          },
+          {
+            "eq": "C3H5(OH)3 + 3C17H35COOH <=> (C17H35COO)3C3H5 + 3H2O",
+            "reversible": true,
+            "danger": false,
+            "name": "Утворення тристеарину (синтез жиру)",
+            "conditions": "H2SO4 (конц.) t°",
+            "type": "exo",
+            "products_desc": "Тристеарин (твердий жир) та вода"
+          },
+          {
+            "eq": "C3H5(OH)3 + 3C15H31COOH <=> (C15H31COO)3C3H5 + 3H2O",
+            "reversible": true,
+            "danger": false,
+            "name": "Синтез трипальмітину",
+            "conditions": "H2SO4 (конц.) t°",
+            "type": "exo",
+            "products_desc": "Трипальмітин (рослинний/тваринний жир)"
+          },
+          {
+            "eq": "C3H5(OH)3 + 3C17H33COOH <=> (C17H33COO)3C3H5 + 3H2O",
+            "reversible": true,
+            "danger": false,
+            "name": "Синтез триолеїну",
+            "conditions": "H2SO4 (конц.) t°",
+            "type": "exo",
+            "products_desc": "Триолеїн (рідкий жир / олія)"
+          },
+          {
+            "eq": "C2H5OH + H2SO4 <=> C2H5OSO3H + H2O",
+            "reversible": true,
+            "danger": false,
+            "name": "Естерифікація етанолу сульфатною кислотою",
+            "conditions": "без нагрівання (0-20°C)",
+            "type": "exo",
+            "products_desc": "Етилгідросульфат (кислий естер сульфатної кислоти)"
+          },
+          {
+            "eq": "2C2H5OH + H2SO4 <=> (C2H5)2SO4 + 2H2O",
+            "reversible": true,
+            "danger": true,
+            "name": "Утворення діетилсульфату",
+            "conditions": "надлишок спирту t°",
+            "type": "exo",
+            "products_desc": "⚠️ Діетилсульфат (токсичний алкілюючий агент)"
+          },
+          {
+            "eq": "C2H5OH + H3PO4 <=> C2H5O-PO(OH)2 + H2O",
+            "reversible": true,
+            "danger": false,
+            "name": "Естерифікація фосфорною кислотою",
+            "conditions": "t°",
+            "type": "exo",
+            "products_desc": "Етилфосфат (моноестер фосфорної кислоти)"
+          },
+          {
+            "eq": "CH3COCl + C2H5OH -> CH3COOC2H5 + HCl",
+            "reversible": false,
+            "danger": true,
+            "name": "Ацилювання спирту ацетилхлоридом (незворотна естерифікація)",
+            "conditions": "без умов (кімнатна t°)",
+            "type": "exo",
+            "products_desc": "⚠️ Етилацетат та виділення газоподібного HCl"
+          },
+          {
+            "eq": "(CH3CO)2O + C2H5OH -> CH3COOC2H5 + CH3COOH",
+            "reversible": false,
+            "danger": false,
+            "name": "Взаємодія етанолу з оцтовим ангідридом",
+            "conditions": "t° (або pyridine кат.)",
+            "type": "exo",
+            "products_desc": "Етилацетат та оцтова кислота"
+          },
+          {
+            "eq": "C6H4(OH)COOH + (CH3CO)2O -> C6H4(OCOCH3)COOH + CH3COOH",
+            "reversible": false,
+            "danger": false,
+            "name": "Ацетилювання саліцилової кислоти (синтез аспірину)",
+            "conditions": "H2SO4 (конц.) t=80°C",
+            "type": "exo",
+            "products_desc": "Ацетилсаліцилова кислота (аспірин) та оцтова кислота"
+          },
+          {
+            "eq": "CH3COOCH3 + C2H5OH <=> CH3COOC2H5 + CH3OH",
+            "reversible": true,
+            "danger": false,
+            "name": "Переестерифікація (перезаміщення спиртового залишку)",
+            "conditions": "NaOCH3 / H+ t°",
+            "type": "exo",
+            "products_desc": "Етилацетат та метанол"
+          },
+          {
+            "eq": "(C17H33COO)3C3H5 + 3CH3OH -> 3C17H33COOCH3 + C3H5(OH)3",
+            "reversible": false,
+            "danger": false,
+            "name": "Переестерифікація жирів метанолом (виробництво біодизелю)",
+            "conditions": "KOH / NaOH кат. 60°C",
+            "type": "exo",
+            "products_desc": "Метилові естери жирних кислот (біодизель) та гліцерол"
+          },
+          {
+            "eq": "n C6H4(COOH)2 + n C2H4(OH)2 -> [-CO-C6H4-CO-O-CH2-CH2-O-]n + 2n H2O",
+            "reversible": false,
+            "danger": false,
+            "name": "Поліконденсація (утворення поліестеру лавсану/ПЕТ)",
+            "conditions": "кат. 200-280°C p",
+            "type": "exo",
+            "products_desc": "Поліетилентерефталат (ПЕТ / лавсан) та вода"
+          },
+          {
+            "eq": "Fe + H2O + CO2 -> FeHCO3 + 1/2H2",
+            "reversible": false,
+            "danger": false,
+            "name": "Карбонатна корозія заліза",
+            "conditions": "Під тиском CO2 у волозі",
+            "type": "exo",
+            "products_desc": "Розчинний гідрокарбонат феруму(II) та H₂"
+          },
+          {
+            "eq": "Fe + 2H2O -> Fe(OH)2 + H2",
+            "reversible": false,
+            "danger": false,
+            "name": "Анаеробна корозія заліза у воді",
+            "conditions": "Висока t° (200°C) у автоклаві",
+            "type": "exo",
+            "products_desc": "Ферум(II) гідроксид Fe(OH)₂ та водень H₂"
+          },
+          {
+            "eq": "Fe + 2SO2 + O2 + 2H2O -> FeSO4 + H2SO4",
+            "reversible": false,
+            "danger": false,
+            "name": "Кислотна атмосферна корозія (SO2)",
+            "conditions": "Промислова атмосфера, волога",
+            "type": "exo",
+            "products_desc": "Ферум(II) сульфат та розведена кислота"
+          },
+          {
+            "eq": "Fe + Cl2 + 2H2O -> FeCl2 + 2HClO",
+            "reversible": false,
+            "danger": true,
+            "name": "Корозія у вологому хлорі",
+            "conditions": "Вологий хлор при кімнатній t°",
+            "type": "exo",
+            "products_desc": "⚠️ Ферум(II) хлорид та хлорноватиста кислота"
+          },
+          {
+            "eq": "Fe + I2 + 2H2O -> FeI2 + 2H2O",
+            "reversible": false,
+            "danger": false,
+            "name": "Розчинення заліза під дією йоду у воді",
+            "conditions": "Кімнатна t°, водна суспензія I2",
+            "type": "exo",
+            "products_desc": "Ферум(II) йодид FeI₂ у розчині"
+          },
+          {
+            "eq": "Fe + Br2 + 2H2O -> FeBr2 + 2H2O",
+            "reversible": false,
+            "danger": true,
+            "name": "Реакція з бромною водою",
+            "conditions": "Кімнатна t°",
+            "type": "exo",
+            "products_desc": "⚠️ Розчин ферум(II) броміду"
+          },
+          {
+            "eq": "Fe + 2H2S + O2 -> FeS2 + 2H2O",
+            "reversible": false,
+            "danger": true,
+            "name": "Піритизація заліза у сірководневому середовищі",
+            "conditions": "Анаеробні умови з Trace O2",
+            "type": "exo",
+            "products_desc": "⚠️ Ферум дисульфід FeS₂ (пірит)"
+          },
+          {
+            "eq": "Fe + 2HF -> FeF2 + H2",
+            "reversible": false,
+            "danger": true,
+            "name": "Реакція з фторводневою кислотою",
+            "conditions": "Кімнатна t°, часткова пасивація",
+            "type": "exo",
+            "products_desc": "⚠️ Ферум(II) фторид FeF₂ (малорозчинний) та H₂"
+          },
+          {
+            "eq": "Fe + 2H3PO4 -> Fe(H2PO4)2 + H2",
+            "reversible": false,
+            "danger": false,
+            "name": "Розчинення у надлишку H3PO4",
+            "conditions": "Нагрівання (70°C)",
+            "type": "exo",
+            "products_desc": "Розчинний дигідрофосфат феруму(II) та H₂"
+          },
+          {
+            "eq": "Fe + H2S -> FeS + H2",
+            "reversible": false,
+            "danger": true,
+            "name": "Сірководнева корозія заліза",
+            "conditions": "t° (300°C) у газовій фазі",
+            "type": "exo",
+            "products_desc": "⚠️ Ферум(II) сульфід FeS та водень H₂"
+          },
+          {
+            "eq": "Fe + 2HClO4 -> FeCl2 + ...",
+            "reversible": false,
+            "danger": true,
+            "name": "Розчинення у розведеній хлорній кислоті",
+            "conditions": "Охолодження, обережно",
+            "type": "exo",
+            "products_desc": "⚠️ Ферум(II) перхлорат Fe(ClO₄)₂ та H₂"
+          },
+          {
+            "eq": "Fe + 2HCN -> Fe(CN)2 + H2",
+            "reversible": false,
+            "danger": true,
+            "name": "Взаємодія з синильною кислотою",
+            "conditions": "Безводні умови",
+            "type": "exo",
+            "products_desc": "⚠️ Ферум(II) ціанід та токсичний H₂"
+          },
+          {
+            "eq": "Fe + H2CO3 -> FeCO3 + H2",
+            "reversible": false,
+            "danger": false,
+            "name": "Взаємодія з вугільною кислотою під тиском",
+            "conditions": "Тиск CO2 (10 атм)",
+            "type": "exo",
+            "products_desc": "Ферум(II) карбонат (сидерит) та H₂"
+          },
+          {
+            "eq": "Fe + 2HN3 -> Fe(N3)2 + H2",
+            "reversible": false,
+            "danger": true,
+            "name": "Реакція з азотистоводневою кислотою",
+            "conditions": "Охолодження (-10°C), обережно",
+            "type": "exo",
+            "products_desc": "⚠️ Ферум(II) азид Fe(N₃)₂ та H₂"
+          },
+          {
+            "eq": "Fe + 2HBF4 -> Fe(BF4)2 + H2",
+            "reversible": false,
+            "danger": false,
+            "name": "Розчинення у тетрафтороборній кислоті",
+            "conditions": "Кімнатна t°",
+            "type": "exo",
+            "products_desc": "Ферум(II) тетрафтороборат та H₂"
+          },
+          {
+            "eq": "Fe + 2HPF6 -> Fe(PF6)2 + H2",
+            "reversible": false,
+            "danger": false,
+            "name": "Розчинення у гексафторофосфорній кислоті",
+            "conditions": "Кімнатна t°",
+            "type": "exo",
+            "products_desc": "Ферум(II) гексафторофосфат та H₂"
+          },
+          {
+            "eq": "Fe + 2HSCN -> Fe(SCN)2 + H2",
+            "reversible": false,
+            "danger": false,
+            "name": "Розчинення у родоновидній кислоті",
+            "conditions": "Кімнатна t°",
+            "type": "exo",
+            "products_desc": "Ферум(II) тіоціанат та H₂"
+          },
+          {
+            "eq": "Fe + 2H2SeO4 -> FeSeO4 + SeO2 + 2H2O",
+            "reversible": false,
+            "danger": true,
+            "name": "Взаємодія з селеногою кислотою",
+            "conditions": "Нагрівання",
+            "type": "exo",
+            "products_desc": "⚠️ Ферум(II) селенат та SeO₂"
+          },
+          {
+            "eq": "Fe + 2H2SiO3 -> FeSiO3 + ...",
+            "reversible": false,
+            "danger": false,
+            "name": "Гідротермальна взаємодія з кремнієвою кислотою",
+            "conditions": "t° (200°C) в автоклаві",
+            "type": "endo",
+            "products_desc": "Ферум(II) силікат (фаяліт)"
+          },
+          {
+            "eq": "Fe + 2HBrO3 -> Fe(BrO3)2 + H2",
+            "reversible": false,
+            "danger": true,
+            "name": "Реакція з бромнуватою кислотою",
+            "conditions": "Розведена, 0°C",
+            "type": "exo",
+            "products_desc": "⚠️ Ферум(II) бромат"
+          },
+          {
+            "eq": "Fe + 2HIO3 -> Fe(IO3)2 + H2",
+            "reversible": false,
+            "danger": false,
+            "name": "Реакція з йоднуватою кислотою",
+            "conditions": "Кімнатна t°",
+            "type": "exo",
+            "products_desc": "Ферум(II) йодат"
+          },
+          {
+            "eq": "3Fe + 2H3AsO4 -> Fe3(AsO4)2 + 3H2",
+            "reversible": false,
+            "danger": true,
+            "name": "Реакція з арсенатною кислотою",
+            "conditions": "Кімнатна t°",
+            "type": "exo",
+            "products_desc": "⚠️ Ферум(II) арсенат (скородит-прекурсор) та H₂"
+          },
+          {
+            "eq": "Fe + 2HReO4 -> Fe(ReO4)2 + H2",
+            "reversible": false,
+            "danger": false,
+            "name": "Розчинення у ренієвій кислоті",
+            "conditions": "Кімнатна t°",
+            "type": "exo",
+            "products_desc": "Ферум(II) перренат"
+          },
+          {
+            "eq": "Fe + 2HMnO4 -> Fe(MnO4)2 + ...",
+            "reversible": false,
+            "danger": true,
+            "name": "Окиснення марганцевою кислотою",
+            "conditions": "Охолодження",
+            "type": "exo",
+            "products_desc": "⚠️ Ферум(III) і Mn(II) солі"
+          },
+          {
+            "eq": "Fe + H2S2O7 -> FeSO4 + SO2 + H2O",
+            "reversible": false,
+            "danger": true,
+            "name": "Взаємодія з олеумом",
+            "conditions": "t° (50°C)",
+            "type": "exo",
+            "products_desc": "⚠️ Ферум(II) сульфат та SO₂"
+          },
+          {
+            "eq": "Fe + 2HSO3F -> Fe(SO3F)2 + H2",
+            "reversible": false,
+            "danger": true,
+            "name": "Розчинення у фторсульфоновій кислоті",
+            "conditions": "Кімнатна t°",
+            "type": "exo",
+            "products_desc": "⚠️ Ферум(II) фторсульфонат та H₂"
+          },
+          {
+            "eq": "Fe + 2CF3SO3H -> Fe(CF3SO3)2 + H2",
+            "reversible": false,
+            "danger": false,
+            "name": "Розчинення у трифліковій кислоті",
+            "conditions": "Безводне середовище",
+            "type": "exo",
+            "products_desc": "Ферум(II) трифлат та H₂"
+          },
+          {
+            "eq": "Fe + 2HClO3 -> FeCl2 + ...",
+            "reversible": false,
+            "danger": true,
+            "name": "Реакція з хлорнуватою кислотою",
+            "conditions": "Охолодження, розведена",
+            "type": "exo",
+            "products_desc": "⚠️ Ферум(II) хлорид та продукти окиснення"
+          },
+          {
+            "eq": "Fe + 3AgNO3(надл) -> Fe(NO3)3 + 3Ag",
+            "reversible": false,
+            "danger": false,
+            "name": "Повне окиснення заліза надлишком AgNO3",
+            "conditions": "Кімнатна t°, надлишок AgNO3",
+            "type": "exo",
+            "products_desc": "Ферум(III) нітрат та срібло Ag"
+          },
+          {
+            "eq": "Fe + HgCl2 -> FeCl2 + Hg",
+            "reversible": false,
+            "danger": true,
+            "name": "Витіснення ртуті з сулеми",
+            "conditions": "Кімнатна t°, водний розчин",
+            "type": "exo",
+            "products_desc": "⚠️ Ферум(II) хлорид та краплі ртуті Hg"
+          },
+          {
+            "eq": "Fe + 2HgNO3 -> Fe(NO3)2 + 2Hg",
+            "reversible": false,
+            "danger": true,
+            "name": "Відновлення меркурію(I)",
+            "conditions": "Кімнатна t°",
+            "type": "exo",
+            "products_desc": "⚠️ Ферум(II) нітрат та металева ртуть"
+          },
+          {
+            "eq": "Fe + CdSO4 -> FeSO4 + Cd",
+            "reversible": false,
+            "danger": true,
+            "name": "Витіснення кадмію з сульфату",
+            "conditions": "Кімнатна t°",
+            "type": "exo",
+            "products_desc": "⚠️ Ферум(II) сульфат та кадмій Cd"
+          },
+          {
+            "eq": "Fe + AuCl3 -> FeCl3 + Au",
+            "reversible": false,
+            "danger": false,
+            "name": "Витіснення золота з хлориду золота(III)",
+            "conditions": "Кімнатна t°",
+            "type": "exo",
+            "products_desc": "Ферум(III) хлорид та металевий осадок золота"
+          },
+          {
+            "eq": "2Fe + 3PtCl4 -> 2FeCl3 + 3Pt",
+            "reversible": false,
+            "danger": false,
+            "name": "Витіснення платини з тетрахлориду",
+            "conditions": "Кімнатна t°",
+            "type": "exo",
+            "products_desc": "Ферум(III) хлорид та платинова чернь"
+          },
+          {
+            "eq": "Fe + PdCl2 -> FeCl2 + Pd",
+            "reversible": false,
+            "danger": false,
+            "name": "Витіснення паладію з хлориду",
+            "conditions": "Кімнатна t°",
+            "type": "exo",
+            "products_desc": "Ферум(II) хлорид та паладієвий осад"
+          },
+          {
+            "eq": "Fe + BiCl3 -> FeCl2 + Bi",
+            "reversible": false,
+            "danger": false,
+            "name": "Відновлення бісмуту з хлориду",
+            "conditions": "Кімнатна t°",
+            "type": "exo",
+            "products_desc": "Ферум(II) хлорид та металевий вісмут Bi"
+          },
+          {
+            "eq": "Fe + SbCl3 -> FeCl2 + Sb",
+            "reversible": false,
+            "danger": false,
+            "name": "Відновлення сурми з хлориду",
+            "conditions": "Кімнатна t°",
+            "type": "exo",
+            "products_desc": "Ферум(II) хлорид та чорний порошок сурми"
+          },
+          {
+            "eq": "Fe + 2VOCl3 -> FeCl2 + 2VOCl2",
+            "reversible": false,
+            "danger": false,
+            "name": "Відновлення ванадил трихлориду",
+            "conditions": "Безводне середовище",
+            "type": "exo",
+            "products_desc": "Ферум(II) хлорид та ванадил(IV) хлорид"
+          },
+          {
+            "eq": "Fe + TiCl4 -> FeCl2 + TiCl2",
+            "reversible": false,
+            "danger": true,
+            "name": "Відновлення тетрахлориду титану",
+            "conditions": "t° (300°C) у закритій системі",
+            "type": "exo",
+            "products_desc": "⚠️ Ферум(II) хлорид та дихлорид титану"
+          },
+          {
+            "eq": "Fe + CoSO4 -> FeSO4 + Co",
+            "reversible": false,
+            "danger": false,
+            "name": "Витіснення кобальту з сульфату (повільно)",
+            "conditions": "Кімнатна t°, тривала витримка",
+            "type": "exo",
+            "products_desc": "Ферум(II) сульфат та кобальт"
+          },
+          {
+            "eq": "Fe + NiSO4 -> FeSO4 + Ni",
+            "reversible": false,
+            "danger": false,
+            "name": "Витіснення нікелю з сульфату",
+            "conditions": "Кімнатна t°",
+            "type": "exo",
+            "products_desc": "Ферум(II) сульфат та металевий нікель"
+          },
+          {
+            "eq": "Fe + RhCl3 -> FeCl2 + Rh",
+            "reversible": false,
+            "danger": false,
+            "name": "Відновлення родію з хлориду",
+            "conditions": "Кімнатна t°",
+            "type": "exo",
+            "products_desc": "Ферум(II) хлорид та осад родію"
+          },
+          {
+            "eq": "Fe + IrCl3 -> FeCl2 + Ir",
+            "reversible": false,
+            "danger": false,
+            "name": "Відновлення іридію з розчину солі",
+            "conditions": "Кімнатна t°",
+            "type": "exo",
+            "products_desc": "Ферум(II) хлорид та іридій"
+          },
+          {
+            "eq": "Fe + Tl2SO4 -> FeSO4 + 2Tl",
+            "reversible": false,
+            "danger": true,
+            "name": "Витіснення талію з сульфату",
+            "conditions": "Кімнатна t°",
+            "type": "exo",
+            "products_desc": "⚠️ Ферум(II) сульфат та металевий талій Tl"
+          },
+          {
+            "eq": "Fe + InCl3 -> FeCl2 + In",
+            "reversible": false,
+            "danger": false,
+            "name": "Відновлення індію з хлориду",
+            "conditions": "Кімнатна t°",
+            "type": "exo",
+            "products_desc": "Ферум(II) хлорид та індій"
+          },
+          {
+            "eq": "Fe + GaCl3 -> FeCl2 + Ga",
+            "reversible": false,
+            "danger": false,
+            "name": "Відновлення галію з хлориду",
+            "conditions": "Кімнатна t°",
+            "type": "exo",
+            "products_desc": "Ферум(II) хлорид та металевий галій"
+          },
+          {
+            "eq": "Fe + H2PtCl6 -> FeCl2 + Pt + 6HCl",
+            "reversible": false,
+            "danger": false,
+            "name": "Відновлення платинохлористоводневої кислоти",
+            "conditions": "Водний розчин, кімнатна t°",
+            "type": "exo",
+            "products_desc": "Ферум(II) хлорид, платина та HCl"
+          },
+          {
+            "eq": "Fe + HAuCl4 -> FeCl3 + Au + HCl",
+            "reversible": false,
+            "danger": false,
+            "name": "Відновлення золотохлористоводневої кислоти",
+            "conditions": "Водний розчин",
+            "type": "exo",
+            "products_desc": "Ферум(III) хлорид, золото та HCl"
+          },
+          {
+            "eq": "Fe + 2Ce(SO4)2 -> FeSO4 + Ce2(SO4)3",
+            "reversible": false,
+            "danger": false,
+            "name": "Відновлення цериду(IV) залізом",
+            "conditions": "Кисле середовище",
+            "type": "exo",
+            "products_desc": "Ферум(II) сульфат та церий(III) сульфат"
+          },
+          {
+            "eq": "Fe + CO2 <=> FeO + CO",
+            "reversible": true,
+            "danger": true,
+            "name": "Відновлення вуглекислого газу залізом",
+            "conditions": "t° (700-900°C), рівноважна реакція",
+            "type": "endo",
+            "products_desc": "⚠️ Ферум(II) оксид FeO та токсичний CO"
+          },
+          {
+            "eq": "3Fe + 4CO2 <=> Fe3O4 + 4CO",
+            "reversible": true,
+            "danger": true,
+            "name": "Глибоке окиснення заліза вуглекислим газом",
+            "conditions": "t° (500-600°C)",
+            "type": "endo",
+            "products_desc": "⚠️ Залізна окалина Fe₃O₄ та монооксид вуглецю CO"
+          },
+          {
+            "eq": "Fe + CO -> FeO + C",
+            "reversible": false,
+            "danger": false,
+            "name": "Диспропорціонування CO на поверхні заліза",
+            "conditions": "t° (400-500°C), каталітичне",
+            "type": "exo",
+            "products_desc": "Ферум(II) оксид та вуглець (сажа)"
+          },
+          {
+            "eq": "Fe + SO2 -> FeO + SO",
+            "reversible": false,
+            "danger": true,
+            "name": "Взаємодія заліза з сернистим газом",
+            "conditions": "t° (500°C)",
+            "type": "exo",
+            "products_desc": "⚠️ Ферум(II) оксид та монооксид сірки"
+          },
+          {
+            "eq": "Fe + 2SO3 -> FeSO4 + SO2",
+            "reversible": false,
+            "danger": true,
+            "name": "Реакція з триоксидом сірки",
+            "conditions": "t° (300°C)",
+            "type": "exo",
+            "products_desc": "⚠️ Ферум(II) сульфат та SO₂"
+          },
+          {
+            "eq": "2Fe + 3N2O -> Fe2O3 + 3N2",
+            "reversible": false,
+            "danger": false,
+            "name": "Відновлення закису азоту",
+            "conditions": "t° (400°C)",
+            "type": "exo",
+            "products_desc": "Ферум(III) оксид та молекулярний азот N₂"
+          },
+          {
+            "eq": "2Fe + 3NO -> Fe2O3 + 3/2N2",
+            "reversible": false,
+            "danger": false,
+            "name": "Відновлення монооксиду азоту",
+            "conditions": "t° (500°C)",
+            "type": "exo",
+            "products_desc": "Ферум(III) оксид та азот N₂"
+          },
+          {
+            "eq": "2Fe + 3NO2 -> Fe2O3 + 3NO",
+            "reversible": false,
+            "danger": true,
+            "name": "Окиснення заліза диоксидом азоту",
+            "conditions": "t° (300°C)",
+            "type": "exo",
+            "products_desc": "⚠️ Ферум(III) оксид та NO"
+          },
+          {
+            "eq": "Fe + Cu2O -> FeO + 2Cu",
+            "reversible": false,
+            "danger": false,
+            "name": "Відновлення оксиду міді(I) залізом",
+            "conditions": "t° (800°C), твердофазна реакція",
+            "type": "exo",
+            "products_desc": "Ферум(II) оксид та металева мідь"
+          },
+          {
+            "eq": "Fe + CuO -> FeO + Cu",
+            "reversible": false,
+            "danger": false,
+            "name": "Термічне відновлення оксиду міді(II)",
+            "conditions": "t° (600°C)",
+            "type": "exo",
+            "products_desc": "Ферум(II) оксид та мідь"
+          },
+          {
+            "eq": "Fe + PbO -> FeO + Pb",
+            "reversible": false,
+            "danger": false,
+            "name": "Відновлення гльоту (PbO) залізом",
+            "conditions": "t° (700°C)",
+            "type": "exo",
+            "products_desc": "Ферум(II) оксид та розплавлений свинець"
+          },
+          {
+            "eq": "Fe + NiO -> FeO + Ni",
+            "reversible": false,
+            "danger": false,
+            "name": "Термічне відновлення оксиду нікелю",
+            "conditions": "t° (800°C)",
+            "type": "exo",
+            "products_desc": "Ферум(II) оксид та нікель"
+          },
+          {
+            "eq": "Fe + CdO -> FeO + Cd",
+            "reversible": false,
+            "danger": true,
+            "name": "Відновлення оксиду кадмію",
+            "conditions": "t° (900°C)",
+            "type": "exo",
+            "products_desc": "⚠️ Ферум(II) оксид та пари кадмію"
+          },
+          {
+            "eq": "Fe + SnO2 -> FeO + SnO",
+            "reversible": false,
+            "danger": false,
+            "name": "Відновлення диоксиду олова",
+            "conditions": "t° (900°C)",
+            "type": "endo",
+            "products_desc": "Оксид заліза та монооксид олова"
+          },
+          {
+            "eq": "Fe + V2O5 -> FeO + 2VO2",
+            "reversible": false,
+            "danger": false,
+            "name": "Часткове відновлення оксиду ванадію(V)",
+            "conditions": "t° (700°C)",
+            "type": "exo",
+            "products_desc": "Ферум(II) оксид та оксиди ванадію"
+          },
+          {
+            "eq": "2Fe + 3Bi2O3 -> Fe2O3 + 6Bi",
+            "reversible": false,
+            "danger": false,
+            "name": "Відновлення оксиду вісмуту",
+            "conditions": "t° (600°C)",
+            "type": "exo",
+            "products_desc": "Ферум(III) оксид та вісмут"
+          },
+          {
+            "eq": "2Fe + 3Sb2O3 -> Fe2O3 + 6Sb",
+            "reversible": false,
+            "danger": false,
+            "name": "Відновлення оксиду сурми",
+            "conditions": "t° (700°C)",
+            "type": "exo",
+            "products_desc": "Ферум(III) оксид та сурма"
+          },
+          {
+            "eq": "Fe + HgO -> FeO + Hg",
+            "reversible": false,
+            "danger": true,
+            "name": "Термічне відновлення оксиду ртуті",
+            "conditions": "t° (400°C)",
+            "type": "exo",
+            "products_desc": "⚠️ Ферум(II) оксид та пари ртуті"
+          },
+          {
+            "eq": "Fe + Ag2O -> FeO + 2Ag",
+            "reversible": false,
+            "danger": false,
+            "name": "Відновлення оксиду срібла",
+            "conditions": "t° (300°C)",
+            "type": "exo",
+            "products_desc": "Ферум(II) оксид та металеве срібло"
+          },
+          {
+            "eq": "Fe + 2NaOH(розплав) -> Na2FeO2 + H2",
+            "reversible": false,
+            "danger": true,
+            "name": "Взаємодія заліза з розплавом гідроксиду натрію",
+            "conditions": "t° (600°C), безкисневе середовище",
+            "type": "exo",
+            "products_desc": "⚠️ Натрій ферит(II) Na₂FeO₂ та водень H₂"
+          },
+          {
+            "eq": "Fe + 2KOH(розплав) -> K2FeO2 + H2",
+            "reversible": false,
+            "danger": true,
+            "name": "Сплавлення заліза з гідроксидом калію",
+            "conditions": "t° (600°C)",
+            "type": "exo",
+            "products_desc": "⚠️ Калій ферит(II) K₂FeO₂ та водень H₂"
+          },
+          {
+            "eq": "Fe + 2KNO3(розплав) -> K2FeO4 + 2NO",
+            "reversible": false,
+            "danger": true,
+            "name": "Окиснювальне сплавлення до феррату(VI)",
+            "conditions": "t° (400-500°C) з KOH/KNO3",
+            "type": "exo",
+            "products_desc": "⚠️ Калій феррат(VI) K₂FeO₄ (фіолетовий) та NO"
+          },
+          {
+            "eq": "Fe + 2KClO3 -> FeCl2 + 2KCl + 3O2",
+            "reversible": false,
+            "danger": true,
+            "name": "Реакція залізного порошку з бертолетовою сіллю",
+            "conditions": "Ініціювання іскрою/t°",
+            "type": "exo",
+            "products_desc": "⚠️ Суміш хлоридів та інтенсивне горіння"
+          },
+          {
+            "eq": "Fe + K2CO3(розплав) -> FeO + CO + K2O",
+            "reversible": false,
+            "danger": true,
+            "name": "Корозія заліза у розплаві карбонатів",
+            "conditions": "t° (800°C)",
+            "type": "endo",
+            "products_desc": "⚠️ Ферум(II) оксид, угарний газ CO та K₂O"
+          },
+          {
+            "eq": "Fe + 2NaCl(розплав) <=> FeCl2 + 2Na",
+            "reversible": true,
+            "danger": true,
+            "name": "Взаємодія з розплавом хлориду натрію у вакуумі",
+            "conditions": "t° (>900°C) під вакуумом",
+            "type": "endo",
+            "products_desc": "⚠️ Ферум(II) хлорид та пари натрію"
+          },
+          {
+            "eq": "Fe + ZnCl2(розплав) -> FeCl2 + Zn",
+            "reversible": false,
+            "danger": false,
+            "name": "Витіснення цинку з розплаву хлориду",
+            "conditions": "t° (500°C)",
+            "type": "exo",
+            "products_desc": "Ферум(II) хлорид та металевий цинк"
+          },
+          {
+            "eq": "Fe + PbCl2(розплав) -> FeCl2 + Pb",
+            "reversible": false,
+            "danger": false,
+            "name": "Витіснення свинцю з розплаву хлориду",
+            "conditions": "t° (600°C)",
+            "type": "exo",
+            "products_desc": "Ферум(II) хлорид та розплавлений свинець"
+          },
+          {
+            "eq": "Fe + CuCl(розплав) -> FeCl2 + Cu",
+            "reversible": false,
+            "danger": false,
+            "name": "Витіснення міді з розплаву CuCl",
+            "conditions": "t° (500°C)",
+            "type": "exo",
+            "products_desc": "Ферум(II) хлорид та мідь"
+          },
+          {
+            "eq": "Fe + 2CH3COOH -> Fe(CH3COO)2 + H2",
+            "reversible": false,
+            "danger": false,
+            "name": "Розчинення у розведеній оцтовій кислоті",
+            "conditions": "Нагрівання (60°C)",
+            "type": "exo",
+            "products_desc": "Ферум(II) ацетат та водень H₂"
+          },
+          {
+            "eq": "Fe + 2HCOOH -> Fe(HCOO)2 + H2",
+            "reversible": false,
+            "danger": false,
+            "name": "Реакція з мурашиною кислотою",
+            "conditions": "Нагрівання",
+            "type": "exo",
+            "products_desc": "Ферум(II) форміат та водень H₂"
+          },
+          {
+            "eq": "Fe + HOOC-COOH -> FeC2O4 + H2",
+            "reversible": false,
+            "danger": false,
+            "name": "Взаємодія з щавлевою кислотою",
+            "conditions": "Кімнатна t°",
+            "type": "exo",
+            "products_desc": "Ферум(II) оксалат (жовтий осад) та водень H₂"
+          },
+          {
+            "eq": "Fe + C6H8O7 -> Fe-цитрат + H2",
+            "reversible": false,
+            "danger": false,
+            "name": "Розчинення у лимонній кислоті",
+            "conditions": "Нагрівання (50°C)",
+            "type": "exo",
+            "products_desc": "Цитрат феруму(II) та водень H₂"
+          },
+          {
+            "eq": "Fe + 2C3H6O3 -> Fe(C3H5O3)2 + H2",
+            "reversible": false,
+            "danger": false,
+            "name": "Розчинення у молочній кислоті",
+            "conditions": "Кімнатна t°",
+            "type": "exo",
+            "products_desc": "Лактат феруму(II) та водень H₂"
+          },
+          {
+            "eq": "Fe + 2C5H6 -> Fe(C5H5)2 + H2",
+            "reversible": false,
+            "danger": false,
+            "name": "Прямий синтез фероцену",
+            "conditions": "t° (300°C) у газовій фазі",
+            "type": "exo",
+            "products_desc": "Фероцен Fe(C₅H₅)₂; помаранчеві сендвічеві кристали"
+          },
+          {
+            "eq": "Fe + 2C6H5OH -> Fe(C6H5O)2 + H2",
+            "reversible": false,
+            "danger": false,
+            "name": "Реакція з фенолом при високій t°",
+            "conditions": "t° (200°C), безводне середовище",
+            "type": "exo",
+            "products_desc": "Ферум(II) фенолят та водень H₂"
+          },
+          {
+            "eq": "Fe + 2CH3OH -> Fe(CH3O)2 + H2",
+            "reversible": false,
+            "danger": true,
+            "name": "Утворення метилату заліза",
+            "conditions": "Автоклав, t° (150°C), безводний MeOH",
+            "type": "exo",
+            "products_desc": "⚠️ Ферум(II) метилат та водень H₂"
+          },
+          {
+            "eq": "Fe + 2C2H5OH -> Fe(C2H5O)2 + H2",
+            "reversible": false,
+            "danger": true,
+            "name": "Утворення етилату заліза",
+            "conditions": "t° (160°C) під тиском",
+            "type": "exo",
+            "products_desc": "⚠️ Ферум(II) етилат та водень H₂"
+          },
+          {
+            "eq": "Fe + 2C17H35COOH -> Fe(C17H35COO)2 + H2",
+            "reversible": false,
+            "danger": false,
+            "name": "Синтез стеарату заліза",
+            "conditions": "t° (150°C), розплав стеаринової кислоти",
+            "type": "exo",
+            "products_desc": "Ферум(II) стеарат (технічне мило) та H₂"
+          },
+          {
+            "eq": "Fe + 2C5H8O2 -> Fe(C5H7O2)2 + H2",
+            "reversible": false,
+            "danger": false,
+            "name": "Реакція з ацетилацетоном",
+            "conditions": "t° (100°C), рефлюкс",
+            "type": "exo",
+            "products_desc": "Ферум(II) ацетилацетонат Fe(acac)₂ та H₂"
+          },
+          {
+            "eq": "Fe + 2CF3COOH -> Fe(CF3COO)2 + H2",
+            "reversible": false,
+            "danger": false,
+            "name": "Розчинення у трифтороцтовій кислоті",
+            "conditions": "Кімнатна t°",
+            "type": "exo",
+            "products_desc": "Ферум(II) трифторацетат та H₂"
+          },
+          {
+            "eq": "Fe + 2C11H23COOH -> Fe(C11H23COO)2 + H2",
+            "reversible": false,
+            "danger": false,
+            "name": "Взаємодія з лауриновою кислотою",
+            "conditions": "t° (140°C)",
+            "type": "exo",
+            "products_desc": "Ферум(II) лаурат та H₂"
+          },
+          {
+            "eq": "Fe + 2C7H15COOH -> Fe(C7H15COO)2 + H2",
+            "reversible": false,
+            "danger": false,
+            "name": "Реакція з каприловою кислотою",
+            "conditions": "t° (130°C)",
+            "type": "exo",
+            "products_desc": "Ферум(II) каприлат та H₂"
+          },
+          {
+            "eq": "Fe + C6H4(COOH)2 -> FeC6H4(COO)2 + H2",
+            "reversible": false,
+            "danger": false,
+            "name": "Реакція з фталевою кислотою",
+            "conditions": "t° (180°C)",
+            "type": "exo",
+            "products_desc": "Ферум(II) фталат та H₂"
+          },
+          {
+            "eq": "Fe + 3C5H8O2 -> Fe(C5H7O2)3 + ...",
+            "reversible": false,
+            "danger": false,
+            "name": "Окиснювальний синтез ацетилацетонату феруму(III)",
+            "conditions": "t° (100°C) у присутності повітря",
+            "type": "exo",
+            "products_desc": "Ферум(III) ацетилацетонат Fe(acac)₃"
           }
         ]
       }
@@ -23946,7 +25341,7 @@
             "name": "Нейтралізація Плюмбум(II) гідроксид азотною кислотою",
             "conditions": "кімнатна t°",
             "type": "exo",
-            "products_desc": "Сіль Pb(NO₃)₂, вода"
+            "products_desc": "⚠️ Сіль Pb(NO₃)₂, вода"
           },
           {
             "eq": "2HCl + Cd(OH)2 -> CdCl2 + 2H2O",
@@ -24152,7 +25547,7 @@
             "danger": false,
             "name": "Осадження AgCl",
             "conditions": "розчин",
-            "type": "neutral",
+            "type": "exo",
             "products_desc": "AgCl↓ — білий сирнистий осад; якісна р. на Cl⁻"
           },
           {
@@ -24161,7 +25556,7 @@
             "danger": true,
             "name": "Осадження BaSO₄",
             "conditions": "розчин",
-            "type": "neutral",
+            "type": "exo",
             "products_desc": "⚠️ BaSO₄↓ — белосніжний осад; якісна р. на SO₄²⁻"
           },
           {
@@ -24170,7 +25565,7 @@
             "danger": false,
             "name": "Осадження Cu(OH)₂",
             "conditions": "розчин",
-            "type": "neutral",
+            "type": "exo",
             "products_desc": "Cu(OH)₂↓ — синій осад; якісна р. на Cu²⁺"
           },
           {
@@ -24188,7 +25583,7 @@
             "danger": true,
             "name": "Осадження PbI₂",
             "conditions": "розчин",
-            "type": "neutral",
+            "type": "exo",
             "products_desc": "⚠️ PbI₂ — яскраво-жовтий осад (золотий дощ)"
           },
           {
@@ -24197,7 +25592,7 @@
             "danger": true,
             "name": "Осадження CaCO₃",
             "conditions": "розчин",
-            "type": "neutral",
+            "type": "exo",
             "products_desc": "⚠️ CaCO₃↓ — білий осад (крейда)"
           },
           {
@@ -24242,7 +25637,7 @@
             "danger": false,
             "name": "Осадження AgBr",
             "conditions": "розчин",
-            "type": "neutral",
+            "type": "exo",
             "products_desc": "AgBr↓ — блідо-жовтий осад; якісна р. на Br⁻"
           },
           {
@@ -24269,7 +25664,7 @@
             "danger": true,
             "name": "Осадження Fe(OH)₂",
             "conditions": "розчин",
-            "type": "neutral",
+            "type": "exo",
             "products_desc": "⚠️ Fe(OH)₂↓ — зелений осад; якісна р. на Fe²⁺"
           },
           {
@@ -24287,7 +25682,7 @@
             "danger": false,
             "name": "Осадження AgI",
             "conditions": "розчин",
-            "type": "neutral",
+            "type": "exo",
             "products_desc": "AgI↓ — жовтий осад; якісна р. на I⁻"
           },
           {
@@ -24305,7 +25700,7 @@
             "danger": false,
             "name": "Осадження Zn(OH)₂",
             "conditions": "розчин",
-            "type": "neutral",
+            "type": "exo",
             "products_desc": "Zn(OH)₂↓ — білий амфотерний осад"
           },
           {
@@ -24431,7 +25826,7 @@
             "danger": true,
             "name": "Осадження PbSO₄",
             "conditions": "розчин",
-            "type": "neutral",
+            "type": "exo",
             "products_desc": "⚠️ PbSO₄↓ — білий; Pb — токсичний"
           },
           {
@@ -25233,7 +26628,7 @@
             "name": "Розчинення Плюмбум(II) оксид в HNO3",
             "conditions": "кімнатна t°",
             "type": "exo",
-            "products_desc": "Нітрат Pb(NO₃)₂, вода"
+            "products_desc": "⚠️ Нітрат Pb(NO₃)₂, вода"
           },
           {
             "eq": "HgO + 2HNO3 -> Hg(NO3)2 + H2O",
@@ -25242,7 +26637,7 @@
             "name": "Розчинення Меркурій(II) оксид в HNO3",
             "conditions": "кімнатна t°",
             "type": "exo",
-            "products_desc": "Нітрат Hg(NO₃)₂, вода"
+            "products_desc": "⚠️ Нітрат Hg(NO₃)₂, вода"
           },
           {
             "eq": "Bi2O3 + 6HCl -> 2BiCl3 + 3H2O",
@@ -25845,7 +27240,7 @@
             "name": "Окиснення сірководню розведеною HNO3",
             "conditions": "розв.",
             "type": "exo",
-            "products_desc": "Сірка S, оксид азоту NO, вода"
+            "products_desc": "⚠️ Сірка S, оксид азоту NO, вода"
           },
           {
             "eq": "2KMnO4 + 3H2O2 -> 2MnO2 + 2KOH + 3O2 + 2H2O",
@@ -25863,7 +27258,7 @@
             "name": "Перманганатометричне визначення пероксиду водню",
             "conditions": "Кисле середовище (1M H2SO4) при кімнатній температурі",
             "type": "exo",
-            "products_desc": "Бурхливе виділення бульбашок безбарвного кисню O₂ та титрування до блідо-рожевого забарвлення"
+            "products_desc": "⚠️ Бурхливе виділення бульбашок безбарвного кисню O₂ та титрування до блідо-рожевого забарвлення"
           },
           {
             "eq": "2KMnO4 + 5K2SO3 + 3H2SO4 -> 2MnSO4 + 6K2SO4 + 3H2O",
@@ -25917,7 +27312,7 @@
             "name": "Дихроматометричне визначення заліза(II)",
             "conditions": "Кисле середовище (H2SO4 + H3PO4), редокс-індикатор дифеніламінсульфонат натрію",
             "type": "exo",
-            "products_desc": "Різкий перехід зеленого забарвлення Cr(III) у темно-синьо-фіолетове забарвлення окисненого індикатора"
+            "products_desc": "⚠️ Різкий перехід зеленого забарвлення Cr(III) у темно-синьо-фіолетове забарвлення окисненого індикатора"
           },
           {
             "eq": "2NaI + 2FeCl3 -> 2FeCl2 + I2 + 2NaCl",
@@ -26034,7 +27429,7 @@
             "name": "Йодометричне визначення пероксиду водню",
             "conditions": "Кисле середовище з каталізатором молібдатом амонію",
             "type": "exo",
-            "products_desc": "Повільне кількісне виділення вільного йоду"
+            "products_desc": "⚠️ Повільне кількісне виділення вільного йоду"
           },
           {
             "eq": "3H2O2 + 2KMnO4 -> 2MnO2 + 3O2 + 2KOH + 2H2O",
@@ -26133,7 +27528,7 @@
             "name": "Жорстке окиснення толуену (кисле середовище)",
             "conditions": "t° H2SO4",
             "type": "exo",
-            "products_desc": "Бензойна кислота; знебарвлення перманганату калію"
+            "products_desc": "⚠️ Бензойна кислота; знебарвлення перманганату калію"
           },
           {
             "eq": "CH3CHO + 2Ag(NH3)2OH -> CH3COONH4 + 2Ag + 3NH3 + H2O",
@@ -26427,19 +27822,19 @@
             "eq": "2Fe + 6H2SO4 -> Fe2(SO4)3 + 3SO2 + 6H2O",
             "reversible": false,
             "danger": true,
-            "name": "",
-            "conditions": "",
-            "type": "neutral",
-            "products_desc": ""
+            "name": "Взаємодія з гарячою концентрованою H2SO4",
+            "conditions": "t° (>100°C), нагрівання",
+            "type": "exo",
+            "products_desc": "⚠️ Ферум(III) сульфат, токсичний газ SO₂ та вода"
           },
           {
             "eq": "Fe + 6HNO3 -> Fe(NO3)3 + 3NO2 + 3H2O",
             "reversible": false,
             "danger": true,
-            "name": "",
-            "conditions": "",
-            "type": "neutral",
-            "products_desc": ""
+            "name": "Взаємодія з концентрованою HNO3 при нагріванні",
+            "conditions": "t° (>80°C), (при 20°C - пасивація)",
+            "type": "exo",
+            "products_desc": "⚠️ Ферум(III) нітрат, токсичний бурий газ NO₂ та вода"
           },
           {
             "eq": "Fe + 4HNO3 -> Fe(NO3)3 + NO + 2H2O",
@@ -26484,7 +27879,7 @@
             "name": "Взаємодія з гарячою концентрованою сульфатною кислотою",
             "conditions": "концентрована H2SO4",
             "type": "exo",
-            "products_desc": "TRUE"
+            "products_desc": "⚠️ TRUE"
           },
           {
             "eq": "Al + 6HNO3 -> Al(NO3)3 + 3NO2 + 3H2O",
@@ -26498,7 +27893,7 @@
           {
             "eq": "Al + 4HNO3 -> Al(NO3)3 + NO + 2H2O",
             "reversible": false,
-            "danger": false,
+            "danger": true,
             "name": "Взаємодія з помірно розведеною нітратною кислотою",
             "conditions": "розведена HNO3 (~30%)",
             "type": "exo",
@@ -27237,10 +28632,10 @@
             "eq": "SnCl2 + Fe -> FeCl2 + Sn",
             "reversible": false,
             "danger": true,
-            "name": "",
-            "conditions": "",
-            "type": "neutral",
-            "products_desc": ""
+            "name": "Витіснення олова з хлориду олова(II)",
+            "conditions": "Кімнатна t°",
+            "type": "exo",
+            "products_desc": "⚠️ Ферум(II) хлорид та металеве олово Sn"
           },
           {
             "eq": "2BiCl3 + 3Fe -> 3FeCl2 + 2Bi",
@@ -27264,10 +28659,10 @@
             "eq": "2FeCl3 + Fe -> 3FeCl2",
             "reversible": false,
             "danger": true,
-            "name": "",
-            "conditions": "",
-            "type": "neutral",
-            "products_desc": ""
+            "name": "Розчинення заліза у хлориді феруму(III) (компропорціонування)",
+            "conditions": "Кімнатна t° або нагрівання",
+            "type": "exo",
+            "products_desc": "⚠️ Чистий розчин ферум(II) хлориду FeCl₂"
           },
           {
             "eq": "2FeCl3 + Cu -> 2FeCl2 + CuCl2",
@@ -27291,10 +28686,10 @@
             "eq": "Fe2(SO4)3 + Fe -> 3FeSO4",
             "reversible": false,
             "danger": false,
-            "name": "",
-            "conditions": "",
-            "type": "neutral",
-            "products_desc": ""
+            "name": "Відновлення сульфату феруму(III) залізом",
+            "conditions": "Кімнатна t°",
+            "type": "exo",
+            "products_desc": "Зелений розчин ферум(II) сульфату FeSO₄"
           },
           {
             "eq": "Fe2(SO4)3 + Cu -> 2FeSO4 + CuSO4",
@@ -27363,10 +28758,10 @@
             "eq": "4Fe + 3O2 -> 2Fe2O3",
             "reversible": false,
             "danger": false,
-            "name": "",
-            "conditions": "",
-            "type": "neutral",
-            "products_desc": ""
+            "name": "Високотемпературне окиснення заліза",
+            "conditions": "t° (>700°C), тривалий відпал",
+            "type": "exo",
+            "products_desc": "Ферум(III) оксид Fe₂O₃; гематит"
           },
           {
             "eq": "2Pb + O2 -> 2PbO",
@@ -27426,10 +28821,10 @@
             "eq": "Fe + I2 -> FeI2",
             "reversible": false,
             "danger": false,
-            "name": "",
-            "conditions": "",
-            "type": "neutral",
-            "products_desc": ""
+            "name": "Йодування заліза",
+            "conditions": "t° (300-500°C) або під шаром води",
+            "type": "exo",
+            "products_desc": "Ферум(II) йодид FeI₂; сіро-чорні кристали"
           },
           {
             "eq": "2P + 3Cl2 -> 2PCl3",
@@ -27461,7 +28856,7 @@
           {
             "eq": "2P + 3Br2 -> 2PBr3",
             "reversible": false,
-            "danger": false,
+            "danger": true,
             "name": "Взаємодія брому з надлишком фосфору",
             "conditions": "Без нагрівання (екзотермічно) або слабке нагрівання",
             "type": "exo",
@@ -27470,7 +28865,7 @@
           {
             "eq": "2P + 5Br2 -> 2PBr5",
             "reversible": false,
-            "danger": false,
+            "danger": true,
             "name": "Взаємодія фосфору з надлишком брому",
             "conditions": "Надлишок Br2",
             "type": "exo",
@@ -27645,7 +29040,7 @@
             "name": "Перманганатометричне визначення заліза(II)",
             "conditions": "Кисле середовище (1-2M H2SO4)",
             "type": "exo",
-            "products_desc": "Титрування до стійкого блідо-рожевого забарвлення всього об'єму розчину"
+            "products_desc": "⚠️ Титрування до стійкого блідо-рожевого забарвлення всього об'єму розчину"
           },
           {
             "eq": "2KMnO4 + 10KI + 8H2SO4 -> 2MnSO4 + 5I2 + 6K2SO4 + 8H2O",
@@ -27717,7 +29112,7 @@
             "name": "Стандартизація перманганату калію за щавлевою кислотою",
             "conditions": "Кисле середовище (H2SO4), нагрівання до 70-80°C, безіндикаторне",
             "type": "exo",
-            "products_desc": "Знебарвлення перманганату; поява незникаючого блідо-рожевого забарвлення від однієї надлишкової краплі KMnO₄"
+            "products_desc": "⚠️ Знебарвлення перманганату; поява незникаючого блідо-рожевого забарвлення від однієї надлишкової краплі KMnO₄"
           },
           {
             "eq": "2KMnO4 + 5K2C2O4 + 8H2SO4 -> 2MnSO4 + 10CO2 + 6K2SO4 + 8H2O",
@@ -27753,7 +29148,7 @@
             "name": "Метод Фольгарда для перманганатометричного визначення марганцю(II)",
             "conditions": "Нейтральне середовище, присутність ZnSO4 як коагулятора, нагрівання до 80°C",
             "type": "exo",
-            "products_desc": "Утворення коричнево-чорного пластівчастого осаду діоксиду марганцю MnO₂"
+            "products_desc": "⚠️ Утворення коричнево-чорного пластівчастого осаду діоксиду марганцю MnO₂"
           },
           {
             "eq": "2KMnO4 + 3K2SO3 + H2O -> 2MnO2 + 3K2SO4 + 2KOH",
@@ -28019,7 +29414,7 @@
           {
             "eq": "2HNO3 + 6HBr -> 2NO + 3Br2 + 4H2O",
             "reversible": false,
-            "danger": false,
+            "danger": true,
             "name": "Окиснення бромоводню азотною кислотою",
             "conditions": "t°",
             "type": "exo",
@@ -28059,7 +29454,7 @@
             "name": "Окиснення діоксиду сірки у водному розчині HNO3",
             "conditions": "водний розчин",
             "type": "exo",
-            "products_desc": "Сульфатна кислота H₂SO₄, NO"
+            "products_desc": "⚠️ Сульфатна кислота H₂SO₄, NO"
           },
           {
             "eq": "6HNO3 + S -> H2SO4 + 6NO2 + 2H2O",
@@ -28743,7 +30138,7 @@
             "name": "Окиснення перманганатом калію",
             "conditions": "t° H2SO4",
             "type": "exo",
-            "products_desc": "Оцтова кислота; знебарвлення розчину KMnO₄"
+            "products_desc": "⚠️ Оцтова кислота; знебарвлення розчину KMnO₄"
           },
           {
             "eq": "3CH3CHO + K2Cr2O7 + 4H2SO4 -> 3CH3COOH + Cr2(SO4)3 + K2SO4 + 4H2O",
@@ -29349,7 +30744,7 @@
             "products_desc": "Кальцій дигідрофосфат, кальцій нітрат"
           },
           {
-            "eq": "Na3PO4 + 3HNO3 -> 3NaNO3 + H3PO4",
+            "eq": "Na3PO4 + 3HNO3 <=> 3NaNO3 + H3PO4",
             "reversible": true,
             "danger": false,
             "name": "Взаємодія натрій фосфату з HNO3",
@@ -29358,7 +30753,7 @@
             "products_desc": "Натрій нітрат, ортофосфатна кислота"
           },
           {
-            "eq": "KNO2 + HNO3 -> KNO3 + HNO2",
+            "eq": "KNO2 + HNO3 <=> KNO3 + HNO2",
             "reversible": true,
             "danger": false,
             "name": "Витіснення азотистої кислоти з калій нітриту",
@@ -29403,7 +30798,7 @@
             "products_desc": "Натрій нітрат, борна кислота H₃BO₃"
           },
           {
-            "eq": "K2CrO4 + 2HNO3 -> K2Cr2O7 + 2KNO3 + H2O",
+            "eq": "K2CrO4 + 2HNO3 <=> K2Cr2O7 + 2KNO3 + H2O",
             "reversible": true,
             "danger": false,
             "name": "Перетворення хромату у дихромат під дією HNO3",
@@ -29412,7 +30807,7 @@
             "products_desc": "Калій дихромат K₂Cr₂O₇, калій нітрат, вода"
           },
           {
-            "eq": "2Na2CrO4 + 2HNO3 -> Na2Cr2O7 + 2NaNO3 + H2O",
+            "eq": "2Na2CrO4 + 2HNO3 <=> Na2Cr2O7 + 2NaNO3 + H2O",
             "reversible": true,
             "danger": false,
             "name": "Перетворення натрій хромату у дихромат під дією HNO3",
@@ -29430,7 +30825,7 @@
             "products_desc": "Молібденова кислота H₂MoO₄, натрій нітрат"
           },
           {
-            "eq": "CH3OH + HNO3 -> CH3ONO2 + H2O",
+            "eq": "CH3OH + HNO3 <=> CH3ONO2 + H2O",
             "reversible": true,
             "danger": true,
             "name": "Етерифікація метанолу до метилнітрату",
@@ -29439,7 +30834,7 @@
             "products_desc": "⚠️ Метилнітрат, вода"
           },
           {
-            "eq": "C2H5OH + HNO3 -> C2H5ONO2 + H2O",
+            "eq": "C2H5OH + HNO3 <=> C2H5ONO2 + H2O",
             "reversible": true,
             "danger": true,
             "name": "Етерифікація етанолу до етилнітрату",
@@ -29448,7 +30843,7 @@
             "products_desc": "⚠️ Етилнітрат, вода"
           },
           {
-            "eq": "C3H7OH + HNO3 -> C3H7ONO2 + H2O",
+            "eq": "C3H7OH + HNO3 <=> C3H7ONO2 + H2O",
             "reversible": true,
             "danger": true,
             "name": "Етерифікація пропанолу-1 до пропілнітрату",
@@ -29457,7 +30852,7 @@
             "products_desc": "⚠️ Пропілнітрат, вода"
           },
           {
-            "eq": "C4H9OH + HNO3 -> C4H9ONO2 + H2O",
+            "eq": "C4H9OH + HNO3 <=> C4H9ONO2 + H2O",
             "reversible": true,
             "danger": false,
             "name": "Етерифікація бутанолу до бутилнітрату",
@@ -29466,7 +30861,7 @@
             "products_desc": "Бутилнітрат, вода"
           },
           {
-            "eq": "C5H11OH + HNO3 -> C5H11ONO2 + H2O",
+            "eq": "C5H11OH + HNO3 <=> C5H11ONO2 + H2O",
             "reversible": true,
             "danger": false,
             "name": "Етерифікація ізоамілового спирту до ізоамілнітрату",
@@ -29682,7 +31077,7 @@
             "products_desc": "⚠️ Калій нітрат, синильна кислота HCN"
           },
           {
-            "eq": "CH3-CH2-CH2-CH3 -> CH3-CH(CH3)-CH3",
+            "eq": "CH3-CH2-CH2-CH3 <=> CH3-CH(CH3)-CH3",
             "reversible": true,
             "danger": false,
             "name": "Ізомеризація бутану",
@@ -29691,7 +31086,7 @@
             "products_desc": "Ізобутан"
           },
           {
-            "eq": "CH3-CH2-CH=CH2 -> CH3-CH=CH-CH3",
+            "eq": "CH3-CH2-CH=CH2 <=> CH3-CH=CH-CH3",
             "reversible": true,
             "danger": false,
             "name": "Ізомеризація положення зв'язку",
@@ -29745,7 +31140,7 @@
             "products_desc": "Перетворення DHAP у другу молекулу GAP"
           },
           {
-            "eq": "C3H4O4-(PO3H2)2 <=> C3H5O4-PO3H2_2",
+            "eq": "C3H4O4-(PO3H2)2 -> C3H5O4-PO3H2_2",
             "reversible": false,
             "danger": true,
             "name": "glycolysis_full",
@@ -29763,7 +31158,7 @@
             "products_desc": "exo"
           },
           {
-            "eq": "C3H5O4-PO3H2 <=> C3H5O4-PO3H2_2PG",
+            "eq": "C3H5O4-PO3H2 -> C3H5O4-PO3H2_2PG",
             "reversible": false,
             "danger": true,
             "name": "8. Мутазна реакція (перенос фосфату C3->C2)",
@@ -31553,10 +32948,10 @@
             "eq": "CH3COOC2H5 + NaOH -> CH3COONa + C2H5OH",
             "reversible": false,
             "danger": false,
-            "name": "",
-            "conditions": "",
-            "type": "neutral",
-            "products_desc": ""
+            "name": "Лужний гідроліз (омилення естеру)",
+            "conditions": "водний розчин NaOH t°",
+            "type": "exo",
+            "products_desc": "Натрій ацетат та етанол (незворотний процес)"
           },
           {
             "eq": "CH3COOC3H7 + NaOH -> CH3COONa + C3H7OH",

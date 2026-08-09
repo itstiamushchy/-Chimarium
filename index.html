@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Хімарій v1.4.0 · ITS_tiamushchy</title>
+<title>Хімарій v1.4.4 · ITS_tiamushchy</title>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0d0e1a">
 <meta name="mobile-web-app-capable" content="yes">
@@ -923,7 +923,7 @@ select{color-scheme:dark}select option{background:#111224;color:#ffffff}
 
 <!-- HERO -->
 <div class="hero">
-  <div class="ver">v1.4.0</div>
+  <div class="ver">v1.4.4</div>
   <div class="mol">
     <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
       <defs><filter id="glow"><feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
@@ -1092,7 +1092,7 @@ select{color-scheme:dark}select option{background:#111224;color:#ffffff}
 
   <!-- РЕАКЦІЇ -->
   <div class="panel" id="panel-reactions">
-    <div class="sec-title">⚗️ База реакцій · 2192 рівняння</div>
+    <div class="sec-title">⚗️ База реакцій · <span id="rx-total">—</span> рівняння</div>
     <div class="rx-toolbar">
       <input class="rx-search" id="rx-search" type="text" placeholder="Пошук рівняння... (Zn + HCl, CaCO3...)" oninput="renderReactions()">
       <span class="rx-count">Показано <b id="rx-count">—</b></span>
@@ -1873,7 +1873,7 @@ select{color-scheme:dark}select option{background:#111224;color:#ffffff}
 
 <div class="footer">
   <span class="fcopy">© 2026 Хоменко Олексій Григорович · itstiamushchy@gmail.com</span>
-  <span class="fplat">ITS_tiamushchy · v1.4.0</span>
+  <span class="fplat">ITS_tiamushchy · v1.4.4</span>
 </div>
 </div>
 
@@ -7252,7 +7252,7 @@ function setFmCat(cat, btn) {
 }
 
 // ============================================================
-// РЕАКЦІЇ v1.1.2 — 2192 рівняння
+// РЕАКЦІЇ v1.4.4
 // ============================================================
 // Danger info map: які речовини небезпечні і чому
 const DANGER_INFO = {
@@ -7314,7 +7314,7 @@ function initReactionsPanel() {
   rxInited = true;
   // Build category buttons
   document.getElementById('rx-cats').innerHTML =
-    `<button class="rx-cat on" onclick="setRxCat('all',this)">🔬 Усі (2192)</button>` +
+    `<button class="rx-cat on" onclick="setRxCat('all',this)">🔬 Усі (<span id="rx-all-count">—</span>)</button>` +
     RX_DATA.map(c => `<button class="rx-cat" onclick="setRxCat('${c.id}',this)" style="--rc:${c.color};--rc-hover:${c.color}">${c.icon} ${c.label}</button>`).join('');
   // If inline data available, render; otherwise show message
   if (window._RX_DATA) {
@@ -7522,6 +7522,10 @@ function rxClick(eq, isDanger) {
 // Load full reactions database
 fetch('reactions_tagged.json').then(r=>r.json()).then(d=>{
   window._RX_DATA=d;
+  // Update total count
+  let _rxTotal=0; d.forEach(s=>s.subsections?.forEach(sub=>_rxTotal+=sub.reactions?.length||0));
+  const _rxTotalEl=document.getElementById('rx-total'); if(_rxTotalEl)_rxTotalEl.textContent=_rxTotal;
+  const _rxAllEl=document.getElementById('rx-all-count'); if(_rxAllEl)_rxAllEl.textContent=_rxTotal;
   // Build filter index
   if(typeof rxBuildIndex==='function'){
     rxBuildIndex(d);

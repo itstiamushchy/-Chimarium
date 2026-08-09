@@ -1,12 +1,13 @@
-// Хімарій v1.3.9 — Service Worker
+// Хімарій v1.4.4 — Service Worker
 // Кеш: офлайн-доступ до всіх ресурсів
 
-const CACHE_NAME = 'khimariy-v1.3.9';
+const CACHE_NAME = 'khimariy-v1.4.4';
 const CACHE_STATIC = [
   './',
   './index.html',
   './manifest.json',
   './reactions.json',
+  './reactions_tagged.json',
   './formulas.json',
   './glossary.json',
   // Калькулятори
@@ -57,7 +58,7 @@ const FONT_CACHE = 'khimariy-fonts-v1';
 
 // ===== INSTALL =====
 self.addEventListener('install', event => {
-  console.log('[SW] Installing Хімарій v1.3.9...');
+  console.log('[SW] Installing Хімарій v1.4.4...');
   event.waitUntil(
     caches.open(CACHE_NAME).then(cache => {
       // Cache only files that are likely to exist — ignore 404s
