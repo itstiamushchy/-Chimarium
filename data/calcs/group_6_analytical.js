@@ -1,0 +1,11 @@
+window._CALC_ENGINES = window._CALC_ENGINES || {};
+Object.assign(window._CALC_ENGINES, {
+  '6-1-qualitative_V':({ion})=>{const db={'Fe³⁺':'KSCN → червоне','Cl⁻':'AgNO₃ → AgCl↓ (білий)','SO₄²⁻':'BaCl₂ → BaSO₄↓ (білий)','NH₄⁺':'NaOH+нагрів → NH₃↑','Cu²⁺':'NH₃(надл.) → синє','I⁻':'Cl₂+крохмаль → синє','CO₃²⁻':'HCl+Ca(OH)₂ → CO₂↑','Fe²⁺':'K₃[Fe(CN)₆] → синій осад','Ca²⁺':'H₂SO₄ → CaSO₄↓','Pb²⁺':'H₂S → PbS↓ чорний'};const r=db[ion]||'Невідомо';return{result:r,label:`Якісна реакція на ${ion}`,steps:[r]};},
+  '6-1-qualitative_P':({effect})=>{const db={'Червоне забарвлення':'Fe³⁺','AgCl↓ білий':'Cl⁻','BaSO₄↓ білий':'SO₄²⁻','Запах NH₃':'NH₄⁺','Синє з NH₃':'Cu²⁺','Синє з крохмалем':'I⁻ (або I₂)','CO₂↑ помутніння':'CO₃²⁻ або HCO₃⁻','Зеленуватий осад':'Fe²⁺','CaCO₃↓ білий':'CO₃²⁻'};const r=db[effect]||'Невідомо';return{result:r,label:'Іон за ефектом',steps:[r]};},
+  '6-2-titrimetry_V':({C2,V2,V1})=>{const C1=C2*V2/V1;return{result:`C₁ = ${_fmt(C1)} моль/л`,label:'Концентрація аналіту',steps:[`C₁=C₂V₂/V₁=${_fmt(C1)} моль/л`]};},
+  '6-2-titrimetry_P':({C,V,M_analyte,z})=>{z=Math.round(z);const m=C*(V/1000)*M_analyte/z*1000;return{result:`m = ${_fmt(m)} мг = ${_fmt(m/1000)} г`,label:'Маса аналіту',steps:[`m=C×V×M/z=${_fmt(m/1000)} г`]};},
+  '6-2-titrimetry_n':({n1,z1,n2,z2})=>{z1=Math.round(z1);z2=Math.round(z2);const e1=n1/z1,e2=n2/z2,err=Math.abs(e1-e2)/e1*100;return{result:`n(екв₁)=${_fmt(e1)}, n(екв₂)=${_fmt(e2)}, похибка=${_fmt(err)}%`,label:'Перевірка ТЕ',steps:[`n(екв₁)=${_fmt(e1)}, n(екв₂)=${_fmt(e2)}`,`Похибка=${_fmt(err)} %`]};},
+  '6-3-instrumental_V':({epsilon,l,c})=>{const A=epsilon*l*c;return{result:`A = ${_fmt(A)}`,label:'Закон Бугера-Ламберта-Бера',steps:[`A=ε×l×c=${epsilon}×${l}×${c}=${_fmt(A)}`]};},
+  '6-3-instrumental_P':({A,epsilon,l})=>{const c=A/(epsilon*l);return{result:`c = ${_fmt(c)} моль/л`,label:'Концентрація за A',steps:[`c=A/(ε×l)=${_fmt(c)} моль/л`]};},
+  '6-3-instrumental_n':({T_percent,A_value})=>{if(T_percent>0){const A=Math.log10(100/T_percent);return{result:`A = ${_fmt(A)}`,label:'T% → A',steps:[`A=lg(100/T%)=lg(${100/T_percent})=${_fmt(A)}`]};}if(A_value>0){const T=Math.pow(10,-A_value)*100;return{result:`T% = ${_fmt(T)} %`,label:'A → T%',steps:[`T%=10^(−A)×100=${_fmt(T)} %`]};}throw new Error('Введіть T% або A (ненульове значення)');}
+});
