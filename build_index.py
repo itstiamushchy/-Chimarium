@@ -31,6 +31,10 @@ def parse_eq(eq):
             return left, right
     return [], []
 
+def strip_coeff(s):
+    """'2SO3' -> 'SO3', '3H2O' -> 'H2O', 'SO3' -> 'SO3'"""
+    return re.sub(r'^\d+\s*', '', s).strip()
+
 def main():
     if not os.path.exists(INPUT):
         print(f'❌ Файл {INPUT} не знайдено', file=sys.stderr)
@@ -43,8 +47,8 @@ def main():
         data = json.load(f)
 
     rx_flat = []
-    pm_ids  = {}   # product  -> [rx_id, ...]
-    rm_ids  = {}   # reagent  -> [rx_id, ...]
+    pm_ids  = {}   # product (нормалізований, без коефіцієнта) -> [rx_id, ...]
+    rm_ids  = {}   # reagent (нормалізований, без коефіцієнта) -> [rx_id, ...]
 
     total_cats = len(data)
     for ci, cat in enumerate(data):
@@ -64,10 +68,19 @@ def main():
                     'r': left,
                     'p': right,
                 })
+                # Індексуємо по нормалізованому ключу (без коефіцієнта)
+                seen_p = set()
                 for p in right:
-                    pm_ids.setdefault(p, []).append(idx)
+                    key = strip_coeff(p)
+                    if key and key not in seen_p:
+                        pm_ids.setdefault(key, []).append(idx)
+                        seen_p.add(key)
+                seen_r = set()
                 for r in left:
-                    rm_ids.setdefault(r, []).append(idx)
+                    key = strip_coeff(r)
+                    if key and key not in seen_r:
+                        rm_ids.setdefault(key, []).append(idx)
+                        seen_r.add(key)
 
     print(f'\n✅ Оброблено {len(rx_flat)} реакцій')
     print(f'   Продуктів у PM: {len(pm_ids)}')
