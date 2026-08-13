@@ -956,9 +956,9 @@ select{color-scheme:dark}select option{background:#111224;color:#ffffff}
   <button class="nav-mobile-item" onclick="showPanel('reactions');closeMobileNav()">⚗️ Реакції</button>
   <button class="nav-mobile-item" onclick="showPanel('glossary');closeMobileNav()">📚 Глосарій</button>
   <div class="nav-mobile-section-label">Калькулятори</div>
-  <button class="nav-mobile-item" onclick="showPanel('calcs');closeMobileNav()">🔢 Всі калькулятори (55)</button>
+  <button class="nav-mobile-item" onclick="showPanel('calcs');closeMobileNav()">🔢 Всі калькулятори (116)</button>
   <div class="nav-mobile-section-label">Теми</div>
-  <button class="nav-mobile-item" onclick="showPanel('topics-hub');closeMobileNav()">📗 Всі теми (24)</button>
+  <button class="nav-mobile-item" onclick="showPanel('topics-hub');closeMobileNav()">📗 Всі теми (28)</button>
   <div class="nav-mobile-section-label">Інше</div>
   <button class="nav-mobile-item" onclick="showPanel('test');closeMobileNav()">🎯 Тренажер</button>
   <button class="nav-mobile-item" onclick="showPanel('favorites');closeMobileNav()">⭐ Обрані</button>
@@ -1170,7 +1170,7 @@ select{color-scheme:dark}select option{background:#111224;color:#ffffff}
 
   <!-- ГЛОСАРІЙ -->
   <div class="panel" id="panel-glossary">
-    <div class="sec-title">📚 Глосарій хімічних термінів · 63 терміни</div>
+    <div class="sec-title">📚 Глосарій хімічних термінів · 158 термінів</div>
     <div class="gl-toolbar">
       <input class="gl-search" id="gl-search" type="text" placeholder="Пошук терміна..." oninput="renderGlossary()">
       <span style="font-size:10px;color:#7080b8">Показано <b id="gl-count" style="color:#69F0AE">—</b></span>
@@ -3782,14 +3782,14 @@ function _fallbackCalcPh() {
     ['pH_strong_acid',    'pH', { C: 100 },              0.0,   0.001, 'pH clamp — C=100M → clamp до 0'],
     ['pH_strong_base',    'pH', { C: 10, diprotic: false }, 14.0, 0.001, 'pH clamp — NaOH 10M → clamp до 14'],
   ];
+  let passed = 0, failed = 0;
+  const errors = [];
+
   // B3: T=0 має кидати виняток
   let b3ok = false;
   try { StepGenerator.solve('ideal_gas', 'V', { n: 1, T: 0, P: 1 }); }
   catch (e) { b3ok = e.message.includes('K'); }
   if (!b3ok) errors.push('FAIL: ideal_gas T=0K — мав кинути виняток про T>0K');
-
-  let passed = 0, failed = 0;
-  const errors = [];
   for (const [configId, unknown, inputs, expected, tol, label] of tests) {
     try {
       const { result } = StepGenerator.solve(configId, unknown, inputs);
