@@ -630,7 +630,7 @@ function buildRoute(topRxId, globalVisited, nodeCounter) {
     if (visited.has(cmp))           return { compound: cmp, isLeaf: true, reason: 'cycle' };
     if (depth >= MAX_DEPTH)         return { compound: cmp, isLeaf: true, reason: 'max_depth' };
 
-    const ids = (PM[cmp] || []).slice(0, 1); // беремо 1 найкоротший для дочірніх
+    const ids = (PM[cmp] || []).filter(id => getRx(id).category !== 'Розклад').slice(0, 1); // беремо 1, виключаємо реакції розкладання
     if (!ids.length)                return { compound: cmp, isLeaf: true, reason: 'no_precursor' };
 
     const rxId = ids[0];
@@ -651,12 +651,26 @@ function buildRoute(topRxId, globalVisited, nodeCounter) {
   return { rxId: topRxId, rx, reagentNodes };
 }
 
-// ── Глибина маршруту (для сортування) ──
+// ── Глибина маршруту ──
 function routeNodeDepth(node) {
   if (!node.reagentNodes || !node.reagentNodes.length) return 1;
   return 1 + Math.max(...node.reagentNodes.map(rn =>
     rn.isLeaf ? 0 : routeNodeDepth(rn)
   ));
+}
+
+// ── Кількість небезпечних вузлів у маршруті ──
+function countDanger(node) {
+  if (!node || !node.rx) return 0;
+  const self = node.rx.danger ? 1 : 0;
+  if (!node.reagentNodes) return self;
+  return self + node.reagentNodes.reduce((acc, rn) => acc + (rn.isLeaf ? 0 : countDanger(rn)), 0);
+}
+
+// ── Зважений скор маршруту: глибина + штраф за небезпечні кроки ──
+// Менший скор = кращий маршрут
+function routeScore(node) {
+  return routeNodeDepth(node) + countDanger(node) * 2;
 }
 
 // ── Збір листів (вихідних речовин) ──
@@ -722,9 +736,10 @@ function renderMode1(cmp) {
   const globalVis = new Set();
   synthRoutes = topIds.map(id => buildRoute(id, globalVis, nc));
 
-  // Знаходимо оптимальний (найменша глибина)
+  // Знаходимо оптимальний: мінімальний скор (глибина + штраф за небезпеку)
   const depths = synthRoutes.map(r => routeNodeDepth(r));
-  optIdx = depths.indexOf(Math.min(...depths));
+  const scores = synthRoutes.map(r => routeScore(r));
+  optIdx = scores.indexOf(Math.min(...scores));
 
   // Збираємо листи
   const leavesSet = new Set();
@@ -735,6 +750,7 @@ function renderMode1(cmp) {
     <div class="res-stats">
       Знайдено <b>${allTopCount}</b> шляхів${truncated ? ` · показано <b>${MAX_ROUTES}</b>` : ''} ·
       <b>${leavesSet.size}</b> вихідних речовин · Оптимальний: <b>Шлях ${optIdx + 1}</b>
+      <span style="font-size:10px;color:#5060a0">(мін. кроків + штраф за небезпеку; ⚠️N = небезпечних реакцій)</span>
       ${nc.n >= MAX_NODES ? ' · <span style="color:#FF8A65;font-size:11px">⚠️ граф обмежено</span>' : ''}
     </div>
   </div>`;
@@ -744,9 +760,11 @@ function renderMode1(cmp) {
     synthRoutes.forEach((r, i) => {
       const isOpt = i === optIdx;
       const d = routeNodeDepth(r);
+      const dng = countDanger(r);
+      const sc = scores[i];
       h += `<button class="route-tab ${isOpt ? 'optimal' : ''} ${i === 0 ? 'on' : ''}" id="rtab-${i}" onclick="switchRoute(${i})">
         ${isOpt ? '<span class="opt-badge">⭐ ОПТИМАЛЬНИЙ</span>' : ''} Шлях ${i + 1}
-        <span style="color:#5060a0;font-size:10px">(${d} кр.)</span>
+        <span style="color:#5060a0;font-size:10px">${d} кр.${dng > 0 ? ` · ⚠️${dng}` : ''} · скор ${sc}</span>
       </button>`;
     });
     h += '</div>';
