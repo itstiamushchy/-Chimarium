@@ -187,6 +187,33 @@ body{background:#0d0e1a;color:#fff;font-family:Inter,sans-serif;min-height:100vh
   .tc-field.wide,.tc-danger-box,.tc-safe-box{grid-column:span 1}
   .footer{padding:12px 14px;flex-direction:column;align-items:flex-start;gap:10px}
 }
+
+/* ── GLASSWARE ── */
+.gw-section{display:none}.gw-section.vis{display:block}
+.gw-filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px}
+.gw-filter{background:none;border:.5px solid #1c2040;border-radius:20px;color:#8090b8;font-size:12px;font-weight:500;padding:6px 16px;cursor:pointer;font-family:Inter,sans-serif;transition:all .18s}
+.gw-filter:hover{border-color:#00E5CC;color:#00E5CC}
+.gw-filter.on{border-color:#00E5CC;color:#00E5CC;background:rgba(0,229,204,.08)}
+.gw-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:10px;margin-bottom:16px}
+.gw-card{background:#111224;border:.5px solid #1c2040;border-radius:10px;padding:12px 8px 10px;cursor:pointer;transition:all .18s;display:flex;flex-direction:column;align-items:center;gap:6px}
+.gw-card:hover{border-color:#00E5CC;background:#0f1a24}
+.gw-card.active{border-color:#00E5CC;background:#0a1820}
+.gw-card.hidden{display:none}
+.gw-mini-svg{display:block}
+.gw-cname{font-family:Oxanium,monospace;font-size:10px;font-weight:700;color:#00E5CC;text-align:center;letter-spacing:.4px;line-height:1.3}
+.gw-clatin{font-size:9px;color:#404878;text-align:center;font-style:italic}
+.gw-detail{background:#090a14;border:.5px solid rgba(0,229,204,.18);border-radius:12px;padding:18px 20px;margin-bottom:16px;display:none}
+.gw-detail.vis{display:grid;grid-template-columns:140px 1fr;gap:20px;align-items:start}
+.gw-dname{font-family:Oxanium,monospace;font-size:16px;font-weight:900;color:#fff;margin-bottom:2px}
+.gw-dlatin{font-size:11px;color:#404878;font-style:italic;margin-bottom:12px}
+.gw-drow{display:flex;gap:8px;margin-bottom:5px;font-size:12px;align-items:baseline}
+.gw-dlbl{color:#5060a0;min-width:76px;flex-shrink:0}
+.gw-dval{color:#c0d0f0}
+.gw-ddesc{font-size:12px;color:#8090b0;line-height:1.7;margin-top:10px;border-top:.5px solid #1a2040;padding-top:10px}
+.gw-warn{background:rgba(255,82,82,.07);border:.5px solid rgba(255,82,82,.22);border-radius:7px;padding:8px 12px;margin-top:8px;font-size:11px;color:#FF8A65;line-height:1.6}
+.gw-warn b{color:#FF5252;display:block;margin-bottom:2px}
+.gw-safe{background:rgba(105,240,174,.06);border:.5px solid rgba(105,240,174,.18);border-radius:7px;padding:8px 12px;margin-top:8px;font-size:11px;color:#80c8a0;line-height:1.6}
+.gw-safe b{color:#69F0AE;display:block;margin-bottom:2px}
 </style>
 </head>
 <body>
@@ -330,6 +357,8 @@ body{background:#0d0e1a;color:#fff;font-family:Inter,sans-serif;min-height:100vh
   <button class="nav-btn active" id="tab-synth" onclick="switchMode('synth')">🎯 Синтез речовини</button>
   <div class="nav-divider"></div>
   <button class="nav-btn" id="tab-prod" onclick="switchMode('prod')">🔭 Що можна отримати</button>
+  <div class="nav-divider"></div>
+  <button class="nav-btn" id="tab-glass" onclick="switchMode('glass')">🧪 Посуд</button>
 </div>
 
 <!-- CONTENT -->
@@ -382,6 +411,27 @@ body{background:#0d0e1a;color:#fff;font-family:Inter,sans-serif;min-height:100vh
   </div>
 
   <div class="results" id="results-area"></div>
+
+  <!-- GLASSWARE SECTION -->
+  <div class="gw-section" id="gw-section">
+    <div class="gw-filters" id="gw-filters"></div>
+    <div class="gw-detail" id="gw-detail">
+      <div style="display:flex;justify-content:center;align-items:flex-start;padding-top:4px">
+        <svg id="gw-detail-svg" viewBox="0 0 100 140" width="100" height="140"></svg>
+      </div>
+      <div>
+        <div class="gw-dname" id="gwd-name"></div>
+        <div class="gw-dlatin" id="gwd-latin"></div>
+        <div class="gw-drow"><span class="gw-dlbl">Місткість</span><span class="gw-dval" id="gwd-vol"></span></div>
+        <div class="gw-drow"><span class="gw-dlbl">Матеріал</span><span class="gw-dval" id="gwd-mat"></span></div>
+        <div class="gw-drow"><span class="gw-dlbl">Категорія</span><span class="gw-dval" id="gwd-cat"></span></div>
+        <div class="gw-drow"><span class="gw-dlbl">Нагрів</span><span class="gw-dval" id="gwd-heat"></span></div>
+        <div class="gw-ddesc" id="gwd-desc"></div>
+        <div id="gwd-warn"></div>
+      </div>
+    </div>
+    <div class="gw-grid" id="gw-grid"></div>
+  </div>
 </div>
 
 <!-- FOOTER -->
@@ -738,15 +788,25 @@ function switchMode(mode) {
   currentMode = mode;
   document.getElementById('tab-synth').classList.toggle('active', mode === 'synth');
   document.getElementById('tab-prod').classList.toggle('active', mode === 'prod');
-  document.getElementById('hint-synth').style.display = mode === 'synth' ? '' : 'none';
-  document.getElementById('hint-prod').style.display  = mode === 'prod'  ? '' : 'none';
-  document.getElementById('examples-synth').style.display = mode === 'synth' ? '' : 'none';
-  document.getElementById('examples-prod').style.display  = mode === 'prod'  ? '' : 'none';
+  document.getElementById('tab-glass').classList.toggle('active', mode === 'glass');
+  const isGlass = mode === 'glass';
+  const isSynth = mode === 'synth';
+  document.getElementById('hint-synth').style.display = isSynth ? '' : 'none';
+  document.getElementById('hint-prod').style.display  = mode === 'prod' ? '' : 'none';
+  document.getElementById('examples-synth').style.display = isSynth ? '' : 'none';
+  document.getElementById('examples-prod').style.display  = mode === 'prod' ? '' : 'none';
   document.getElementById('results-area').innerHTML = '';
   document.getElementById('results-area').classList.remove('vis');
   document.getElementById('syn-error').classList.remove('vis');
   document.getElementById('syn-input').value = '';
-  document.getElementById('syn-input').placeholder = mode === 'synth'
+  document.getElementById('gw-section').classList.toggle('vis', isGlass);
+  const searchWrap = document.querySelector('.search-wrap');
+  const synExamples = document.getElementById('examples-synth');
+  const prodExamples = document.getElementById('examples-prod');
+  const secTitle = document.querySelector('.sec-title');
+  if(searchWrap) searchWrap.style.display = isGlass ? 'none' : '';
+  if(secTitle) secTitle.textContent = isGlass ? '🧪 Довідник лабораторного посуду · 20 позицій' : '⚗️ Аналіз реакцій · База Хімарій';
+  document.getElementById('syn-input').placeholder = isSynth
     ? 'Цільова сполука: H2SO4, NaCl, NH3…'
     : 'Вихідна речовина: SO2, Ca, Na, Fe…';
 }
@@ -779,8 +839,993 @@ async function doSearch() {
   else renderMode2(raw);
 }
 
+
+// ============================================================
+// GLASSWARE
+// ============================================================
+const GW_CATS = ['Усі','Загальний','Вимірювальний','Нагрівання','Поділ і фільтрація','Газові прилади','Шліфи та адаптери','Аналітичний','Допоміжний'];
+
+const GW_ITEMS = [
+  // ── ЗАГАЛЬНИЙ ──
+  { id:'beaker', name:'Стакан хімічний', latin:'Beaker', cat:'Загальний',
+    vol:'50–5000 мл', mat:'Боросилікатне скло', heat:'Так (на сітці)',
+    desc:'Хімічний стакан — найуніверсальніший посуд лабораторії. Циліндрична форма з невеликим зливним носиком зручна для розчинення, нагрівання та перемішування реагентів. Виготовляється з боросилікатного скла (марки Pyrex, Duran, Simax) — воно витримує різкі перепади температур і стійке до більшості хімічних реагентів. Орієнтовна шкала нанесена для оцінки об\'єму, але не для точних вимірювань — похибка до 10%. Нагрівають тільки на азбестовій сітці на кільці штативу, ніколи безпосередньо у полум\'ї. Розмірний ряд — від мініатюрних 10 мл до промислових 10 л.',
+    warn:'', safe:'Завжди ставити на азбестову сітку при нагріванні. Не нагрівати порожній стакан і не наповнювати холодною рідиною гарячий — термічний удар спричинить тріщину.',
+    draw(s){s.innerHTML=`
+      <defs><clipPath id="bkX"><rect x="25" y="38" width="50" height="82" rx="2"/></clipPath></defs>
+      <rect x="25" y="20" width="50" height="100" rx="3" fill="rgba(0,229,204,0.04)" stroke="#00E5CC" stroke-width="1"/>
+      ${[35,50,65,80,95].map(y=>`<line x1="25" y1="${y}" x2="36" y2="${y}" stroke="#00E5CC" stroke-width="0.5" opacity="0.4"/>`).join('')}
+      <path d="M73 20 L80 20 L78 28" fill="none" stroke="#00E5CC" stroke-width="0.8" stroke-linejoin="round"/>
+      <g clip-path="url(#bkX)">
+        <path fill="rgba(0,229,204,0.16)"><animate attributeName="d" dur="3s" repeatCount="indefinite"
+          values="M25 85 Q50 80 75 85 L75 122 L25 122 Z;M25 85 Q50 90 75 85 L75 122 L25 122 Z;M25 85 Q50 80 75 85 L75 122 L25 122 Z"/></path>
+        <path fill="rgba(105,240,174,0.07)"><animate attributeName="d" dur="2.3s" repeatCount="indefinite"
+          values="M25 91 Q50 87 75 91 L75 122 L25 122 Z;M25 91 Q50 95 75 91 L75 122 L25 122 Z;M25 91 Q50 87 75 91 L75 122 L25 122 Z"/></path>
+      </g>
+      <circle cx="38" cy="88" r="1.8" fill="#69F0AE" opacity="0">
+        <animate attributeName="cy" values="90;73" dur="2.5s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0;0.8;0" dur="2.5s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="58" cy="93" r="1.4" fill="#00E5CC" opacity="0">
+        <animate attributeName="cy" values="93;76" dur="3s" repeatCount="indefinite" begin="0.8s"/>
+        <animate attributeName="opacity" values="0;0.7;0" dur="3s" repeatCount="indefinite" begin="0.8s"/>
+      </circle>
+      <rect x="25" y="118" width="50" height="2" rx="1" fill="#00E5CC" opacity="0.35"/>`;}
+  },
+  { id:'erlenmeyer', name:'Колба Ерленмейера', latin:'Erlenmeyer flask', cat:'Загальний',
+    vol:'50–2000 мл', mat:'Боросилікатне скло', heat:'Так (на сітці)',
+    desc:'Конічна колба, розроблена німецьким хіміком Еміlem Ерленмейером у 1861 році, є стандартним посудом для титрування та реакцій з перемішуванням. Вузьке горло з круглим краєм зменшує розбризкування при збовтуванні та випаровування розчинника. Широке конічне тіло забезпечує стійкість і зручне перемішування круговими рухами — характерна техніка при титруванні. Закривається корком, гумовою пробкою або шліфованою заглушкою. Широко використовується у мікробіології для культивування організмів — вузьке горло забезпечує газообмін при аерації на шейкері. Нагрівають на азбестовій сітці або у водяній бані.',
+    warn:'', safe:'Не переповнювати вище 2/3 об\'єму. При нагріванні та перемішуванні на магнітній мішалці стежити щоб кипіння не було бурхливим.',
+    draw(s){s.innerHTML=`
+      <defs><clipPath id="er"><path d="M28 62 L16 108 Q50 128 84 108 L72 62 Z"/></clipPath></defs>
+      <rect x="40" y="16" width="20" height="48" rx="4" fill="rgba(0,229,204,0.04)" stroke="#00E5CC" stroke-width="1"/>
+      <path d="M28 62 L16 108 Q50 128 84 108 L72 62 Z" fill="rgba(0,229,204,0.04)" stroke="#00E5CC" stroke-width="1" stroke-linejoin="round"/>
+      <g clip-path="url(#er)">
+        <path fill="rgba(0,229,204,0.18)"><animate attributeName="d" dur="3s" repeatCount="indefinite"
+          values="M12 92 Q34 87 50 92 Q66 97 88 92 L88 130 L12 130 Z;M12 92 Q34 97 50 92 Q66 87 88 92 L88 130 L12 130 Z;M12 92 Q34 87 50 92 Q66 97 88 92 L88 130 L12 130 Z"/></path>
+      </g>
+      <circle cx="36" cy="98" r="1.8" fill="#69F0AE" opacity="0">
+        <animate attributeName="cy" values="100;83" dur="2.5s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0;0.8;0" dur="2.5s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="58" cy="103" r="1.4" fill="#00E5CC" opacity="0">
+        <animate attributeName="cy" values="103;86" dur="3s" repeatCount="indefinite" begin="0.9s"/>
+        <animate attributeName="opacity" values="0;0.7;0" dur="3s" repeatCount="indefinite" begin="0.9s"/>
+      </circle>`;}
+  },
+  { id:'roundflask', name:'Колба кругла', latin:'Round-bottom flask', cat:'Загальний',
+    vol:'50–5000 мл', mat:'Боросилікатне скло', heat:'Так (на лапці)',
+    desc:'Кругла колба є основним реакційним посудом в органічній хімії та при перегонці. Сферичне дно рівномірно розподіляє тепло по всій поверхні — немає локальних перегрівів, що критично при роботі з летливими і горючими розчинниками. Горло зазвичай має шліфований з\'єднувач (NS 14, NS 19, NS 24, NS 29) для безпечного з\'єднання з холодильниками, насадками і термометрами. Не стоїть самостійно — потребує лапки або кільця штатива. В роторному випарнику кругла колба обертається у лазні — рухомий шар рідини прискорює випаровування. Нагрівають у масляній, водяній або піщаній бані, а також у нагрівальній мантії.',
+    warn:'Не ставити на плоску поверхню без підставки — перекинеться. При роботі під вакуумом обов\'язково перевіряти цілісність скла.', safe:'',
+    draw(s){s.innerHTML=`
+      <defs><clipPath id="rf"><ellipse cx="50" cy="96" rx="34" ry="28"/></clipPath></defs>
+      <rect x="40" y="16" width="20" height="40" rx="5" fill="rgba(0,229,204,0.04)" stroke="#00E5CC" stroke-width="1"/>
+      <ellipse cx="50" cy="96" rx="34" ry="28" fill="rgba(0,229,204,0.04)" stroke="#00E5CC" stroke-width="1"/>
+      <g clip-path="url(#rf)">
+        <path fill="rgba(0,229,204,0.18)"><animate attributeName="d" dur="2.8s" repeatCount="indefinite"
+          values="M16 104 Q34 99 50 104 Q66 109 84 104 L84 126 L16 126 Z;M16 104 Q34 109 50 104 Q66 99 84 104 L84 126 L16 126 Z;M16 104 Q34 99 50 104 Q66 109 84 104 L84 126 L16 126 Z"/></path>
+        <path fill="rgba(105,240,174,0.07)"><animate attributeName="d" dur="2.2s" repeatCount="indefinite"
+          values="M16 110 Q34 106 50 110 Q66 114 84 110 L84 126 L16 126 Z;M16 110 Q34 114 50 110 Q66 106 84 110 L84 126 L16 126 Z;M16 110 Q34 106 50 110 Q66 114 84 110 L84 126 L16 126 Z"/></path>
+      </g>
+      <circle cx="40" cy="108" r="1.8" fill="#69F0AE" opacity="0">
+        <animate attributeName="cy" values="110;88" dur="2.2s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0;0.8;0" dur="2.2s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="58" cy="112" r="1.3" fill="#00E5CC" opacity="0">
+        <animate attributeName="cy" values="112;92" dur="3s" repeatCount="indefinite" begin="0.7s"/>
+        <animate attributeName="opacity" values="0;0.7;0" dur="3s" repeatCount="indefinite" begin="0.7s"/>
+      </circle>`;}
+  },
+  { id:'testtube', name:'Пробірка', latin:'Test tube', cat:'Загальний',
+    vol:'5–30 мл', mat:'Боросилікатне / содове скло', heat:'Так (у полум\'ї)',
+    desc:'Пробірка — найпростіший посуд для невеликих реакцій, якісних дослідів та нагрівання малих кількостей речовин. Стандартний розмір — 16×150 мм або 18×180 мм. Виготовляються з содового скла (менш термостійке, дешевше) або боросилікатного (для нагрівання у полум\'ї). Тримають пробіркотримачем або затискають у штативі. При нагріванні тримати під кутом 45°, відкриттям від себе — рідина може різко закипіти і вистрілити. Для аналітичних дослідів застосовують центрифужні пробірки з конусним дном для осадження. Круглодонні — для нагрівання, плоскодонні — для зберігання.',
+    warn:'При нагріванні тримати отвором від себе і від людей поруч — вміст може раптово виплеснутись через локальне перекипання!', safe:'',
+    draw(s){s.innerHTML=`
+      <defs><clipPath id="tt"><rect x="36" y="18" width="28" height="108" rx="14"/></clipPath></defs>
+      <rect x="36" y="18" width="28" height="108" rx="14" fill="rgba(0,229,204,0.04)" stroke="#00E5CC" stroke-width="1"/>
+      <g clip-path="url(#tt)">
+        <path fill="rgba(0,229,204,0.2)"><animate attributeName="d" dur="2.5s" repeatCount="indefinite"
+          values="M36 80 Q50 75 64 80 L64 130 L36 130 Z;M36 80 Q50 85 64 80 L64 130 L36 130 Z;M36 80 Q50 75 64 80 L64 130 L36 130 Z"/></path>
+      </g>
+      <circle cx="44" cy="84" r="1.5" fill="#69F0AE" opacity="0">
+        <animate attributeName="cy" values="86;68" dur="2s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0;0.8;0" dur="2s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="56" cy="88" r="1.2" fill="#00E5CC" opacity="0">
+        <animate attributeName="cy" values="88;70" dur="2.7s" repeatCount="indefinite" begin="0.6s"/>
+        <animate attributeName="opacity" values="0;0.7;0" dur="2.7s" repeatCount="indefinite" begin="0.6s"/>
+      </circle>`;}
+  },
+
+  // ── ВИМІРЮВАЛЬНИЙ ──
+  { id:'gradcylinder', name:'Мірний циліндр', latin:'Graduated cylinder', cat:'Вимірювальний',
+    vol:'10–2000 мл', mat:'Скло / поліпропілен', heat:'Ні',
+    desc:'Мірний циліндр — основний прилад для відмірювання об\'ємів рідин у лабораторії. Висока циліндрична форма забезпечує точну шкалу з ціною поділки від 0.1 мл (для маленьких) до 10 мл (для великих). Відлік проводять по нижньому меніску при горизонтальному погляді на рівні позначки — погляд зверху або знизу дає похибку паралаксу. Скляні — більш хімічностійкі, поліпропіленові — небиткі і легші. Клас A (точніший) і клас B (для загального використання). Не призначений для нагрівання — різкий нагрів тонкостінного скла призводить до тріщин. Для точнішого відмірювання — використовувати мірну колбу або піпетку.',
+    warn:'', safe:'Не нагрівати і не ставити у сушильну шафу при температурі вище 60°C. Ставити тільки на рівну поверхню.',
+    draw(s){s.innerHTML=`
+      <defs><clipPath id="gc"><rect x="33" y="22" width="34" height="108" rx="3"/></clipPath></defs>
+      <rect x="33" y="22" width="34" height="108" rx="3" fill="rgba(79,195,247,0.04)" stroke="#4FC3F7" stroke-width="1"/>
+      ${[35,50,65,80,95,110].map(y=>`<line x1="33" y1="${y}" x2="48" y2="${y}" stroke="#4FC3F7" stroke-width="0.7" opacity="0.5"/>`).join('')}
+      ${[42,57,72,87,102,117].map(y=>`<line x1="33" y1="${y}" x2="40" y2="${y}" stroke="#4FC3F7" stroke-width="0.5" opacity="0.3"/>`).join('')}
+      <ellipse cx="50" cy="130" rx="20" ry="5" fill="rgba(79,195,247,0.1)" stroke="#4FC3F7" stroke-width="0.8"/>
+      <g clip-path="url(#gc)">
+        <path fill="rgba(79,195,247,0.2)"><animate attributeName="d" dur="3s" repeatCount="indefinite"
+          values="M33 85 Q50 80 67 85 L67 130 L33 130 Z;M33 85 Q50 90 67 85 L67 130 L33 130 Z;M33 85 Q50 80 67 85 L67 130 L33 130 Z"/></path>
+      </g>`;}
+  },
+  { id:'buret', name:'Бюретка', latin:'Burette', cat:'Вимірювальний',
+    vol:'25 / 50 мл', mat:'Боросилікатне скло', heat:'Ні',
+    desc:'Бюретка — прецизійний прилад для об\'ємного аналізу (титрування). Довга градуйована трубка з точністю шкали ±0.05 мл і загальним об\'ємом 25 або 50 мл. Внизу — скляний або тефлоновий кран. Скляний кран змащують тонким шаром вазеліну і перевіряють на протікання перед роботою. Тефлоновий не потребує змащення, але дорожчий. Перед наповненням промивають 2-3 рази розчином титранту (кондиціонування). Наповнюють вище нульової позначки, потім обережно спускають розчин до 0.00 мл. Після бюретки немає повітряних бульбашок — їх видаляють постукуванням. Результат відраховують від початкового об\'єму (зазвичай 0.00) до кінцевого.',
+    warn:'Скляний кран змащувати тільки вазеліном. Не затягувати кран силою — може зламатись. Не залишати лужні розчини в бюретці зі скляним краном — луг \'приклеює\' скло.', safe:'',
+    draw(s){s.innerHTML=`
+      <defs><clipPath id="bu"><rect x="42" y="16" width="16" height="108" rx="2"/></clipPath></defs>
+      <rect x="42" y="16" width="16" height="108" rx="2" fill="rgba(79,195,247,0.04)" stroke="#4FC3F7" stroke-width="1"/>
+      ${[26,40,54,68,82,96,110].map(y=>`<line x1="42" y1="${y}" x2="52" y2="${y}" stroke="#4FC3F7" stroke-width="0.7" opacity="0.5"/>`).join('')}
+      <g clip-path="url(#bu)">
+        <rect x="42" y="16" width="16" height="38" fill="rgba(79,195,247,0.22)"/>
+      </g>
+      <rect x="36" y="122" width="28" height="6" rx="3" fill="rgba(79,195,247,0.15)" stroke="#4FC3F7" stroke-width="1"/>
+      <rect x="46" y="128" width="8" height="10" rx="2" fill="rgba(79,195,247,0.1)" stroke="#4FC3F7" stroke-width="0.8"/>
+      <circle cx="50" cy="142" r="2.5" fill="#4FC3F7" opacity="0">
+        <animate attributeName="cy" values="140;148" dur="2s" repeatCount="indefinite" begin="1.2s"/>
+        <animate attributeName="opacity" values="0;0.9;0" dur="2s" repeatCount="indefinite" begin="1.2s"/>
+        <animate attributeName="r" values="1.5;3" dur="2s" repeatCount="indefinite" begin="1.2s"/>
+      </circle>`;}
+  },
+  { id:'pipette', name:'Піпетка Мора', latin:'Volumetric pipette', cat:'Вимірювальний',
+    vol:'1–100 мл', mat:'Боросилікатне скло', heat:'Ні',
+    desc:'Піпетка Мора — об\'ємна піпетка з однією кільцевою міткою, призначена для точного відбору одного фіксованого об\'єму. Розширення у центрі збільшує об\'єм і зменшує відносну похибку градуювання. Кінець витягнутий у тонкий капіляр для точного контролю потоку. Заповнюється гумовою грушею або піпеточним наповнювачем (пропіпетка, Pi-Pump). Перед відбором проби конічний кінець промивають досліджуваним розчином 2-3 рази. Відлік — по нижньому меніску на рівні ока. Після відбору кінець промокають серветкою (не витирають — це зіб\'є менісок). Клас A — допуск ±0.03-0.06 мл залежно від об\'єму.',
+    warn:'Заповнювати ТІЛЬКИ грушею або піпеточним пристроєм. Ніколи ротом — небезпечно при роботі з кислотами, лугами, токсичними та леткими речовинами!', safe:'',
+    draw(s){s.innerHTML=`
+      <rect x="47" y="14" width="6" height="22" rx="3" fill="rgba(79,195,247,0.08)" stroke="#4FC3F7" stroke-width="1"/>
+      <path d="M47 36 Q42 50 40 62 L40 78 Q42 88 50 90 Q58 88 60 78 L60 62 Q58 50 53 36 Z" fill="rgba(79,195,247,0.06)" stroke="#4FC3F7" stroke-width="1"/>
+      <path d="M40 78 Q42 88 50 90 Q58 88 60 78 L60 92 Q58 96 50 98 Q42 96 40 92 Z" fill="rgba(79,195,247,0.04)" stroke="#4FC3F7" stroke-width="0.8"/>
+      <line x1="40" y1="92" x2="50" y2="130" stroke="#4FC3F7" stroke-width="1"/>
+      <line x1="60" y1="92" x2="50" y2="130" stroke="#4FC3F7" stroke-width="1"/>
+      <line x1="44" y1="60" x2="56" y2="60" stroke="#4FC3F7" stroke-width="1" opacity="0.8"/>
+      <circle cx="50" cy="134" r="2" fill="#4FC3F7" opacity="0">
+        <animate attributeName="cy" values="132;140" dur="2.5s" repeatCount="indefinite" begin="0.5s"/>
+        <animate attributeName="opacity" values="0;0.9;0" dur="2.5s" repeatCount="indefinite" begin="0.5s"/>
+      </circle>`;}
+  },
+  { id:'flask-vol', name:'Колба мірна', latin:'Volumetric flask', cat:'Вимірювальний',
+    vol:'25–2000 мл', mat:'Боросилікатне скло', heat:'Ні',
+    desc:'Мірна колба — найточніший посуд для приготування розчинів точної концентрації. Грушоподібна форма з довгим вузьким горлом і однією кільцевою міткою. Кожна колба індивідуально відкалібрована при 20°C — ця температура вказана на посуді. Розчин доводять до мітки дистильованою водою по нижньому меніску при температурі градуювання. Похибка класу A — ±0.05-0.15 мл. При приготуванні: спочатку розчиняють речовину в меншому об\'ємі розчинника у стакані, переносять у колбу через лійку, промивають стакан кілька разів малими порціями, і лише потім доводять до мітки. Щільно закривають після приготування.',
+    warn:'', safe:'Не нагрівати — тонке горло не витримує теплового удару. Не готувати гарячих розчинів безпосередньо в мірній колбі — охолодити спочатку.',
+    draw(s){s.innerHTML=`
+      <defs><clipPath id="vf"><path d="M28 78 Q28 118 50 128 Q72 118 72 78 L62 42 L38 42 Z"/></clipPath></defs>
+      <rect x="44" y="12" width="12" height="32" rx="3" fill="rgba(79,195,247,0.05)" stroke="#4FC3F7" stroke-width="1"/>
+      <line x1="41" y1="36" x2="59" y2="36" stroke="#4FC3F7" stroke-width="1" opacity="0.8"/>
+      <path d="M38 42 L28 78 Q28 118 50 128 Q72 118 72 78 L62 42 Z" fill="rgba(79,195,247,0.05)" stroke="#4FC3F7" stroke-width="1"/>
+      <g clip-path="url(#vf)">
+        <path fill="rgba(79,195,247,0.18)"><animate attributeName="d" dur="3s" repeatCount="indefinite"
+          values="M24 100 Q38 95 50 100 Q62 105 76 100 L76 130 L24 130 Z;M24 100 Q38 105 50 100 Q62 95 76 100 L76 130 L24 130 Z;M24 100 Q38 95 50 100 Q62 105 76 100 L76 130 L24 130 Z"/></path>
+      </g>`;}
+  },
+
+  // ── НАГРІВАННЯ ──
+  { id:'crucible', name:'Тигель', latin:'Crucible', cat:'Нагрівання',
+    vol:'5–50 мл', mat:'Фарфор / кварц / платина', heat:'До 1200°C',
+    desc:'Тигель — посудина для прожарювання і сплавлення речовин при температурах, недосяжних для скляного посуду. Фарфоровий тигель витримує до 1200°C і стійкий до кислот, але руйнується концентрованим лугом і плавиковою кислотою. Платиновий тигель — дорогий, але витримує до 1770°C і не забруднює зразок — незамінний для прецизійного гравіметричного аналізу. Кварцовий — для реакцій де неприпустиме залізо або алюміній. Нікелевий — для сплавлення з лужними реагентами (Na₂O₂, NaOH). Розміщується на фарфоровому трикутнику в кільці штатива. Після прожарювання переносять у ексикатор тиглетримачем, охолоджують і зважують.',
+    warn:'Після нагрівання НЕ класти на холодну або вологу поверхню — термічний удар розтріскує тигель. Переносити ТІЛЬКИ тиглетримачем — температура поверхні може перевищувати 800°C!', safe:'',
+    draw(s){s.innerHTML=`
+      <path d="M20 60 Q20 110 50 118 Q80 110 80 60 Z" fill="rgba(144,160,204,0.08)" stroke="#90a0cc" stroke-width="1.2"/>
+      <ellipse cx="50" cy="60" rx="30" ry="8" fill="rgba(144,160,204,0.06)" stroke="#90a0cc" stroke-width="1"/>
+      <path d="M25 75 Q25 108 50 115 Q75 108 75 75" fill="rgba(255,152,0,0.06)" stroke="none"/>
+      <ellipse cx="50" cy="108" rx="24" ry="5" fill="rgba(255,152,0,0.1)">
+        <animate attributeName="opacity" values="0.08;0.2;0.08" dur="2s" repeatCount="indefinite"/>
+      </ellipse>
+      <path d="M42 52 Q44 44 46 40 Q48 44 50 40 Q52 44 54 40 Q56 44 58 52" fill="none" stroke="#FF9800" stroke-width="1" opacity="0">
+        <animate attributeName="opacity" values="0;0.7;0.7;0" dur="1.5s" repeatCount="indefinite"/>
+      </path>`;}
+  },
+  { id:'evap-dish', name:'Чашка випарна', latin:'Evaporating dish', cat:'Нагрівання',
+    vol:'50–500 мл', mat:'Фарфор', heat:'Так (відкрито)',
+    desc:'Фарфорова випарна чашка призначена для концентрування і випаровування розчинів до отримання сухого залишку або кристалів. Широка відкрита поверхня максимізує контакт з повітрям і прискорює випаровування. На відміну від скляного посуду — фарфор витримує пряме нагрівання у полум\'ї пальника без азбестової сітки. Підходить для кислих і нейтральних розчинів — лужне середовище поступово роз\'їдає глазур фарфору. Кристалізацію зупиняють до повного висихання — тоді кристали правильніші. Охолоджену чашку зважують для гравіметричного визначення. Очищають слабкою соляною кислотою або хромовою сумішшю.',
+    warn:'', safe:'Не заповнювати більш як на 2/3. При інтенсивному нагріванні рідина може \'виплюнути\' кипляче — стежити за швидкістю нагрівання.',
+    draw(s){s.innerHTML=`
+      <path d="M12 75 Q12 115 50 122 Q88 115 88 75 Q88 66 50 62 Q12 66 12 75 Z" fill="rgba(144,160,204,0.07)" stroke="#90a0cc" stroke-width="1.2"/>
+      <ellipse cx="50" cy="75" rx="38" ry="10" fill="rgba(144,160,204,0.05)" stroke="#90a0cc" stroke-width="0.8"/>
+      <path fill="rgba(79,195,247,0.14)"><animate attributeName="d" dur="3s" repeatCount="indefinite"
+        values="M15 88 Q30 84 50 88 Q70 92 85 88 L85 122 Q50 128 15 122 Z;M15 88 Q30 92 50 88 Q70 84 85 88 L85 122 Q50 128 15 122 Z;M15 88 Q30 84 50 88 Q70 92 85 88 L85 122 Q50 128 15 122 Z"/></path>`;}
+  },
+  { id:'retort', name:'Реторта', latin:'Retort', cat:'Нагрівання',
+    vol:'100–1000 мл', mat:'Боросилікатне скло / кварц', heat:'Так',
+    desc:'Реторта — один з найстаріших приладів хімічної лабораторії, відомий з епохи алхімії. Куляста колба з довгим зігнутим вниз носиком-відводом. Носик одночасно є відводом пари і замінює окремий холодильник при простій перегонці. Підходить для перегонки речовин, що не потребують водяного охолодження, а також для сухої перегонки (піроліз деревини, вугілля). Сучасне застосування — демонстраційні досліди і перегонка реагентів в умовах обмеженого обладнання. Нагрівають рівномірно, повільно збільшуючи температуру. Конденсат збирають у приймальну колбу, яку охолоджують ззовні льодом або водою.',
+    warn:'Нагрівати повільно і рівномірно. Різкий нагрів або раптове охолодження — тріщина. Не залишати без нагляду.', safe:'',
+    draw(s){s.innerHTML=`
+      <defs><clipPath id="ret"><ellipse cx="42" cy="82" rx="30" ry="28"/></clipPath></defs>
+      <ellipse cx="42" cy="82" rx="30" ry="28" fill="rgba(105,240,174,0.04)" stroke="#69F0AE" stroke-width="1"/>
+      <path d="M68 72 Q80 66 88 74 Q92 80 86 88 Q80 94 74 88" fill="rgba(105,240,174,0.04)" stroke="#69F0AE" stroke-width="1" fill-rule="nonzero"/>
+      <g clip-path="url(#ret)">
+        <path fill="rgba(105,240,174,0.16)"><animate attributeName="d" dur="2.8s" repeatCount="indefinite"
+          values="M12 96 Q30 91 42 96 Q54 101 72 96 L72 112 L12 112 Z;M12 96 Q30 101 42 96 Q54 91 72 96 L72 112 L12 112 Z;M12 96 Q30 91 42 96 Q54 101 72 96 L72 112 L12 112 Z"/></path>
+      </g>
+      <circle cx="30" cy="98" r="1.5" fill="#69F0AE" opacity="0">
+        <animate attributeName="cy" values="100;82" dur="2.2s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0;0.8;0" dur="2.2s" repeatCount="indefinite"/>
+      </circle>`;}
+  },
+
+  // ── ПОДІЛ І ФІЛЬТРАЦІЯ ──
+  { id:'sep-funnel', name:'Воронка ділильна', latin:'Separating funnel', cat:'Поділ і фільтрація',
+    vol:'100–2000 мл', mat:'Боросилікатне скло', heat:'Ні',
+    desc:'Ділильна воронка — ключовий прилад для рідин-рідинної екстракції. В органічній хімії екстракція є основним методом виділення і очищення продуктів. Принцип: два незмішувані розчинники (наприклад, вода і діетиловий ефір) утворюють два шари — цільова речовина розподіляється між ними відповідно до свого коефіцієнта розподілу. Кілька послідовних екстракцій малими порціями ефективніші за одну велику. Тефлоновий кран стійкий до більшості розчинників, скляний — потребує змащення. Після збовтування обов\'язково стравлювати тиск через кран (воронка догори дном). Нижній (важчий) шар зливають через кран, верхній — через горло.',
+    warn:'При роботі з леткими розчинниками регулярно відкривати кран для скидання тиску — перегрів або розчинення CO₂ підвищує тиск, пробка може вилетіти з силою!', safe:'',
+    draw(s){s.innerHTML=`
+      <defs><clipPath id="sf"><path d="M22 32 Q22 82 36 95 L50 112 L64 95 Q78 82 78 32 Z"/></clipPath></defs>
+      <rect x="44" y="14" width="12" height="20" rx="4" fill="rgba(0,229,204,0.05)" stroke="#00E5CC" stroke-width="1"/>
+      <path d="M22 32 Q22 82 36 95 L50 112 L64 95 Q78 82 78 32 Z" fill="rgba(0,229,204,0.04)" stroke="#00E5CC" stroke-width="1"/>
+      <ellipse cx="50" cy="32" rx="28" ry="7" fill="rgba(0,229,204,0.04)" stroke="#00E5CC" stroke-width="0.8"/>
+      <g clip-path="url(#sf)">
+        <rect x="18" y="62" width="64" height="55" fill="rgba(0,229,204,0.15)"/>
+        <rect x="18" y="45" width="64" height="20" fill="rgba(79,195,247,0.18)"/>
+        <line x1="18" y1="63" x2="82" y2="63" stroke="#fff" stroke-width="0.7" opacity="0.2"/>
+      </g>
+      <rect x="40" y="110" width="20" height="6" rx="3" fill="rgba(0,229,204,0.15)" stroke="#00E5CC" stroke-width="0.8"/>
+      <rect x="46" y="116" width="8" height="10" rx="3" fill="rgba(0,229,204,0.1)" stroke="#00E5CC" stroke-width="0.7"/>`;}
+  },
+  { id:'funnel', name:'Лійка скляна', latin:'Glass funnel', cat:'Поділ і фільтрація',
+    vol:'—', mat:'Скло / поліпропілен', heat:'Ні',
+    desc:'Скляна лійка — базовий посуд для переливання рідин і фільтрування через паперовий фільтр. Кут конуса 60° — стандарт для складеного фільтрувального паперу: фільтр складають вчетверо, розкривають одну сторону і вставляють у лійку. Хвостик лійки має торкатись стінки приймальної ємності — це запобігає барботажу і прискорює фільтрування. Для гарячого фільтрування лійку попередньо підігрівають, щоб запобігти кристалізації на фільтрі. При зависанні фільтрату — обережно натиснути на фільтр паличкою або додати трохи рідини для змочування. Розмір лійки обирають за об\'ємом фільтрату — фільтр не повинен виступати вище краю.',
+    warn:'', safe:'Рівень рідини не вище за край фільтрувального паперу. Гаряче фільтрування — обережно, гаряча лійка і стакан!',
+    draw(s){s.innerHTML=`
+      <path d="M15 18 L85 18 L58 80 L58 126 L42 126 L42 80 Z" fill="rgba(79,195,247,0.04)" stroke="#4FC3F7" stroke-width="1" stroke-linejoin="round"/>
+      <line x1="15" y1="18" x2="85" y2="18" stroke="#4FC3F7" stroke-width="1.2"/>
+      <rect x="42" y="80" width="16" height="46" rx="3" fill="rgba(79,195,247,0.04)" stroke="#4FC3F7" stroke-width="1"/>
+      <circle cx="50" cy="130" r="2" fill="#4FC3F7" opacity="0">
+        <animate attributeName="cy" values="128;136" dur="1.8s" repeatCount="indefinite" begin="0.3s"/>
+        <animate attributeName="opacity" values="0;0.9;0" dur="1.8s" repeatCount="indefinite" begin="0.3s"/>
+      </circle>`;}
+  },
+  { id:'buchner', name:'Воронка Бюхнера', latin:'Buchner funnel', cat:'Поділ і фільтрація',
+    vol:'50–1000 мл', mat:'Фарфор / скло', heat:'Ні',
+    desc:'Воронка Бюхнера призначена для прискореного вакуумного фільтрування. З\'єднується з колбою Бунзена і насосом (водоструминним або механічним). Знижений тиск під фільтром прискорює проходження фільтрату в десятки разів порівняно з гравітаційним фільтруванням. Перфорована фарфорова пластина тримає паперовий фільтр — він має щільно прилягати і бути змочений розчинником перед подачею вакууму. Фільтрат збирається в колбі Бунзена. Після фільтрування осад можна промити на фільтрі — подають порцію чистого розчинника і знову включають вакуум. Скляні воронки Бюхнера (G-тип) мають вбудований пористий скляний фільтр — не потребують паперу, підходять для дрібних кристалів.',
+    warn:'', safe:'Перевіряти герметичність гумового кільця між воронкою і колбою. Не застосовувати з органічними розчинниками без хімічно стійкого вакуумного насоса.',
+    draw(s){s.innerHTML=`
+      <path d="M10 52 L90 52 L72 90 L28 90 Z" fill="rgba(144,160,204,0.06)" stroke="#90a0cc" stroke-width="1" stroke-linejoin="round"/>
+      <ellipse cx="50" cy="52" rx="40" ry="10" fill="rgba(144,160,204,0.05)" stroke="#90a0cc" stroke-width="1"/>
+      <rect x="32" y="88" width="36" height="6" rx="2" fill="rgba(144,160,204,0.1)" stroke="#90a0cc" stroke-width="0.8"/>
+      ${[46,50,54,58,62].map(x=>`<circle cx="${x}" cy="58" r="1.5" fill="none" stroke="#90a0cc" stroke-width="0.7" opacity="0.6"/>`).join('')}
+      ${[40,44,48,52,56,60,64,68].map(x=>`<circle cx="${x}" cy="66" r="1.5" fill="none" stroke="#90a0cc" stroke-width="0.7" opacity="0.4"/>`).join('')}
+      <rect x="40" y="92" width="20" height="40" rx="4" fill="rgba(144,160,204,0.05)" stroke="#90a0cc" stroke-width="0.8"/>
+      <circle cx="50" cy="136" r="2" fill="#4FC3F7" opacity="0">
+        <animate attributeName="cy" values="134;140" dur="2s" repeatCount="indefinite" begin="0.8s"/>
+        <animate attributeName="opacity" values="0;0.8;0" dur="2s" repeatCount="indefinite" begin="0.8s"/>
+      </circle>`;}
+  },
+
+  // ── ДОПОМІЖНИЙ ──
+  { id:'watchglass', name:'Годинникове скло', latin:'Watch glass', cat:'Допоміжний',
+    vol:'—', mat:'Скло', heat:'Обмежено',
+    desc:'Годинникове скло — тонке увігнуте скло діаметром 50-150 мм. Назва походить від скла кишенькового годинника. Найчастіше використовується як кришка для стакана — зменшує випаровування і забруднення з повітря, але дозволяє виходити надлишковому тиску. Підходить як підкладка для зважування сипких речовин на терезах — ввігнута форма утримує порошок від розсипання. При випаровуванні малих кількостей — кладуть на гарячу водяну баню. Пара піднімається і конденсується на склі у витяжній шафі — стандартний спосіб нарощування кристалів парою. Можна використовувати як реактивне скло для якісних крапельних реакцій.',
+    warn:'', safe:'Не нагрівати безпосередньо у полум\'ї — тонке скло лопне. Тільки непряме нагрівання на паровій або водяній бані.',
+    draw(s){s.innerHTML=`
+      <path d="M10 70 Q50 50 90 70 Q50 80 10 70 Z" fill="rgba(79,195,247,0.06)" stroke="#4FC3F7" stroke-width="1.2"/>
+      <path d="M10 70 Q50 80 90 70" fill="none" stroke="#4FC3F7" stroke-width="0.7" stroke-dasharray="4 3" opacity="0.5"/>
+      <ellipse cx="50" cy="70" rx="40" ry="5" fill="none" stroke="#4FC3F7" stroke-width="0.5" opacity="0.3"/>`;}
+  },
+  { id:'wash-bottle', name:'Промивалка', latin:'Wash bottle', cat:'Допоміжний',
+    vol:'250–500 мл', mat:'Поліетилен', heat:'Ні',
+    desc:'Промивалка — пластикова пляшка з внутрішньою трубкою, яка сягає дна, і вигнутим носиком у кришці. При натисканні на корпус повітря витискає рідину через трубку і носик — виходить точний тонкий струмінь. Стандартне наповнення — дистильована вода для промивання посуду і осадів на фільтрах. Окремі промивалки готують з ацетоном (для жирних забруднень і швидкого висихання), етанолом, ізопропанолом. Відрізняють промивалки за кольором кришки або маркуванням — ніколи не переплутувати вміст. Пластиковий корпус стійкий до водних розчинів, але деякі органічні розчинники (бензол, хлороформ) роз\'їдають поліетилен.',
+    warn:'', safe:'Кожну промивалку підписувати з вмістом і датою. Різні розчинники — різні промивалки, ніколи не використовувати одну для різних рідин.',
+    draw(s){s.innerHTML=`
+      <path d="M30 38 Q30 20 50 18 Q70 20 70 38 L72 100 Q72 118 50 122 Q28 118 28 100 Z" fill="rgba(105,240,174,0.05)" stroke="#69F0AE" stroke-width="1"/>
+      <rect x="44" y="14" width="12" height="8" rx="3" fill="rgba(105,240,174,0.1)" stroke="#69F0AE" stroke-width="0.8"/>
+      <path d="M50 22 L50 14 Q50 8 58 6 L80 14" fill="none" stroke="#69F0AE" stroke-width="1.2"/>
+      <circle cx="81" cy="14" r="2.5" fill="#69F0AE" opacity="0.6"/>
+      <circle cx="40" cy="95" r="2" fill="#69F0AE" opacity="0">
+        <animate attributeName="cy" values="94;100" dur="2s" repeatCount="indefinite" begin="0.4s"/>
+        <animate attributeName="opacity" values="0;0.7;0" dur="2s" repeatCount="indefinite" begin="0.4s"/>
+      </circle>`;}
+  },
+  { id:'desiccator', name:'Ексикатор', latin:'Desiccator', cat:'Допоміжний',
+    vol:'1–30 л', mat:'Скло / пластик', heat:'Ні',
+    desc:'Ексикатор — герметична посудина для зберігання речовин без вологи і повільного висихання зразків. На дні знаходиться осушувач: силікагель (помаранчевий при насиченні), хлорид кальцію (дешевий, для органічних речовин), оксид фосфору(V) P₂O₅ (найефективніший, але незворотній), молекулярні сита. Фарфорова перфорована вставка тримає зразки над осушувачем. Кришка притирається на мастилі (вазелін або силіконовий мастило) — герметичне ковзне з\'єднання без гвинтів. Після виймання з сушильної шафи тигель або бюкс охолоджують в ексикаторі до кімнатної температури — тільки потім зважують. Осушувач регенерують нагріванням у сушильній шафі (силікагель — 120°C, 2-3 год).',
+    warn:'Відкривати повільно — всередині може бути знижений тиск після охолодження. Різке відкриття — осколки від перепаду тиску!', safe:'',
+    draw(s){s.innerHTML=`
+      <ellipse cx="50" cy="88" rx="42" ry="34" fill="rgba(144,160,204,0.05)" stroke="#90a0cc" stroke-width="1.2"/>
+      <ellipse cx="50" cy="88" rx="42" ry="12" fill="none" stroke="#90a0cc" stroke-width="0.7" stroke-dasharray="4 3" opacity="0.5"/>
+      <path d="M8 78 Q8 52 50 48 Q92 52 92 78" fill="rgba(144,160,204,0.05)" stroke="#90a0cc" stroke-width="1"/>
+      <rect x="38" y="44" width="24" height="8" rx="4" fill="rgba(144,160,204,0.1)" stroke="#90a0cc" stroke-width="0.8"/>
+      <ellipse cx="50" cy="42" rx="12" ry="4" fill="rgba(144,160,204,0.08)" stroke="#90a0cc" stroke-width="0.7"/>
+      <rect x="20" y="86" width="60" height="4" rx="2" fill="rgba(144,160,204,0.12)" stroke="#90a0cc" stroke-width="0.5"/>
+      ${[28,36,44,52,60,68,76].map(x=>`<line x1="${x}" y1="86" x2="${x}" y2="90" stroke="#90a0cc" stroke-width="0.5" opacity="0.4"/>`).join('')}`;}
+  },
+  { id:'petri', name:'Чашка Петрі', latin:'Petri dish', cat:'Допоміжний',
+    vol:'30–300 мл', mat:'Скло / полістирол', heat:'Обмежено',
+    desc:'Чашка Петрі — плоска циліндрична чашка з кришкою, розроблена Ріхардом Петрі у 1887 році. Незамінна у мікробіології для вирощування культур мікроорганізмів на поживних агарових середовищах. У хімічній лабораторії використовується для випарювання малих об\'ємів розчинів, зберігання і сортування дрібних зразків, кристалізації тонким шаром, якісних реакцій на папері або склі. Скляні чашки стерилізуються в автоклаві або сухожаровій шафі. Одноразові полістиролові — для мікробіологічних дослідів (гамма-опромінені). Стандартні діаметри: 35, 60, 90, 100, 150 мм.',
+    warn:'', safe:'Скляні чашки стерилізувати в автоклаві (121°C, 15 хв) або сухожаровій шафі (180°C, 1 год). Пластикові — тільки одноразові.',
+    draw(s){s.innerHTML=`
+      <ellipse cx="50" cy="86" rx="42" ry="12" fill="rgba(79,195,247,0.05)" stroke="#4FC3F7" stroke-width="1"/>
+      <path d="M8 86 L8 100 Q8 110 50 112 Q92 110 92 100 L92 86" fill="rgba(79,195,247,0.04)" stroke="#4FC3F7" stroke-width="1"/>
+      <ellipse cx="50" cy="100" rx="42" ry="10" fill="rgba(79,195,247,0.03)" stroke="#4FC3F7" stroke-width="0.5" opacity="0.5"/>
+      <ellipse cx="50" cy="62" rx="38" ry="10" fill="rgba(79,195,247,0.04)" stroke="#4FC3F7" stroke-width="0.8"/>
+      <path d="M12 62 L12 74 Q12 82 50 84 Q88 82 88 74 L88 62" fill="rgba(79,195,247,0.03)" stroke="#4FC3F7" stroke-width="0.8"/>
+      <path fill="rgba(79,195,247,0.1)"><animate attributeName="d" dur="4s" repeatCount="indefinite"
+        values="M12 98 Q30 94 50 98 Q70 102 88 98 L88 112 Q50 118 12 112 Z;M12 98 Q30 102 50 98 Q70 94 88 98 L88 112 Q50 118 12 112 Z;M12 98 Q30 94 50 98 Q70 102 88 98 L88 112 Q50 118 12 112 Z"/></path>`;}
+  },
+  { id:'condenser', name:'Холодильник Лібіха', latin:'Liebig condenser', cat:'Допоміжний',
+    vol:'—', mat:'Боросилікатне скло', heat:'Ні (охолодження)',
+    desc:'Холодильник Лібіха — найпростіший і найпоширеніший лабораторний конденсатор, названий на честь Юстуса фон Лібіха. Пряма внутрішня трубка оточена зовнішньою водяною сорочкою. Вода подається знизу вгору — назустріч руху пари, що максимізує теплообмін (принцип протипотоку). Ефективний для конденсації пари при t < 130°C. При більших температурах — замінюють на повітряний холодильник або Димрота. Нахил при перегонці — 45°, при рефлюксі — вертикально. Розмір підбирають з розрахунку 30-40 см довжини водяної сорочки для більшості синтезів. Шліфи NS 14/23, NS 19/26, NS 24/40 — стандарти з\'єднання.',
+    warn:'', safe:'Вода має текти безперервно під час нагрівання. Перед включенням нагріву — переконатися що вода циркулює через сорочку. Зупинка водопостачання — негайно відключити нагрів.',
+    draw(s){s.innerHTML=`
+      <rect x="34" y="14" width="32" height="112" rx="6" fill="rgba(79,195,247,0.05)" stroke="#4FC3F7" stroke-width="1"/>
+      <rect x="42" y="14" width="16" height="112" rx="4" fill="rgba(79,195,247,0.03)" stroke="#4FC3F7" stroke-width="0.6" opacity="0.7"/>
+      <rect x="66" y="30" width="12" height="5" rx="2" fill="rgba(79,195,247,0.18)" stroke="#4FC3F7" stroke-width="0.7"/>
+      <rect x="66" y="100" width="12" height="5" rx="2" fill="rgba(79,195,247,0.18)" stroke="#4FC3F7" stroke-width="0.7"/>
+      <circle cx="50" cy="20" r="2" fill="#4FC3F7" opacity="0">
+        <animate attributeName="cy" values="20;122" dur="3.5s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0;0.8;0.8;0.8;0" dur="3.5s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="50" cy="20" r="1.5" fill="#4FC3F7" opacity="0">
+        <animate attributeName="cy" values="20;122" dur="3.5s" repeatCount="indefinite" begin="1.2s"/>
+        <animate attributeName="opacity" values="0;0.6;0.6;0.6;0" dur="3.5s" repeatCount="indefinite" begin="1.2s"/>
+      </circle>`;}
+  },
+  { id:'flask-bunsen', name:'Колба Бунзена', latin:'Bunsen flask', cat:'Допоміжний',
+    vol:'250–1000 мл', mat:'Боросилікатне скло', heat:'Ні',
+    desc:'Колба Бунзена — товстостінна конічна колба з боковим відводом біля горла. Товсті стінки (2-3 мм проти 1 мм у звичайної колби) витримують механічне навантаження від зниженого тиску при вакуумному фільтруванні. Бічний відвід з\'єднується шлангом з вакуумним насосом або водоструминним насосом. Об\'єм підбирають більший за об\'єм фільтрату — зазвичай 500-1000 мл. Гумова муфта-перехідник щільно з\'єднує воронку Бюхнера з горлом колби. Після закінчення фільтрування спочатку від\'єднують шланг від насоса (або відкривають кран скидання тиску), потім виймають воронку — щоб уникнути зворотного засмоктування фільтрату.',
+    warn:'Ніколи не нагрівати під вакуумом і безпосередньо у полум\'ї — колба лопне! Перевіряти на тріщини перед кожним використанням — тріщина під вакуумом небезпечна.', safe:'',
+    draw(s){s.innerHTML=`
+      <defs><clipPath id="bf"><path d="M28 58 L18 105 Q50 125 82 105 L72 58 Z"/></clipPath></defs>
+      <rect x="40" y="14" width="20" height="46" rx="4" fill="rgba(105,240,174,0.04)" stroke="#69F0AE" stroke-width="1.2"/>
+      <rect x="60" y="22" width="16" height="5" rx="2" fill="rgba(105,240,174,0.12)" stroke="#69F0AE" stroke-width="0.8"/>
+      <path d="M28 58 L18 105 Q50 125 82 105 L72 58 Z" fill="rgba(105,240,174,0.04)" stroke="#69F0AE" stroke-width="1.2" stroke-linejoin="round"/>
+      <g clip-path="url(#bf)">
+        <path fill="rgba(105,240,174,0.15)"><animate attributeName="d" dur="3s" repeatCount="indefinite"
+          values="M14 94 Q32 89 50 94 Q68 99 86 94 L86 128 L14 128 Z;M14 94 Q32 99 50 94 Q68 89 86 94 L86 128 L14 128 Z;M14 94 Q32 89 50 94 Q68 99 86 94 L86 128 L14 128 Z"/></path>
+      </g>`;}
+  },
+  { id:'mortar', name:'Ступка з товкачиком', latin:'Mortar and pestle', cat:'Допоміжний',
+    vol:'50–500 мл', mat:'Фарфор / агат / скло', heat:'Ні',
+    desc:'Ступка з товкачиком (пестиком) — один з найдавніших хімічних приладів, незмінний впродовж тисячоліть. Фарфорова ступка — для подрібнення більшості неорганічних і органічних речовин. Агатова — коштовна, для твердих мінералів (кварц, шпат) і коли неприпустиме забруднення залізом або алюмінієм. Скляна — для речовин, що реагують з фарфором (фториди). Нікелева або залізна — для лужних розплавів. Техніка роботи: спочатку розтирають (кругові рухи з тиском), потім розтовкують (вертикальні удари). Перевіряють ступінь подрібнення на аркуші паперу. Після роботи промивають водою, а за потреби — соляною кислотою або ацетоном.',
+    warn:'Ніколи не дробити у ступці: металевий натрій і калій (вогонь!), пікринову кислоту і стифнат свинцю (вибух!), азиди, перхлорати з органічними речовинами. Завжди перевіряти сумісність!', safe:'',
+    draw(s){s.innerHTML=`
+      <path d="M15 72 Q15 112 50 118 Q85 112 85 72 Q85 62 50 58 Q15 62 15 72 Z" fill="rgba(144,160,204,0.07)" stroke="#90a0cc" stroke-width="1.2"/>
+      <ellipse cx="50" cy="72" rx="35" ry="10" fill="rgba(144,160,204,0.05)" stroke="#90a0cc" stroke-width="0.8"/>
+      <rect x="46" y="14" width="8" height="58" rx="4" fill="rgba(144,160,204,0.1)" stroke="#90a0cc" stroke-width="1"/>
+      <ellipse cx="50" cy="70" rx="10" ry="4" fill="rgba(144,160,204,0.12)" stroke="#90a0cc" stroke-width="0.7"/>
+      <path fill="rgba(144,160,204,0.1)"><animate attributeName="d" dur="3s" repeatCount="indefinite"
+        values="M18 85 Q34 81 50 85 Q66 89 82 85 L82 118 Q50 124 18 118 Z;M18 85 Q34 89 50 85 Q66 81 82 85 L82 118 Q50 124 18 118 Z;M18 85 Q34 81 50 85 Q66 89 82 85 L82 118 Q50 124 18 118 Z"/></path>`;}
+  },
+  // ── ВИМІРЮВАЛЬНИЙ (дод.) ──
+  // ── ЗАГАЛЬНИЙ (дод.) ──
+  { id:'flat-flask', name:'Колба плоскодонна', latin:'Flat-bottom flask', cat:'Загальний',
+    vol:'50–5000 мл', mat:'Боросилікатне скло', heat:'Так (на сітці)',
+    desc:'Плоскодонна колба — найпоширеніша колба в шкільній і вузівській лабораторії завдяки здатності стояти самостійно. Поєднує конічну або циліндричну форму тіла зі стандартним горлом для корків або шліфів. Виготовляється з боросилікатного скла з різними об\'ємами горла: вузьке (для корків) або широке (для зручного наповнення). Nвикористовується для нагрівання, синтезу, відганяння, зберігання розчинів. Горло може бути круглим (для корків) або мати шліфоване з\'єднання (для стандартної лабораторної апаратури). При нагріванні — тільки через азбестову сітку або у лазні, не безпосередньо у полум\'ї. Широко застосовується у якості приймача при перегонці.',
+    warn:'', safe:'При нагріванні обов\'язково — азбестова сітка. Не залишати порожню на нагрівачі.',
+    draw(s){s.innerHTML=`
+      <defs><clipPath id="ff"><path d="M24 56 L14 104 Q50 120 86 104 L76 56 Z"/></clipPath></defs>
+      <rect x="40" y="14" width="20" height="44" rx="4" fill="rgba(0,229,204,0.04)" stroke="#00E5CC" stroke-width="1"/>
+      <path d="M24 56 L14 104 Q50 120 86 104 L76 56 Z" fill="rgba(0,229,204,0.04)" stroke="#00E5CC" stroke-width="1" stroke-linejoin="round"/>
+      <line x1="12" y1="104" x2="88" y2="104" stroke="#00E5CC" stroke-width="1.5"/>
+      <g clip-path="url(#ff)">
+        <path fill="rgba(0,229,204,0.17)"><animate attributeName="d" dur="3s" repeatCount="indefinite"
+          values="M10 88 Q30 83 50 88 Q70 93 90 88 L90 122 L10 122 Z;M10 88 Q30 93 50 88 Q70 83 90 88 L90 122 L10 122 Z;M10 88 Q30 83 50 88 Q70 93 90 88 L90 122 L10 122 Z"/></path>
+      </g>
+      <circle cx="36" cy="92" r="1.8" fill="#69F0AE" opacity="0">
+        <animate attributeName="cy" values="94;76" dur="2.5s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0;0.8;0" dur="2.5s" repeatCount="indefinite"/>
+      </circle>`;}
+  },
+  { id:'crystallizer', name:'Кристалізатор', latin:'Crystallizer', cat:'Загальний',
+    vol:'100–3000 мл', mat:'Боросилікатне скло', heat:'Обмежено',
+    desc:'Кристалізатор — широка низька посудина з плоским дном, оптимізована для кристалізації речовин. Велике співвідношення площі поверхні до об\'єму прискорює випаровування і створює умови для повільного росту кристалів. Спочатку приготовляють насичений гарячий розчин, фільтрують для видалення домішок, переливають у кристалізатор і залишають охолоджуватись — при повільному охолодженні утворюються великі правильні кристали. Для дрібних кристалів — охолоджують швидко або вносять затравку. Використовується також як лоток для водяної бані під стаканами і як ємність для охолодних сумішей (лід+сіль). Фарфоровий кристалізатор витримує вищі температури.',
+    warn:'', safe:'При нагріванні на водяній бані не допускати кипіння якщо у кристалізаторі органічний розчинник — пари спалахнуть від відкритого полум\'я.',
+    draw(s){s.innerHTML=`
+      <defs><clipPath id="cr"><rect x="12" y="60" width="76" height="62" rx="0"/></clipPath></defs>
+      <rect x="12" y="60" width="76" height="62" rx="3" fill="rgba(0,229,204,0.04)" stroke="#00E5CC" stroke-width="1"/>
+      <ellipse cx="50" cy="60" rx="38" ry="9" fill="rgba(0,229,204,0.04)" stroke="#00E5CC" stroke-width="1"/>
+      <g clip-path="url(#cr)">
+        <path fill="rgba(0,229,204,0.15)"><animate attributeName="d" dur="4s" repeatCount="indefinite"
+          values="M12 92 Q30 87 50 92 Q70 97 88 92 L88 124 L12 124 Z;M12 92 Q30 97 50 92 Q70 87 88 92 L88 124 L12 124 Z;M12 92 Q30 87 50 92 Q70 97 88 92 L88 124 L12 124 Z"/></path>
+      </g>
+      <polygon points="38,78 42,90 34,90" fill="rgba(79,195,247,0.4)" stroke="#4FC3F7" stroke-width="0.5"/>
+      <polygon points="55,82 59,94 51,94" fill="rgba(79,195,247,0.35)" stroke="#4FC3F7" stroke-width="0.5"/>
+      <polygon points="64,75 67,85 61,85" fill="rgba(79,195,247,0.3)" stroke="#4FC3F7" stroke-width="0.5"/>`;}
+  },
+  { id:'claisen', name:'Колба Кляйзена', latin:'Claisen flask', cat:'Загальний',
+    vol:'50–500 мл', mat:'Боросилікатне скло', heat:'Так',
+    desc:'Колба Кляйзена — спеціалізований посуд для перегонки при зниженому тиску (вакуумна дистиляція). Подвійне горло — пряме для термометра і бічне (під кутом ~75°) для з\'єднання з холодильником — дозволяє одночасно контролювати температуру і відводити пари. Важлива перевага перед простою установкою: при вакуумній перегонці мінімізується перегрів рідини, що критично для термочутливих сполук. Застосовується для перегонки висококиплячих речовин (ефірні олії, амінокислоти, полімеризовані продукти), які при атмосферному тиску розкладаються до досягнення t кипіння. Шліфи NS 14 або NS 19. Пара проходить через коротший шлях — менше конденсації всередині колби.',
+    warn:'Перед вакуумною перегонкою перевірити всі шліфи і з\'єднання на герметичність. Тріщина під вакуумом — вибух осколків скла!', safe:'',
+    draw(s){s.innerHTML=`
+      <defs><clipPath id="cl"><ellipse cx="40" cy="92" rx="28" ry="24"/></clipPath></defs>
+      <ellipse cx="40" cy="92" rx="28" ry="24" fill="rgba(105,240,174,0.04)" stroke="#69F0AE" stroke-width="1"/>
+      <rect x="34" y="44" width="12" height="32" rx="4" fill="rgba(105,240,174,0.04)" stroke="#69F0AE" stroke-width="1"/>
+      <path d="M60 80 Q72 72 82 68 Q88 66 90 60" fill="none" stroke="#69F0AE" stroke-width="1.2"/>
+      <ellipse cx="90" cy="58" rx="6" ry="4" fill="rgba(105,240,174,0.1)" stroke="#69F0AE" stroke-width="0.8"/>
+      <g clip-path="url(#cl)">
+        <path fill="rgba(105,240,174,0.18)"><animate attributeName="d" dur="2.8s" repeatCount="indefinite"
+          values="M12 100 Q26 95 40 100 Q54 105 68 100 L68 118 L12 118 Z;M12 100 Q26 105 40 100 Q54 95 68 100 L68 118 L12 118 Z;M12 100 Q26 95 40 100 Q54 105 68 100 L68 118 L12 118 Z"/></path>
+      </g>`;}
+  },
+  { id:'wurtz', name:'Колба Вюрца', latin:'Wurtz flask', cat:'Загальний',
+    vol:'50–2000 мл', mat:'Боросилікатне скло', heat:'Так',
+    desc:'Колба Вюрца — класичний посуд для простої перегонки при атмосферному тиску. Поєднує кулясту колбу з одним горлом і бічним відводом, зварений в єдину конструкцію. Бічний відвід знаходиться у верхній частині колби і відходить під кутом 75° — пари з горловини безпосередньо потрапляють у відвід, не стікаючи назад. На відміну від круглої колби з адаптером — є монолітною, без роз\'ємних з\'єднань, що зменшує ризик витоків. Термометр вставляють у горло колби так, щоб ртутний резервуар знаходився у рівні відводу. Стандарт шкільної і вузівської перегонки для неагресивних розчинників. З\'єднується з холодильником Лібіха стандартним гумовим шлангом або шліфом.',
+    warn:'', safe:'Перевіряти герметичність з\'єднання з холодильником. Нагрівати через азбестову сітку або у масляній лазні.',
+    draw(s){s.innerHTML=`
+      <defs><clipPath id="wu"><ellipse cx="46" cy="96" rx="32" ry="26"/></clipPath></defs>
+      <ellipse cx="46" cy="96" rx="32" ry="26" fill="rgba(0,229,204,0.04)" stroke="#00E5CC" stroke-width="1"/>
+      <rect x="40" y="44" width="12" height="38" rx="4" fill="rgba(0,229,204,0.04)" stroke="#00E5CC" stroke-width="1"/>
+      <path d="M68 80 Q80 74 90 70" fill="none" stroke="#00E5CC" stroke-width="1.2"/>
+      <line x1="88" y1="66" x2="92" y2="74" stroke="#00E5CC" stroke-width="1"/>
+      <g clip-path="url(#wu)">
+        <path fill="rgba(0,229,204,0.17)"><animate attributeName="d" dur="3s" repeatCount="indefinite"
+          values="M14 104 Q30 99 46 104 Q62 109 78 104 L78 124 L14 124 Z;M14 104 Q30 109 46 104 Q62 99 78 104 L78 124 L14 124 Z;M14 104 Q30 99 46 104 Q62 109 78 104 L78 124 L14 124 Z"/></path>
+      </g>
+      <circle cx="34" cy="106" r="1.6" fill="#69F0AE" opacity="0">
+        <animate attributeName="cy" values="108;88" dur="2.3s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0;0.8;0" dur="2.3s" repeatCount="indefinite"/>
+      </circle>`;}
+  },
+  { id:'schlenk', name:'Колба Шленка', latin:'Schlenk flask', cat:'Загальний',
+    vol:'25–500 мл', mat:'Боросилікатне скло', heat:'Так',
+    desc:'Колба Шленка — спеціалізований посуд для синтезу в атмосфері інертного газу або у вакуумі. Розроблена Вільгельмом Шленком у 1910-х роках для роботи з органометалічними сполуками. Циліндрична форма з широким горлом і бічним відводом з краном. Кран перекриває бічний відвід, що з\'єднується зі Шленк-лінією (подвійний колектор вакуум/аргон). Маніпуляції: відкривання під потоком аргону, перенесення рідин канюлею або шприцем, завантаження твердих речовин у гумовій септі. Незамінна при роботі з н-бутиллітієм, реактивами Гріньяра, металоценами, каталізаторами на основі паладію. Широке горло дозволяє вносити тверді реагенти через септу.',
+    warn:'Кран і всі з\'єднання мають бути справними — витік повітря або вологи зруйнує чутливий до кисню каталізатор або ініціює самозаймання піроформних сполук.', safe:'',
+    draw(s){s.innerHTML=`
+      <defs><clipPath id="sc"><rect x="26" y="44" width="48" height="80" rx="8"/></clipPath></defs>
+      <rect x="26" y="44" width="48" height="80" rx="8" fill="rgba(79,195,247,0.04)" stroke="#4FC3F7" stroke-width="1"/>
+      <rect x="38" y="14" width="14" height="32" rx="4" fill="rgba(79,195,247,0.04)" stroke="#4FC3F7" stroke-width="1"/>
+      <rect x="72" y="68" width="16" height="6" rx="3" fill="rgba(79,195,247,0.15)" stroke="#4FC3F7" stroke-width="0.8"/>
+      <rect x="86" y="62" width="6" height="18" rx="2" fill="rgba(79,195,247,0.1)" stroke="#4FC3F7" stroke-width="0.7"/>
+      <g clip-path="url(#sc)">
+        <path fill="rgba(79,195,247,0.17)"><animate attributeName="d" dur="3s" repeatCount="indefinite"
+          values="M26 96 Q50 91 74 96 L74 126 L26 126 Z;M26 96 Q50 101 74 96 L74 126 L26 126 Z;M26 96 Q50 91 74 96 L74 126 L26 126 Z"/></path>
+      </g>`;}
+  },
+  { id:'centrifuge-tube', name:'Пробірка центрифужна', latin:'Centrifuge tube', cat:'Загальний',
+    vol:'1.5–50 мл', mat:'Поліпропілен / скло', heat:'Ні',
+    desc:'Центрифужна пробірка — конічний посуд для осадження зважених частинок під дією відцентрової сили. Конічне дно збирає осад в одній точці — легко відібрати надосадову рідину піпеткою, не збовтавши осад. Пластикові (поліпропілен) типу Eppendorf (1.5-2 мл) і Falcon (15-50 мл) — стандарт молекулярної біології і біохімії. Скляні — для органічних розчинників і при потребі автоклавування. Витримують прискорення до 15 000g (Eppendorf) і 10 000g (Falcon). Маркуються градуювальною шкалою. Герметична кришка не дозволяє розплескуватись вмісту під час центрифугування.',
+    warn:'Обов\'язково центрифугувати парами симетрично! Незбалансований ротор — сильна вібрація, аварія центрифуги, можливий розкид вмісту.', safe:'',
+    draw(s){s.innerHTML=`
+      <defs><clipPath id="ct"><path d="M34 18 L34 100 Q50 118 66 100 L66 18 Z"/></clipPath></defs>
+      <path d="M34 18 L34 100 Q50 118 66 100 L66 18 Z" fill="rgba(79,195,247,0.04)" stroke="#4FC3F7" stroke-width="1"/>
+      <rect x="32" y="12" width="36" height="8" rx="3" fill="rgba(79,195,247,0.12)" stroke="#4FC3F7" stroke-width="0.8"/>
+      <g clip-path="url(#ct)">
+        <path fill="rgba(79,195,247,0.2)"><animate attributeName="d" dur="2.5s" repeatCount="indefinite"
+          values="M34 76 Q50 71 66 76 L66 120 L34 120 Z;M34 76 Q50 81 66 76 L66 120 L34 120 Z;M34 76 Q50 71 66 76 L66 120 L34 120 Z"/></path>
+      </g>
+      ${[42,50,58].map(y=>`<line x1="34" y1="${y}" x2="44" y2="${y}" stroke="#4FC3F7" stroke-width="0.5" opacity="0.4"/>`).join('')}`;}
+  },
+
+  // ── ВИМІРЮВАЛЬНИЙ (дод.) ──
+  { id:'grad-pipette', name:'Піпетка градуйована', latin:'Graduated pipette', cat:'Вимірювальний',
+    vol:'1–25 мл', mat:'Боросилікатне скло', heat:'Ні',
+    desc:'Градуйована піпетка (піпетка Мора з повною шкалою) — вимірювальний прилад для відбору будь-якого об\'єму в межах номінального. На відміну від об\'ємної піпетки Мора — має повну шкалу від 0 до максимального об\'єму з кроком 0.1 або 0.01 мл. Типи: з нульовою поділкою зверху (відлік вниз) або знизу (відлік вгору). Клас A — точніша, клас B — для технічного використання. Наповнення — тільки грушею або піпеточним наповнювачем, ніколи ротом. Після відбору проби — торкнутись стінки посудини кінцем піпетки для зняття залишку мениску. Зберігають вертикально у спеціальних штативах — горизонтальне зберігання веде до деформації і забруднення кінця.',
+    warn:'Заповнювати ТІЛЬКИ грушею або піпеточним пристроєм. При роботі з кислотами, лугами, токсичними речовинами — ніколи ротом!', safe:'',
+    draw(s){s.innerHTML=`
+      <rect x="44" y="12" width="12" height="100" rx="4" fill="rgba(79,195,247,0.04)" stroke="#4FC3F7" stroke-width="1"/>
+      ${[22,32,42,52,62,72,82,92,102].map(y=>`<line x1="44" y1="${y}" x2="54" y2="${y}" stroke="#4FC3F7" stroke-width="0.6" opacity="0.5"/>`).join('')}
+      ${[27,37,47,57,67,77,87,97].map(y=>`<line x1="44" y1="${y}" x2="49" y2="${y}" stroke="#4FC3F7" stroke-width="0.4" opacity="0.3"/>`).join('')}
+      <path d="M44 112 L50 130 L56 112" fill="rgba(79,195,247,0.1)" stroke="#4FC3F7" stroke-width="1" stroke-linejoin="round"/>
+      <circle cx="50" cy="133" r="2.5" fill="#4FC3F7" opacity="0">
+        <animate attributeName="cy" values="131;140" dur="2s" repeatCount="indefinite" begin="0.5s"/>
+        <animate attributeName="opacity" values="0;0.9;0" dur="2s" repeatCount="indefinite" begin="0.5s"/>
+      </circle>`;}
+  },
+  { id:'hydrometer', name:'Ареометр', latin:'Hydrometer', cat:'Вимірювальний',
+    vol:'—', mat:'Скло / баласт зі свинцю', heat:'Ні',
+    desc:'Ареометр — прилад для вимірювання густини рідин, що базується на законі Архімеда. Скляний поплавок з баластом (дрібна дробина або ртуть) на дні і тонким стержнем зі шкалою. Занурюється до рівноваги: чим щільніша рідина — тим менше ареометр занурюється, тим вища позначка рівня рідини на стержні. Різновиди за призначенням: спиртометр (концентрація спирту), лактометр (якість молока), ацидометр (концентрація H₂SO₄ в акумуляторі), солеметр (концентрація розсолу). Опускають у широкий циліндр з рідиною, чекають встановлення рівноваги і відраховують по нижньому меніску. Точність ±0.001-0.002 г/мл. Температурна поправка — +0.0007 г/мл на кожен °C вище 20°C.',
+    warn:'', safe:'Опускати повільно і обережно — тонкий стержень крихкий. Перевіряти правильний діапазон вимірювань — різні ареометри для різних рідин.',
+    draw(s){s.innerHTML=`
+      <ellipse cx="50" cy="98" rx="22" ry="16" fill="rgba(79,195,247,0.08)" stroke="#4FC3F7" stroke-width="1"/>
+      <rect x="46" y="24" width="8" height="76" rx="4" fill="rgba(79,195,247,0.05)" stroke="#4FC3F7" stroke-width="1"/>
+      ${[30,40,50,60,70,80].map(y=>`<line x1="46" y1="${y}" x2="52" y2="${y}" stroke="#4FC3F7" stroke-width="0.6" opacity="0.5"/>`).join('')}
+      <ellipse cx="50" cy="106" rx="14" ry="6" fill="rgba(79,195,247,0.25)" stroke="#4FC3F7" stroke-width="0.5"/>
+      <circle cx="50" cy="110" r="4" fill="rgba(79,195,247,0.3)"/>`;}
+  },
+  { id:'thermometer', name:'Термометр лабораторний', latin:'Laboratory thermometer', cat:'Вимірювальний',
+    vol:'—', mat:'Скло / ртуть або спирт', heat:'До 360°C',
+    desc:'Лабораторний термометр — прилад для вимірювання температури реакційної суміші, лазні або середовища. Ртутні термометри точніші (лінійне розширення), мають широкий діапазон до 360°C, не змочують скло. Спиртові (на основі підфарбованого етанолу або пентану) — для температур до -100°C, безпечніші при розбитті. При перегонці термометр кріплять так, щоб ртутний резервуар знаходився точно на рівні відводу бічної трубки — тоді показання відповідають t пари, а не рідини. При зануренні в реакційну суміш — резервуар повністю занурений. Калібрують за точками плавлення льоду (0°C) і кипіння води (100°C при 1 атм).',
+    warn:'При розбитті ртутного термометра — НЕГАЙНО евакуювати приміщення і повідомити відповідального! Ртуть токсична, пари накопичуються. Збирати ртуть тільки спеціальним набором або демеркуризаційним порошком — ніколи пилососом!', safe:'',
+    draw(s){s.innerHTML=`
+      <rect x="46" y="14" width="8" height="106" rx="4" fill="rgba(255,82,82,0.05)" stroke="#FF5252" stroke-width="1"/>
+      ${[24,36,48,60,72,84,96,108].map(y=>`<line x1="46" y1="${y}" x2="52" y2="${y}" stroke="#FF5252" stroke-width="0.6" opacity="0.4"/>`).join('')}
+      <rect x="47" y="60" width="6" height="60" rx="3" fill="rgba(255,82,82,0.4)">
+        <animate attributeName="height" values="20;60;60" dur="3s" repeatCount="indefinite"/>
+        <animate attributeName="y" values="100;60;60" dur="3s" repeatCount="indefinite"/>
+      </rect>
+      <ellipse cx="50" cy="122" rx="10" ry="8" fill="rgba(255,82,82,0.5)" stroke="#FF5252" stroke-width="1"/>`;}
+  },
+  { id:'micropipette', name:'Мікропіпетка (дозатор)', latin:'Micropipette', cat:'Вимірювальний',
+    vol:'0.1–1000 мкл', mat:'Пластик / метал', heat:'Ні',
+    desc:'Мікропіпетка (дозатор, піпетка-дозатор) — автоматичний прилад для точного відбору мікрооб\'ємів від 0.1 мкл до 10 мл. Поршневий механізм з пружиною забезпечує повторюваний відбір об\'єму. Об\'єм встановлюється поворотним регулятором з цифровою індикацією. Наконечники (tips) — одноразові пластикові конуси, що насаджуються на нижній кінець. Стандартні типи: P2 (0.2-2 мкл), P10, P20, P100, P200, P1000 (100-1000 мкл). Точність класу A — ±0.6-1.5% залежно від об\'єму. Калібрують гравіметрично за масою відібраної дистильованої води. Для летких рідин — піпетувати повільно, з охолодженим наконечником. Зберігати вертикально. Регулярне обслуговування і калібрування — обов\'язкові для аналітичних застосувань.',
+    warn:'', safe:'Наконечники — строго одноразові. Ніколи не працювати без наконечника — рідина потрапить у механізм і пошкодить прилад.',
+    draw(s){s.innerHTML=`
+      <rect x="38" y="12" width="24" height="70" rx="10" fill="rgba(105,240,174,0.06)" stroke="#69F0AE" stroke-width="1"/>
+      <rect x="42" y="16" width="16" height="12" rx="3" fill="rgba(105,240,174,0.15)" stroke="#69F0AE" stroke-width="0.5"/>
+      <circle cx="50" cy="28" r="4" fill="rgba(105,240,174,0.2)" stroke="#69F0AE" stroke-width="0.8"/>
+      <rect x="44" y="80" width="12" height="30" rx="6" fill="rgba(105,240,174,0.08)" stroke="#69F0AE" stroke-width="0.8"/>
+      <path d="M44 108 L46 130 L50 136 L54 130 L56 108" fill="rgba(105,240,174,0.05)" stroke="#69F0AE" stroke-width="0.8" stroke-linejoin="round"/>
+      <circle cx="50" cy="138" r="2" fill="#69F0AE" opacity="0">
+        <animate attributeName="cy" values="136;144" dur="2s" repeatCount="indefinite" begin="0.6s"/>
+        <animate attributeName="opacity" values="0;0.9;0" dur="2s" repeatCount="indefinite" begin="0.6s"/>
+      </circle>`;}
+  },
+  { id:'pasteur', name:'Піпетка Пастера', latin:'Pasteur pipette', cat:'Вимірювальний',
+    vol:'1–5 мл', mat:'Скло / поліетилен', heat:'Ні',
+    desc:'Піпетка Пастера (крапельна піпетка) — тонкостінна скляна трубка з відтягнутим капілярним кінцем. Виготовляється з м\'якого скла і є одноразовим (або рідковживаним) посудом. Заповнюється гумовою грушею на широкому кінці — натискання регулює відбір і подачу рідини. Використовується для перенесення малих кількостей рідин (1-5 мл), відбору надосадової рідини над осадом (декантація), додавання крапель реагенту при аналізі, збирання специфічних шарів при екстракції. Поліетиленові (пластикові) аналоги — гнучкіші і небиткі, інтегрована груша. Для дуже малих об\'ємів — використовують мікрошприц або мікропіпетку.',
+    warn:'', safe:'Скляні — крихкі, поводитись обережно. Не відсмоктувати ротом. Для леткої органіки — проводити маніпуляції у витяжній шафі.',
+    draw(s){s.innerHTML=`
+      <path d="M36 18 Q36 24 40 28 L46 44 L46 110 Q48 118 50 120 Q52 118 54 110 L54 44 L60 28 Q64 24 64 18 Z" fill="rgba(0,229,204,0.04)" stroke="#00E5CC" stroke-width="1" stroke-linejoin="round"/>
+      <path d="M36 18 L64 18" stroke="#00E5CC" stroke-width="1.2"/>
+      <circle cx="50" cy="122" r="2.5" fill="#00E5CC" opacity="0">
+        <animate attributeName="cy" values="120;130" dur="1.8s" repeatCount="indefinite" begin="0.3s"/>
+        <animate attributeName="opacity" values="0;0.9;0" dur="1.8s" repeatCount="indefinite" begin="0.3s"/>
+        <animate attributeName="r" values="1.5;3" dur="1.8s" repeatCount="indefinite" begin="0.3s"/>
+      </circle>`;}
+  },
+
+  // ── НАГРІВАННЯ (дод.) ──
+  { id:'clay-triangle', name:'Трикутник фарфоровий', latin:'Clay triangle', cat:'Нагрівання',
+    vol:'—', mat:'Дріт / фарфорові трубки', heat:'До 1200°C',
+    desc:'Фарфоровий трикутник — проста але незамінна підставка для тиглів при нагріванні у полум\'ї пальника Бунзена. Складається з трьох залізних або нікелевих дротяних спиць, оточених фарфоровими трубками. Фарфор витримує пряме полум\'я і розподіляє тепло. Кладеться на металеве кільце, закріплене на штативі. Тигель встановлюється у трикутник так, щоб він стійко сидів у центрі — не перекидувався при тепловому розширенні. Розміри трикутника підбирають під діаметр тигля — тигель не повинен провалюватись крізь трикутник. При прожарюванні тигель спочатку прогрівають повільно (вологість), потім переходять до повного полум\'я.',
+    warn:'', safe:'Трикутник має бути стійким на кільці перед розміщенням тигля. Перевіряти що дротяні спиці не деформовані і рівно лежать.',
+    draw(s){s.innerHTML=`
+      <line x1="10" y1="100" x2="90" y2="100" stroke="#90a0cc" stroke-width="2"/>
+      <line x1="10" y1="100" x2="50" y2="30" stroke="#90a0cc" stroke-width="2"/>
+      <line x1="90" y1="100" x2="50" y2="30" stroke="#90a0cc" stroke-width="2"/>
+      ${[[10,100,50,30],[50,30,90,100],[90,100,10,100]].map(([x1,y1,x2,y2])=>{
+        const mx=(x1+x2)/2, my=(y1+y2)/2;
+        return `<ellipse cx="${mx}" cy="${my}" rx="6" ry="4" transform="rotate(${Math.atan2(y2-y1,x2-x1)*180/Math.PI} ${mx} ${my})" fill="rgba(144,160,204,0.2)" stroke="#90a0cc" stroke-width="0.8"/>`;
+      }).join('')}
+      <path d="M38 55 Q38 45 50 42 Q62 45 62 55 L58 80 Q50 86 42 80 Z" fill="rgba(144,160,204,0.08)" stroke="#90a0cc" stroke-width="0.8"/>`;}
+  },
+  { id:'combustion-boat', name:'Човник для спалювання', latin:'Combustion boat', cat:'Нагрівання',
+    vol:'1–10 мл', mat:'Фарфор / кварц / нікель', heat:'До 1100°C',
+    desc:'Човник для спалювання — видовжена відкрита ванночка з фарфору, кварцу або нікелю для спалювання зразків у трубчастих печах при елементному аналізі. Зразок розміщується у човнику і поміщається у трубчасту піч (800-1100°C) за допомогою дротяного гачка або кварцового стержня. Через трубку подається кисень або повітря — зразок згоряє, продукти горіння (CO₂, H₂O, SO₂) поглинаються спеціальними поглиначами і визначаються гравіметрично або кулонометрично. Метод елементного аналізу (C, H, N, S, O) є стандартним для підтвердження будови синтезованих органічних сполук. Перед використанням човники прожарюють до постійної маси.',
+    warn:'Виймати з гарячої печі ТІЛЬКИ щипцями і кварцовим прутком. Температура поверхні 800-1100°C — моментальний тяжкий опік!', safe:'',
+    draw(s){s.innerHTML=`
+      <path d="M10 80 Q10 110 50 116 Q90 110 90 80 L80 70 L20 70 Z" fill="rgba(144,160,204,0.08)" stroke="#90a0cc" stroke-width="1.2" stroke-linejoin="round"/>
+      <ellipse cx="50" cy="70" rx="30" ry="8" fill="rgba(144,160,204,0.06)" stroke="#90a0cc" stroke-width="0.8"/>
+      <ellipse cx="50" cy="102" rx="26" ry="5" fill="rgba(255,152,0,0.1)">
+        <animate attributeName="opacity" values="0.1;0.25;0.1" dur="2s" repeatCount="indefinite"/>
+      </ellipse>`;}
+  },
+  { id:'dean-stark', name:'Пастка Діна–Старка', latin:'Dean–Stark trap', cat:'Нагрівання',
+    vol:'5–25 мл', mat:'Боросилікатне скло', heat:'Так (побічно)',
+    desc:'Пастка Діна–Старка — скляна насадка для безперервного відбору води (або легкокиплячого розчинника) під час рефлюксної реакції. Встановлюється між колбою і зворотним холодильником. Конденсат з холодильника збирається у градуйований циліндричний резервуар пастки. Нижній (важчий) шар — вода — зливається в колбу, поки не накопичується на дні пастки. Верхній (легший) шар — органічний розчинник — переповнюється назад у колбу. Таким чином вода безперервно видаляється з реакційної суміші, що зміщує рівновагу реакції у бік продуктів (реакція Фішера, конденсація Кляйзена, синтез імінів). Об\'єм відібраної води показує перебіг реакції — зупиняють коли вода перестає накопичуватись.',
+    warn:'', safe:'Рідина у пастці гаряча після роботи. Не торкатись одразу після зупинки нагріву.',
+    draw(s){s.innerHTML=`
+      <rect x="36" y="12" width="28" height="50" rx="4" fill="rgba(105,240,174,0.04)" stroke="#69F0AE" stroke-width="1"/>
+      <rect x="40" y="60" width="20" height="40" rx="3" fill="rgba(105,240,174,0.04)" stroke="#69F0AE" stroke-width="1"/>
+      <path d="M36 56 Q20 60 18 80 Q18 96 30 98 L40 98" fill="none" stroke="#69F0AE" stroke-width="1"/>
+      <path d="M64 56 Q80 60 82 80 Q82 96 70 98 L60 98" fill="none" stroke="#69F0AE" stroke-width="1"/>
+      <rect x="40" y="80" width="20" height="20" rx="2" fill="rgba(105,240,174,0.15)"/>
+      <line x1="40" y1="80" x2="60" y2="80" stroke="#69F0AE" stroke-width="0.8"/>
+      <line x1="36" y1="62" x2="64" y2="62" stroke="#69F0AE" stroke-width="1" opacity="0.6"/>
+      <rect x="44" y="100" width="12" height="6" rx="3" fill="rgba(105,240,174,0.12)" stroke="#69F0AE" stroke-width="0.7"/>`;}
+  },
+
+  // ── ПОДІЛ (дод.) ──
+  { id:'dropping-funnel', name:'Воронка крапельна', latin:'Dropping funnel', cat:'Поділ і фільтрація',
+    vol:'25–500 мл', mat:'Боросилікатне скло', heat:'Ні',
+    desc:'Крапельна воронка — циліндрична воронка з краном для повільного контрольованого додавання реагенту до реакційної суміші. На відміну від ділильної воронки — циліндрична форма дає точніше дозування: кут нахилу не впливає на швидкість крапель. Виконана зі стандартним шліфом для вставки у горло колби. Деякі мають вирівнюючу трубку (pressure-equalizing) — верхня трубка з\'єднує воронку з колбою, вирівнюючи тиск при кипінні реакційної суміші і забезпечуючи рівномірний потік навіть під зворотнім холодильником. Швидкість краплі регулюють краном від 1-2 крапель/хв (для бурхливих реакцій) до суцільного струменя. Використовується при синтезах реактивів Гріньяра, нітруванні, діазотуванні — скрізь де температура і швидкість додавання критичні.',
+    warn:'', safe:'Відкривати кран плавно, починати з мінімальної швидкості. Занадто швидке додавання до бурхливої реакції може викликати викид або вибух.',
+    draw(s){s.innerHTML=`
+      <defs><clipPath id="df"><rect x="36" y="28" width="28" height="74" rx="3"/></clipPath></defs>
+      <rect x="36" y="28" width="28" height="74" rx="3" fill="rgba(0,229,204,0.04)" stroke="#00E5CC" stroke-width="1"/>
+      <ellipse cx="50" cy="28" rx="14" ry="5" fill="rgba(0,229,204,0.04)" stroke="#00E5CC" stroke-width="0.8"/>
+      <rect x="38" y="20" width="24" height="10" rx="3" fill="rgba(0,229,204,0.08)" stroke="#00E5CC" stroke-width="0.7"/>
+      <g clip-path="url(#df)">
+        <path fill="rgba(0,229,204,0.18)"><animate attributeName="d" dur="3s" repeatCount="indefinite"
+          values="M36 62 Q50 57 64 62 L64 104 L36 104 Z;M36 62 Q50 67 64 62 L64 104 L36 104 Z;M36 62 Q50 57 64 62 L64 104 L36 104 Z"/></path>
+      </g>
+      <rect x="40" y="100" width="20" height="5" rx="2" fill="rgba(0,229,204,0.15)" stroke="#00E5CC" stroke-width="0.8"/>
+      <rect x="46" y="105" width="8" height="8" rx="2" fill="rgba(0,229,204,0.1)" stroke="#00E5CC" stroke-width="0.7"/>
+      <circle cx="50" cy="117" r="2.5" fill="#00E5CC" opacity="0">
+        <animate attributeName="cy" values="115;125" dur="2s" repeatCount="indefinite" begin="0.8s"/>
+        <animate attributeName="opacity" values="0;0.9;0" dur="2s" repeatCount="indefinite" begin="0.8s"/>
+        <animate attributeName="r" values="1.5;3" dur="2s" repeatCount="indefinite" begin="0.8s"/>
+      </circle>`;}
+  },
+  { id:'hirsch', name:'Воронка Хірша', latin:'Hirsch funnel', cat:'Поділ і фільтрація',
+    vol:'5–50 мл', mat:'Фарфор / скло', heat:'Ні',
+    desc:'Воронка Хірша — мала плоска воронка для вакуумного фільтрування невеликих кількостей кристалічного осаду. По суті — мікро-версія Бюхнера для аналітичних і препаративних дослідів масштабу 0.1-5 г. Перфорована фарфорова або скляна пластина підтримує паперовий фільтр або пористе скло. Пряма конічна форма з\'єднується з мікроколбою Ерленмейера або звичайною конічною колбою через гумову муфту. Для фільтрування дрібних кристалів паперовий фільтр змочують розчинником перед подачею вакууму. Дозволяє відмити осад мінімальною кількістю розчинника — важливо для максимального виходу продукту.',
+    warn:'', safe:'Перевіряти герметичність гумового кільця між воронкою і колбою. Занадто сильний вакуум може розтріскати тонкий фарфор.',
+    draw(s){s.innerHTML=`
+      <path d="M20 56 L80 56 L66 86 L34 86 Z" fill="rgba(144,160,204,0.06)" stroke="#90a0cc" stroke-width="1" stroke-linejoin="round"/>
+      <ellipse cx="50" cy="56" rx="30" ry="8" fill="rgba(144,160,204,0.05)" stroke="#90a0cc" stroke-width="0.8"/>
+      <rect x="36" y="84" width="28" height="5" rx="2" fill="rgba(144,160,204,0.1)" stroke="#90a0cc" stroke-width="0.7"/>
+      ${[42,48,54,58].map(x=>`<circle cx="${x}" cy="62" r="1.5" fill="none" stroke="#90a0cc" stroke-width="0.7" opacity="0.6"/>`).join('')}
+      ${[38,44,50,56,62].map(x=>`<circle cx="${x}" cy="70" r="1.5" fill="none" stroke="#90a0cc" stroke-width="0.6" opacity="0.4"/>`).join('')}
+      <rect x="42" y="88" width="16" height="36" rx="4" fill="rgba(144,160,204,0.05)" stroke="#90a0cc" stroke-width="0.8"/>
+      <circle cx="50" cy="128" r="2" fill="#4FC3F7" opacity="0">
+        <animate attributeName="cy" values="126;134" dur="2s" repeatCount="indefinite" begin="1s"/>
+        <animate attributeName="opacity" values="0;0.8;0" dur="2s" repeatCount="indefinite" begin="1s"/>
+      </circle>`;}
+  },
+  { id:'chromatography', name:'Колонка хроматографічна', latin:'Chromatography column', cat:'Поділ і фільтрація',
+    vol:'10–1000 мл', mat:'Боросилікатне скло', heat:'Ні',
+    desc:'Хроматографічна колонка — основний прилад для препаративного поділу і очищення органічних сполук методом колонкової хроматографії. Вертикальна скляна трубка з краном заповнюється сорбентом: силікагель (SiO₂, для більшості полярних і неполярних сполук) або оксид алюмінію Al₂O₃ (для менш чутливих до кислотності речовин). Суміш речовин наносять зверху і елююють розчинниками зростаючої полярності. Різні сполуки рухаються різними швидкостями залежно від їх афінності до сорбенту — збирають окремі фракції. Якість розділення контролюють тонкошаровою хроматографією (ТШХ). Довжина колонки в 20-30 разів перевищує діаметр; кількість сорбенту — 30-100 г на 1 г суміші.',
+    warn:'', safe:'Не допускати осушення шару сорбенту — тріщини порушать рівномірний потік і зіпсують розділення. Тримати постійний рівень елюенту над сорбентом.',
+    draw(s){s.innerHTML=`
+      <defs><clipPath id="ch"><rect x="36" y="20" width="28" height="104" rx="2"/></clipPath></defs>
+      <rect x="36" y="20" width="28" height="104" rx="3" fill="rgba(105,240,174,0.04)" stroke="#69F0AE" stroke-width="1"/>
+      <g clip-path="url(#ch)">
+        <rect x="36" y="20" width="28" height="30" fill="rgba(79,195,247,0.2)"/>
+        <rect x="36" y="48" width="28" height="50" fill="rgba(144,160,204,0.2)"/>
+        <rect x="36" y="96" width="28" height="30" fill="rgba(105,240,174,0.15)"/>
+        <path fill="rgba(105,240,174,0.25)"><animate attributeName="d" dur="4s" repeatCount="indefinite"
+          values="M36 32 Q50 29 64 32 L64 42 Q50 45 36 42 Z;M36 32 Q50 35 64 32 L64 42 Q50 39 36 42 Z;M36 32 Q50 29 64 32 L64 42 Q50 45 36 42 Z"/></path>
+      </g>
+      <rect x="38" y="12" width="24" height="10" rx="3" fill="rgba(105,240,174,0.08)" stroke="#69F0AE" stroke-width="0.7"/>
+      <rect x="40" y="122" width="20" height="5" rx="2" fill="rgba(105,240,174,0.15)" stroke="#69F0AE" stroke-width="0.8"/>
+      <rect x="46" y="127" width="8" height="8" rx="2" fill="rgba(105,240,174,0.1)" stroke="#69F0AE" stroke-width="0.7"/>
+      <circle cx="50" cy="138" r="2" fill="#69F0AE" opacity="0">
+        <animate attributeName="cy" values="136;144" dur="2.5s" repeatCount="indefinite" begin="1s"/>
+        <animate attributeName="opacity" values="0;0.9;0" dur="2.5s" repeatCount="indefinite" begin="1s"/>
+      </circle>`;}
+  },
+  { id:'falcon', name:'Пробірка Falcon', latin:'Falcon tube', cat:'Поділ і фільтрація',
+    vol:'15 / 50 мл', mat:'Поліпропілен', heat:'Ні',
+    desc:'Пробірка Falcon — конічна центрифужна пробірка з гвинтовою кришкою, що стала стандартом у біологічних і біохімічних лабораторіях. Виготовляється з напівпрозорого поліпропілену, стійкого до більшості водних розчинів, розведених кислот і лугів. Кришка з подвійним ущільненням забезпечує герметичність при центрифугуванні. Маркована градуювальною шкалою з кроком 1 мл (15 мл) або 5 мл (50 мл). Витримує центрифугування до 10 000g. Широко використовується: культивування клітин, осадження білків, виділення ДНК, хімічні реакції в малому масштабі, зберігання зразків при -80°C (морозостійкий поліпропілен). Автоклавується при 121°C.',
+    warn:'', safe:'Перевіряти кришку перед центрифугуванням — нещільно закрита розкриється і розбризкає вміст. Балансувати попарно симетрично в роторі.',
+    draw(s){s.innerHTML=`
+      <defs><clipPath id="fa"><path d="M30 22 L30 98 Q50 116 70 98 L70 22 Z"/></clipPath></defs>
+      <rect x="30" y="14" width="40" height="10" rx="4" fill="rgba(0,229,204,0.12)" stroke="#00E5CC" stroke-width="0.8"/>
+      <path d="M30 22 L30 98 Q50 116 70 98 L70 22 Z" fill="rgba(0,229,204,0.04)" stroke="#00E5CC" stroke-width="1"/>
+      <g clip-path="url(#fa)">
+        <path fill="rgba(0,229,204,0.16)"><animate attributeName="d" dur="3s" repeatCount="indefinite"
+          values="M30 78 Q50 73 70 78 L70 118 L30 118 Z;M30 78 Q50 83 70 78 L70 118 L30 118 Z;M30 78 Q50 73 70 78 L70 118 L30 118 Z"/></path>
+      </g>
+      ${[32,44,56,68].map(y=>`<line x1="30" y1="${y}" x2="42" y2="${y}" stroke="#00E5CC" stroke-width="0.5" opacity="0.4"/>`).join('')}`;}
+  },
+
+  // ── ГАЗОВІ ПРИЛАДИ ──
+  { id:'woulff', name:'Колба Вульфа', latin:'Woulffe bottle', cat:'Газові прилади',
+    vol:'500–5000 мл', mat:'Боросилікатне скло', heat:'Ні',
+    desc:'Колба Вульфа (склянка Вульфа) — товстостінна пляшка з двома або трьома горлами для промивання, поглинання і осушення газів. Названа на честь ірландського хіміка Пітера Вульфа (1727-1803). Газ барботує через рідину через довгу занурену вхідну трубку, виходить через коротку трубку біля кришки. З\'єднуються в серії — кожна наступна склянка видаляє інший компонент або додатково очищає. Типові реагенти: вода (видалення кислих газів), концентрована H₂SO₄ (осушення), NaOH (видалення CO₂ і кислих газів), CuSO₄ (видалення H₂S). При отриманні H₂ з апарату Кіппа — перша склянка з водою видаляє HCl, друга з H₂SO₄ — сушить газ.',
+    warn:'', safe:'Перевіряти герметичність пробок і з\'єднань. При роботі з токсичними газами монтувати у витяжній шафі з підключенням хвостової трубки до поглинача.',
+    draw(s){s.innerHTML=`
+      <defs><clipPath id="wo"><rect x="14" y="46" width="72" height="76" rx="6"/></clipPath></defs>
+      <rect x="14" y="46" width="72" height="76" rx="6" fill="rgba(0,229,204,0.05)" stroke="#00E5CC" stroke-width="1.2"/>
+      <ellipse cx="50" cy="46" rx="36" ry="9" fill="rgba(0,229,204,0.04)" stroke="#00E5CC" stroke-width="0.8"/>
+      <rect x="24" y="14" width="12" height="34" rx="4" fill="rgba(0,229,204,0.04)" stroke="#00E5CC" stroke-width="1"/>
+      <rect x="64" y="20" width="12" height="28" rx="4" fill="rgba(0,229,204,0.04)" stroke="#00E5CC" stroke-width="1"/>
+      <line x1="30" y1="46" x2="30" y2="98" stroke="#00E5CC" stroke-width="1" stroke-dasharray="3 2" opacity="0.6"/>
+      <g clip-path="url(#wo)">
+        <path fill="rgba(0,229,204,0.16)"><animate attributeName="d" dur="3s" repeatCount="indefinite"
+          values="M14 90 Q50 85 86 90 L86 124 L14 124 Z;M14 90 Q50 95 86 90 L86 124 L14 124 Z;M14 90 Q50 85 86 90 L86 124 L14 124 Z"/></path>
+      </g>
+      <circle cx="30" cy="94" r="3" fill="none" stroke="#69F0AE" stroke-width="1" opacity="0">
+        <animate attributeName="cy" values="96;80" dur="1.8s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0;0.8;0" dur="1.8s" repeatCount="indefinite"/>
+        <animate attributeName="r" values="2;4" dur="1.8s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="34" cy="88" r="2" fill="none" stroke="#00E5CC" stroke-width="1" opacity="0">
+        <animate attributeName="cy" values="92;76" dur="2.2s" repeatCount="indefinite" begin="0.6s"/>
+        <animate attributeName="opacity" values="0;0.7;0" dur="2.2s" repeatCount="indefinite" begin="0.6s"/>
+      </circle>`;}
+  },
+  { id:'drechsel', name:'Склянка Дрекселя', latin:'Drechsel bottle', cat:'Газові прилади',
+    vol:'250–1000 мл', mat:'Боросилікатне скло', heat:'Ні',
+    desc:'Склянка Дрекселя — вдосконалений варіант склянки Вульфа з пористим скляним розпилювачем (фрит) на вхідній трубці. Пористе скло (пори 40-100 мкм) подрібнює газовий потік на тисячі дрібних бульбашок — площа контакту газ-рідина зростає в десятки разів порівняно зі звичайною трубкою. Це забезпечує набагато ефективніше поглинання і більш повне барботування. Характерна циліндрична форма і рівне плоске дно для стійкості. Широко застосовується для насичення газом (O₂, CO₂, N₂, H₂), осушення (P₂O₅ на підкладці, силікагель у рідині) і промивання синтезованих газів. Фрит очищається хромовою сумішшю або пероксидом водню — механічне очищення руйнує пористу структуру.',
+    warn:'', safe:'Пористе скло очищати тільки хімічно (хромова суміш або H₂O₂/H₂SO₄). Механічне очищення руйнує пори і знищить прилад.',
+    draw(s){s.innerHTML=`
+      <defs><clipPath id="dr"><rect x="22" y="46" width="56" height="78" rx="4"/></clipPath></defs>
+      <rect x="22" y="46" width="56" height="78" rx="4" fill="rgba(79,195,247,0.05)" stroke="#4FC3F7" stroke-width="1.2"/>
+      <ellipse cx="50" cy="46" rx="28" ry="7" fill="rgba(79,195,247,0.04)" stroke="#4FC3F7" stroke-width="0.8"/>
+      <rect x="32" y="16" width="10" height="32" rx="3" fill="rgba(79,195,247,0.04)" stroke="#4FC3F7" stroke-width="1"/>
+      <rect x="58" y="20" width="10" height="28" rx="3" fill="rgba(79,195,247,0.04)" stroke="#4FC3F7" stroke-width="1"/>
+      <ellipse cx="37" cy="98" rx="7" ry="4" fill="rgba(79,195,247,0.2)" stroke="#4FC3F7" stroke-width="0.8"/>
+      <line x1="37" y1="46" x2="37" y2="94" stroke="#4FC3F7" stroke-width="1" opacity="0.7"/>
+      <g clip-path="url(#dr)">
+        <path fill="rgba(79,195,247,0.16)"><animate attributeName="d" dur="2.8s" repeatCount="indefinite"
+          values="M22 86 Q50 81 78 86 L78 126 L22 126 Z;M22 86 Q50 91 78 86 L78 126 L22 126 Z;M22 86 Q50 81 78 86 L78 126 L22 126 Z"/></path>
+      </g>
+      <circle cx="32" cy="90" r="2.5" fill="none" stroke="#4FC3F7" stroke-width="1" opacity="0">
+        <animate attributeName="cy" values="92;76" dur="2s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0;0.7;0" dur="2s" repeatCount="indefinite"/>
+        <animate attributeName="r" values="2;4" dur="2s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="42" cy="86" r="1.8" fill="none" stroke="#79,195,247" stroke-width="0.8" opacity="0">
+        <animate attributeName="cy" values="88;72" dur="2.5s" repeatCount="indefinite" begin="0.5s"/>
+        <animate attributeName="opacity" values="0;0.6;0" dur="2.5s" repeatCount="indefinite" begin="0.5s"/>
+      </circle>`;}
+  },
+  { id:'tishchenko', name:'Склянка Тіщенка', latin:'Tishchenko bottle', cat:'Газові прилади',
+    vol:'250–1000 мл', mat:'Боросилікатне скло', heat:'Ні',
+    desc:'Склянка Тіщенка — двогорла скляна посудина для поглинання і мийки газів, названа на честь видатного українського хіміка Вʼячеслава Тіщенка (1861-1941). Відрізняється від Вульфа формою корпусу (ширша і нижча) і конструкцією вхідного отвору. Широко використовується в органічному синтезі для поглинання HCl, HBr і NH₃ — гази, що виділяються при багатьох реакціях. Наповнюється водою, розчином NaOH або NaHCO₃. При реакції Зіглера-Натта і металоорганічних синтезах — для захисту від вологи повітря (наповнення концентрованою H₂SO₄). Також застосовується для вимірювання об\'єму газу за методом Орса.',
+    warn:'', safe:'При роботі з токсичними газами — обов\'язково у витяжній шафі. Перевіряти герметичність перед початком реакції.',
+    draw(s){s.innerHTML=`
+      <defs><clipPath id="ti"><ellipse cx="50" cy="90" rx="34" ry="36"/></clipPath></defs>
+      <ellipse cx="50" cy="90" rx="34" ry="36" fill="rgba(105,240,174,0.05)" stroke="#69F0AE" stroke-width="1.2"/>
+      <rect x="30" y="16" width="10" height="40" rx="3" fill="rgba(105,240,174,0.04)" stroke="#69F0AE" stroke-width="1"/>
+      <rect x="60" y="20" width="10" height="36" rx="3" fill="rgba(105,240,174,0.04)" stroke="#69F0AE" stroke-width="1"/>
+      <line x1="35" y1="54" x2="35" y2="106" stroke="#69F0AE" stroke-width="1" stroke-dasharray="3 2" opacity="0.5"/>
+      <g clip-path="url(#ti)">
+        <path fill="rgba(105,240,174,0.16)"><animate attributeName="d" dur="3.2s" repeatCount="indefinite"
+          values="M16 100 Q34 95 50 100 Q66 105 84 100 L84 128 L16 128 Z;M16 100 Q34 105 50 100 Q66 95 84 100 L84 128 L16 128 Z;M16 100 Q34 95 50 100 Q66 105 84 100 L84 128 L16 128 Z"/></path>
+      </g>
+      <circle cx="35" cy="102" r="2.5" fill="none" stroke="#69F0AE" stroke-width="1" opacity="0">
+        <animate attributeName="cy" values="104;84" dur="2.4s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0;0.7;0" dur="2.4s" repeatCount="indefinite"/>
+        <animate attributeName="r" values="2;4" dur="2.4s" repeatCount="indefinite"/>
+      </circle>`;}
+  },
+  { id:'kipp', name:'Апарат Кіппа', latin:'Kipp\'s apparatus', cat:'Газові прилади',
+    vol:'500–3000 мл', mat:'Боросилікатне скло', heat:'Ні',
+    desc:'Апарат Кіппа — геніальний генератор газів, винайдений нідерландським фармацевтом Петром Кіппом у 1844 році. Складається з трьох скляних куль. Верхня куля — резервуар для кислоти (HCl або H₂SO₄). Середня — реакційна камера, де знаходиться тверда речовина (FeS, CaCO₃, Zn). Нижня — ємність для надлишку кислоти. При відкритому крані газ виходить, тиск падає, кислота піднімається з нижньої кулі у реакційну — реакція йде. При закритому крані тиск газу зростає і витісняє кислоту вниз — реакція зупиняється автоматично. Це геніальний саморегулюючий механізм без жодної електроніки. Типові застосування: H₂S з FeS+HCl, CO₂ з CaCO₃+HCl, H₂ з Zn+H₂SO₄.',
+    warn:'H₂S — НАДЗВИЧАЙНО ТОКСИЧНИЙ (ГДК 10 мг/м³, смертельна доза 1000 мг/м³). Апарат Кіппа з H₂S — ТІЛЬКИ у добре діючій витяжній шафі!', safe:'',
+    draw(s){s.innerHTML=`
+      <ellipse cx="50" cy="38" rx="20" ry="16" fill="rgba(0,229,204,0.05)" stroke="#00E5CC" stroke-width="1"/>
+      <ellipse cx="50" cy="78" rx="28" ry="24" fill="rgba(0,229,204,0.05)" stroke="#00E5CC" stroke-width="1.2"/>
+      <ellipse cx="50" cy="114" rx="22" ry="16" fill="rgba(0,229,204,0.04)" stroke="#00E5CC" stroke-width="1"/>
+      <line x1="30" y1="78" x2="22" y2="78" stroke="#00E5CC" stroke-width="1.2"/>
+      <rect x="14" y="74" width="8" height="8" rx="2" fill="rgba(0,229,204,0.15)" stroke="#00E5CC" stroke-width="0.8"/>
+      <rect x="8" y="70" width="6" height="16" rx="2" fill="rgba(0,229,204,0.1)" stroke="#00E5CC" stroke-width="0.7"/>
+      <path fill="rgba(0,229,204,0.18)">
+        <animate attributeName="d" dur="3s" repeatCount="indefinite"
+          values="M22 84 Q50 79 78 84 L78 102 Q50 107 22 102 Z;M22 84 Q50 89 78 84 L78 102 Q50 97 22 102 Z;M22 84 Q50 79 78 84 L78 102 Q50 107 22 102 Z"/>
+      </path>
+      <rect x="32" y="96" width="36" height="6" rx="3" fill="rgba(0,229,204,0.12)" stroke="#00E5CC" stroke-width="0.5"/>`;}
+  },
+
+  // ── СКЛЯНІ З'ЄДНАННЯ ──
+  { id:'reflux', name:'Зворотний холодильник', latin:'Reflux condenser', cat:'Шліфи та адаптери',
+    vol:'—', mat:'Боросилікатне скло', heat:'Ні (охолодження)',
+    desc:'Зворотний холодильник (рефлюкс-конденсатор) — вертикальний конденсатор, що повертає пару назад у реакційну колбу. Це дозволяє кип\'ятити реакційну суміш (рефлюкс) необмежено довго без втрати розчинника — ключова умова для реакцій, що потребують тривалого нагрівання. Кульові камери (3-5 куль по Аліну) або пряма трубка з водяною сорочкою. Кульовий холодильник ефективніший для низькокиплячих розчинників. Вода подається знизу, йде вгору — протипотік. Встановлюється строго вертикально — навіть невеликий нахил знизить ефективність і може призвести до витоку конденсату. Вгорі зазвичай ставлять кальцієву трубку з CaCl₂ (осушувач) або бульбашковий затвор (bubbler) для виключення вологи.',
+    warn:'', safe:'Вода має текти безперервно під час нагрівання. Зупинка водопостачання під час рефлюксу — пари виходять у повітря, ризик пожежі або отруєння.',
+    draw(s){s.innerHTML=`
+      <rect x="38" y="12" width="24" height="116" rx="6" fill="rgba(79,195,247,0.05)" stroke="#4FC3F7" stroke-width="1"/>
+      <rect x="44" y="12" width="12" height="116" rx="4" fill="rgba(79,195,247,0.03)" stroke="#4FC3F7" stroke-width="0.6" opacity="0.7"/>
+      ${[28,48,68,88].map(y=>`
+        <ellipse cx="50" cy="${y}" rx="14" ry="8" fill="rgba(79,195,247,0.08)" stroke="#4FC3F7" stroke-width="0.8"/>
+      `).join('')}
+      <rect x="62" y="22" width="12" height="4" rx="2" fill="rgba(79,195,247,0.18)" stroke="#4FC3F7" stroke-width="0.6"/>
+      <rect x="62" y="106" width="12" height="4" rx="2" fill="rgba(79,195,247,0.18)" stroke="#4FC3F7" stroke-width="0.6"/>
+      <circle cx="50" cy="14" r="1.8" fill="#4FC3F7" opacity="0">
+        <animate attributeName="cy" values="14;126" dur="4s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0;0.8;0.8;0.8;0" dur="4s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="50" cy="14" r="1.4" fill="#4FC3F7" opacity="0">
+        <animate attributeName="cy" values="14;126" dur="4s" repeatCount="indefinite" begin="1.5s"/>
+        <animate attributeName="opacity" values="0;0.6;0.6;0.6;0" dur="4s" repeatCount="indefinite" begin="1.5s"/>
+      </circle>`;}
+  },
+  { id:'dimroth', name:'Холодильник Димрота', latin:'Dimroth condenser', cat:'Шліфи та адаптери',
+    vol:'—', mat:'Боросилікатне скло', heat:'Ні',
+    desc:'Холодильник Димрота — ефективніший конденсатор зі спіральною внутрішньою трубкою. Вода тече по спіралі всередині, охолоджуючи пари, що контактують з зовнішньою поверхнею спіралі. Порівняно з Лібіхом — в 2-3 рази більша поверхня охолодження при тих самих зовнішніх розмірах. Може використовуватись як вертикально (рефлюкс), так і похило (пряма перегонка). Особливо ефективний для низькокиплячих розчинників з t < 60°C (діетиловий ефір, пентан, дихлорметан). Зовнішній кожух захищає від крапель конденсату і дозволяє охолоджувати більш холодними теплоносіями (льодяна вода, кріостатна рідина) без ризику конденсації вологи на зовнішній поверхні.',
+    warn:'', safe:'Перевіряти герметичність шліфів і кріплень. Повна водяна сорочка перед початком нагрівання.',
+    draw(s){s.innerHTML=`
+      <rect x="36" y="12" width="28" height="116" rx="5" fill="rgba(79,195,247,0.05)" stroke="#4FC3F7" stroke-width="1"/>
+      <path d="M50 20 Q58 28 50 36 Q42 44 50 52 Q58 60 50 68 Q42 76 50 84 Q58 92 50 100 Q42 108 50 116 Q56 122 62 116"
+        fill="none" stroke="#4FC3F7" stroke-width="1.5" opacity="0.7"/>
+      <rect x="64" y="26" width="10" height="4" rx="2" fill="rgba(79,195,247,0.18)" stroke="#4FC3F7" stroke-width="0.6"/>
+      <rect x="64" y="100" width="10" height="4" rx="2" fill="rgba(79,195,247,0.18)" stroke="#4FC3F7" stroke-width="0.6"/>
+      <circle cx="50" cy="20" r="2" fill="#4FC3F7" opacity="0">
+        <animate attributeName="cy" values="20;116" dur="3.5s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0;0.8;0.8;0" dur="3.5s" repeatCount="indefinite"/>
+      </circle>`;}
+  },
+  { id:'bent-adapter', name:'Адаптер кутовий', latin:'Bent adapter / Elbow', cat:'Шліфи та адаптери',
+    vol:'—', mat:'Боросилікатне скло', heat:'Ні',
+    desc:'Кутовий адаптер (коліно) — коротка скляна трубка зігнута під стандартним кутом 75° або 105°. Є обов\'язковим з\'єднувальним елементом у перегінній установці між колбою Вюрца або адаптером Кляйзена і холодильником Лібіха. Направляє пари з вертикального горла колби до похилого холодильника. Деякі мають вбудований термометровий відвід — для одночасного контролю температури пари при перегонці. Стандартні шліфи NS 14/23, NS 19/26, NS 24/40 — відповідають шліфам колб і холодильників. Шліфи змащують силіконовим мастилом або вазеліном при роботі з водними розчинами. Для органічних розчинників — мастило не рекомендується (розчиняється і забруднює продукт).',
+    warn:'', safe:'Перевіряти шліфи на чистоту і відсутність тріщин. Не закручувати шліфи силою — скло крихке.',
+    draw(s){s.innerHTML=`
+      <rect x="40" y="12" width="20" height="48" rx="5" fill="rgba(144,160,204,0.05)" stroke="#90a0cc" stroke-width="1"/>
+      <path d="M40 56 Q40 78 28 86 L12 90" fill="none" stroke="#90a0cc" stroke-width="10" stroke-linecap="round"/>
+      <path d="M60 56 Q60 72 50 82 L36 90" fill="none" stroke="#0d0e1a" stroke-width="8" stroke-linecap="round"/>
+      <path d="M60 56 Q60 72 50 82 L36 90" fill="none" stroke="#90a0cc" stroke-width="1" stroke-linecap="round"/>
+      <path d="M40 56 Q40 78 28 86 L12 90" fill="none" stroke="#90a0cc" stroke-width="1" stroke-linecap="round"/>
+      <line x1="50" y1="36" x2="66" y2="36" stroke="#90a0cc" stroke-width="1" opacity="0.5"/>
+      <circle cx="66" cy="36" r="4" fill="rgba(144,160,204,0.1)" stroke="#90a0cc" stroke-width="0.8"/>`;}
+  },
+  { id:'claisen-adapter', name:'Адаптер Кляйзена', latin:'Claisen adapter', cat:'Шліфи та адаптери',
+    vol:'—', mat:'Боросилікатне скло', heat:'Ні',
+    desc:'Адаптер Кляйзена (насадка Кляйзена) — Y-подібна скляна насадка з одним центральним горлом і двома бічними відводами під кутами. Дозволяє одночасно підключити два прилади до одного горла колби. Типові комбінації: термометр + крапельна воронка (додавання реагенту з контролем температури), термометр + вхід для газу (синтез в атмосфері інертного газу), два холодильники (подвійна конденсація). Є версії з трьома відводами (триходова насадка). Шліфи NS 14 або NS 19 — мають відповідати шліфам колби і приладів. Жорстке скляне з\'єднання без гнучкості — важливо забезпечити правильне вирівнювання перед затягуванням кліпс.',
+    warn:'', safe:'Всі три або чотири шліфи мають бути одного розміру або використовувати відповідні перехідники. Кліпси фіксують шліфи від випадкового роз\'єднання.',
+    draw(s){s.innerHTML=`
+      <rect x="42" y="58" width="16" height="70" rx="5" fill="rgba(144,160,204,0.05)" stroke="#90a0cc" stroke-width="1"/>
+      <rect x="22" y="12" width="14" height="52" rx="4" fill="rgba(144,160,204,0.05)" stroke="#90a0cc" stroke-width="1"/>
+      <rect x="64" y="12" width="14" height="52" rx="4" fill="rgba(144,160,204,0.05)" stroke="#90a0cc" stroke-width="1"/>
+      <path d="M36 62 Q42 58 50 58" fill="none" stroke="#90a0cc" stroke-width="10" stroke-linecap="round"/>
+      <path d="M36 62 Q42 58 50 58" fill="none" stroke="#0d0e1a" stroke-width="8"/>
+      <path d="M64 62 Q58 58 50 58" fill="none" stroke="#90a0cc" stroke-width="10" stroke-linecap="round"/>
+      <path d="M64 62 Q58 58 50 58" fill="none" stroke="#0d0e1a" stroke-width="8"/>
+      <path d="M36 62 Q42 60 50 58" fill="none" stroke="#90a0cc" stroke-width="1"/>
+      <path d="M64 62 Q58 60 50 58" fill="none" stroke="#90a0cc" stroke-width="1"/>`;}
+  },
+
+  // ── АНАЛІТИЧНИЙ ──
+  { id:'cuvette', name:'Кювета спектрофотометра', latin:'Spectrophotometer cuvette', cat:'Аналітичний',
+    vol:'1–4 мл', mat:'Скло / кварц / пластик', heat:'Ні',
+    desc:'Кювета для спектрофотометра — прецизійний посуд для вимірювання поглинання або пропускання світла розчином за законом Бугера-Ламберта-Бера (A = εcl). Стандартна довжина оптичного шляху l = 10 мм (1 см). Матеріал залежить від діапазону: скло і полістирол — для видимого світла (350-900 нм), кварц — для ультрафіолетового (190-350 нм). Оптичні грані шліфовані з точністю ±0.01 мм — відбитки пальців, подряпини і залишки рідини вносять значну похибку. Тримати тільки за ребра або матові грані. Промивати 3-4 рази досліджуваним розчином перед вимірюванням. Пластикові одноразові кювети — для рутинних вимірювань у видимому діапазоні.',
+    warn:'', safe:'Не торкатись оптичних граней руками — відбитки пальців поглинають УФ і вносять помилку. Промивати між вимірюваннями.',
+    draw(s){s.innerHTML=`
+      <rect x="28" y="30" width="44" height="80" rx="2" fill="rgba(79,195,247,0.06)" stroke="#4FC3F7" stroke-width="1.2"/>
+      <rect x="30" y="32" width="40" height="76" rx="1" fill="rgba(79,195,247,0.03)" stroke="#4FC3F7" stroke-width="0.4" opacity="0.5"/>
+      <rect x="32" y="40" width="36" height="60" fill="rgba(79,195,247,0.15)"/>
+      <line x1="28" y1="30" x2="28" y2="110" stroke="#4FC3F7" stroke-width="2" opacity="0.8"/>
+      <line x1="72" y1="30" x2="72" y2="110" stroke="#4FC3F7" stroke-width="2" opacity="0.8"/>
+      <path d="M10 70 L26 70" stroke="#4FC3F7" stroke-width="1.5" marker-end="url(#arr2)" opacity="0.6"/>
+      <path d="M74 70 L92 70" stroke="#4FC3F7" stroke-width="1.5" opacity="0.4"/>
+      <defs><marker id="arr2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+        <path d="M2 2L8 5L2 8" fill="none" stroke="#4FC3F7" stroke-width="1.5"/>
+      </marker></defs>`;}
+  },
+  { id:'weighing-bottle', name:'Бюкс зважувальний', latin:'Weighing bottle', cat:'Аналітичний',
+    vol:'10–60 мл', mat:'Боросилікатне скло', heat:'Ні',
+    desc:'Бюкс зважувальний (зважувальна пляшечка) — циліндрична склянка з притертою скляною кришкою для точного зважування і зберігання гігроскопічних речовин і порошків. При зважуванні завжди зважують разом з кришкою: спочатку порожній бюкс з кришкою (тара), потім з речовиною. Герметичне скляне притерте з\'єднання запобігає поглинанню вологи з повітря — критично для аналізу речовин, що поглинають воду. Перед зважуванням бюкс висушують у сушильній шафі при 100-105°C, охолоджують в ексикаторі до кімнатної температури. Речовину вносять або виймають за допомогою шпателя при злегка відкритій кришці. Тримати тільки щипцями або між листками фільтрувального паперу.',
+    warn:'', safe:'Переносити тільки щипцями або між листками паперу — відбитки пальців на склі змінюють масу при точному зважуванні.',
+    draw(s){s.innerHTML=`
+      <rect x="30" y="48" width="40" height="72" rx="4" fill="rgba(105,240,174,0.05)" stroke="#69F0AE" stroke-width="1"/>
+      <rect x="26" y="36" width="48" height="14" rx="6" fill="rgba(105,240,174,0.08)" stroke="#69F0AE" stroke-width="1"/>
+      <rect x="28" y="50" width="44" height="6" rx="2" fill="rgba(105,240,174,0.12)"/>
+      <path fill="rgba(105,240,174,0.12)"><animate attributeName="d" dur="4s" repeatCount="indefinite"
+        values="M30 90 Q50 85 70 90 L70 122 L30 122 Z;M30 90 Q50 95 70 90 L70 122 L30 122 Z;M30 90 Q50 85 70 90 L70 122 L30 122 Z"/></path>`;}
+  },
+  { id:'vacuum-desiccator', name:'Ексикатор вакуумний', latin:'Vacuum desiccator', cat:'Аналітичний',
+    vol:'5–30 л', mat:'Скло / полікарбонат', heat:'Ні',
+    desc:'Вакуумний ексикатор — герметична посудина для сушіння речовин в умовах зниженого тиску, що багаторазово прискорює процес. Бічний кран з\'єднується з вакуумним насосом. Тиск всередині знижують до 1-10 мбар — при цьому t кипіння вологи падає до 20-45°C, і волога видаляється навіть при кімнатній температурі. Особливо ефективний для термочутливих речовин. Корпус виконаний з полікарбонату або товстого скла — витримує перепад тиску 1 атм без руйнування. Перед відкриттям повільно скидають вакуум через кран — запобігає підйому пилу і осадку, що може забруднити зразок. Осушувач внизу (P₂O₅, силікагель, CaCl₂) поглинає видалену вологу.',
+    warn:'Відкривати ДУЖЕ ПОВІЛЬНО — різке скидання вакууму підіймає порошок і забруднює зразки сусідніх бюксів. Перевіряти цілісність корпусу перед створенням вакууму.', safe:'',
+    draw(s){s.innerHTML=`
+      <ellipse cx="50" cy="88" rx="42" ry="36" fill="rgba(144,160,204,0.05)" stroke="#90a0cc" stroke-width="1.2"/>
+      <path d="M8 80 Q8 52 50 48 Q92 52 92 80" fill="rgba(144,160,204,0.04)" stroke="#90a0cc" stroke-width="1"/>
+      <rect x="38" y="44" width="24" height="8" rx="4" fill="rgba(144,160,204,0.1)" stroke="#90a0cc" stroke-width="0.8"/>
+      <rect x="46" y="36" width="8" height="10" rx="3" fill="rgba(144,160,204,0.08)" stroke="#90a0cc" stroke-width="0.7"/>
+      <rect x="8" y="76" width="14" height="5" rx="2" fill="rgba(144,160,204,0.12)" stroke="#90a0cc" stroke-width="0.6"/>
+      <rect x="4" y="72" width="6" height="13" rx="2" fill="rgba(144,160,204,0.1)" stroke="#90a0cc" stroke-width="0.6"/>
+      <ellipse cx="50" cy="86" rx="36" ry="10" fill="none" stroke="#90a0cc" stroke-width="0.7" stroke-dasharray="4 3" opacity="0.5"/>
+      <rect x="20" y="86" width="60" height="4" rx="2" fill="rgba(144,160,204,0.12)" stroke="#90a0cc" stroke-width="0.5"/>
+      ${[28,36,44,52,60,68,76].map(x=>`<line x1="${x}" y1="86" x2="${x}" y2="90" stroke="#90a0cc" stroke-width="0.5" opacity="0.4"/>`).join('')}`;}
+  },
+
+  // ── ДОПОМІЖНИЙ (дод.) ──
+  { id:'tube-rack', name:'Штатив для пробірок', latin:'Test tube rack', cat:'Допоміжний',
+    vol:'—', mat:'Дерево / пластик / метал', heat:'Ні',
+    desc:'Штатив для пробірок — рамка або блок з отворами двох розмірів: верхні — утримують пробірку в вертикальному положенні, нижні (менші) — запобігають падінню. Стандартна конфігурація — 6, 12 або 24 місця для пробірок діаметром 16 мм або 18 мм. Матеріали: натуральне дерево (класика, вбирає реагенти), пластик (хімічностійкий, легко промивається), нержавіюча сталь або алюміній (для автоклавування). У мікробіології — пластикові з кришкою для транспортування зразків. Є спеціальні штативи для мікроцентрифужних пробірок Eppendorf (1.5 і 2 мл). Пронумерований штатив зручний для аналітичних серій — кожна позиція відповідає певному зразку.',
+    warn:'', safe:'Не залишати відкриті пробірки з агресивними або леткими реагентами у штативі без нагляду — пари забруднять повітря лабораторії.',
+    draw(s){s.innerHTML=`
+      <rect x="10" y="90" width="80" height="8" rx="3" fill="rgba(144,160,204,0.12)" stroke="#90a0cc" stroke-width="1"/>
+      <rect x="10" y="50" width="80" height="6" rx="2" fill="rgba(144,160,204,0.1)" stroke="#90a0cc" stroke-width="0.8"/>
+      <rect x="10" y="90" width="6" height="-44" rx="2" fill="rgba(144,160,204,0.1)" stroke="#90a0cc" stroke-width="0.7"/>
+      <rect x="84" y="46" width="6" height="44" rx="2" fill="rgba(144,160,204,0.1)" stroke="#90a0cc" stroke-width="0.7"/>
+      ${[20,34,48,62,76].map(x=>`
+        <rect x="${x}" y="52" width="10" height="52" rx="5" fill="rgba(0,229,204,0.05)" stroke="#00E5CC" stroke-width="0.8"/>
+        <rect x="${x+1}" y="68" width="8" height="36" rx="4" fill="rgba(0,229,204,0.12)"/>
+      `).join('')}`;}
+  },
+  { id:'tube-holder', name:'Пробіркотримач', latin:'Test tube holder', cat:'Допоміжний',
+    vol:'—', mat:'Метал / дерево', heat:'Так',
+    desc:'Пробіркотримач — інструмент для безпечного тримання пробірки при нагріванні у полум\'ї пальника або на водяній бані. Металевий пружинний тримач — найпоширеніший: дві пружинні браншки затискають пробірку за середню частину, ручка залишається холодною. Дерев\'яний тримач (clothespin type) — простий і дешевий. Важлива техніка: тримати пробірку під кутом 45° при нагріванні на полум\'ї, безперервно рухати у полум\'ї для рівномірного нагріву, не направляти отвір до людей. При нагріванні на водяній бані — закріплюють у кільці штатива. При центрифугуванні у водяній бані — не потрібен. Незамінний у шкільних дослідах, де учні нагрівають малі кількості речовин.',
+    warn:'', safe:'Тримати пробірку під кутом 45° при нагріванні. Відкриттям — від себе і від сусідів. Ніколи не направляти відкритий кінець до людей.',
+    draw(s){s.innerHTML=`
+      <rect x="16" y="62" width="68" height="8" rx="4" fill="rgba(144,160,204,0.1)" stroke="#90a0cc" stroke-width="1"/>
+      <rect x="16" y="50" width="68" height="8" rx="4" fill="rgba(144,160,204,0.1)" stroke="#90a0cc" stroke-width="1"/>
+      <rect x="80" y="46" width="6" height="28" rx="3" fill="rgba(144,160,204,0.15)" stroke="#90a0cc" stroke-width="0.8"/>
+      <path d="M16 54 Q10 58 10 62" fill="none" stroke="#90a0cc" stroke-width="1.5"/>
+      <rect x="26" y="52" width="12" height="66" rx="6" fill="rgba(0,229,204,0.04)" stroke="#00E5CC" stroke-width="0.8"/>
+      <rect x="27" y="88" width="10" height="30" rx="5" fill="rgba(0,229,204,0.15)"/>`;}
+  },
+  { id:'glass-rod', name:'Скляна паличка', latin:'Glass stirring rod', cat:'Допоміжний',
+    vol:'—', mat:'Скло', heat:'Так (обмежено)',
+    desc:'Скляна паличка (скляний стержень) — суцільна скляна палиця діаметром 4-8 мм і довжиною 20-30 см. Виготовляється з боросилікатного скла. Кінці оплавляють пальником для безпеки — гострі краї дряпають руки і посуд. Основні функції: перемішування розчинів у стаканах і колбах, перенесення крапель між посудинами, допомога при фільтруванні (спрямування рідини на фільтр через паличку), розбивання грудок осаду (із гумовим наконечником — \'policeman\'), підтримка рефрактометричних вимірювань (нанесення краплі на призму). Policeman — гумовий наконечник на кінці — дозволяє збирати осад зі стінок без подряпин.',
+    warn:'', safe:'Не залишати паличку в посудині без нагляду — може перекинути стакан. Оплавляти гострі кінці перед першим використанням.',
+    draw(s){s.innerHTML=`
+      <rect x="46" y="12" width="8" height="116" rx="4" fill="rgba(0,229,204,0.06)" stroke="#00E5CC" stroke-width="1"/>
+      <ellipse cx="50" cy="128" rx="5" ry="3" fill="rgba(0,229,204,0.2)" stroke="#00E5CC" stroke-width="0.8"/>
+      <line x1="46" y1="12" x2="54" y2="12" stroke="#00E5CC" stroke-width="2" stroke-linecap="round"/>`;}
+  },
+  { id:'spatula', name:'Шпатель-ложка', latin:'Spatula', cat:'Допоміжний',
+    vol:'—', mat:'Нержавіюча сталь / пластик', heat:'Так',
+    desc:'Шпатель-ложка — металевий інструмент з плоским кінцем з одного боку і ложкою з іншого. Нержавіюча сталь — стандарт для більшості хімічних робіт. Никель або платина — для речовин, що реагують зі залізом. Пластик або PTFE — для флуоридів і речовин, що забруднюються металом. Плоский кінець (лопатка): перенесення і рівномірний розподіл порошків, шкребання кристалів зі стінок посуду і зі скляних пластин. Ложка: дозування малих кількостей (0.1-2 г) твердих речовин при зважуванні або додаванні в реакцію. Перед кожним використанням — перевіряти на чистоту і сухість. Після роботи — промивати відповідним розчинником, потім водою, просушувати.',
+    warn:'', safe:'Протирати досуха після кожного використання — залишки реагентів або іржа забруднять наступну речовину. Для різних реагентів — різні шпателі або ретельне промивання.',
+    draw(s){s.innerHTML=`
+      <rect x="47" y="12" width="6" height="80" rx="3" fill="rgba(144,160,204,0.1)" stroke="#90a0cc" stroke-width="1"/>
+      <rect x="40" y="90" width="20" height="4" rx="2" fill="rgba(144,160,204,0.15)" stroke="#90a0cc" stroke-width="0.8"/>
+      <path d="M40 94 Q40 110 50 114 Q60 110 60 94" fill="rgba(144,160,204,0.12)" stroke="#90a0cc" stroke-width="0.8"/>
+      <line x1="47" y1="12" x2="53" y2="12" stroke="#90a0cc" stroke-width="2" stroke-linecap="round"/>`;}
+  },
+  { id:'crucible-tongs', name:'Щипці тигельні', latin:'Crucible tongs', cat:'Допоміжний',
+    vol:'—', mat:'Нержавіюча сталь', heat:'Так',
+    desc:'Тигельні щипці — металевий інструмент для безпечного перенесення тиглів, фарфорових чашок та інших гарячих предметів між піччю, пальником і ексикатором. Виготовлені з нержавіючої сталі — не іржавіють і не забруднюють зразок. Вигнуті кінці точно обхоплюють форму тигля або кільце трикутника. При перенесенні: щипці охоплюють тигель твердо але не з надмірною силою — тигель не повинен випасти, але і не деформуватись. Ніколи не класти гарячий тигель на дерев\'яну або пластикову поверхню — тільки на фарфорову підставку або азбестову сітку. Після охолодження тигель переносять до ексикатора і охолоджують до кімнатної температури перед зважуванням.',
+    warn:'Ручки щипців теж нагріваються при тривалій роботі — надягати термостійкі рукавиці! Не класти нагріті щипці на горючі поверхні.', safe:'',
+    draw(s){s.innerHTML=`
+      <path d="M46 12 L46 88 Q38 98 32 110" fill="none" stroke="#90a0cc" stroke-width="4" stroke-linecap="round"/>
+      <path d="M54 12 L54 88 Q62 98 68 110" fill="none" stroke="#90a0cc" stroke-width="4" stroke-linecap="round"/>
+      <path d="M46 12 L46 88 Q38 98 32 110" fill="none" stroke="#1a1b2e" stroke-width="2"/>
+      <path d="M54 12 L54 88 Q62 98 68 110" fill="none" stroke="#1a1b2e" stroke-width="2"/>
+      <rect x="42" y="52" width="16" height="6" rx="3" fill="rgba(144,160,204,0.2)" stroke="#90a0cc" stroke-width="0.8"/>
+      <rect x="43" y="38" width="14" height="4" rx="2" fill="rgba(144,160,204,0.15)" stroke="#90a0cc" stroke-width="0.6"/>
+      <ellipse cx="50" cy="114" rx="20" ry="7" fill="rgba(144,160,204,0.06)" stroke="#90a0cc" stroke-width="0.8"/>`;}
+  },
+  { id:'wire-gauze', name:'Сітка азбестова', latin:'Wire gauze', cat:'Допоміжний',
+    vol:'—', mat:'Сталевий дріт / кераміка', heat:'До 500°C',
+    desc:'Азбестова сітка (керамічна сітка) — металева сітка з керамічним або азбестовим центром для рівномірного розподілу тепла при нагріванні скляного посуду. Кладеться на кільце штатива між пальником і посудом. Центральний керамічний диск не пропускає пряме полум\'я до скла — запобігає локальним перегрівам і тріщинам. Без сітки рівномірний нагрів плоскодонної колби або стакана неможливий — центр нагрівається значно сильніше країв. Стандартний розмір 15×15 см або 20×20 см. Азбестові сітки нині замінені на керамічні волокна (безпечніші) або металеву сітку з емальованим центром. Максимальна температура — 500°C.',
+    warn:'', safe:'Замінювати при розтріскуванні або осипанні керамічного центру — нерівномірний нагрів пошкодить посуд. Не наступати і не перегинати — металева рама деформується.',
+    draw(s){s.innerHTML=`
+      <rect x="12" y="56" width="76" height="28" rx="2" fill="rgba(144,160,204,0.06)" stroke="#90a0cc" stroke-width="1"/>
+      ${[20,30,40,50,60,70,80].map(x=>`<line x1="${x}" y1="56" x2="${x}" y2="84" stroke="#90a0cc" stroke-width="0.5" opacity="0.5"/>`).join('')}
+      ${[62,70,78].map(y=>`<line x1="12" y1="${y}" x2="88" y2="${y}" stroke="#90a0cc" stroke-width="0.5" opacity="0.5"/>`).join('')}
+      <ellipse cx="50" cy="70" rx="16" ry="10" fill="rgba(255,152,0,0.12)" stroke="rgba(255,152,0,0.4)" stroke-width="0.8"/>
+      <line x1="10" y1="70" x2="12" y2="70" stroke="#90a0cc" stroke-width="2"/>
+      <line x1="88" y1="70" x2="90" y2="70" stroke="#90a0cc" stroke-width="2"/>`;}
+  },
+
+];
+
+function gwInit(){
+  const grid=document.getElementById('gw-grid');
+  const filtersEl=document.getElementById('gw-filters');
+  const detail=document.getElementById('gw-detail');
+  let activeId=null, activeFilter='Усі';
+
+  GW_CATS.forEach(cat=>{
+    const btn=document.createElement('button');
+    btn.className='gw-filter'+(cat==='Усі'?' on':'');
+    btn.textContent=cat;
+    btn.onclick=()=>{
+      activeFilter=cat;
+      document.querySelectorAll('.gw-filter').forEach(b=>b.classList.remove('on'));
+      btn.classList.add('on');
+      document.querySelectorAll('.gw-card').forEach(c=>{
+        const show=cat==='Усі'||c.dataset.cat===cat;
+        c.classList.toggle('hidden',!show);
+      });
+      if(activeId){
+        const item=GW_ITEMS.find(i=>i.id===activeId);
+        if(item&&cat!=='Усі'&&item.cat!==cat){
+          detail.classList.remove('vis');
+          document.querySelectorAll('.gw-card').forEach(c=>c.classList.remove('active'));
+          activeId=null;
+        }
+      }
+    };
+    filtersEl.appendChild(btn);
+  });
+
+  GW_ITEMS.forEach(item=>{
+    const card=document.createElement('div');
+    card.className='gw-card';
+    card.dataset.cat=item.cat;
+    const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
+    svg.setAttribute('viewBox','0 0 100 140');
+    svg.setAttribute('width','72');
+    svg.setAttribute('height','100');
+    svg.classList.add('gw-mini-svg');
+    item.draw(svg);
+    card.appendChild(svg);
+    const nm=document.createElement('div');nm.className='gw-cname';nm.textContent=item.name;
+    const lt=document.createElement('div');lt.className='gw-clatin';lt.textContent=item.latin;
+    card.appendChild(nm);card.appendChild(lt);
+
+    card.onclick=()=>{
+      if(activeId===item.id){
+        activeId=null;detail.classList.remove('vis');
+        card.classList.remove('active');return;
+      }
+      document.querySelectorAll('.gw-card').forEach(c=>c.classList.remove('active'));
+      card.classList.add('active');
+      activeId=item.id;
+      const ds=document.getElementById('gw-detail-svg');
+      ds.innerHTML='';
+      item.draw(ds);
+      document.getElementById('gwd-name').textContent=item.name;
+      document.getElementById('gwd-latin').textContent=item.latin;
+      document.getElementById('gwd-vol').textContent=item.vol;
+      document.getElementById('gwd-mat').textContent=item.mat;
+      document.getElementById('gwd-cat').textContent=item.cat;
+      document.getElementById('gwd-heat').textContent=item.heat;
+      document.getElementById('gwd-desc').textContent=item.desc;
+      const warnEl=document.getElementById('gwd-warn');
+      warnEl.innerHTML='';
+      if(item.warn){
+        warnEl.innerHTML=`<div class="gw-warn"><b>⚠️ Застереження</b>${item.warn}</div>`;
+      } else if(item.safe){
+        warnEl.innerHTML=`<div class="gw-safe"><b>✅ Безпека</b>${item.safe}</div>`;
+      }
+      detail.classList.add('vis');
+      detail.scrollIntoView({behavior:'smooth',block:'nearest'});
+    };
+    grid.appendChild(card);
+  });
+}
+
 // Прогріваємо індекс одразу після завантаження сторінки (тільки rx_index, ~250KB)
-window.addEventListener('load', () => { setTimeout(() => loadIndex().catch(() => {}), 300); });
+window.addEventListener('load', () => { setTimeout(() => loadIndex().catch(() => {}), 300); gwInit(); });
 </script>
 </body>
 </html>
