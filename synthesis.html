@@ -103,7 +103,8 @@ body{background:#0d0e1a;color:#fff;font-family:Inter,sans-serif;min-height:100vh
 
 /* ── ВУЗЛИ ДЕРЕВА ── */
 .tree-node{margin-bottom:4px}
-.tree-children{padding-left:24px;border-left:.5px solid #1c2240;margin-left:18px;margin-top:2px}
+.tree-children{padding-left:24px;border-left:.5px solid #1c2240;margin-left:18px;margin-top:2px;display:none}
+.tree-children.vis{display:block}
 
 .rx-node{background:#111224;border:.5px solid #1c2040;border-radius:10px;padding:12px 42px 12px 16px;cursor:pointer;transition:all .18s;margin-bottom:8px;position:relative}
 .rx-node:hover{border-color:#00E5CC;background:#0f1a24}
@@ -681,11 +682,14 @@ function collectLeafNodes(node, acc) {
 }
 
 // ── Рендер одного вузла маршруту ──
-function renderRouteNode(node, isOpt) {
+function renderRouteNode(node, isOpt, depth) {
+  depth = depth || 0;
   const id = `n${++nodeId}`;
   const oc = isOpt ? 'optimal-path' : '';
+  // Перший рівень (depth=0) — завжди розкритий; глибші — згорнуті
+  const expandedCls = depth === 0 ? ' expanded' : '';
   let h = `<div class="tree-node">
-    <div class="rx-node ${oc}" id="${id}" onclick="toggleNode('${id}')">
+    <div class="rx-node ${oc}${expandedCls}" id="${id}" onclick="toggleNode('${id}')">
       <div class="rx-toggle">▾</div>
       <div class="rx-eq">${fmtEq(node.rx.eq)}</div>
       <div class="rx-meta">
@@ -697,7 +701,9 @@ function renderRouteNode(node, isOpt) {
     <div class="tech-card" id="${id}-tc">${buildTechCard(node.rx)}</div>`;
 
   if (node.reagentNodes && node.reagentNodes.length) {
-    h += '<div class="tree-children">';
+    const childrenId = `${id}-ch`;
+    const childrenVis = depth === 0 ? ' vis' : '';
+    h += `<div class="tree-children${childrenVis}" id="${childrenId}">`;
     for (const rn of node.reagentNodes) {
       if (rn.isLeaf) {
         const lbl = rn.reason === 'no_precursor' ? 'Вихідна речовина'
@@ -706,7 +712,7 @@ function renderRouteNode(node, isOpt) {
           : 'Гранична глибина';
         h += `<div class="leaf-node"><span class="leaf-sym">${fmt(rn.compound)}</span><span class="leaf-lbl">${lbl}</span></div>`;
       } else {
-        h += renderRouteNode(rn, isOpt);
+        h += renderRouteNode(rn, isOpt, depth + 1);
       }
     }
     h += '</div>';
@@ -716,7 +722,17 @@ function renderRouteNode(node, isOpt) {
 }
 
 function renderMode1(cmp) {
-  const topIds = (PM[cmp] || []).slice(0, MAX_ROUTES);
+  // Сортуємо маршрути: спочатку Сполучення/Заміщення, потім без небезпеки, потім решта
+  const PREF_CAT = ['Сполучення','Заміщення','Обмін','Органічна хімія','Комплексоутворення'];
+  const allIds = (PM[cmp] || []).slice();
+  allIds.sort((a, b) => {
+    const ra = getRx(a), rb = getRx(b);
+    const catA = PREF_CAT.indexOf(ra.category), catB = PREF_CAT.indexOf(rb.category);
+    const ca = catA === -1 ? 99 : catA, cb = catB === -1 ? 99 : catB;
+    if (ca !== cb) return ca - cb;
+    return (ra.danger ? 1 : 0) - (rb.danger ? 1 : 0);
+  });
+  const topIds = allIds.slice(0, MAX_ROUTES);
 
   if (!topIds.length) {
     const keys = Object.keys(PM);
@@ -797,6 +813,7 @@ function renderRoute(idx) {
 function toggleNode(id) {
   document.getElementById(id)?.classList.toggle('expanded');
   document.getElementById(id + '-tc')?.classList.toggle('vis');
+  document.getElementById(id + '-ch')?.classList.toggle('vis');
 }
 
 // ============================================================
