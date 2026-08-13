@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Хімічний синтез · Хімарій v1.4.4</title>
+<style>
+@font-face{font-family:'Oxanium';font-style:normal;font-weight:400;font-display:swap;src:url('fonts/oxanium-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Oxanium';font-style:normal;font-weight:700;font-display:swap;src:url('fonts/oxanium-latin-700-normal.woff2') format('woff2')}
+@font-face{font-family:'Oxanium';font-style:normal;font-weight:900;font-display:swap;src:url('fonts/oxanium-latin-900-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-style:normal;font-weight:300;font-display:swap;src:url('fonts/inter-latin-300-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-style:normal;font-weight:400;font-display:swap;src:url('fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-style:normal;font-weight:500;font-display:swap;src:url('fonts/inter-latin-500-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-style:normal;font-weight:600;font-display:swap;src:url('fonts/inter-latin-600-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-style:normal;font-weight:300;font-display:swap;src:url('fonts/inter-cyrillic-300-normal.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'Inter';font-style:normal;font-weight:400;font-display:swap;src:url('fonts/inter-cyrillic-400-normal.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'Inter';font-style:normal;font-weight:500;font-display:swap;src:url('fonts/inter-cyrillic-500-normal.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'Inter';font-style:normal;font-weight:600;font-display:swap;src:url('fonts/inter-cyrillic-600-normal.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0d0e1a;color:#fff;font-family:'Inter',sans-serif;min-height:100vh}
+.kr{background:#0d0e1a;color:#fff;position:relative;max-width:1400px;margin:0 auto}
+
+/* HERO */
+.hero{position:relative;padding:24px 40px 20px;display:flex;align-items:center;gap:24px;border-bottom:0.5px solid rgba(79,195,247,0.15)}
+.mol{flex-shrink:0;width:72px;height:72px}.mol svg{width:100%;height:100%}
+.atom{animation:orbit 6s linear infinite;transform-origin:60px 60px}
+.atom:nth-child(2){animation-duration:9s;animation-direction:reverse}
+.atom:nth-child(3){animation-duration:12s}
+@keyframes orbit{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.nuc{animation:pulse 3s ease-in-out infinite}
+@keyframes pulse{0%,100%{r:12}50%{r:14}}
+.atom circle{animation:atomPulse 3s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+.atom:nth-child(1) circle{animation-duration:3s;animation-delay:0s}
+.atom:nth-child(2) circle{animation-duration:4s;animation-delay:-1.3s}
+.atom:nth-child(3) circle{animation-duration:3.5s;animation-delay:-2.1s}
+@keyframes atomPulse{0%,100%{transform:scale(1);filter:drop-shadow(0 0 2px currentColor)}50%{transform:scale(1.35);filter:drop-shadow(0 0 7px currentColor) drop-shadow(0 0 14px currentColor)}}
+.brand-label{font-family:'Oxanium',monospace;font-size:9px;letter-spacing:4px;color:#4FC3F7;text-transform:uppercase;margin-bottom:4px;opacity:.8}
+.brand-title{font-family:'Oxanium',monospace;font-size:38px;font-weight:900;color:#fff;line-height:1;letter-spacing:-1px;margin-bottom:2px}
+.brand-title span{animation:titleGlow 8s ease-in-out infinite}
+@keyframes titleGlow{0%,100%{color:#00E5CC}33%{color:#4FC3F7}66%{color:#CE93D8}}
+.brand-sub{font-size:11px;color:#c0d0f0;font-weight:300}
+.ver{position:absolute;top:10px;right:16px;font-family:'Oxanium',monospace;font-size:9px;color:#90a0cc;letter-spacing:2px}
+
+/* NAV */
+.nav{display:flex;align-items:center;padding:0 40px;border-bottom:0.5px solid rgba(79,195,247,0.1);gap:4px;flex-wrap:wrap}
+.nav-btn{padding:11px 16px;font-size:13px;font-weight:500;color:#b0c0e8;cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;background:none;border-top:none;border-left:none;border-right:none;font-family:'Inter',sans-serif;display:flex;align-items:center;gap:5px;white-space:nowrap;text-decoration:none}
+.nav-btn:hover{color:#c0d0f0}
+.nav-btn.active{color:#00E5CC;border-bottom-color:#00E5CC}
+.nav-divider{width:0.5px;height:20px;background:#1e2240;margin:0 4px;align-self:center}
+
+/* CONTENT */
+.content{padding:28px 40px}
+.sec-title{font-family:'Oxanium',monospace;font-size:10px;letter-spacing:3px;color:#4FC3F7;text-transform:uppercase;margin-bottom:20px;opacity:.7}
+
+/* MODE TABS */
+.mode-tabs{display:flex;gap:8px;margin-bottom:28px;flex-wrap:wrap}
+.mode-tab{background:none;border:1px solid #1c2040;border-radius:24px;color:#8090b8;font-size:13px;font-weight:500;padding:8px 20px;cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s;display:flex;align-items:center;gap:6px}
+.mode-tab:hover{border-color:#4FC3F7;color:#4FC3F7;background:rgba(79,195,247,.06)}
+.mode-tab.on{border-color:#00E5CC;color:#00E5CC;background:rgba(0,229,204,.08)}
+
+/* INPUT */
+.search-wrap{display:flex;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+.syn-input{flex:1;min-width:200px;max-width:420px;background:#0f1020;border:0.5px solid #1e2240;border-radius:10px;padding:13px 18px;color:#fff;font-size:17px;font-family:'Oxanium',monospace;outline:none;transition:border-color .2s;letter-spacing:.5px}
+.syn-input:focus{border-color:#4FC3F7}
+.syn-input::placeholder{color:#7080b8;font-size:13px;font-family:'Inter',sans-serif;letter-spacing:0}
+.syn-input.error{border-color:#FF5252}
+.syn-go{background:#0f1632;border:0.5px solid #4FC3F7;border-radius:10px;padding:13px 26px;color:#4FC3F7;font-size:14px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:all .18s;white-space:nowrap}
+.syn-go:hover{background:#4FC3F7;color:#0d0e1a}
+.syn-hint{font-size:11px;color:#7080b8;margin-bottom:22px}
+.syn-hint b{color:#4FC3F7}
+.syn-examples{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.syn-chip{background:#141528;border:0.5px solid #1e2240;border-radius:5px;padding:4px 10px;font-size:12px;color:#b0c0e8;cursor:pointer;font-family:'Oxanium',monospace;transition:all .15s}
+.syn-chip:hover{border-color:#4FC3F7;color:#4FC3F7}
+
+/* ERROR / EMPTY */
+.syn-error{background:#1a0a0a;border:0.5px solid #FF5252;border-radius:8px;padding:12px 16px;font-size:13px;color:#FF8A80;margin-bottom:16px;display:none}
+.syn-error.vis{display:block}
+
+/* LOADING */
+.syn-loading{text-align:center;padding:48px;color:#7080b8;display:none}
+.syn-loading.vis{display:block}
+.spin{display:inline-block;width:28px;height:28px;border:2px solid #1e2240;border-top-color:#4FC3F7;border-radius:50%;animation:spin .7s linear infinite;margin-bottom:12px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* RESULTS AREA */
+.results{display:none}
+.results.vis{display:block}
+
+/* === РЕЖИМ 1: ДЕРЕВО СИНТЕЗУ === */
+.tree-header{background:#0a0b15;border:0.5px solid rgba(79,195,247,0.2);border-radius:12px;padding:18px 22px;margin-bottom:20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.tree-target{font-family:'Oxanium',monospace;font-size:26px;font-weight:900;color:#00E5CC}
+.tree-stats{font-size:12px;color:#7080b8;flex:1}
+.tree-stats b{color:#4FC3F7}
+
+/* Переключення між шляхами */
+.routes-nav{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px}
+.route-tab{background:#0f1020;border:0.5px solid #1e2240;border-radius:8px;padding:6px 14px;font-size:11px;font-weight:500;color:#90a0cc;cursor:pointer;font-family:'Inter',sans-serif;transition:all .15s;display:flex;align-items:center;gap:5px}
+.route-tab:hover{border-color:#4FC3F7;color:#c0d0f0}
+.route-tab.on{border-color:#00E5CC;color:#00E5CC;background:rgba(0,229,204,.07)}
+.route-tab.optimal{border-color:#69F0AE;color:#69F0AE;background:rgba(105,240,174,.08)}
+.route-tab.optimal.on{background:rgba(105,240,174,.15)}
+.optimal-badge{font-size:9px;background:#69F0AE;color:#0d0e1a;border-radius:3px;padding:1px 4px;font-weight:700;font-family:'Oxanium',monospace}
+
+/* TREE ВИЗУАЛІЗАЦІЯ */
+.tree-container{overflow-x:auto;padding-bottom:12px}
+.tree-node{position:relative;margin-bottom:4px}
+.tree-row{display:flex;align-items:flex-start;gap:0}
+.tree-indent{flex-shrink:0;display:flex;align-items:stretch}
+.tree-indent-line{width:20px;border-left:1px solid #1e2240;border-bottom:1px solid #1e2240;height:24px;margin-top:-4px;flex-shrink:0}
+.tree-indent-space{width:20px;flex-shrink:0}
+
+/* Картка реакції в дереві */
+.rx-node{background:#13152a;border:0.5px solid #1c2040;border-radius:10px;padding:12px 16px;cursor:pointer;transition:all .18s;flex:1;min-width:0;margin-bottom:8px;position:relative}
+.rx-node:hover{border-color:#4FC3F7;background:#161830}
+.rx-node.optimal-path{border-color:rgba(105,240,174,.4);background:rgba(105,240,174,.04)}
+.rx-node.optimal-path:hover{border-color:#69F0AE;background:rgba(105,240,174,.09)}
+.rx-node.expanded{border-color:#4FC3F7;background:#0f1530}
+.rx-node-eq{font-family:'Oxanium',monospace;font-size:14px;font-weight:700;color:#4FC3F7;margin-bottom:4px;word-break:break-word;line-height:1.4}
+.rx-node.optimal-path .rx-node-eq{color:#69F0AE}
+.rx-node-meta{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.rx-node-name{font-size:11px;color:#90a0cc;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rx-node-cond{font-size:10px;color:#7080b8;font-family:'Oxanium',monospace;background:#0a0b15;border-radius:4px;padding:2px 6px;white-space:nowrap}
+.rx-type-badge{font-size:9px;border-radius:3px;padding:2px 5px;font-weight:700;font-family:'Oxanium',monospace;flex-shrink:0}
+.rx-type-exo{background:rgba(255,82,82,.15);color:#FF5252;border:0.5px solid rgba(255,82,82,.3)}
+.rx-type-endo{background:rgba(79,195,247,.15);color:#4FC3F7;border:0.5px solid rgba(79,195,247,.3)}
+.rx-type-neutral{background:rgba(144,160,204,.1);color:#90a0cc;border:0.5px solid rgba(144,160,204,.2)}
+.rx-danger{font-size:9px;color:#FF8A65;font-weight:700;background:rgba(255,138,101,.12);border-radius:3px;padding:2px 5px;flex-shrink:0}
+.rx-expand-icon{position:absolute;top:10px;right:12px;color:#7080b8;font-size:11px;transition:transform .2s}
+.rx-node.expanded .rx-expand-icon{transform:rotate(180deg);color:#4FC3F7}
+
+/* Листок (елемент без попередника) */
+.leaf-node{display:flex;align-items:center;gap:8px;padding:7px 12px;background:#090a14;border:0.5px dashed #1a2040;border-radius:8px;margin-bottom:8px;flex:1}
+.leaf-symbol{font-family:'Oxanium',monospace;font-size:15px;font-weight:700;color:#CE93D8}
+.leaf-label{font-size:11px;color:#7080b8}
+
+/* Дочірні вузли */
+.tree-children{padding-left:28px;border-left:1px solid #1c2040;margin-left:16px;margin-top:4px}
+
+/* ТЕХНОЛОГІЧНА КАРТКА (inline expand) */
+.tech-card{display:none;background:#0a0b15;border:0.5px solid rgba(79,195,247,0.15);border-radius:10px;padding:16px 20px;margin:4px 0 10px 0}
+.tech-card.vis{display:block}
+.tc-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tc-field{background:#0f1020;border:0.5px solid #1e2240;border-radius:8px;padding:10px 12px}
+.tc-field.wide{grid-column:span 2}
+.tc-label{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:#4FC3F7;font-family:'Oxanium',monospace;margin-bottom:5px;display:flex;align-items:center;gap:5px}
+.tc-value{font-size:13px;color:#e0e8ff;line-height:1.55}
+.tc-eq-big{font-family:'Oxanium',monospace;font-size:15px;font-weight:700;color:#4FC3F7;line-height:1.4;word-break:break-word}
+.tc-danger-box{background:rgba(255,138,101,.08);border:0.5px solid rgba(255,138,101,.3);border-radius:8px;padding:10px 12px;grid-column:span 2;display:flex;gap:10px;align-items:flex-start}
+.tc-danger-icon{font-size:20px;flex-shrink:0}
+.tc-danger-text{font-size:12px;color:#FF8A65;line-height:1.6}
+.tc-safe-box{background:rgba(105,240,174,.06);border:0.5px solid rgba(105,240,174,.2);border-radius:8px;padding:10px 12px;grid-column:span 2;display:flex;gap:10px;align-items:center}
+.tc-safe-text{font-size:12px;color:#69F0AE;line-height:1.5}
+.tc-type-row{display:flex;gap:8px;align-items:center}
+.tc-type-exo{color:#FF5252;font-weight:700}
+.tc-type-endo{color:#4FC3F7;font-weight:700}
+.tc-type-neutral{color:#90a0cc;font-weight:700}
+
+/* === РЕЖИМ 2: ПРОДУКТИ === */
+.products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px}
+.prod-card{background:#13152a;border:0.5px solid #1c2040;border-radius:10px;padding:14px 16px;cursor:pointer;transition:all .18s;position:relative}
+.prod-card:hover{border-color:#4FC3F7;background:#161830}
+.prod-card.expanded{border-color:#4FC3F7;background:#0f1530}
+.prod-eq{font-family:'Oxanium',monospace;font-size:13px;font-weight:700;color:#4FC3F7;margin-bottom:5px;word-break:break-word;line-height:1.4}
+.prod-name{font-size:11px;color:#90a0cc;margin-bottom:6px}
+.prod-meta{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.prod-result{font-family:'Oxanium',monospace;font-size:15px;font-weight:900;color:#00E5CC}
+.prod-expand{position:absolute;top:10px;right:12px;color:#7080b8;font-size:11px;transition:transform .2s}
+.prod-card.expanded .prod-expand{transform:rotate(180deg);color:#4FC3F7}
+
+/* STICKY NODE COUNTER */
+.tree-depth-info{font-size:10px;color:#7080b8;margin-bottom:14px;font-family:'Oxanium',monospace;letter-spacing:.5px}
+.depth-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:4px;vertical-align:middle}
+
+/* EMPTY */
+.empty-state{text-align:center;padding:64px 20px;color:#7080b8}
+.empty-icon{font-size:40px;margin-bottom:16px;opacity:.5}
+.empty-text{font-size:14px;line-height:1.7}
+
+/* FORMULA FORMATTING — підрядкові індекси */
+.chem sub{font-size:.75em;line-height:0;position:relative;vertical-align:baseline;bottom:-.25em}
+
+/* RESPONSIVE */
+@media(max-width:700px){
+  .hero{padding:16px 16px 14px;gap:14px}
+  .brand-title{font-size:28px}
+  .content{padding:18px 16px}
+  .nav{padding:0 12px}
+  .nav-btn{padding:9px 10px;font-size:12px}
+  .tc-grid{grid-template-columns:1fr}
+  .tc-field.wide{grid-column:span 1}
+  .tc-danger-box,.tc-safe-box{grid-column:span 1}
+}
+</style>
+</head>
+<body>
+<div class="kr">
+
+<!-- HERO -->
+<div class="hero">
+  <div class="ver">v1.4.4</div>
+  <div class="mol">
+    <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <defs><filter id="glow"><feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+      <line x1="60" y1="60" x2="60" y2="22" stroke="#4FC3F7" stroke-width="1" opacity="0.4"/>
+      <line x1="60" y1="60" x2="95" y2="78" stroke="#4FC3F7" stroke-width="1" opacity="0.4"/>
+      <line x1="60" y1="60" x2="25" y2="78" stroke="#4FC3F7" stroke-width="1" opacity="0.4"/>
+      <g class="atom"><circle cx="60" cy="22" r="8" fill="#00E5CC" color="#00E5CC" opacity="0.9"/><text x="60" y="26" text-anchor="middle" fill="#0d0e1a" font-size="8" font-weight="700" font-family="Oxanium,sans-serif">H</text></g>
+      <g class="atom"><circle cx="95" cy="78" r="10" fill="#4FC3F7" color="#4FC3F7" opacity="0.9"/><text x="95" y="82" text-anchor="middle" fill="#0d0e1a" font-size="9" font-weight="700" font-family="Oxanium,sans-serif">O</text></g>
+      <g class="atom"><circle cx="25" cy="78" r="8" fill="#00E5CC" color="#00E5CC" opacity="0.9"/><text x="25" y="82" text-anchor="middle" fill="#0d0e1a" font-size="8" font-weight="700" font-family="Oxanium,sans-serif">H</text></g>
+      <circle class="nuc" cx="60" cy="60" r="12" fill="#7c4dff" filter="url(#glow)"/>
+      <text x="60" y="64" text-anchor="middle" fill="#fff" font-size="9" font-weight="700" font-family="Oxanium,sans-serif">⚗️</text>
+    </svg>
+  </div>
+  <div>
+    <div class="brand-label">Інтерактивний довідник</div>
+    <div class="brand-title">Хім<span>арій</span></div>
+    <div class="brand-sub">Хімічний синтез · Побудова маршрутів реакцій</div>
+  </div>
+</div>
+
+<!-- NAV -->
+<div class="nav">
+  <a class="nav-btn" href="index.html">← Головна</a>
+  <div class="nav-divider"></div>
+  <span class="nav-btn active">⚗️ Хімічний синтез</span>
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+  <div class="sec-title">⚗️ Хімічний синтез · 7 784 реакцій у базі</div>
+
+  <!-- РЕЖИМ ТАБИ -->
+  <div class="mode-tabs">
+    <button class="mode-tab on" id="tab-synth" onclick="switchMode('synth')">🎯 Як синтезувати речовину?</button>
+    <button class="mode-tab" id="tab-prod" onclick="switchMode('prod')">🔭 Що можна отримати?</button>
+  </div>
+
+  <!-- ПІДКАЗКА РЕЖИМУ -->
+  <div id="hint-synth" class="syn-hint">
+    Введіть <b>цільову сполуку</b> — система побудує всі можливі шляхи синтезу з базових речовин і виділить найкоротший маршрут.
+  </div>
+  <div id="hint-prod" class="syn-hint" style="display:none">
+    Введіть <b>вихідну речовину</b> — система покаже всі сполуки, які можна з неї отримати, з умовами реакцій.
+  </div>
+
+  <!-- INPUT -->
+  <div class="search-wrap">
+    <input class="syn-input" id="syn-input" type="text" placeholder="Наприклад: H2SO4, NaCl, NH3…" autocomplete="off" spellcheck="false" onkeydown="if(event.key==='Enter')doSearch()">
+    <button class="syn-go" onclick="doSearch()">Знайти →</button>
+  </div>
+
+  <!-- ПРИКЛАДИ РЕЖИМ 1 -->
+  <div id="examples-synth" class="syn-examples">
+    <span class="syn-chip" onclick="setEx('H2SO4')">H₂SO₄</span>
+    <span class="syn-chip" onclick="setEx('NaCl')">NaCl</span>
+    <span class="syn-chip" onclick="setEx('NH3')">NH₃</span>
+    <span class="syn-chip" onclick="setEx('Ca(OH)2')">Ca(OH)₂</span>
+    <span class="syn-chip" onclick="setEx('Fe3O4')">Fe₃O₄</span>
+    <span class="syn-chip" onclick="setEx('HNO3')">HNO₃</span>
+    <span class="syn-chip" onclick="setEx('Na2CO3')">Na₂CO₃</span>
+    <span class="syn-chip" onclick="setEx('C2H5OH')">C₂H₅OH</span>
+  </div>
+  <!-- ПРИКЛАДИ РЕЖИМ 2 -->
+  <div id="examples-prod" class="syn-examples" style="display:none">
+    <span class="syn-chip" onclick="setEx('SO2')">SO₂</span>
+    <span class="syn-chip" onclick="setEx('Ca')">Ca</span>
+    <span class="syn-chip" onclick="setEx('Na')">Na</span>
+    <span class="syn-chip" onclick="setEx('Fe')">Fe</span>
+    <span class="syn-chip" onclick="setEx('HCl')">HCl</span>
+    <span class="syn-chip" onclick="setEx('NaOH')">NaOH</span>
+    <span class="syn-chip" onclick="setEx('C2H4')">C₂H₄</span>
+    <span class="syn-chip" onclick="setEx('Cl2')">Cl₂</span>
+  </div>
+
+  <!-- ERROR -->
+  <div class="syn-error" id="syn-error"></div>
+
+  <!-- LOADING -->
+  <div class="syn-loading" id="syn-loading">
+    <div class="spin"></div>
+    <div>Будую граф реакцій…</div>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="results" id="results-area"></div>
+</div>
+</div>
+
+<script>
+// ============================================================
+// ДАНІ ТА ГРАФ
+// ============================================================
+let PRODUCT_MAP = null; // compound -> [{rx, reagents, products}]
+let REAGENT_MAP = null; // compound -> [{rx, reagents, products}]
+let currentMode = 'synth';
+let dbLoaded = false;
+let dbPromise = null;
+
+const JUNK = new Set(['FALSE','TRUE','...','passivated','solv','suppressant']);
+
+function cleanCompound(s) {
+  s = s.trim();
+  // Видаляємо числові коефіцієнти: "2MgO" -> "MgO", "1.5O2" -> "O2"
+  s = s.replace(/^[\d]+\.?[\d]*\s+/, '');
+  // "n C2H4" -> "C2H4"
+  s = s.replace(/^n\s+/, '');
+  return s.trim();
+}
+
+function parseEq(eq) {
+  const arrows = [' <=> ', ' -> ', ' → ', ' <-> '];
+  for (const arrow of arrows) {
+    if (eq.includes(arrow)) {
+      const parts = eq.split(arrow);
+      const left = parts[0].split('+').map(cleanCompound).filter(x => x && x.length < 60 && !JUNK.has(x));
+      const right = parts[1].split('+').map(cleanCompound).filter(x => x && x.length < 60 && !JUNK.has(x));
+      return { left, right };
+    }
+  }
+  return { left: [], right: [] };
+}
+
+function loadDB() {
+  if (dbPromise) return dbPromise;
+  dbPromise = fetch('reactions.json')
+    .then(r => r.json())
+    .then(data => {
+      PRODUCT_MAP = {};
+      REAGENT_MAP = {};
+      for (const cat of data) {
+        for (const sub of cat.subsections) {
+          for (const rx of sub.reactions) {
+            const rxData = {
+              eq: rx.eq,
+              name: rx.name || '',
+              conditions: rx.conditions || '',
+              type: rx.type || '',
+              danger: rx.danger || false,
+              products_desc: rx.products_desc || '',
+              category: cat.label,
+              subsection: sub.title
+            };
+            const { left, right } = parseEq(rx.eq);
+            const entry = { rx: rxData, reagents: left, products: right };
+            for (const prod of right) {
+              if (!PRODUCT_MAP[prod]) PRODUCT_MAP[prod] = [];
+              PRODUCT_MAP[prod].push(entry);
+            }
+            for (const reag of left) {
+              if (!REAGENT_MAP[reag]) REAGENT_MAP[reag] = [];
+              REAGENT_MAP[reag].push(entry);
+            }
+          }
+        }
+      }
+      dbLoaded = true;
+    });
+  return dbPromise;
+}
+
+// ============================================================
+// UI УТИЛІТИ
+// ============================================================
+function switchMode(mode) {
+  currentMode = mode;
+  document.getElementById('tab-synth').classList.toggle('on', mode === 'synth');
+  document.getElementById('tab-prod').classList.toggle('on', mode === 'prod');
+  document.getElementById('hint-synth').style.display = mode === 'synth' ? '' : 'none';
+  document.getElementById('hint-prod').style.display = mode === 'prod' ? '' : 'none';
+  document.getElementById('examples-synth').style.display = mode === 'synth' ? '' : 'none';
+  document.getElementById('examples-prod').style.display = mode === 'prod' ? '' : 'none';
+  document.getElementById('results-area').innerHTML = '';
+  document.getElementById('results-area').classList.remove('vis');
+  document.getElementById('syn-error').classList.remove('vis');
+  document.getElementById('syn-input').placeholder = mode === 'synth' ? 'Цільова сполука: H2SO4, NaCl, NH3…' : 'Вихідна речовина: SO2, Ca, Na, Fe…';
+  document.getElementById('syn-input').value = '';
+}
+
+function setEx(val) {
+  document.getElementById('syn-input').value = val;
+  doSearch();
+}
+
+function showError(msg) {
+  const el = document.getElementById('syn-error');
+  el.textContent = msg;
+  el.classList.add('vis');
+}
+
+function hideError() {
+  document.getElementById('syn-error').classList.remove('vis');
+}
+
+// Форматування хімічних формул: H2SO4 -> H₂SO₄
+function chemFmt(s) {
+  if (!s) return '';
+  // Замінюємо цифри після букв/дужок на підрядкові
+  return s
+    .replace(/(\d+)/g, (m, n) => `<sub>${n}</sub>`)
+    .replace(/(->|<=>|<->|→)/g, ' <span style="color:#7080b8">→</span> ')
+    .replace(/\+/g, ' <span style="color:#5060a0">+</span> ');
+}
+
+function typeBadge(type, danger) {
+  let badge = '';
+  if (type === 'exo') badge = '<span class="rx-type-badge rx-type-exo">🔴 ЕКЗОтерм</span>';
+  else if (type === 'endo') badge = '<span class="rx-type-badge rx-type-endo">🔵 ЕНДОтерм</span>';
+  else if (type) badge = '<span class="rx-type-badge rx-type-neutral">⚪ Нейтр</span>';
+  if (danger) badge += ' <span class="rx-danger">⚠️ НЕБЕЗПЕЧНО</span>';
+  return badge;
+}
+
+// ============================================================
+// РЕЖИМ 2: ЩО МОЖНА ОТРИМАТИ
+// ============================================================
+function renderMode2(compound) {
+  const entries = REAGENT_MAP[compound] || [];
+
+  // Підказка: якщо є схожі сполуки
+  const keys = Object.keys(REAGENT_MAP);
+  const similar = keys.filter(k => k.toLowerCase().includes(compound.toLowerCase()) && k !== compound).slice(0, 5);
+
+  if (!entries.length) {
+    let hint = '';
+    if (similar.length) hint = `<br><br>Схожі сполуки в базі: ${similar.map(s=>`<b>${s}</b>`).join(', ')}`;
+    document.getElementById('results-area').innerHTML = `
+      <div class="empty-state">
+        <div class="empty-icon">🔭</div>
+        <div class="empty-text">Сполуку <b style="color:#4FC3F7">${compound}</b> не знайдено як реагент у базі реакцій.${hint}</div>
+      </div>`;
+    document.getElementById('results-area').classList.add('vis');
+    return;
+  }
+
+  const html = [`
+    <div class="tree-header">
+      <div>
+        <div class="tree-target chem">${chemFmt(compound)}</div>
+        <div style="font-size:11px;color:#7080b8;margin-top:2px">як реагент</div>
+      </div>
+      <div class="tree-stats">Знайдено <b>${entries.length}</b> реакцій · <b>${[...new Set(entries.flatMap(e=>e.products))].length}</b> можливих продуктів</div>
+    </div>
+    <div class="products-grid" id="prod-grid">
+  `];
+
+  entries.forEach((entry, i) => {
+    const prods = entry.products.filter(p => p !== compound);
+    const mainProd = prods[0] || entry.products[0] || '?';
+    html.push(`
+      <div class="prod-card" id="pc-${i}" onclick="toggleProdCard(${i})">
+        <div class="prod-eq chem">${chemFmt(entry.rx.eq)}</div>
+        <div class="prod-name">${entry.rx.name}</div>
+        <div class="prod-meta">
+          <span class="prod-result chem">${chemFmt(mainProd)}</span>
+          ${typeBadge(entry.rx.type, entry.rx.danger)}
+          ${entry.rx.conditions ? `<span class="rx-node-cond">${entry.rx.conditions}</span>` : ''}
+        </div>
+        <div class="rx-expand-icon">▾</div>
+        <div class="tech-card" id="tc-p-${i}">
+          ${buildTechCard(entry.rx)}
+        </div>
+      </div>
+    `);
+  });
+
+  html.push('</div>');
+  document.getElementById('results-area').innerHTML = html.join('');
+  document.getElementById('results-area').classList.add('vis');
+}
+
+function toggleProdCard(i) {
+  const card = document.getElementById(`pc-${i}`);
+  const tc = document.getElementById(`tc-p-${i}`);
+  card.classList.toggle('expanded');
+  tc.classList.toggle('vis');
+}
+
+// ============================================================
+// ТЕХНОЛОГІЧНА КАРТКА
+// ============================================================
+function buildTechCard(rx) {
+  const typeLabel = rx.type === 'exo'
+    ? '<span class="tc-type-exo">🔴 Екзотермічна</span>'
+    : rx.type === 'endo'
+    ? '<span class="tc-type-endo">🔵 Ендотермічна</span>'
+    : '<span class="tc-type-neutral">⚪ Нейтральна</span>';
+
+  const safetyBlock = rx.danger
+    ? `<div class="tc-danger-box tc-field wide">
+        <div class="tc-danger-icon">🛑</div>
+        <div class="tc-danger-text"><b>УВАГА! Небезпечна реакція</b><br>${rx.products_desc || 'Дотримуйтесь техніки безпеки'}</div>
+       </div>`
+    : `<div class="tc-safe-box tc-field wide">
+        <div style="font-size:20px;flex-shrink:0">✅</div>
+        <div class="tc-safe-text">${rx.products_desc || 'Реакція відносно безпечна за стандартних умов'}</div>
+       </div>`;
+
+  return `
+    <div class="tc-grid">
+      <div class="tc-field wide">
+        <div class="tc-label">🔄 Рівняння реакції</div>
+        <div class="tc-eq-big chem">${chemFmt(rx.eq)}</div>
+      </div>
+      ${rx.name ? `<div class="tc-field wide"><div class="tc-label">📌 Назва</div><div class="tc-value">${rx.name}</div></div>` : ''}
+      <div class="tc-field">
+        <div class="tc-label">⚗️ Умови проведення</div>
+        <div class="tc-value">${rx.conditions || 'Стандартні умови'}</div>
+      </div>
+      <div class="tc-field">
+        <div class="tc-label">🌡️ Тип реакції</div>
+        <div class="tc-value tc-type-row">${typeLabel}</div>
+      </div>
+      <div class="tc-field">
+        <div class="tc-label">📂 Категорія</div>
+        <div class="tc-value" style="font-size:12px">${rx.category || '—'}</div>
+      </div>
+      <div class="tc-field">
+        <div class="tc-label">🛡️ Безпека</div>
+        <div class="tc-value">${rx.danger ? '⚠️ Підвищена небезпека' : '✅ Стандартна обережність'}</div>
+      </div>
+      ${safetyBlock}
+    </div>`;
+}
+
+// ============================================================
+// РЕЖИМ 1: ДЕРЕВО СИНТЕЗУ
+// ============================================================
+
+// Будуємо дерево рекурсивно з обмеженням циклів
+function buildSynthTree(compound, visited, depth, maxDepth) {
+  if (visited.has(compound)) {
+    return { compound, isLeaf: true, reason: 'cycle' };
+  }
+  const routes = PRODUCT_MAP[compound];
+  if (!routes || !routes.length || depth >= maxDepth) {
+    return { compound, isLeaf: true, reason: routes && routes.length ? 'max_depth' : 'no_precursor' };
+  }
+
+  const newVisited = new Set(visited);
+  newVisited.add(compound);
+
+  const node = { compound, isLeaf: false, routes: [] };
+  for (const entry of routes) {
+    const route = {
+      rx: entry.rx,
+      reagents: entry.reagents,
+      products: entry.products,
+      reagentTrees: []
+    };
+    for (const reag of entry.reagents) {
+      route.reagentTrees.push(buildSynthTree(reag, newVisited, depth + 1, maxDepth));
+    }
+    node.routes.push(route);
+  }
+  return node;
+}
+
+// Рахуємо "глибину" шляху (сума всіх нелистових вузлів)
+function routeDepth(route) {
+  if (!route.reagentTrees.length) return 1;
+  return 1 + route.reagentTrees.reduce((acc, rt) => {
+    if (rt.isLeaf) return acc;
+    return acc + Math.min(...rt.routes.map(r => routeDepth(r)));
+  }, 0);
+}
+
+// Рендер всього дерева (один шлях)
+let activeRouteIdx = 0;
+let synthTree = null;
+let optimalRouteIdx = 0;
+
+function renderMode1(compound) {
+  const MAX_DEPTH = 7;
+  synthTree = buildSynthTree(compound, new Set(), 0, MAX_DEPTH);
+
+  if (synthTree.isLeaf && synthTree.reason === 'no_precursor') {
+    const keys = Object.keys(PRODUCT_MAP);
+    const similar = keys.filter(k => k.toLowerCase().includes(compound.toLowerCase())).slice(0, 6);
+    let hint = '';
+    if (similar.length) hint = `<br><br>Схожі сполуки в базі: ${similar.map(s=>`<b>${s}</b>`).join(', ')}`;
+    document.getElementById('results-area').innerHTML = `
+      <div class="empty-state">
+        <div class="empty-icon">🎯</div>
+        <div class="empty-text">Сполуку <b style="color:#4FC3F7">${compound}</b> не знайдено як продукт у базі реакцій.${hint}</div>
+      </div>`;
+    document.getElementById('results-area').classList.add('vis');
+    return;
+  }
+
+  const totalRoutes = synthTree.routes ? synthTree.routes.length : 0;
+
+  // Знаходимо найкоротший маршрут
+  if (totalRoutes > 0) {
+    const depths = synthTree.routes.map(r => routeDepth(r));
+    optimalRouteIdx = depths.indexOf(Math.min(...depths));
+  }
+
+  // Підраховуємо загальну кількість унікальних реакцій у всіх маршрутах
+  const allLeaves = collectLeaves(synthTree);
+
+  let html = `
+    <div class="tree-header">
+      <div>
+        <div class="tree-target chem">${chemFmt(compound)}</div>
+        <div style="font-size:11px;color:#7080b8;margin-top:2px">ціль синтезу</div>
+      </div>
+      <div class="tree-stats">
+        Знайдено <b>${totalRoutes}</b> шляхів синтезу · <b>${allLeaves.length}</b> вихідних речовин ·
+        Оптимальний: <b>Шлях ${optimalRouteIdx + 1}</b>
+      </div>
+    </div>`;
+
+  // Таби маршрутів
+  if (totalRoutes > 1) {
+    html += '<div class="routes-nav">';
+    for (let i = 0; i < totalRoutes; i++) {
+      const isOpt = i === optimalRouteIdx;
+      const d = routeDepth(synthTree.routes[i]);
+      html += `<button class="route-tab ${isOpt ? 'optimal' : ''} ${i === 0 ? 'on' : ''}" id="rtab-${i}" onclick="switchRoute(${i})">
+        ${isOpt ? '<span class="optimal-badge">⭐ ОПТИМАЛЬНИЙ</span> ' : ''}
+        Шлях ${i + 1} <span style="color:#7080b8;font-size:10px">(${d} кр.)</span>
+      </button>`;
+    }
+    html += '</div>';
+  }
+
+  html += `<div class="tree-depth-info">
+    <span class="depth-dot" style="background:#69F0AE"></span>Оптимальний шлях &nbsp;
+    <span class="depth-dot" style="background:#4FC3F7"></span>Альтернативні маршрути &nbsp;
+    <span class="depth-dot" style="background:#CE93D8"></span>Вихідна речовина (лист)
+  </div>`;
+
+  html += `<div id="tree-view"></div>`;
+
+  document.getElementById('results-area').innerHTML = html;
+  document.getElementById('results-area').classList.add('vis');
+
+  activeRouteIdx = 0;
+  renderRoute(0);
+}
+
+function switchRoute(idx) {
+  document.querySelectorAll('.route-tab').forEach((t, i) => t.classList.toggle('on', i === idx));
+  activeRouteIdx = idx;
+  renderRoute(idx);
+}
+
+function renderRoute(routeIdx) {
+  if (!synthTree || !synthTree.routes) return;
+  const route = synthTree.routes[routeIdx];
+  const isOptimal = routeIdx === optimalRouteIdx;
+  const html = renderRouteNode(synthTree.compound, route, isOptimal, 0, 'root');
+  document.getElementById('tree-view').innerHTML = html;
+}
+
+let nodeCounter = 0;
+
+function renderRouteNode(compound, route, isOptimal, depth, prefix) {
+  nodeCounter++;
+  const id = `node-${nodeCounter}`;
+  const optClass = isOptimal ? 'optimal-path' : '';
+
+  let html = `<div class="tree-node">`;
+  html += `<div class="tree-row">`;
+
+  // Картка реакції
+  html += `
+    <div class="rx-node ${optClass}" id="${id}" onclick="toggleNode('${id}')">
+      <div class="rx-expand-icon" id="${id}-icon">▾</div>
+      <div class="rx-node-eq chem">${chemFmt(route.rx.eq)}</div>
+      <div class="rx-node-meta">
+        <span class="rx-node-name">${route.rx.name || ''}</span>
+        ${route.rx.conditions ? `<span class="rx-node-cond">${route.rx.conditions}</span>` : ''}
+        ${typeBadge(route.rx.type, route.rx.danger)}
+      </div>
+    </div>
+  `;
+  html += `</div>`;
+
+  // Технологічна картка (collapse)
+  html += `<div class="tech-card" id="${id}-tc">${buildTechCard(route.rx)}</div>`;
+
+  // Дочірні вузли (реагенти)
+  if (route.reagentTrees && route.reagentTrees.length) {
+    html += `<div class="tree-children">`;
+    for (const rt of route.reagentTrees) {
+      if (rt.isLeaf) {
+        // Лист
+        const leafLabel = rt.reason === 'no_precursor'
+          ? 'Вихідна речовина'
+          : rt.reason === 'cycle'
+          ? 'Цикл (вже у шляху)'
+          : 'Гранична глибина';
+        html += `
+          <div class="leaf-node">
+            <span class="leaf-symbol chem">${chemFmt(rt.compound)}</span>
+            <span class="leaf-label">${leafLabel}</span>
+          </div>`;
+      } else {
+        // Рекурсивно — але показуємо тільки перший (оптимальний) дочірній маршрут
+        const childOptIdx = rt.routes
+          ? rt.routes.map(r => routeDepth(r)).indexOf(Math.min(...rt.routes.map(r => routeDepth(r))))
+          : 0;
+        const childRoute = rt.routes[childOptIdx];
+        if (childRoute) {
+          html += renderRouteNode(rt.compound, childRoute, isOptimal, depth + 1, `${prefix}-${nodeCounter}`);
+        }
+      }
+    }
+    html += `</div>`;
+  }
+
+  html += `</div>`; // tree-node
+  return html;
+}
+
+function toggleNode(id) {
+  const node = document.getElementById(id);
+  const tc = document.getElementById(`${id}-tc`);
+  if (!node || !tc) return;
+  node.classList.toggle('expanded');
+  tc.classList.toggle('vis');
+}
+
+function collectLeaves(tree) {
+  if (tree.isLeaf) return [tree.compound];
+  const result = [];
+  for (const route of (tree.routes || [])) {
+    for (const rt of (route.reagentTrees || [])) {
+      result.push(...collectLeaves(rt));
+    }
+  }
+  return [...new Set(result)];
+}
+
+// ============================================================
+// ГОЛОВНА ФУНКЦІЯ ПОШУКУ
+// ============================================================
+async function doSearch() {
+  const raw = document.getElementById('syn-input').value.trim();
+  if (!raw) {
+    showError('Введіть формулу хімічної сполуки');
+    return;
+  }
+
+  hideError();
+  document.getElementById('results-area').innerHTML = '';
+  document.getElementById('results-area').classList.remove('vis');
+  document.getElementById('syn-loading').classList.add('vis');
+
+  try {
+    await loadDB();
+  } catch(e) {
+    document.getElementById('syn-loading').classList.remove('vis');
+    showError('Помилка завантаження бази реакцій. Перевірте, що reactions.json доступний.');
+    return;
+  }
+
+  document.getElementById('syn-loading').classList.remove('vis');
+
+  // Нормалізація введення
+  const compound = raw.trim();
+  nodeCounter = 0;
+
+  if (currentMode === 'synth') {
+    renderMode1(compound);
+  } else {
+    renderMode2(compound);
+  }
+}
+
+// Preload DB in background
+window.addEventListener('load', () => {
+  setTimeout(() => loadDB().catch(() => {}), 500);
+});
+</script>
+</body>
+</html>

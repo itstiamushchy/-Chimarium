@@ -962,6 +962,7 @@ select{color-scheme:dark}select option{background:#111224;color:#ffffff}
   <div class="nav-mobile-section-label">Інше</div>
   <button class="nav-mobile-item" onclick="showPanel('test');closeMobileNav()">🎯 Тренажер</button>
   <button class="nav-mobile-item" onclick="showPanel('favorites');closeMobileNav()">⭐ Обрані</button>
+  <a class="nav-mobile-item" href="synthesis.html" style="text-decoration:none;display:block;width:100%;text-align:left">⚗️ Хімічний синтез</a>
 </div>
 
 <!-- NAV -->
@@ -994,6 +995,8 @@ select{color-scheme:dark}select option{background:#111224;color:#ffffff}
   <button class="nav-btn" id="nav-test-btn" onclick="showPanel('test');closeGroups()">🎯 Тренажер</button>
   <div class="nav-divider"></div>
   <button class="nav-btn" onclick="showPanel('favorites');closeGroups()">⭐ Обрані</button>
+  <div class="nav-divider"></div>
+  <a class="nav-btn" href="synthesis.html" style="text-decoration:none">⚗️ Хімічний синтез</a>
   <div class="gsearch-wrap">
     <button class="gsearch-btn" onclick="openGSearch()" title="Глобальний пошук (/)">
       🔍 Пошук <span class="gsearch-shortcut">/</span>
@@ -1094,7 +1097,7 @@ select{color-scheme:dark}select option{background:#111224;color:#ffffff}
   <div class="panel" id="panel-reactions">
     <div class="sec-title">⚗️ База реакцій · <span id="rx-total">—</span> рівняння</div>
     <div class="rx-toolbar">
-      <input class="rx-search" id="rx-search" type="text" placeholder="Пошук рівняння... (Zn + HCl, CaCO3...)" oninput="renderReactions()">
+      <input class="rx-search" id="rx-search" type="text" placeholder="Пошук рівняння... (Zn + HCl, CaCO3...)" oninput="clearTimeout(_rxSearchTimer);_rxSearchTimer=setTimeout(renderReactions,180)">
       <span class="rx-count">Показано <b id="rx-count">—</b></span>
     </div>
     <div class="rx-cats" id="rx-cats"></div>
@@ -7371,17 +7374,20 @@ function rxClearFilters(){
   const rc=document.getElementById('rx-clear');if(rc)rc.style.display='none';
   renderReactions();
 }
-function renderReactions() {
-  if (!window._RX_DATA) { renderReactionsInline(); return; }
+// ======= VIRTUAL SCROLL ENGINE =======
+const RX_PAGE_SIZE = 50;
+let _rxObserver = null;
+let _rxBatch = [];
+let _rxBatchIndex = 0;
+let _rxSearchTimer = null;
+
+function _rxFlattenFiltered(data) {
   const q = (document.getElementById('rx-search').value || '').toLowerCase().replace(/\s/g,'');
   const qRaw = (document.getElementById('rx-search').value || '').toLowerCase();
-  const data = window._RX_DATA;
-
-  // If filter is active, build a virtual section list from filtered flat results
   const hasFilter = window._RX_FILTERED && document.querySelectorAll('#rx-filter-panel .rx-fbtn.active').length > 0;
-  let filtered;
+  let catList;
+
   if (hasFilter) {
-    // Group filtered reactions back by section
     const bySection = {};
     window._RX_FILTERED.forEach(r => {
       const sid = r._section || 'unknown';
@@ -7391,73 +7397,122 @@ function renderReactions() {
       }
       bySection[sid].subsections[0].reactions.push(r);
     });
-    filtered = Object.values(bySection).filter(cat => rxCurCat === 'all' || cat.id === rxCurCat);
+    catList = Object.values(bySection).filter(cat => rxCurCat === 'all' || cat.id === rxCurCat);
   } else {
-    filtered = data.filter(cat => rxCurCat === 'all' || cat.id === rxCurCat);
+    catList = data.filter(cat => rxCurCat === 'all' || cat.id === rxCurCat);
   }
-  let total = 0, html = '';
 
-  for (const cat of filtered) {
-    const catColor = cat.color || '#4FC3F7';
-    const catLabel = cat.label || cat.id;
-    const catIcon = cat.icon || '⚗️';
-    const catType = cat.type || '';
-    let sectionCards = '';
-    let sectionCount = 0;
-
+  const items = [];
+  for (const cat of catList) {
+    let catFirst = true;
     for (const sec of cat.subsections) {
       const rxs = sec.reactions.filter(r => !q ||
         r.eq.toLowerCase().replace(/\s/g,'').includes(q) ||
         (r.name||'').toLowerCase().includes(qRaw) ||
         (r.conditions||'').toLowerCase().includes(qRaw)
       );
-      if (!rxs.length) continue;
-      sectionCount += rxs.length;
-      total += rxs.length;
+      for (const r of rxs) {
+        items.push({ cat, r, catFirst });
+        catFirst = false;
+      }
+    }
+  }
+  return items;
+}
 
-      sectionCards += rxs.map(r => {
-        // eq → роль expr
-        const eqFmt = formatRxEq(r.eq);
-        // name → роль name (якщо є), інакше порожньо
-        const nameHtml = r.name ? `<div class="rx-card-name">${r.name}</div>` : '';
-        // conditions + type → роль desc
-        const descParts = [];
-        if (r.conditions) descParts.push(`⚙️ ${r.conditions}`);
-        if (r.type === 'exo') descParts.push('<span style="color:#FF5252">▼ екзотермічна</span>');
-        if (r.type === 'endo') descParts.push('<span style="color:#4FC3F7">▲ ендотермічна</span>');
-        const descHtml = descParts.length ? `<div class="rx-card-desc">${descParts.join(' · ')}</div>` : '';
-        // products_desc → роль example
-        const exHtml = r.products_desc ? `<div class="rx-card-example">${r.products_desc}</div>` : '';
-        // флаги
-        const revTag = r.reversible ? `<span class="rx-card-rev">⇌ оборотна</span>` : '';
-        const dangerTag = r.danger ? `<span class="rx-card-danger">⚠️ небезпечна</span>` : '';
-        const cardClass = ['rx-card', r.reversible?'rev':'', r.danger?'danger-rx':''].filter(Boolean).join(' ');
-        const eqSafe = r.eq.replace(/'/g,"\\'");
-        return `<div class="${cardClass}" style="--rx-color:${catColor}" onclick="rxClick('${eqSafe}',${r.danger})">
-          <div class="rx-card-badge">
-            <span class="rx-card-cat">${catIcon} ${catLabel}</span>
-            ${revTag}${dangerTag}
-          </div>
-          <div class="rx-card-eq">${eqFmt}</div>
-          ${nameHtml}${descHtml}${exHtml}
+function _rxBuildCard(cat, r) {
+  const catColor = cat.color || '#4FC3F7';
+  const catLabel = cat.label || cat.id;
+  const catIcon = cat.icon || '⚗️';
+  const eqFmt = formatRxEq(r.eq);
+  const nameHtml = r.name ? `<div class="rx-card-name">${r.name}</div>` : '';
+  const descParts = [];
+  if (r.conditions) descParts.push(`⚙️ ${r.conditions}`);
+  if (r.type === 'exo') descParts.push('<span style="color:#FF5252">▼ екзотермічна</span>');
+  if (r.type === 'endo') descParts.push('<span style="color:#4FC3F7">▲ ендотермічна</span>');
+  const descHtml = descParts.length ? `<div class="rx-card-desc">${descParts.join(' · ')}</div>` : '';
+  const exHtml = r.products_desc ? `<div class="rx-card-example">${r.products_desc}</div>` : '';
+  const revTag = r.reversible ? `<span class="rx-card-rev">⇌ оборотна</span>` : '';
+  const dangerTag = r.danger ? `<span class="rx-card-danger">⚠️ небезпечна</span>` : '';
+  const cardClass = ['rx-card', r.reversible?'rev':'', r.danger?'danger-rx':''].filter(Boolean).join(' ');
+  const eqSafe = r.eq.replace(/'/g,"\\'");
+  return `<div class="${cardClass}" style="--rx-color:${catColor}" onclick="rxClick('${eqSafe}',${r.danger})">
+    <div class="rx-card-badge">
+      <span class="rx-card-cat">${catIcon} ${catLabel}</span>
+      ${revTag}${dangerTag}
+    </div>
+    <div class="rx-card-eq">${eqFmt}</div>
+    ${nameHtml}${descHtml}${exHtml}
+  </div>`;
+}
+
+function _rxAppendNextBatch() {
+  if (_rxBatchIndex >= _rxBatch.length) return;
+  const wrap = document.getElementById('rx-list-wrap');
+  const sentinel = document.getElementById('rx-sentinel');
+  if (!wrap || !sentinel) return;
+
+  const chunk = _rxBatch.slice(_rxBatchIndex, _rxBatchIndex + RX_PAGE_SIZE);
+  _rxBatchIndex += RX_PAGE_SIZE;
+
+  let html = '';
+  let currentCatId = null;
+  let gridBuf = '';
+
+  for (const {cat, r, catFirst} of chunk) {
+    if (cat.id !== currentCatId) {
+      if (gridBuf) html += `<div class="rx-grid">${gridBuf}</div>`;
+      gridBuf = '';
+      currentCatId = cat.id;
+      if (rxCurCat === 'all' && catFirst) {
+        html += `<div class="rx-section-label" style="border-left:3px solid ${cat.color}">
+          <span>${cat.icon} ${cat.label} · <span style="opacity:.6">${cat.type||''}</span></span>
+          <span style="color:#7080b8">${_rxBatch.filter(x=>x.cat.id===cat.id).length}</span>
         </div>`;
-      }).join('');
+      }
     }
+    gridBuf += _rxBuildCard(cat, r);
+  }
+  if (gridBuf) html += `<div class="rx-grid">${gridBuf}</div>`;
 
-  if (!sectionCards) continue;
-    // Заголовок секції (лише якщо є картки і фільтр "Усі")
-    if (rxCurCat === 'all') {
-      html += `<div class="rx-section-label" style="border-left:3px solid ${catColor}">
-        <span>${catIcon} ${catLabel} · <span style="opacity:.6">${catType}</span></span>
-        <span style="color:#7080b8">${sectionCount}</span>
-      </div>`;
-    }
-    html += `<div class="rx-grid">${sectionCards}</div>`;
+  const frag = document.createElement('div');
+  frag.innerHTML = html;
+  wrap.insertBefore(frag, sentinel);
+
+  if (_rxBatchIndex >= _rxBatch.length) {
+    sentinel.style.display = 'none';
+    if (_rxObserver) { _rxObserver.disconnect(); _rxObserver = null; }
+  }
+  setTimeout(injectFavReactions, 0);
+}
+
+function renderReactions() {
+  if (!window._RX_DATA) { renderReactionsInline(); return; }
+
+  if (_rxObserver) { _rxObserver.disconnect(); _rxObserver = null; }
+
+  _rxBatch = _rxFlattenFiltered(window._RX_DATA);
+  _rxBatchIndex = 0;
+
+  document.getElementById('rx-count').textContent = _rxBatch.length;
+  const wrap = document.getElementById('rx-list-wrap');
+
+  if (!_rxBatch.length) {
+    wrap.innerHTML = '<div style="text-align:center;padding:40px;color:#90a0cc;font-size:12px">Нічого не знайдено</div>';
+    return;
   }
 
-  document.getElementById('rx-count').textContent = total;
-  document.getElementById('rx-list-wrap').innerHTML = html || '<div style="text-align:center;padding:40px;color:#90a0cc;font-size:12px">Нічого не знайдено</div>';
-  setTimeout(injectFavReactions, 0);
+  wrap.innerHTML = '<div id="rx-sentinel" style="height:40px;text-align:center;color:#7080b8;font-size:11px;padding-top:10px;font-family:\'Oxanium\',monospace;letter-spacing:1px">↓ завантаження...</div>';
+
+  _rxAppendNextBatch();
+
+  const sentinel = document.getElementById('rx-sentinel');
+  if (sentinel && _rxBatchIndex < _rxBatch.length) {
+    _rxObserver = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting) _rxAppendNextBatch();
+    }, { rootMargin: '300px' });
+    _rxObserver.observe(sentinel);
+  }
 }
 
 function renderReactionsInline() {
@@ -7545,67 +7600,162 @@ fetch('reactions_tagged.json').then(r=>r.json()).then(d=>{
 const GLOSSARY_DATA = [
   {term:"Атом",category:"basics",catLabel:"Основи",def:"Найменша хімічно неподільна частинка елемента, що складається з ядра (протони + нейтрони) і електронних оболонок. Розмір атома ~0.1 нм.",tip:"Число протонів = атомний номер = число електронів у нейтрального атома"},
   {term:"Молекула",category:"basics",catLabel:"Основи",def:"Найменша частинка речовини, що зберігає її хімічні властивості. Утворюється з двох або більше атомів, з'єднаних хімічними зв'язками.",tip:"H₂O — молекула з 2 атомів H і 1 атома O; молярна маса = 18 г/моль"},
-  {term:"Моль",category:"basics",catLabel:"Основи",def:"Одиниця кількості речовини в СІ. 1 моль = 6.022×10²³ частинок (число Авогадро). Молярна маса речовини в г/моль чисельно рівна відносній молекулярній масі.",tip:"1 моль H₂O = 18 г; 1 моль NaCl = 58.44 г; 1 моль газу при НУ = 22.4 л"},
-  {term:"Молярна маса",category:"basics",catLabel:"Основи",def:"Маса одного моля речовини, виражена в грамах на моль (г/моль). M = m/n. Дорівнює сумі атомних мас всіх атомів у формулі.",tip:"M(H₂SO₄) = 2×1 + 32 + 4×16 = 98 г/моль"},
-  {term:"Число Авогадро",category:"basics",catLabel:"Основи",def:"NA = 6.022×10²³ моль⁻¹. Кількість частинок в одному молі будь-якої речовини. Одна з фундаментальних констант хімії.",tip:"У 18 г води (1 моль) міститься 6.022×10²³ молекул H₂O"},
-  {term:"Валентність",category:"bonding",catLabel:"Хімічний зв'язок",def:"Число хімічних зв'язків, що утворює атом. Позначається римськими цифрами: I, II, III...",tip:"H завжди I; O зазвичай II; C зазвичай IV; N зазвичай III або V"},
-  {term:"Ступінь окиснення",category:"bonding",catLabel:"Хімічний зв'язок",def:"Умовний заряд атома в сполуці, якби всі зв'язки були іонними. Позначається арабськими цифрами зі знаком: +2, −1, 0.",tip:"Сума ступенів окиснення в нейтральній молекулі = 0; в іоні = заряд іона"},
-  {term:"Електронегативність",category:"bonding",catLabel:"Хімічний зв'язок",def:"Здатність атома притягувати спільні електрони до себе у хімічному зв'язку. Шкала Полінга: F = 3.98 (найвища).",tip:"Різниця ЕН > 1.7 → іонний зв'язок; 0.5–1.7 → полярний ковалентний; < 0.5 → неполярний"},
+  {term:"Моль",category:"basics",catLabel:"Основи",def:"Одиниця кількості речовини в СІ. 1 моль = 6.022×10²³ частинок (число Авогадро). Молярна маса речовини в г/моль чисельно рівна відносній молекулярній масі.",tip:"1 моль H₂O = 18 г; 1 моль NaCl = 58.44 г; 1 моль будь-якого газу при НУ = 22.4 л"},
+  {term:"Молярна маса",category:"basics",catLabel:"Основи",def:"Маса одного моля речовини, виражена в грамах на моль (г/моль). M = m/n. Дорівнює сумі атомних мас всіх атомів у формулі, помножених на їх кількість.",tip:"M(H₂SO₄) = 2×1 + 32 + 4×16 = 98 г/моль"},
+  {term:"Число Авогадро",category:"basics",catLabel:"Основи",def:"NA = 6.022×10²³ моль⁻¹. Кількість частинок в одному молі будь-якої речовини. Одна із фундаментальних констант хімії.",tip:"У 18 г води (1 моль) міститься 6.022×10²³ молекул H₂O"},
+  {term:"Валентність",category:"bonding",catLabel:"Хімічний зв'язок",def:"Число хімічних зв'язків, що утворює атом. Класична валентність визначається числом неспарених електронів або неподілених пар. Позначається римськими цифрами: I, II, III...",tip:"H завжди I; O зазвичай II; C зазвичай IV; N зазвичай III або V"},
+  {term:"Ступінь окиснення",category:"bonding",catLabel:"Хімічний зв'язок",def:"Умовний заряд атома в сполуці, якби всі зв'язки були іонними. Позначається арабськими цифрами зі знаком: +2, −1, 0. Необхідний для складання рівнянь ОВР.",tip:"Сума ступенів окиснення в нейтральній молекулі = 0; в іоні = заряд іона"},
+  {term:"Електронегативність",category:"bonding",catLabel:"Хімічний зв'язок",def:"Здатність атома притягувати спільні електрони до себе у хімічному зв'язку. Шкала Полінга: F = 3.98 (найвища), Cs = 0.79 (найнижча серед металів).",tip:"Різниця ЕН > 1.7 → іонний зв'язок; 0.5–1.7 → полярний ковалентний; < 0.5 → неполярний"},
   {term:"Ковалентний зв'язок",category:"bonding",catLabel:"Хімічний зв'язок",def:"Хімічний зв'язок, утворений спільною парою електронів. Неполярний — між однаковими атомами (H₂, Cl₂). Полярний — між різними (HCl, H₂O).",tip:"Σ-зв'язок — перший між атомами; π-зв'язок — другий і третій (подвійний, потрійний)"},
   {term:"Іонний зв'язок",category:"bonding",catLabel:"Хімічний зв'язок",def:"Хімічний зв'язок між іонами протилежного заряду завдяки електростатичному притяганню. Утворюється між металами і неметалами з великою різницею ЕН.",tip:"NaCl: Na⁺ (віддає е⁻) + Cl⁻ (приймає е⁻). Іонні кристали — тверді і тендітні"},
-  {term:"Водневий зв'язок",category:"bonding",catLabel:"Хімічний зв'язок",def:"Специфічна взаємодія між атомом H, ковалентно зв'язаним з F, O або N, та іншим електронегативним атомом.",tip:"Через водневі зв'язки вода кипить при 100°C замість очікуваних −80°C"},
-  {term:"Іон",category:"bonding",catLabel:"Хімічний зв'язок",def:"Атом або молекула з ненульовим зарядом. Катіон (+ заряд) — при втраті електронів. Аніон (− заряд) — при приєднанні електронів.",tip:"Na → Na⁺ + e⁻; Cl + e⁻ → Cl⁻"},
-  {term:"Окиснення",category:"redox",catLabel:"ОВР",def:"Процес відщеплення електронів. Ступінь окиснення елемента підвищується. Речовина, що окиснюється, є відновником.",tip:"Fe → Fe²⁺ + 2e⁻ (залізо окиснюється)"},
-  {term:"Відновлення",category:"redox",catLabel:"ОВР",def:"Процес приєднання електронів. Ступінь окиснення елемента знижується. Речовина, що відновлюється, є окисником.",tip:"Cu²⁺ + 2e⁻ → Cu (купрум відновлюється)"},
-  {term:"Каталізатор",category:"kinetics",catLabel:"Кінетика",def:"Речовина, яка прискорює хімічну реакцію, знижуючи енергію активації, але сама не витрачається в результаті.",tip:"MnO₂ прискорює розклад H₂O₂; Pt/Pd — каталізатори в авто"},
-  {term:"Ферменти",category:"kinetics",catLabel:"Кінетика",def:"Біологічні каталізатори — білки, що прискорюють хімічні реакції в живих організмах у мільярди разів.",tip:"Амілаза (слина) → крохмаль; пепсин (шлунок) → білки"},
-  {term:"Енергія активації",category:"kinetics",catLabel:"Кінетика",def:"Мінімальна кількість енергії, яку повинна мати система для того, щоб реакція відбулася. Позначається Ea (Дж/моль).",tip:"Висока Ea → реакція повільна при кімнатній температурі"},
-  {term:"Хімічна рівновага",category:"equilibrium",catLabel:"Рівновага",def:"Стан оборотної реакції, при якому швидкість прямої реакції рівна швидкості зворотної.",tip:"Принцип Ле Шательє: система протидіє будь-якому зовнішньому впливу"},
-  {term:"Принцип Ле Шательє",category:"equilibrium",catLabel:"Рівновага",def:"Якщо на систему в рівновазі діє зовнішній фактор, рівновага зміщується в напрямку, що протидіє цьому впливу.",tip:"NH₃: N₂ + 3H₂ ⇌ 2NH₃. Підвищення тиску → зсув вправо (менше молів газу)"},
-  {term:"Буферний розчин",category:"acid_base",catLabel:"Кислоти і основи",def:"Система, яка підтримує майже стале значення pH при додаванні малих кількостей кислоти або основи.",tip:"Кров людини (pH 7.35–7.45) утримується бікарбонатним буфером H₂CO₃/HCO₃⁻"},
-  {term:"Дисоціація",category:"acid_base",catLabel:"Кислоти і основи",def:"Розпад речовини на іони у розчині або розплаві. Сильні електроліти дисоціюють повністю (α≈1). Слабкі — частково.",tip:"HCl → H⁺ + Cl⁻ (повна); CH₃COOH ⇌ H⁺ + CH₃COO⁻ (часткова, Ka=1.8×10⁻⁵)"},
-  {term:"Електроліт",category:"acid_base",catLabel:"Кислоти і основи",def:"Речовина, яка у розчині або розплаві проводить електричний струм за рахунок іонів. Сильні: HCl, NaOH, NaCl. Слабкі: CH₃COOH, NH₃.",tip:"Дистильована вода — неелектроліт. Морська вода — добрий провідник"},
-  {term:"Кислота (Бренстед)",category:"acid_base",catLabel:"Кислоти і основи",def:"Донор протона H⁺. Сильна кислота легко віддає протон (HCl, H₂SO₄, HNO₃). Слабка утримує (CH₃COOH, H₂CO₃, HF).",tip:"Сила кислоти: HCl > H₂SO₄ > H₃PO₄ > HF > CH₃COOH > H₂CO₃ > H₂S"},
-  {term:"Основа (Бренстед)",category:"acid_base",catLabel:"Кислоти і основи",def:"Акцептор протона H⁺. Сильна основа охоче приймає протон (NaOH, KOH, Ca(OH)₂). Слабка — менш охоче (NH₃).",tip:"Амфотерні: H₂O, Al(OH)₃ — реагують і з кислотами, і з основами"},
+  {term:"Водневий зв'язок",category:"bonding",catLabel:"Хімічний зв'язок",def:"Специфічна взаємодія між атомом H, ковалентно зв'язаним з F, O або N, та іншим електронегативним атомом. Набагато слабший за ковалентний, але впливає на фізичні властивості.",tip:"Через водневі зв'язки вода кипить при 100°C замість очікуваних −80°C"},
+  {term:"Іон",category:"bonding",catLabel:"Хімічний зв'язок",def:"Атом або молекула з ненульовим зарядом. Катіон (+ заряд) утворюється при втраті електронів. Аніон (− заряд) — при приєднанні електронів.",tip:"Na → Na⁺ + e⁻; Cl + e⁻ → Cl⁻"},
+  {term:"Окиснення",category:"redox",catLabel:"ОВР",def:"Процес відщеплення електронів атомом, іоном або молекулою. Ступінь окиснення елемента підвищується. Речовина, що окиснюється, є відновником.",tip:"Fe → Fe²⁺ + 2e⁻ (залізо окиснюється). Реакція вказує на ОВР: перевіряй ступені окиснення"},
+  {term:"Відновлення",category:"redox",catLabel:"ОВР",def:"Процес приєднання електронів атомом, іоном або молекулою. Ступінь окиснення елемента знижується. Речовина, що відновлюється, є окисником.",tip:"Cu²⁺ + 2e⁻ → Cu (купрум відновлюється). Окисник + е⁻ → відновлений окисник"},
+  {term:"Каталізатор",category:"kinetics",catLabel:"Кінетика",def:"Речовина, яка прискорює хімічну реакцію, знижуючи енергію активації, але сама не витрачається в результаті реакції. Гомогенний — у тій самій фазі. Гетерогенний — в іншій.",tip:"MnO₂ прискорює розклад H₂O₂; Pt/Pd — каталізатори у каталітичних нейтралізаторах авто"},
+  {term:"Ферменти",category:"kinetics",catLabel:"Кінетика",def:"Біологічні каталізатори — білки, що прискорюють хімічні реакції в живих організмах у мільярди разів. Специфічні — кожен фермент каталізує лише одну реакцію.",tip:"Амілаза (слина) → розщеплює крохмаль; пепсин (шлунок) → розщеплює білки"},
+  {term:"Енергія активації",category:"kinetics",catLabel:"Кінетика",def:"Мінімальна кількість енергії, яку повинна мати система для того, щоб реакція відбулася. Позначається Ea (Дж/моль). Каталізатор знижує Ea.",tip:"Висока Ea → реакція повільна при кімнатній температурі, але може бути швидкою при нагріванні"},
+  {term:"Хімічна рівновага",category:"equilibrium",catLabel:"Рівновага",def:"Стан оборотної реакції, при якому швидкість прямої реакції рівна швидкості зворотної. Константа рівноваги K не залежить від концентрацій, але залежить від температури.",tip:"Принцип Ле Шательє: система протидіє будь-якому зовнішньому впливу (зміна T, P, C)"},
+  {term:"Принцип Ле Шательє",category:"equilibrium",catLabel:"Рівновага",def:"Якщо на систему в рівновазі діє зовнішній фактор, рівновага зміщується в напрямку, що протидіє цьому впливу. Застосовується для підвищення виходу продукту.",tip:"Синтез NH₃: N₂ + 3H₂ ⇌ 2NH₃. Підвищення тиску → зсув вправо (менше молів газу)"},
+  {term:"Буферний розчин",category:"acid_base",catLabel:"Кислоти і основи",def:"Система, яка підтримує майже стале значення pH при додаванні малих кількостей кислоти або основи. Містить слабку кислоту + її сіль (або слабку основу + її сіль).",tip:"Кров людини (pH 7.35–7.45) утримується бікарбонатним буфером H₂CO₃/HCO₃⁻"},
+  {term:"Дисоціація",category:"acid_base",catLabel:"Кислоти і основи",def:"Розпад речовини на іони у розчині або розплаві. Сильні електроліти дисоціюють повністю (α≈1). Слабкі — частково (α≪1).",tip:"HCl → H⁺ + Cl⁻ (повна); CH₃COOH ⇌ H⁺ + CH₃COO⁻ (часткова, Ka=1.8×10⁻⁵)"},
+  {term:"Електроліт",category:"acid_base",catLabel:"Кислоти і основи",def:"Речовина, яка у розчині або розплаві проводить електричний струм за рахунок іонів. Сильні: HCl, NaOH, NaCl. Слабкі: CH₃COOH, NH₃, H₂O.",tip:"Дистильована вода — неелектроліт. Морська вода — добрий провідник через іони"},
+  {term:"Кислота (теорія Бренстеда)",category:"acid_base",catLabel:"Кислоти і основи",def:"Донор протона H⁺. Сильна кислота легко віддає протон (HCl, H₂SO₄, HNO₃). Слабка утримує протон (CH₃COOH, H₂CO₃, HF).",tip:"Сила кислоти: HCl > H₂SO₄ > H₃PO₄ > HF > CH₃COOH > H₂CO₃ > H₂S"},
+  {term:"Основа (теорія Бренстеда)",category:"acid_base",catLabel:"Кислоти і основи",def:"Акцептор протона H⁺. Сильна основа охоче приймає протон (NaOH, KOH, Ca(OH)₂). Слабка — менш охоче (NH₃, CH₃COO⁻).",tip:"Амфотерні речовини можуть бути і кислотою, і основою: H₂O, Al(OH)₃, амінокислоти"},
   {term:"Амфотерність",category:"acid_base",catLabel:"Кислоти і основи",def:"Здатність речовини виявляти властивості як кислоти, так і основи залежно від середовища.",tip:"Al(OH)₃ + HCl → AlCl₃ + H₂O (основа); Al(OH)₃ + NaOH → Na[Al(OH)₄] (кислота)"},
-  {term:"Гідроліз",category:"reactions",catLabel:"Реакції",def:"Реакція розкладу речовини водою з утворенням нових сполук. Гідроліз солей змінює pH розчину.",tip:"Сіль слабкої кислоти + сильна основа (Na₂CO₃) → лужне середовище (pH > 7)"},
-  {term:"Нейтралізація",category:"reactions",catLabel:"Реакції",def:"Реакція між кислотою та основою з утворенням солі та води. ΔH < 0 — завжди екзотермічна (~57 кДж/моль).",tip:"Відчуваєш тепло при змішуванні кислоти і лугу — це теплота нейтралізації"},
-  {term:"Осад",category:"reactions",catLabel:"Реакції",def:"Тверда речовина, яка утворюється у розчині і випадає на дно внаслідок хімічної реакції. Позначається ↓.",tip:"BaSO₄ ↓ — білий осад, нерозчинний навіть в HCl. Якісна реакція на SO₄²⁻ і Ba²⁺"},
-  {term:"Реакція сполучення",category:"reactions",catLabel:"Реакції",def:"Реакція, при якій з двох або більше речовин утворюється одна нова. A + B → AB.",tip:"2Mg + O₂ → 2MgO; CaO + H₂O → Ca(OH)₂; SO₃ + H₂O → H₂SO₄"},
+  {term:"Гідроліз",category:"reactions",catLabel:"Реакції",def:"Реакція розкладу речовини водою з утворенням нових сполук. Гідроліз солей — взаємодія іонів солі з водою, що призводить до зміни pH розчину.",tip:"Сіль слабкої кислоти і сильної основи (Na₂CO₃) → лужне середовище (pH > 7)"},
+  {term:"Нейтралізація",category:"reactions",catLabel:"Реакції",def:"Реакція між кислотою та основою з утворенням солі та (зазвичай) води. HCl + NaOH → NaCl + H₂O. ΔH < 0 — реакція завжди екзотермічна.",tip:"Відчуваєш тепло при змішуванні кислоти і луги — це і є теплота нейтралізації (~57 кДж/моль)"},
+  {term:"Осад",category:"reactions",catLabel:"Реакції",def:"Тверда речовина, яка утворюється у розчині і випадає на дно внаслідок хімічної реакції. Умова утворення осаду: ДМ (добуток молярних концентрацій іонів) > ДР (добуток розчинності).",tip:"BaSO₄ ↓ — білий осад, нерозчинний навіть в HCl. Якісна реакція на SO₄²⁻ і Ba²⁺"},
+  {term:"Реакція сполучення",category:"reactions",catLabel:"Реакції",def:"Реакція, при якій з двох або більше простих речовин або сполук утворюється одна нова речовина. A + B → AB.",tip:"2Mg + O₂ → 2MgO; CaO + H₂O → Ca(OH)₂; SO₃ + H₂O → H₂SO₄"},
   {term:"Реакція розкладу",category:"reactions",catLabel:"Реакції",def:"Реакція, при якій одна речовина розпадається на дві або більше простіших. AB → A + B.",tip:"CaCO₃ → CaO + CO₂ (при 900°C); 2H₂O₂ → 2H₂O + O₂ (каталізатор MnO₂)"},
-  {term:"Реакція заміщення",category:"reactions",catLabel:"Реакції",def:"Реакція, при якій активніший елемент витісняє менш активний зі складної речовини. A + BC → AC + B.",tip:"Fe + CuSO₄ → FeSO₄ + Cu ↓ (Fe активніший за Cu у ряду активності)"},
-  {term:"Реакція обміну",category:"reactions",catLabel:"Реакції",def:"Реакція між двома складними речовинами, при якій вони обмінюються складовими. AB + CD → AD + CB.",tip:"Стрілка вниз ↓ = осад; стрілка вгору ↑ = газ; ⇌ = оборотна реакція"},
-  {term:"Ентальпія",category:"thermo",catLabel:"Термохімія",def:"Термодинамічна функція, що характеризує теплоємність системи при сталому тиску. ΔH < 0 — теплота виділяється.",tip:"Спалювання метану: CH₄ + 2O₂ → CO₂ + 2H₂O, ΔH = −890 кДж/моль"},
-  {term:"Ентропія",category:"thermo",catLabel:"Термохімія",def:"Міра невпорядкованості (хаосу) системи. Позначається S (Дж/(моль·К)). При самовільних процесах ентропія Всесвіту зростає.",tip:"Розчинення кристалів: ΔS > 0. Конденсація газу: ΔS < 0"},
-  {term:"Енергія Гіббса",category:"thermo",catLabel:"Термохімія",def:"ΔG = ΔH − TΔS. Критерій самовільності процесу. ΔG < 0 → самовільна; ΔG > 0 → несамовільна; ΔG = 0 → рівновага.",tip:"Реакція горіння: ΔH < 0, ΔS > 0 → ΔG < 0 завжди → самовільна при будь-якій T"},
-  {term:"Ізотопи",category:"nuclear",catLabel:"Ядерна хімія",def:"Атоми одного елемента з однаковим числом протонів, але різним числом нейтронів. Однакові хімічні, різні ядерні властивості.",tip:"¹H, ²H (дейтерій), ³H (тритій) — ізотопи водню. ²³⁵U та ²³⁸U — ізотопи урану"},
-  {term:"Радіоактивність",category:"nuclear",catLabel:"Ядерна хімія",def:"Мимовільний розпад нестійких ядер з випромінюванням α-, β-, γ-часток. Характеризується T½ — часом напіврозпаду.",tip:"T½(¹⁴C) = 5730 років — основа радіовуглецевого датування"},
-  {term:"Кристалічна гратка",category:"structure",catLabel:"Структура",def:"Правильне просторове розташування частинок у кристалі. Типи: іонна (NaCl), атомна (алмаз), молекулярна (лід), металева.",tip:"Атомна гратка (алмаз, кварц) → найміцніші речовини з найвищою T плавлення"},
-  {term:"Алотропія",category:"structure",catLabel:"Структура",def:"Існування одного елемента у вигляді кількох різних простих речовин з різною будовою і властивостями.",tip:"Вуглець: алмаз (тверда гратка), графіт (шарувата), фулерен C₆₀ (кулеподібна)"},
-  {term:"Молярна концентрація",category:"solution",catLabel:"Розчини",def:"C (моль/л або М) — кількість молів розчиненої речовини в 1 літрі розчину. C = n/V.",tip:"1 M HCl = 1 моль HCl у 1 л розчину. Не плутати з 1 г/л!"},
-  {term:"Масова частка",category:"solution",catLabel:"Розчини",def:"ω (%) — відношення маси розчиненої речовини до загальної маси розчину. ω = m(реч.)/m(розч.)×100%.",tip:"Оцет 9% = 9 г CH₃COOH на 100 г розчину"},
-  {term:"Осмос",category:"solution",catLabel:"Розчини",def:"Самовільний перенос розчинника через напівпроникну мембрану з менш концентрованого розчину до більш концентрованого.",tip:"Клітини в гіпотонічному розчині (< 0.9% NaCl) набухають. У гіпертонічному — зморщуються"},
-  {term:"Електроліз",category:"electro",catLabel:"Електрохімія",def:"Окисно-відновний процес на електродах під дією зовнішнього струму. На катоді — відновлення, на аноді — окиснення.",tip:"Електроліз CuSO₄: катод Cu²⁺+2e⁻→Cu; анод 2H₂O→O₂+4H⁺+4e⁻"},
-  {term:"Гальванічний елемент",category:"electro",catLabel:"Електрохімія",def:"Пристрій, що перетворює хімічну енергію ОВР у електричну. Складається з двох електродів і електролітів.",tip:"Елемент Даніеля: Zn/ZnSO₄//CuSO₄/Cu. E° = 1.10 В"},
-  {term:"Стандартний електродний потенціал",category:"electro",catLabel:"Електрохімія",def:"E° — потенціал електрода відносно стандартного водневого електрода (E°=0.000 В) при стандартних умовах.",tip:"E°(Zn²⁺/Zn) = −0.76 В; E°(Cu²⁺/Cu) = +0.34 В; E°(F₂/F⁻) = +2.87 В"},
-  {term:"Комплексна сполука",category:"complex",catLabel:"Комплекси",def:"Сполука з центральним атомом і лігандами навколо нього. Записується у квадратних дужках: [MLn].",tip:"[Cu(NH₃)₄]SO₄ — тетраамінокупрум(II) сульфат; синій колір у розчині"},
-  {term:"Ліганд",category:"complex",catLabel:"Комплекси",def:"Молекула або іон, що координується навколо центрального атома у комплексній сполуці. Має донорні атоми.",tip:"NH₃, H₂O, CN⁻, Cl⁻, OH⁻ — типові ліганди. CN⁻ — дуже токсичний ліганд!"},
-  {term:"Полімер",category:"organic",catLabel:"Органіка",def:"Речовина з великою молекулярною масою, що складається з ланок, що повторюються (мономерів).",tip:"Поліетилен (−CH₂−CH₂−)n: мономер C₂H₄. Тефлон (−CF₂−CF₂−)n: мономер C₂F₄"},
-  {term:"Ізомерія",category:"organic",catLabel:"Органіка",def:"Явище існування сполук з однаковою молекулярною формулою, але різною будовою або просторовим розташуванням.",tip:"C₄H₁₀: н-бутан (прямий ланцюг) та ізобутан (розгалужений) — структурні ізомери"},
-  {term:"Гомологічний ряд",category:"organic",catLabel:"Органіка",def:"Ряд органічних речовин, в якому кожен наступний відрізняється від попереднього на групу CH₂.",tip:"Алкани: CH₄, C₂H₆, C₃H₈... Загальна формула CₙH₂ₙ₊₂"},
-  {term:"Функціональна група",category:"organic",catLabel:"Органіка",def:"Атом або група атомів, що визначає хімічні властивості органічної сполуки і належність до класу.",tip:"−OH (спирт), −COOH (кислота), −CHO (альдегід), −NH₂ (амін), =CO (кетон)"},
-  {term:"Реакція естерифікації",category:"organic",catLabel:"Органіка",def:"Оборотна реакція між кислотою і спиртом з утворенням естеру і води. Каталізатор — H₂SO₄ (конц.).",tip:"CH₃COOH + C₂H₅OH ⇌ CH₃COOC₂H₅ + H₂O (етилацетат, запах клею)"},
-  {term:"Мило",category:"organic",catLabel:"Органіка",def:"Натрієва або калієва сіль вищої жирної кислоти. Утворюється при реакції жирів з лугом (реакція омилення).",tip:"Стеарат натрію C₁₇H₃₅COONa — тверде мило. pH мила ~9–10 (лужне)"},
-  {term:"Гідрогенізація",category:"organic",catLabel:"Органіка",def:"Реакція приєднання водню до ненасичених органічних сполук у присутності каталізатора (Ni, Pt, Pd).",tip:"Маргарин — гідрогенізація рослинних олій: C=C + H₂ → C−C"},
-  {term:"Глюкоза",category:"biochem",catLabel:"Біохімія",def:"Моносахарид C₆H₁₂O₆. Відновлює Cu(OH)₂ до Cu₂O (реакція Фелінга) і AgNO₃/NH₃ (срібне дзеркало).",tip:"C₆H₁₂O₆ + 6O₂ → 6CO₂ + 6H₂O + 2870 кДж (клітинне дихання)"},
-  {term:"Крохмаль",category:"biochem",catLabel:"Біохімія",def:"Полісахарид (C₆H₁₀O₅)n. Гідролізується до глюкози. Синіє у присутності I₂ — якісна реакція.",tip:"Крохмаль + I₂ → синє забарвлення. (C₆H₁₀O₅)n + nH₂O → nC₆H₁₂O₆"},
-  {term:"Білок",category:"biochem",catLabel:"Біохімія",def:"Природний полімер з амінокислотних залишків, з'єднаних пептидними зв'язками −CO−NH−.",tip:"Денатурація — руйнування просторової структури білка (нагрів, кислоти, луги)"},
-  {term:"Амінокислота",category:"biochem",catLabel:"Біохімія",def:"Органічна сполука, що містить −NH₂ і −COOH. 20 стандартних α-амінокислот є мономерами білків.",tip:"Гліцин: H₂N−CH₂−COOH — найпростіша амінокислота"},
-  {term:"Якісна реакція",category:"analytics",catLabel:"Аналіз",def:"Характерна хімічна реакція для виявлення певного іона, елемента або функціональної групи. Видимий ефект: осад, газ, колір.",tip:"Ag⁺+Cl⁻→AgCl↓ (білий); Ba²⁺+SO₄²⁻→BaSO₄↓; Fe³⁺+SCN⁻→[FeSCN]²⁺ (червоний)"},
-  {term:"Титрування",category:"analytics",catLabel:"Аналіз",def:"Метод кількісного аналізу: до аналіту поступово додають стандартний розчин (тітрант) до точки еквівалентності.",tip:"Кислотно-основне: HCl + NaOH → NaCl + H₂O. Індикатор — фенолфталеїн"},
-  {term:"Денатурація",category:"biochem",catLabel:"Біохімія",def:"Руйнування вторинної, третинної або четвертинної структури білка без розриву пептидних зв'язків.",tip:"Варіння яйця — денатурація альбуміну. Зворотна лише у деяких білків"},
-  {term:"Константа дисоціації",category:"acid_base",catLabel:"Кислоти і основи",def:"Ka або Kb — міра сили кислоти або основи. Чим більше Ka, тим сильніша кислота (більша ступінь дисоціації).",tip:"Ka(HF) = 6.8×10⁻⁴; Ka(CH₃COOH) = 1.8×10⁻⁵; Ka(H₂CO₃) = 4.3×10⁻⁷"},
-  {term:"Окисно-відновна реакція (ОВР)",category:"redox",catLabel:"ОВР",def:"Реакція, при якій відбувається перенесення електронів від відновника до окисника. Ступінь окиснення елементів змінюється.",tip:"Алгоритм: (1) визнач ступені окиснення; (2) склади напівреакції; (3) зрівняй електрони"}
+  {term:"Реакція заміщення",category:"reactions",catLabel:"Реакції",def:"Реакція, при якій атоми простої речовини заміщують атоми елемента зі складної. A + BC → AC + B. Активніший метал витісняє менш активний.",tip:"Fe + CuSO₄ → FeSO₄ + Cu ↓ (Fe активніший за Cu у ряду активності)"},
+  {term:"Реакція обміну",category:"reactions",catLabel:"Реакції",def:"Реакція між двома складними речовинами, при якій вони обмінюються складовими частинами. AB + CD → AD + CB. Йде до кінця, якщо утворюється осад, газ або слабкий електроліт.",tip:"NaCl + AgNO₃ → AgCl↓ + NaNO₃. Стрілка вниз ↓ = осад; стрілка вгору ↑ = газ"},
+  {term:"Ентальпія",category:"thermo",catLabel:"Термохімія",def:"Термодинамічна функція стану, що характеризує теплоємність системи при сталому тиску. ΔH < 0 — теплота виділяється (екзотермія), ΔH > 0 — поглинається (ендотермія).",tip:"Одиниці: кДж/моль. Спалювання метану: CH₄ + 2O₂ → CO₂ + 2H₂O, ΔH = −890 кДж/моль"},
+  {term:"Ентропія",category:"thermo",catLabel:"Термохімія",def:"Міра невпорядкованості (хаосу) системи. Позначається S (Дж/(моль·К)). При самовільних процесах ентропія Всесвіту зростає (2-й закон термодинаміки).",tip:"Розчинення кристалів: ΔS > 0 (хаос зростає). Конденсація газу: ΔS < 0"},
+  {term:"Енергія Гіббса",category:"thermo",catLabel:"Термохімія",def:"ΔG = ΔH − TΔS. Критерій самовільності процесу при сталих T і P. ΔG < 0 → реакція самовільна; ΔG > 0 → несамовільна; ΔG = 0 → рівновага.",tip:"Реакція горіння: ΔH < 0, ΔS > 0 → ΔG < 0 завжди → горіння самовільне при будь-якій T"},
+  {term:"Ізотопи",category:"nuclear",catLabel:"Ядерна хімія",def:"Атоми одного хімічного елемента з однаковим числом протонів, але різним числом нейтронів. Мають однакові хімічні, але різні ядерні властивості.",tip:"¹H, ²H (дейтерій), ³H (тритій) — ізотопи водню. ²³⁵U та ²³⁸U — ізотопи урану"},
+  {term:"Радіоактивність",category:"nuclear",catLabel:"Ядерна хімія",def:"Мимовільний розпад нестійких ядер з випромінюванням α-, β-, γ-часток. α — ядро He-4; β − — електрон; β⁺ — позитрон; γ — фотон. Характеризується періодом напіврозпаду T½.",tip:"T½(¹⁴C) = 5730 років — основа радіовуглецевого датування"},
+  {term:"Кристалічна гратка",category:"structure",catLabel:"Структура речовини",def:"Правильне просторове розташування частинок (атомів, іонів, молекул) у кристалі. Типи: іонна (NaCl), атомна (алмаз), молекулярна (лід), металева.",tip:"Атомна кристалічна гратка (алмаз, кварц) → найміцніші речовини з найвищою T плавлення"},
+  {term:"Алотропія",category:"structure",catLabel:"Структура речовини",def:"Існування одного хімічного елемента у вигляді кількох різних простих речовин (алотропних модифікацій), що відрізняються будовою і властивостями.",tip:"Вуглець: алмаз (тверда кристалічна гратка), графіт (шарувата), фулерен C₆₀ (кулеподібна)"},
+  {term:"Молярна концентрація",category:"solution",catLabel:"Розчини",def:"C (моль/л або М) — кількість молів розчиненої речовини в 1 літрі розчину. C = n/V. Найпоширеніша одиниця концентрації в хімії.",tip:"1 M HCl = 1 моль HCl у 1 л розчину. Не плутати з 1 М HCl (1 г HCl у 1 л!)"},
+  {term:"Масова частка",category:"solution",catLabel:"Розчини",def:"ω (%) — відношення маси розчиненої речовини до загальної маси розчину, виражене у відсотках. ω = m(реч.)/m(розч.)×100%.",tip:"Оцет 9% = 9 г CH₃COOH на 100 г розчину. Пов'язана з молярністю: C = ω·ρ·10/M"},
+  {term:"Осмос",category:"solution",catLabel:"Розчини",def:"Самовільний односторонній дифузійний перенос розчинника через напівпроникну мембрану з менш концентрованого розчину до більш концентрованого.",tip:"Клітини в гіпотонічному розчині (< 0.9% NaCl) набухають. У гіпертонічному — зморщуються"},
+  {term:"Електролі́з",category:"electro",catLabel:"Електрохімія",def:"Окисно-відновний процес, що відбувається на електродах під дією зовнішнього електричного струму. На катоді — відновлення, на аноді — окиснення.",tip:"Електроліз CuSO₄: катод Cu²⁺+2e⁻→Cu; анод 2H₂O→O₂+4H⁺+4e⁻"},
+  {term:"Гальванічний елемент",category:"electro",catLabel:"Електрохімія",def:"Пристрій, що перетворює хімічну енергію ОВР у електричну. Складається з двох електродів (катод і анод), занурених у електроліти, з'єднані між собою.",tip:"Елемент Даніеля: Zn/ZnSO₄//CuSO₄/Cu. E°=+0.34−(−0.76)=1.10 В"},
+  {term:"Стандартний електродний потенціал",category:"electro",catLabel:"Електрохімія",def:"E° — потенціал електрода відносно стандартного водневого електрода (E°=0.000 В) за стандартних умов (25°C, 1 атм, 1 М). Характеризує здатність до окиснення/відновлення.",tip:"E°(Zn²⁺/Zn) = −0.76 В; E°(Cu²⁺/Cu) = +0.34 В; E°(F₂/F⁻) = +2.87 В"},
+  {term:"Комплексна сполука",category:"complex",catLabel:"Комплексні сполуки",def:"Сполука, у якій є центральний атом (комплексоутворювач) і координовані навколо нього ліганди (нейтральні молекули або аніони). Записується у квадратних дужках.",tip:"[Cu(NH₃)₄]SO₄ — тетраамінокупрум(II) сульфат; синій колір розчину характерний для цього комплексу"},
+  {term:"Ліганд",category:"complex",catLabel:"Комплексні сполуки",def:"Молекула або іон, що координується навколо центрального атома у комплексній сполуці. Має донорні атоми з неподіленими парами електронів.",tip:"NH₃, H₂O, CN⁻, Cl⁻, OH⁻ — типові ліганди. CN⁻ — дуже токсичний ліганд!"},
+  {term:"Координаційне число",category:"complex",catLabel:"Комплексні сполуки",def:"Число донорних атомів лігандів, що безпосередньо координуються навколо центрального атома в комплексній сполуці.",tip:"[Fe(CN)₆]³⁻: КЧ(Fe) = 6; [Ag(NH₃)₂]⁺: КЧ(Ag) = 2"},
+  {term:"Полімер",category:"organic",catLabel:"Органічна хімія",def:"Речовина з великою молекулярною масою, що складається з великої кількості ланок, що повторюються (мономерів), з'єднаних між собою ковалентними зв'язками.",tip:"Поліетилен (−CH₂−CH₂−)n: мономер C₂H₄. Тефлон (−CF₂−CF₂−)n: мономер C₂F₄"},
+  {term:"Ізомерія",category:"organic",catLabel:"Органічна хімія",def:"Явище існування сполук з однаковою молекулярною формулою, але різною будовою або просторовим розташуванням атомів (ізомерів).",tip:"C₄H₁₀: н-бутан (прямий ланцюг) та ізобутан (розгалужений) — структурні ізомери"},
+  {term:"Гомологічний ряд",category:"organic",catLabel:"Органічна хімія",def:"Ряд органічних речовин одного класу, в якому кожен наступний член відрізняється від попереднього на групу CH₂ (гомологічну різницю).",tip:"Алкани: CH₄, C₂H₆, C₃H₈... Загальна формула CₙH₂ₙ₊₂"},
+  {term:"Функціональна група",category:"organic",catLabel:"Органічна хімія",def:"Атом або група атомів, що визначає хімічні властивості органічної сполуки і належність до певного класу.",tip:"−OH (спирт/фенол), −COOH (кислота), −CHO (альдегід), −NH₂ (амін), =CO (кетон)"},
+  {term:"Реакція естерифікації",category:"organic",catLabel:"Органічна хімія",def:"Оборотна реакція між кислотою (органічною або неорганічною) і спиртом з утворенням естеру і води. Каталізатор — H₂SO₄ (конц.).",tip:"CH₃COOH + C₂H₅OH ⇌ CH₃COOC₂H₅ + H₂O (етилацетат, запах клею)"},
+  {term:"Мило",category:"organic",catLabel:"Органічна хімія",def:"Натрієва або калієва сіль вищої жирної кислоти. Утворюється при реакції жирів з лугом (реакція омилення). pH мила ~9–10 (лужне).",tip:"Стеарат натрію C₁₇H₃₅COONa — типове тверде мило; стеарат калію — рідке мило"},
+  {term:"Гідрогенізація",category:"organic",catLabel:"Органічна хімія",def:"Реакція приєднання водню до ненасичених органічних сполук (алкенів, алкінів, ароматичних сполук) у присутності каталізатора (Ni, Pt, Pd).",tip:"Маргарин — результат гідрогенізації рослинних олій: C=C + H₂ → C−C"},
+  {term:"Крохмаль",category:"organic",catLabel:"Органічна хімія",def:"Полісахарид (C₆H₁₀O₅)n. Суміш амілози (~20%) і амілопектину (~80%). Гідролізується до глюкози. Синіє у присутності I₂ — якісна реакція.",tip:"Крохмаль + I₂ → синє забарвлення. Перетравлення: (C₆H₁₀O₅)n + nH₂O → nC₆H₁₂O₆"},
+  {term:"Глюкоза",category:"organic",catLabel:"Органічна хімія",def:"Моносахарид C₆H₁₂O₆ — найважливіший вуглевод. Відновлює Cu(OH)₂ до Cu₂O (реакція Фелінга) і аміачний розчин AgNO₃ (реакція срібного дзеркала) — якісні реакції.",tip:"C₆H₁₂O₆ + 6O₂ → 6CO₂ + 6H₂O + 2870 кДж (клітинне дихання)"},
+  {term:"Білок",category:"biochem",catLabel:"Біохімія",def:"Природний полімер, побудований з амінокислотних залишків, з'єднаних пептидними зв'язками −CO−NH−. Первинна, вторинна (α-спіраль, β-лист), третинна і четвертинна структури.",tip:"Денатурація — руйнування просторової структури білка (нагрів, кислоти, луги, солі важких металів)"},
+  {term:"Денатурація",category:"biochem",catLabel:"Біохімія",def:"Руйнування вторинної, третинної або четвертинної структури білка без розриву пептидних зв'язків. Виникає при нагріванні, зміні pH, дії органічних розчинників.",tip:"Варіння яйця — денатурація альбуміну. Зворотна денатурація можлива лише для деяких білків"},
+  {term:"Амінокислота",category:"biochem",catLabel:"Біохімія",def:"Органічна сполука, що містить і аміногрупу −NH₂, і карбоксильну групу −COOH. 20 стандартних α-амінокислот є мономерами білків. Є амфотерними сполуками.",tip:"Гліцин: H₂N−CH₂−COOH — найпростіша амінокислота. pH ізоелектричної точки ~ 6"},
+  {term:"Спектр електромагнітного випромінювання",category:"analytics",catLabel:"Аналіз",def:"Залежність інтенсивності випромінювання речовини від довжини хвилі. Використовується в спектроскопії для якісного та кількісного аналізу речовин.",tip:"Натрій дає жовте полум'я (589 нм); мідь — зелене; калій — фіолетове"},
+  {term:"Якісна реакція",category:"analytics",catLabel:"Аналіз",def:"Характерна хімічна реакція, що дозволяє виявити наявність певного іона, елемента або функціональної групи. Супроводжується видимим ефектом: осад, газ, зміна кольору.",tip:"Ag⁺+Cl⁻→AgCl↓ (білий); Ba²⁺+SO₄²⁻→BaSO₄↓ (білий); Fe³⁺+SCN⁻→[FeSCN]²⁺ (криваво-червоний)"},
+  {term:"Титрування",category:"analytics",catLabel:"Аналіз",def:"Метод кількісного аналізу, при якому до розчину з невідомою концентрацією (аналіт) поступово додають стандартний розчин (тітрант) до точки еквівалентності.",tip:"Кислотно-основне титрування: HCl + NaOH → NaCl + H₂O. Індикатор — фенолфталеїн (рожевіє при pH > 8.2)"},
+  {term:"Квантове число",category:"structure",catLabel:"Структура речовини",def:"Набір чотирьох цілих чисел (n, l, mₗ, mₛ), що однозначно описують стан електрона в атомі: головне n (розмір оболонки), орбітальне l (форма підрівня), магнітне mₗ (орієнтація) і спінове mₛ (±½).",tip:"Жоден атом не має двох електронів з однаковим набором усіх чотирьох квантових чисел — це принцип Паулі."},
+  {term:"Орбіталь",category:"structure",catLabel:"Структура речовини",def:"Область простору, де ймовірність знаходження електрона ≥ 90%. Описується хвильовою функцією ψ. Форми: s (куля), p (гантель), d і f (складніші). Кожна орбіталь може містити не більше 2 електронів.",tip:"Орбіталь — не траєкторія, а хмара ймовірності. Електрон не «літає» по колу, як у моделі Бора."},
+  {term:"Гібридизація",category:"structure",catLabel:"Структура речовини",def:"Змішування атомних орбіталей різних типів в однакові гібридні орбіталі. sp³ → тетраедр (109.5°), sp² → плаский трикутник (120°), sp → лінія (180°). Визначає геометрію молекули.",tip:"Метан CH₄ — sp³, етилен CH₂=CH₂ — sp², ацетилен HC≡CH — sp. Більше π-зв'язків → менший кут."},
+  {term:"Теорія VSEPR",category:"structure",catLabel:"Структура речовини",def:"Модель відштовхування електронних пар валентної оболонки (Valence Shell Electron Pair Repulsion): геометрія молекули визначається взаємним відштовхуванням усіх електронних пар (зв'язувальних і неподілених) центрального атома.",tip:"H₂O має 2 неподілені пари → кут 104.5° замість 109.5°: самотні пари «товстіші» за зв'язувальні."},
+  {term:"Енергія іонізації",category:"structure",catLabel:"Структура речовини",def:"Мінімальна енергія, необхідна для відриву одного електрона від нейтрального атома в газовій фазі. Вимірюється в еВ або кДж/моль. Зростає зліва направо по періоду і знизу вгору по групі.",tip:"Натрій легко віддає електрон (Eіон = 5.1 еВ), а фтор — ні (17.4 еВ). Тому Na — метал, F — неметал."},
+  {term:"Спорідненість до електрона",category:"structure",catLabel:"Структура речовини",def:"Енергія, що виділяється (або поглинається) при приєднанні одного електрона до нейтрального атома в газовій фазі. Найбільша у галогенів — вони найохочіше приймають електрони.",tip:"Хлор має найвищу спорідненість до електрона серед усіх елементів (~349 кДж/моль) — навіть більшу, ніж у фтору."},
+  {term:"Атомний радіус",category:"structure",catLabel:"Структура речовини",def:"Умовний розмір атома: половина відстані між ядрами двох сусідніх однакових атомів у кристалі або молекулі. Зменшується зліва направо по періоду (зростає заряд ядра) і збільшується зверху вниз по групі (додаються нові рівні).",tip:"Найбільший атомний радіус — у Cs (262 пм), найменший серед типових елементів — у F (64 пм)."},
+  {term:"Фазовий перехід",category:"structure",catLabel:"Структура речовини",def:"Перетворення речовини з однієї фази в іншу: плавлення, тверднення, випаровування, конденсація, сублімація, десублімація. Відбувається при сталій температурі (для чистих речовин) з поглинанням або виділенням теплоти.",tip:"Під час кипіння вода не нагрівається понад 100°C: вся теплота витрачається на розрив водневих зв'язків."},
+  {term:"Потрійна точка",category:"structure",catLabel:"Структура речовини",def:"Унікальна комбінація температури і тиску, за якої три фази речовини (тверда, рідка, газоподібна) перебувають у рівновазі одночасно. Для води: 0.01°C і 611.7 Па.",tip:"Нижче потрійної точки рідкої фази не існує — лід одразу сублімує у пару. Саме так сушиться ліофілізована кава."},
+  {term:"Критична точка",category:"structure",catLabel:"Структура речовини",def:"Температура і тиск, вище яких зникає різниця між рідиною і газом — речовина переходить у надкритичний флюїд. Для CO₂: Tкр = 31.1°C, Pкр = 73.8 атм.",tip:"Надкритичний CO₂ використовують для декофеїнізації кави: він розчиняє кофеїн як рідина, але проникає як газ."},
+  {term:"Рівняння Клаузіуса-Клапейрона",category:"structure",catLabel:"Структура речовини",def:"Описує залежність тиску насиченої пари від температури: d(ln P)/dT = ΔHvap/(RT²). У інтегральній формі: ln(P₂/P₁) = −ΔHvap/R · (1/T₂ − 1/T₁). Пояснює, чому вода кипить при 70°C у горах.",tip:"У горах (атм. тиск ~0.6 атм) вода кипить при ~90°C — тому яйця варяться довше, а чай «не заварюється»."},
+  {term:"Ідеальний газ",category:"gas",catLabel:"Гази",def:"Модельний газ, молекули якого не взаємодіють між собою і мають нехтовно малий власний об'єм. Описується рівнянням стану PV = nRT. Реальні гази наближаються до ідеальних при низьких тисках і високих температурах.",tip:"Повітря за кімнатних умов поводиться майже як ідеальний газ — похибка менш за 0.1%."},
+  {term:"Закон Бойля–Маріотта",category:"gas",catLabel:"Гази",def:"При сталій температурі тиск даної маси ідеального газу обернено пропорційний його об'єму: P₁V₁ = P₂V₂ (T = const).",tip:"Стиснув газ удвічі — тиск зріс удвічі. Саме так працює поршневий насос."},
+  {term:"Закон Шарля",category:"gas",catLabel:"Гази",def:"При сталому тиску об'єм даної маси ідеального газу прямо пропорційний абсолютній температурі: V₁/T₁ = V₂/T₂ (P = const).",tip:"Куля на морозі здувається — газ всередині охолодився і стиснувся. Завжди рахуй температуру в Кельвінах!"},
+  {term:"Закон Гей-Люссака",category:"gas",catLabel:"Гази",def:"При сталому об'ємі тиск даної маси ідеального газу прямо пропорційний абсолютній температурі: P₁/T₁ = P₂/T₂ (V = const).",tip:"Автоклав, балон під тиском, консервна банка в огні — всі ілюстрації цього закону. Не кидай балони у вогонь!"},
+  {term:"Закон Авогадро",category:"gas",catLabel:"Гази",def:"Рівні об'єми будь-яких ідеальних газів за однакових умов (T і P) містять однакову кількість молекул. Наслідок: молярний об'єм при НУ (0°C, 1 атм) = 22.414 л/моль.",tip:"1 моль будь-якого газу за НУ займає ~22.4 л — незалежно від того, водень це чи хлор."},
+  {term:"Закон Дальтона",category:"gas",catLabel:"Гази",def:"Загальний тиск суміші ідеальних газів дорівнює сумі парціальних тисків компонентів: P = P₁ + P₂ + ... Парціальний тиск: Pᵢ = xᵢ · P, де xᵢ — молярна частка.",tip:"Повітря: ~78% N₂ і ~21% O₂. Парціальний тиск O₂ ≈ 0.21 атм — саме він визначає насичення крові киснем."},
+  {term:"Парціальний тиск",category:"gas",catLabel:"Гази",def:"Тиск, який чинив би даний компонент газової суміші, якби займав увесь об'єм сам. Pᵢ = xᵢ · P_загал, де xᵢ = nᵢ/n_загал — молярна частка компонента.",tip:"Водолази дихають сумішами з меншою часткою O₂ на глибині — щоб парціальний тиск O₂ не перевищував безпечних 1.6 бар."},
+  {term:"Молярний об'єм",category:"gas",catLabel:"Гази",def:"Об'єм, який займає 1 моль речовини. Для ідеального газу при НУ (0°C, 1 атм): Vₘ = 22.414 л/моль; при СТУ (25°C, 1 атм): 24.465 л/моль.",tip:"Одна чайна ложка рідкої води (18 мл) перетворюється на ~22 л водяної пари при НУ — у 1200 разів більше."},
+  {term:"Відносна густина газу",category:"gas",catLabel:"Гази",def:"Безрозмірна величина D = M(A)/M(B) — відношення молярних мас двох газів. Відносна густина за повітрям: D(пов) = M/29 (M_пов ≈ 29 г/моль). Показує, у скільки разів газ важчий за еталонний.",tip:"Хлор (M=71) важчий за повітря в 71/29 ≈ 2.4 рази — тому він опускається і скупчується в підвалах."},
+  {term:"НУ",category:"gas",catLabel:"Гази",def:"Нормальні умови для газів: температура 0°C (273.15 К) і тиск 1 атм (101.325 кПа). За НУ молярний об'єм ідеального газу дорівнює 22.414 л/моль. Не плутати з СТУ (25°C, 1 атм).",tip:"НУ — 0°C, СТУ — 25°C. Задачі зі шкільної хімії зазвичай мають на увазі НУ, якщо не вказано інше."},
+  {term:"Розчинність",category:"solution",catLabel:"Розчини",def:"Максимальна маса речовини (г), що розчиняється в 100 г розчинника при заданій температурі з утворенням насиченого розчину. Залежить від природи речовини і розчинника, температури (для газів — і від тиску).",tip:"«Подібне розчиняється в подібному»: полярні речовини — у воді, неполярні — в органічних розчинниках."},
+  {term:"Насичений розчин",category:"solution",catLabel:"Розчини",def:"Розчин, у якому при даній температурі встановилася динамічна рівновага між розчиненою і нерозчиненою речовиною. Концентрація розчиненої речовини максимальна і дорівнює розчинності.",tip:"Якщо охолодити насичений гарячий розчин — речовина кристалізується. Так отримують кристали цукру і солі."},
+  {term:"Добуток розчинності",category:"solution",catLabel:"Розчини",def:"Константа рівноваги для процесу розчинення малорозчинного електроліту: Ksp = [Mⁿ⁺]ᵐ·[Aᵐ⁻]ⁿ. Залежить тільки від температури. Чим менший Ksp — тим менш розчинна речовина. Наприклад, Ksp(AgCl) = 1.8·10⁻¹⁰.",tip:"AgCl (Ksp≈10⁻¹⁰) не розчиняється у воді, але розчиняється в NH₃ — комплексоутворення зсуває рівновагу."},
+  {term:"Ефект спільного іона",category:"solution",catLabel:"Розчини",def:"Зниження розчинності малорозчинного електроліту при додаванні іона, що входить до складу його Ksp. Відповідно до принципу Ле Шательє, рівновага зсувається у бік осадження.",tip:"AgCl розчиняється набагато гірше в розчині NaCl, ніж у чистій воді: надлишок Cl⁻ «виштовхує» AgCl з розчину."},
+  {term:"Іонний добуток води",category:"acid_base",catLabel:"Кислоти і основи",def:"Kw = [H⁺]·[OH⁻] = 10⁻¹⁴ при 25°C. Добуток концентрацій іонів водню і гідроксиду у воді є сталою при даній температурі. З нього випливає: pH + pOH = 14.",tip:"У нейтральній воді [H⁺] = [OH⁻] = 10⁻⁷ моль/л → pH = 7. Підвищення T підвищує Kw і знижує нейтральний pH."},
+  {term:"Моляльність",category:"solution",catLabel:"Розчини",def:"Кількість молів розчиненої речовини на 1 кг розчинника (не розчину!): Cm = n/m(розч-ка) [моль/кг]. На відміну від молярної концентрації, не залежить від температури.",tip:"Для розрахунку кріоскопії і ебуліоскопії завжди використовують моляльність, а не молярну концентрацію."},
+  {term:"Молярна частка",category:"solution",catLabel:"Розчини",def:"Відношення кількості молів компонента до загальної кількості молів усіх компонентів суміші: χᵢ = nᵢ/Σnᵢ. Безрозмірна величина, сума молярних часток = 1.",tip:"Молярна частка використовується у законі Рауля: зниження тиску пари розчинника пропорційне молярній частці розчиненої речовини."},
+  {term:"Еквівалентна концентрація",category:"solution",catLabel:"Розчини",def:"Кількість еквівалентів розчиненої речовини в 1 л розчину: N = n·f/V, де f — фактор еквівалентності (1/основність для кислот, 1/кислотність для основ). Використовується в титриметрії: при еквівалентній точці N₁V₁ = N₂V₂.",tip:"Для H₂SO₄ фактор еквівалентності = 1/2, тому 1 М H₂SO₄ = 2 н (двонормальний розчин)."},
+  {term:"pH",category:"acid_base",catLabel:"Кислоти і основи",def:"Від'ємний десятковий логарифм молярної концентрації іонів водню: pH = −lg[H⁺]. Шкала 0–14 при 25°C: pH < 7 — кисле середовище, pH = 7 — нейтральне, pH > 7 — лужне.",tip:"Кожна одиниця pH — це зміна кислотності в 10 разів. Шлунковий сік (pH ≈ 1.5) кислотніший за каву (pH ≈ 5) у 3000 разів."},
+  {term:"Рівняння Гендерсона-Гасельбаха",category:"acid_base",catLabel:"Кислоти і основи",def:"Описує pH буферного розчину: pH = pKa + lg([A⁻]/[HA]), де [A⁻] — концентрація спряженої основи, [HA] — слабкої кислоти. Зручно для розрахунку pH при приготуванні буферів.",tip:"При рівних концентраціях кислоти і солі pH = pKa. Ацетатний буфер (pKa = 4.75) найефективніший поблизу pH 4–5.5."},
+  {term:"Колігативні властивості",category:"solution",catLabel:"Розчини",def:"Властивості розчинів, що залежать лише від кількості розчинених частинок (молів), але не від їх хімічної природи: зниження тиску пари, підвищення точки кипіння, зниження точки замерзання, осмотичний тиск.",tip:"1 моль цукру і 1 моль NaCl у рівних умовах — але NaCl дає 2 частинки (Na⁺ + Cl⁻), тому його ефект удвічі сильніший."},
+  {term:"Закон Рауля",category:"solution",catLabel:"Розчини",def:"Тиск пари розчинника над розчином пропорційний молярній частці розчинника: P = P°·χ(розч-ка). Відносне зниження тиску: ΔP/P° = χ(розч речовини). Справедливий для розбавлених розчинів неелектролітів.",tip:"Сіль на дорозі взимку знижує тиск пари і температуру замерзання — це прямий наслідок закону Рауля."},
+  {term:"Кріоскопія",category:"solution",catLabel:"Розчини",def:"Метод визначення молярної маси речовини за зниженням температури замерзання розчину: ΔTзам = Kf · Cm · i, де Kf — кріоскопічна константа розчинника, Cm — моляльність, i — ізотонічний коефіцієнт.",tip:"Антифриз у радіаторі — практична кріоскопія: етиленгліколь знижує точку замерзання пропорційно до своєї концентрації."},
+  {term:"Ебуліоскопія",category:"solution",catLabel:"Розчини",def:"Метод визначення молярної маси за підвищенням температури кипіння розчину: ΔTкип = Kb · Cm · i, де Kb — ебуліоскопічна константа. Для води Kb = 0.512 K·кг/моль.",tip:"Додавання солі при варінні пасти підвищує точку кипіння — але незначно: 1 г NaCl на 1 л води дає лише +0.01°C."},
+  {term:"Ізотонічний коефіцієнт",category:"solution",catLabel:"Розчини",def:"Показує, у скільки разів загальна кількість частинок у розчині електроліту більша за вихідну: i = 1 + α(ν−1), де ν — число іонів при повній дисоціації, α — ступінь дисоціації. Для NaCl (повна дисоціація): i = 2.",tip:"NaCl → Na⁺ + Cl⁻ (i=2), CaCl₂ → Ca²⁺ + 2Cl⁻ (i=3). Більше іонів — сильніший вплив на колігативні властивості."},
+  {term:"Осмотичний тиск",category:"solution",catLabel:"Розчини",def:"Надлишковий тиск, що перешкоджає осмосу через напівпроникну мембрану: π = C·R·T·i (закон Вант-Гоффа). Кров людини має осмотичний тиск ~7.7 атм, що відповідає 0.9% NaCl (фізрозчин).",tip:"Рослини в'януть у пересоленому ґрунті через осмос: вода виходить з клітин назовні туди, де вища концентрація солей."},
+  {term:"Кріоскопічна константа",category:"solution",catLabel:"Розчини",def:"Властивість розчинника: зниження температури замерзання при додаванні 1 моль розчиненої речовини на 1 кг розчинника. Для води Kf = 1.86 K·кг/моль, для бензолу — 5.12 K·кг/моль.",tip:"Бензол кращий за воду для визначення молярних мас кріоскопічним методом: його Kf майже втричі більша."},
+  {term:"Колоїдна система",category:"solution",catLabel:"Розчини",def:"Дисперсна система з розміром частинок 1–100 нм (між істинним розчином і суспензією). Частинки не осідають під дією гравітації, не фільтруються, але розсіюють світло. Приклади: молоко, туман, желатин, кров.",tip:"Молоко — емульсія (рідина в рідині), туман — аерозоль (рідина у газі), желе — гель (рідина в твердому). Всі — колоїди."},
+  {term:"Ефект Тіндаля",category:"solution",catLabel:"Розчини",def:"Розсіювання видимого світла колоїдними частинками — промінь стає видимим у колоїдному розчині (у істинному — невидимий). Зумовлений тим, що розмір колоїдних частинок порівнянний з довжиною хвилі світла.",tip:"Промінь ліхтарика у тумані видно — це ефект Тіндаля. У чистому повітрі або чистій воді промінь невидимий збоку."},
+  {term:"Коагуляція",category:"solution",catLabel:"Розчини",def:"Злипання колоїдних частинок і випадання осаду. Відбувається при додаванні електролітів (руйнують подвійний електричний шар), нагріванні або механічній дії. Зворотна коагуляція — пептизація.",tip:"Скисання молока — коагуляція казеїну кислотою. У виробництві сиру цей процес запускають спеціально."},
+  {term:"Правило Шульце-Гарді",category:"solution",catLabel:"Розчини",def:"Коагулювальна дія іона-коагулянта різко зростає зі збільшенням його заряду: іони з зарядом 1+ набагато менш ефективні, ніж 2+, а ті — ніж 3+. Коагулює іон, заряд якого протилежний заряду колоїдних частинок.",tip:"Галун Al³⁺ очищає воду від мутності у тисячі разів ефективніше, ніж NaCl — через утричі більший заряд Al³⁺."},
+  {term:"Реакційний фактор Q",category:"equilibrium",catLabel:"Рівновага",def:"Відношення поточних концентрацій продуктів і реагентів (у тих самих степенях, що і в Kc), обчислене для нерівноважного стану. Якщо Q < Kc — реакція іде вперед, Q > Kc — назад, Q = Kc — рівновага.",tip:"Q — миттєва «фотографія» системи, Kc — ціль. Реакція завжди «рухається» так, щоб Q наблизився до Kc."},
+  {term:"Рівняння Арреніуса",category:"kinetics",catLabel:"Кінетика",def:"Залежність константи швидкості реакції від температури: k = A·e^(−Eₐ/RT), де A — передекспоненційний множник, Eₐ — енергія активації, R = 8.314 Дж/(моль·К), T — температура (К).",tip:"Підвищення T на 10°C подвоює швидкість багатьох реакцій: це правило Вант-Гоффа, наслідок рівняння Арреніуса."},
+  {term:"Правило Вант-Гоффа",category:"kinetics",catLabel:"Кінетика",def:"Емпіричне правило: при підвищенні температури на 10°C швидкість реакції збільшується в 2–4 рази (температурний коефіцієнт γ). Математично: v₂/v₁ = γ^((T₂−T₁)/10).",tip:"Їжа у холодильнику псується повільніше: при зниженні T на 10°C хімічні реакції (гниття) сповільнюються вдвічі-вчетверо."},
+  {term:"Час піврозпаду",category:"kinetics",catLabel:"Кінетика",def:"Час, за який кількість радіоактивних ядер або концентрація реагенту (для реакції першого порядку) зменшується вдвічі. t½ = ln2/k = 0.693/k. Не залежить від початкової концентрації.",tip:"Вуглець-14 (t½ = 5730 років) дозволяє датувати органічні залишки до ~50 000 років. Після 10 піврозпадів залишається <0.1%."},
+  {term:"Константа рівноваги",category:"equilibrium",catLabel:"Рівновага",def:"Відношення добутків рівноважних концентрацій продуктів до реагентів (у степенях стехіометричних коефіцієнтів): Kc = [C]ᶜ[D]ᵈ/([A]ᵃ[B]ᵇ). Залежить тільки від температури. Kc >> 1 — рівновага зміщена вправо.",tip:"Kc синтезу аміаку N₂+3H₂⇌2NH₃ при 500°C становить ~10⁻⁵ — рівновага несприятлива, тому потрібен каталізатор і тиск."},
+  {term:"Закон Гесса",category:"thermo",catLabel:"Термохімія",def:"Тепловий ефект хімічної реакції не залежить від шляху перетворення, а визначається лише початковим і кінцевим станами системи. Дозволяє розраховувати ΔH реакцій, які важко провести напряму.",tip:"ΔH горіння вугілля однакова, чи пройде реакція в одну стадію (C→CO₂) чи через дві (C→CO→CO₂) — шлях не важливий."},
+  {term:"Окисник",category:"redox",catLabel:"ОВР",def:"Речовина (або іон), що приймає електрони під час окисно-відновної реакції і при цьому сам відновлюється (ступінь окиснення знижується). Типові окисники: O₂, Cl₂, KMnO₄, K₂Cr₂O₇, HNO₃, H₂SO₄(конц.).",tip:"Запам'ятай: окисник — сам відновлюється. «О» — відповідає «О»: окисник — окиснює інших, сам — відновлюється."},
+  {term:"Відновник",category:"redox",catLabel:"ОВР",def:"Речовина (або іон), що віддає електрони під час окисно-відновної реакції і при цьому сам окиснюється (ступінь окиснення зростає). Типові відновники: метали, H₂, CO, органічні речовини, іони Fe²⁺, I⁻.",tip:"Вугілля (C) при виплавці чавуну — відновник: забирає кисень з Fe₂O₃. Сам вуглець окиснюється до CO₂."},
+  {term:"Напівреакція",category:"redox",catLabel:"ОВР",def:"Рівняння, що описує окремо процес окиснення або відновлення з урахуванням перенесення електронів. Повна ОВР — сума двох напівреакцій з однаковою кількістю електронів у кожній.",tip:"Метод напівреакцій полегшує розстановку коефіцієнтів у складних ОВР — особливо за участі KMnO₄ у різних середовищах."},
+  {term:"Електродний потенціал",category:"electro",catLabel:"Електрохімія",def:"Різниця потенціалів між металом і розчином його солі на межі розподілу фаз. Стандартний електродний потенціал E° виміряний відносно стандартного водневого електрода (E° = 0 В) при 25°C і концентрації 1 моль/л.",tip:"Цинк (E°= −0.76 В) активніший за мідь (E°= +0.34 В) — тому він захищає сталь від корозії у гальванічних парах."},
+  {term:"Рівняння Нернста",category:"electro",catLabel:"Електрохімія",def:"Залежність електродного потенціалу від концентрації (активності) іонів: E = E° + (RT/nF)·ln[Mⁿ⁺], або при 25°C: E = E° + (0.0592/n)·lg[Mⁿ⁺]. n — число електронів, F = 96485 Кл/моль.",tip:"Розведення розчину Cu²⁺ у 10 разів знижує потенціал мідного електрода на 0.0592/2 ≈ 0.030 В — відчутно."},
+  {term:"Анод",category:"electro",catLabel:"Електрохімія",def:"Електрод, на якому відбувається окиснення. У гальванічному елементі анод заряджений негативно (−), у електролізері — позитивно (+). На аноді: метал розчиняється або виділяється газ (Cl₂, O₂).",tip:"Анод = Окиснення. Анод у акумуляторі при розряді — Zn, він розчиняється. При заряді — полярність міняється."},
+  {term:"Катод",category:"electro",catLabel:"Електрохімія",def:"Електрод, на якому відбувається відновлення. У гальванічному елементі катод заряджений позитивно (+). На катоді виділяються метали або водень. Катодний захист від корозії — підключення металу до «мінуса».",tip:"Катод = відновлення (К = К). Мідне гальванічне покриття наносять на катод: Cu²⁺ + 2e⁻ → Cu⁰."},
+  {term:"Закони Фарадея",category:"electro",catLabel:"Електрохімія",def:"1-й закон: маса речовини, що виділяється при електролізі, пропорційна заряду Q=It. 2-й закон: рівні заряди виділяють еквівалентні кількості різних речовин. Формула: m = M·I·t/(n·F), де F = 96485 Кл/моль.",tip:"Пропустив 96485 Кл (1 фарадей) — виділиться рівно 1 моль еквівалентів: 1.008 г H₂, 8 г O₂, 31.75 г Cu."},
+  {term:"Ряд активності металів",category:"electro",catLabel:"Електрохімія",def:"Послідовність металів у порядку зростання їх стандартних електродних потенціалів: Li, K, Ca, Na ... H₂ ... Cu, Ag, Au. Метал витісняє з розчину будь-який метал, що стоїть правіше. Водень витісняють усі ліворуч від нього.",tip:"Залізо + розчин мідного купоросу → мідь на залізі. Fe (−0.44 В) лівіше Cu (+0.34 В) → Fe витісняє Cu."},
+  {term:"ЕРС",category:"electro",catLabel:"Електрохімія",def:"Електрорушійна сила гальванічного елемента — різниця стандартних потенціалів катода і анода: ЕРС = E°(катод) − E°(анод). Для елемента Даніеля (Zn|Cu): ЕРС = 0.34 − (−0.76) = 1.10 В.",tip:"Стандартний AA-акумулятор дає 1.5 В — це ЕРС хімічної пари всередині. Послідовне з'єднання підсумовує ЕРС."},
+  {term:"Ступінь ненасиченості",category:"organic",catLabel:"Органічна хімія",def:"Число π-зв'язків і циклів у молекулі органічної сполуки: СН = (2C + 2 + N − H − X)/2. СН = 0 — насичена сполука, СН = 1 — одне подвійне або одне кільце, СН = 4 — бензен.",tip:"Формула C₆H₆ (бензен): СН = (12+2−6)/2 = 4. Три π-зв'язки + одне кільце (але бензен рахує 3+1=4 через ароматичність)."},
+  {term:"Орієнтант",category:"organic",catLabel:"Органічна хімія",def:"Замісник у бензеновому кільці, що визначає місце наступного електрофільного заміщення. Орієнтанти I роду (OH, NH₂, алкіл) активують кільце і спрямовують у орто/пара-положення. Орієнтанти II роду (NO₂, COOH, CHO) дезактивують і спрямовують у мета.",tip:"Нітробензен дає мета-динітробензен (орієнтант II роду). Анілін — орто/пара-нітроанілін (орієнтант I роду)."},
+  {term:"Правило Хюккеля",category:"organic",catLabel:"Органічна хімія",def:"Плоска циклічна сполука є ароматичною, якщо має (4n + 2) π-електронів у замкнутій спряженій системі (n = 0, 1, 2...). Бензен: 6 π-е (n=1). Азулен: 10 π-е (n=2).",tip:"Бензен (6 е, n=1) — ароматичний. Циклооктатетраєн (8 е, n=1.5) — не ароматичний. Два електрони «зайві» чи «бракує»."},
+  {term:"Пептидний зв'язок",category:"biochem",catLabel:"Біохімія",def:"Ковалентний зв'язок −CO−NH−, що утворюється між карбоксильною групою однієї амінокислоти і аміногрупою іншої з виділенням молекули води (реакція конденсації). Є основою первинної структури білків і пептидів.",tip:"Один пептидний зв'язок виділяє 1 молекулу води. Білок зі 100 амінокислот утворює 99 пептидних зв'язків і 99 молекул води."},
+  {term:"Нуклеїнові кислоти",category:"biochem",catLabel:"Біохімія",def:"Біополімери (ДНК і РНК), мономерами яких є нуклеотиди, що складаються з азотистої основи, пентози і фосфатної групи. ДНК зберігає генетичну інформацію, РНК передає її для синтезу білків.",tip:"А-Т і Г-Ц — принцип комплементарності. Заміна лише однієї основи в ДНК може викликати генетичну хворобу."},
+  {term:"Спектрофотометрія",category:"analytics",catLabel:"Аналіз",def:"Метод визначення концентрації речовин за поглинанням видимого або УФ-світла. Базується на законі Бугера-Ламберта-Бера: A = ε·c·l, де ε — молярний коефіцієнт поглинання, c — концентрація, l — товщина шару.",tip:"Жовтий розчин найкраще поглинає синє світло (λ ≈ 430 нм). Вибір довжини хвилі — перший крок будь-якого спектрофотометричного аналізу."},
+  {term:"ІЧ-спектроскопія",category:"analytics",catLabel:"Аналіз",def:"Метод ідентифікації функціональних груп органічних молекул за їх поглинанням інфрачервоного випромінювання (400–4000 см⁻¹). Кожна функціональна група має характерні смуги поглинання (відбиток пальця).",tip:"O-H-група дає широку смугу ~3300 см⁻¹, C=O — різку ~1700 см⁻¹. За ІЧ-спектром можна безпомилково визначити карбонільну групу."},
+  {term:"ЯМР-спектроскопія",category:"analytics",catLabel:"Аналіз",def:"Ядерний магнітний резонанс — метод визначення структури органічних молекул за резонансним поглинанням радіохвиль ядрами ¹H або ¹³C у магнітному полі. Дає інформацію про хімічне оточення кожного атома.",tip:"МРТ у медицині — це теж ЯМР: сканують протони (¹H) води у тканинах. Принцип той самий, що й у хімічній лабораторії."},
+  {term:"Мас-спектрометрія",category:"analytics",catLabel:"Аналіз",def:"Метод аналізу речовин за співвідношенням маси до заряду (m/z) іонізованих молекул і їх фрагментів. Дозволяє точно визначити молярну масу і молекулярну формулу речовини.",tip:"Мас-спектрометрія визначає молярну масу з точністю до 4-го знака. Молекулярний іон M⁺ — це пік із найбільшим m/z."},
+  {term:"Закон еквівалентів",category:"solution",catLabel:"Розчини",def:"У хімічній реакції речовини взаємодіють у кількостях, пропорційних їх еквівалентам: n₁·f₁ = n₂·f₂, або N₁V₁ = N₂V₂ для розчинів. Еквівалент — кількість речовини, що реагує з 1 молем H⁺ або 1 молем e⁻.",tip:"Для нейтралізації 1 М H₂SO₄ потрібно 2 М NaOH (або 1 М Ca(OH)₂). Завжди рахуй еквіваленти, а не моль."},
+  {term:"Патинування",category:"applied",catLabel:"Прикладна хімія",def:"Цілеспрямоване утворення на поверхні металу (міді, бронзи, срібла) захисно-декоративного шару оксидів або солей. Натуральна патина утворюється роками, штучна — за хвилини обробкою реагентами (сульфідами, кислотами).",tip:"Зелена патина на міді — це малахіт і брохантит (Cu₂(OH)₂CO₃). Захищає метал від подальшої корозії краще, ніж чиста мідь."},
+  {term:"Воронування",category:"applied",catLabel:"Прикладна хімія",def:"Термохімічне оксидне покриття сталі: контрольоване окиснення поверхні до Fe₃O₄ (магнетит, чорний) при температурі 300–400°C або обробкою лужними окиснювачами. Дає захист і декоративний вигляд.",tip:"Чорний колір вороненої зброї — Fe₃O₄. Цей оксид на відміну від Fe₂O₃ (іржа) щільно прилягає і захищає метал."},
+  {term:"Анодування",category:"applied",catLabel:"Прикладна хімія",def:"Електрохімічне нанесення оксидного покриття на алюміній (та деякі інші метали): алюміній є анодом у розчині H₂SO₄, на поверхні утворюється Al₂O₃ товщиною 5–25 мкм. Покриття тверде, корозійностійке, може бути пофарбоване.",tip:"iPhone та MacBook — анодований алюміній. Кольори досягають просоченням барвниками в пори оксидного шару до запечатування."},
+  {term:"Пасивування",category:"applied",catLabel:"Прикладна хімія",def:"Утворення на поверхні металу тонкого щільного оксидного або сольового шару, що різко гальмує подальшу корозію. Алюміній, нержавіюча сталь, хром пасивуються самочинно на повітрі. Залізо пасивують концентрованою HNO₃.",tip:"Алюмінієва фольга на повітрі за секунди вкривається Al₂O₃ товщиною ~4 нм — саме цей невидимий шар захищає метал."},
+  {term:"Фосфатування",category:"applied",catLabel:"Прикладна хімія",def:"Хімічна обробка сталі розчинами фосфорної кислоти і фосфатів металів (Mn, Zn, Fe) для утворення нерозчинного захисного шару фосфатів. Використовується перед фарбуванням як ґрунтовка і для антикорозійного захисту.",tip:"Фосфатований метал тримає фарбу в десятки разів краще, ніж незаплавлений. Саме тому кузови авто фосфатують перед фарбуванням."},
+  {term:"Гальванічне покриття",category:"applied",catLabel:"Прикладна хімія",def:"Нанесення тонкого шару металу (Cu, Ni, Cr, Zn, Au, Ag) електролітичним методом: деталь є катодом у розчині солі металу-покриття. Товщина — від 1 мкм (декоративне) до сотень мкм (захисне, відновне).",tip:"Хромовані деталі авто — шар Cr товщиною 0.5–1 мкм поверх шару Ni 15–30 мкм поверх Cu. Три шари задля корозійного захисту."},
+  {term:"Травлення металів",category:"applied",catLabel:"Прикладна хімія",def:"Розчинення поверхневого шару металу кислотою або лугом для видалення оксидів, окалини, рельєфного малюнка або підготовки до покриття. Швидкість травлення залежить від концентрації реагенту і температури.",tip:"Хлорне залізо FeCl₃ — найпопулярніший травник для плат: реакція Cu + 2FeCl₃ → CuCl₂ + 2FeCl₂ не утворює небезпечних газів."},
+  {term:"Гіпохлорит",category:"applied",catLabel:"Прикладна хімія",def:"Сіль хлорнуватистої кислоти HClO: найпоширеніші — NaClO (гіпохлорит натрію, «Білизна») і Ca(ClO)₂ (хлорне вапно). Сильний окисник і дезінфектант. Активний хлор — головний показник ефективності.",tip:"«Білизна» (3–5% NaClO) розводять 1:50 для дезінфекції поверхонь (~500 ppm Cl₂) — стандарт ВООЗ для COVID і більшості патогенів."},
+  {term:"Перекис водню",category:"applied",catLabel:"Прикладна хімія",def:"H₂O₂ — нестійкий окисник, що розкладається до H₂O і O₂. Використовується у концентраціях 3% (дезінфекція), 6–9% (освітлення волосся), 30% (пергідроль, лабораторний). Руйнується під дією світла, металів і лугів.",tip:"3% H₂O₂ в рані шипить — це каталаза крові розкладає перекис. Виділений O₂ механічно очищає рану від бактерій."},
+  {term:"Коагулянт",category:"applied",catLabel:"Прикладна хімія",def:"Речовина, що додається у воду для злипання дрібних суспендованих частинок у пластівці, які потім осідають. Найпоширеніші: Al₂(SO₄)₃ (галун), FeCl₃, PAC (поліалюмінію хлорид). Ефект — за принципом Правила Шульце-Гарді.",tip:"Алюмінієвий галун використовували для очищення питної води тисячоліттями — ще єгиптяни описували цей метод у папірусах."},
+  {term:"Флокулянт",category:"applied",catLabel:"Прикладна хімія",def:"Полімерна речовина (поліакриламід та ін.), що з'єднує скоагульовані пластівці у великі агломерати (флокули), які швидко осідають. Використовують після коагулянтів для прискорення очищення води.",tip:"Флокулянт — це «клей» для пластівців. Коагулянт зшиває частинки в грудочки, флокулянт склеює грудочки у снігові кулі."},
+  {term:"Декальцинація",category:"applied",catLabel:"Прикладна хімія",def:"Видалення карбонатних і сульфатних відкладень (накип, вапняк) кислотами — лимонною, оцтовою, ортофосфорною: CaCO₃ + 2CH₃COOH → Ca(CH₃COO)₂ + H₂O + CO₂. Застосовується для чайників, кавомашин, бойлерів.",tip:"Лимонна кислота (20–30 г на 1 л) м'якіша за оцет і не залишає запаху — оптимальний вибір для побутових приладів."},
+  {term:"Силікагель",category:"applied",catLabel:"Прикладна хімія",def:"Аморфний SiO₂ з розвиненою пористою поверхнею (300–800 м²/г). Адсорбує воду і органічні пари. Регенерується нагріванням до 150–200°C. Використовується як осушувач у пакетах «не їсти», хроматографії, фільтрах.",tip:"Білі шарики у пакетику з новим взуттям — силікагель. Рожевий (CoCl₂-індикатор) стає синім при насиченні — сигнал для регенерації."},
+  {term:"Активоване вугілля",category:"applied",catLabel:"Прикладна хімія",def:"Вуглецевий адсорбент з питомою поверхнею 500–1500 м²/г, отриманий активацією (парою або CO₂) кокосової шкарлупи, деревини, вугілля. Адсорбує органіку, хлор, кольори, запахи; не адсорбує солі і метали.",tip:"1 г активованого вугілля має площу поверхні з теніс-корт (~600 м²). Саме тому один таблетка адсорбує значну кількість токсинів."},
+  {term:"Цеоліт",category:"applied",catLabel:"Прикладна хімія",def:"Кристалічний алюмосилікат з регулярними порами молекулярного розміру (0.3–1.0 нм). Поглинає молекули, що підходять за розміром («молекулярне сито»). Використовується для осушення газів, іонного обміну, каталізу.",tip:"Цеоліти у пральних порошках — не для чищення, а для пом'якшення води: вони захоплюють іони Ca²⁺ і Mg²⁺ у свої пори."},
+  {term:"Іонообмінна смола",category:"applied",catLabel:"Прикладна хімія",def:"Полімерний матеріал з функціональними групами, що оборотно обмінюють іони з розчином. Катіоніти замінюють Ca²⁺, Mg²⁺ на H⁺ або Na⁺ (пом'якшення води), аніоніти — Cl⁻, SO₄²⁻ на OH⁻. Регенерується NaCl або NaOH.",tip:"Фільтр-глечик Brita містить іонообмінну смолу + активоване вугілля: перший видаляє жорсткість, друге — хлор і органіку."},
+  {term:"Нітритна сіль",category:"applied",catLabel:"Прикладна хімія",def:"Суміш NaCl (93–99.5%) і NaNO₂ (0.5–6%): нітрит натрію є бактерицидним агентом проти Clostridium botulinum у м'ясних виробах. Стабілізує рожевий колір м'яса (реакція з міоглобіном). Дозування суворо нормується.",tip:"Кількість нітриту у ковбасі (150–200 мг/кг) менша, ніж природний нітрит у шпинаті або буряку — не треба боятись."},
+  {term:"Шапталізація",category:"applied",catLabel:"Прикладна хімія",def:"Додавання цукру до виноградного сусла перед ферментацією для підвищення вмісту алкоголю у вині при недостатній природній цукристості ягід. Названа на честь французького хіміка Жана-Антуана Шапталя.",tip:"17–18 г цукру на 1 л сусла підвищують спиртуозність вина на 1°. Дозволена не у всіх країнах — у Франції лише в певних регіонах."},
+  {term:"Піросульфіт калію",category:"applied",catLabel:"Прикладна хімія",def:"K₂S₂O₅ — харчова добавка E224. У розчині вивільняє SO₂, який є антиоксидантом і антисептиком. Застосовується у виноробстві (50–100 мг/л) для захисту сусла від окиснення і небажаної мікрофлори.",tip:"«Сульфіти у вині» на етикетці — це наслідок піросульфіту або SO₂. Більшість алергій на вино викликана не сульфітами, а гістаміном."},
+  {term:"Інвертний цукор",category:"applied",catLabel:"Прикладна хімія",def:"Суміш рівних частин глюкози і фруктози, отримана кислотним або ферментативним гідролізом сахарози: C₁₂H₂₂O₁₁ + H₂O → C₆H₁₂O₆ + C₆H₁₂O₆. Солодший за сахарозу на 20–25%, краще утримує вологу, не кристалізується.",tip:"Мед — природний інвертний цукор: бджоли розщеплюють сахарозу за допомогою ферменту інвертази. Тому мед не кристалізується так швидко, як цукор."},
+  {term:"Екзотермічна реакція",category:"reactions",catLabel:"Реакції",def:"Хімічна реакція, що відбувається з виділенням теплоти в навколишнє середовище (ΔH < 0). Система переходить у більш стійкий (енергетично вигідний) стан. Приклади: горіння, нейтралізація, багато реакцій окиснення.",tip:"Рука тепліє при розмішуванні NaOH у воді — типова екзотермічна реакція. ΔH нейтралізації ≈ −57 кДж/моль."},
+  {term:"Ендотермічна реакція",category:"reactions",catLabel:"Реакції",def:"Хімічна реакція, що відбувається з поглинанням теплоти з навколишнього середовища (ΔH > 0). Реагенти поглинають енергію і переходять у менш стійкий стан. Приклади: розкладання вапняку, фотосинтез, розчинення NН₄Cl.",tip:"Холодні компреси з NH₄NO₃ — ендотермічний розчин: розчинення солі поглинає теплоту і охолоджує розчин до −10°C."},
+  {term:"Оборотна реакція",category:"reactions",catLabel:"Реакції",def:"Реакція, що протікає одночасно у прямому і зворотному напрямках за однакових умов, встановлюючи стан хімічної рівноваги. Позначається стрілкою ⇌. Приклади: синтез NH₃, естерифікація, дисоціація слабких кислот.",tip:"Синтез аміаку N₂ + 3H₂ ⇌ 2NH₃ — класична оборотна реакція. Без підтримання умов реакція зупиняється на рівновазі, не досягаючи 100%."},
+  {term:"Вихід реакції",category:"reactions",catLabel:"Реакції",def:"Відношення реально отриманої кількості продукту до теоретично розрахованої: η = m(практ)/m(теор) × 100%. Менший за 100% через оборотність реакції, побічні реакції або втрати при виділенні продукту.",tip:"Синтез аспірину в лабораторії дає вихід 70–85%. Вихід 95%+ — вже чудовий результат навіть для промислових процесів."},
+  {term:"Розчинник",category:"solution",catLabel:"Розчини",def:"Компонент розчину, що розчиняє інші речовини. Зазвичай присутній у більшій кількості або є рідиною за звичайних умов. Вода — універсальний полярний розчинник; органічні розчинники — для неполярних речовин.",tip:"«Подібне розчиняється в подібному»: жир не розчиняється у воді, але легко — в ацетоні або бензині (обидва неполярні)."},
+  {term:"Ненасичений розчин",category:"solution",catLabel:"Розчини",def:"Розчин, концентрація розчиненої речовини у якому менша за рівноважну (розчинність) за даних умов. Може ще розчиняти додаткові кількості речовини без утворення осаду.",tip:"Склянка чаю з одною ложкою цукру — ненасичений розчин. Можна додавати цукор далі, аж поки він перестане розчинятися."},
+  {term:"Пересичений розчин",category:"solution",catLabel:"Розчини",def:"Нестабільний розчин з концентрацією речовини, що перевищує рівноважну розчинність. Утворюється при обережному охолодженні насиченого розчину. Кристалізація починається від найменшого потрясіння або зародка кристала.",tip:"«Хімічна грілка» — це пересичений розчин NaC₂H₃O₂. Клацання металевої кнопки запускає кристалізацію з виділенням теплоти."}
 ];
 
 const GL_CAT_LABELS = {basics:'🔬 Основи',bonding:'🔗 Хімічний зв\'язок',redox:'⚡ ОВР',kinetics:'💥 Кінетика',equilibrium:'🔄 Рівновага',acid_base:'🧪 Кислоти і основи',reactions:'⚗️ Реакції',thermo:'🔥 Термохімія',nuclear:'☢️ Ядерна хімія',structure:'💎 Структура',solution:'💧 Розчини',electro:'🔋 Електрохімія',complex:'🔗 Комплекси',organic:'🧬 Органіка',biochem:'🧬 Біохімія',analytics:'📊 Аналіз'};
