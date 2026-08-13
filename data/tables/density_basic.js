@@ -23,7 +23,7 @@ const TABLE_DENSITY_BASIC = {
     {name:'Хлороформ',         formula:'CHCl₃',       density:1.489,    densityStr:'1.489',   T:20,   state:'рідина',  unit:'г/мл', note:'Важча за воду'},
     {name:'Чотирихлористий вуглець', formula:'CCl₄', density:1.594,    densityStr:'1.594',   T:20,   state:'рідина',  unit:'г/мл', note:''},
     {name:'Діетиловий ефір',   formula:'(C₂H₅)₂O',  density:0.713,    densityStr:'0.713',   T:20,   state:'рідина',  unit:'г/мл', note:'Легша за воду'},
-    {name:'Гліцерол',          formula:'C₃H₈O₃',     density:1.261,    densityStr:'1.261',   T:20,   state:'рідина',  unit:'г/мл', note:'В'язка рідина'},
+    {name:'Гліцерол',          formula:'C₃H₈O₃',     density:1.261,    densityStr:'1.261',   T:20,   state:'рідина',  unit:'г/мл', note:"В'язка рідина"},
     // ---- ТВЕРДІ РЕЧОВИНИ ----
     {name:'Осмій',             formula:'Os',          density:22.59,    densityStr:'22.59',   T:20,   state:'тверда',  unit:'г/мл', note:'Найщільніший метал'},
     {name:'Іридій',            formula:'Ir',          density:22.56,    densityStr:'22.56',   T:20,   state:'тверда',  unit:'г/мл', note:'2-й за густиною'},
