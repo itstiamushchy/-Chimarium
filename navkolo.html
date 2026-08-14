@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="Хімарій — Хімія навколо нас: 76 захопливих хімічних парадоксів, відкриттів та явищ з реального життя.">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Хімарій — Хімія навколо нас</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0d0e1a">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<style>
+@font-face{font-family:Oxanium;font-style:normal;font-weight:400;font-display:swap;src:url('fonts/oxanium-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:Oxanium;font-style:normal;font-weight:700;font-display:swap;src:url('fonts/oxanium-latin-700-normal.woff2') format('woff2')}
+@font-face{font-family:Oxanium;font-style:normal;font-weight:900;font-display:swap;src:url('fonts/oxanium-latin-900-normal.woff2') format('woff2')}
+@font-face{font-family:Inter;font-style:normal;font-weight:300;font-display:swap;src:url('fonts/inter-latin-300-normal.woff2') format('woff2')}
+@font-face{font-family:Inter;font-style:normal;font-weight:400;font-display:swap;src:url('fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:Inter;font-style:normal;font-weight:500;font-display:swap;src:url('fonts/inter-latin-500-normal.woff2') format('woff2')}
+@font-face{font-family:Inter;font-style:normal;font-weight:600;font-display:swap;src:url('fonts/inter-latin-600-normal.woff2') format('woff2')}
+@font-face{font-family:Inter;font-style:normal;font-weight:300;font-display:swap;src:url('fonts/inter-cyrillic-300-normal.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:Inter;font-style:normal;font-weight:400;font-display:swap;src:url('fonts/inter-cyrillic-400-normal.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:Inter;font-style:normal;font-weight:500;font-display:swap;src:url('fonts/inter-cyrillic-500-normal.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:Inter;font-style:normal;font-weight:600;font-display:swap;src:url('fonts/inter-cyrillic-600-normal.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0d0e1a;color:#fff;font-family:Inter,sans-serif;min-height:100vh}
+.kr{font-family:Inter,sans-serif;background:#0d0e1a;color:#fff;position:relative;max-width:1400px;margin:0 auto}
+
+/* ── HERO ── */
+.hero{position:relative;padding:24px 40px 20px;display:flex;align-items:center;gap:24px;border-bottom:.5px solid rgba(79,195,247,.15)}
+.mol{flex-shrink:0;width:108px;height:108px}
+.mol svg{width:100%;height:100%}
+.drop-anim{animation:3s ease-in-out infinite dropPulse}
+@keyframes dropPulse{0%,100%{opacity:.9;transform:scale(1)}50%{opacity:1;transform:scale(1.05)}}
+.brand-label{font-family:Oxanium,monospace;font-size:9px;letter-spacing:4px;color:#4FC3F7;text-transform:uppercase;margin-bottom:4px;opacity:.8}
+.brand-title{font-family:Oxanium,monospace;font-size:34px;font-weight:900;color:#fff;line-height:1;letter-spacing:-1px;margin-bottom:2px}
+.brand-title span{color:#4FC3F7}
+.brand-sub{font-size:11px;color:#c0d0f0;font-weight:300}
+.brand-sub2{font-size:10px;color:#4FC3F7;font-weight:300;margin-top:2px;opacity:.8}
+.ver{position:absolute;top:10px;right:16px;font-family:Oxanium,monospace;font-size:9px;color:#90a0cc;letter-spacing:2px}
+.back-btn{display:inline-flex;align-items:center;gap:7px;padding:7px 16px;background:#111224;border:.5px solid rgba(79,195,247,.2);border-radius:20px;color:#4fc3f7;font-size:12px;font-family:Inter,sans-serif;text-decoration:none;transition:.18s;cursor:pointer;margin-top:8px}
+.back-btn:hover{background:#1a1f3a;border-color:#4fc3f7;color:#fff}
+
+/* ── ФІЛЬТРИ ── */
+.filters{padding:14px 40px;border-bottom:.5px solid rgba(79,195,247,.1);display:flex;align-items:center;gap:8px;flex-wrap:wrap;background:#0a0c1a}
+.filter-btn{padding:7px 16px;font-size:12px;font-weight:500;color:#7080b8;cursor:pointer;border:.5px solid #1e2240;border-radius:20px;background:#111224;transition:.18s;font-family:Inter,sans-serif;white-space:nowrap;display:flex;align-items:center;gap:5px}
+.filter-btn:hover{color:#c0d0f0;border-color:#2e3260}
+.filter-btn.active{color:#4FC3F7;border-color:#4FC3F7;background:rgba(79,195,247,.06)}
+.filter-count{font-family:Oxanium,monospace;font-size:9px;color:#7080b8;background:rgba(255,255,255,.05);border-radius:8px;padding:1px 6px}
+.filter-btn.active .filter-count{color:#4FC3F7}
+.search-wrap{margin-left:auto;position:relative}
+.search-input{background:#111224;border:.5px solid #1e2240;border-radius:20px;color:#c0d0f0;font-family:Inter,sans-serif;font-size:12px;padding:7px 14px 7px 34px;outline:none;transition:.18s;width:220px}
+.search-input:focus{border-color:#4FC3F7}
+.search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:12px;pointer-events:none;opacity:.5}
+
+/* ── КОНТЕНТ ── */
+.content{padding:28px 40px}
+.results-meta{font-family:Oxanium,monospace;font-size:10px;color:#5a7a9a;letter-spacing:1px;margin-bottom:20px;text-transform:uppercase}
+.results-meta span{color:#4FC3F7}
+
+/* ── СІТКА КАРТОК ── */
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:14px}
+
+/* ── КАРТКА ── */
+.card{background:#0e1122;border:.5px solid #1e2240;border-radius:14px;overflow:hidden;transition:.2s;cursor:pointer}
+.card:hover{border-color:#4FC3F7;transform:translateY(-2px);box-shadow:0 8px 32px rgba(79,195,247,.08)}
+.card.open{border-color:#4FC3F7}
+
+.card-head{padding:16px 18px;display:flex;align-items:flex-start;gap:14px}
+.card-icon{font-size:26px;flex-shrink:0;margin-top:1px;line-height:1}
+.card-meta{flex:1;min-width:0}
+.card-cat{font-family:Oxanium,monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:5px;opacity:.75}
+.card-q{font-size:13px;font-weight:600;color:#e0ecff;line-height:1.5;margin-bottom:5px}
+.card-hint{font-size:11px;color:#5a7a9a;line-height:1.5;font-style:italic}
+.card-toggle{flex-shrink:0;width:24px;height:24px;border-radius:50%;border:.5px solid #2a3560;background:#111530;display:flex;align-items:center;justify-content:center;color:#4FC3F7;font-size:11px;transition:.2s;margin-top:2px}
+.card.open .card-toggle{background:#4FC3F7;border-color:#4FC3F7;color:#0d0e1a}
+
+.card-body{max-height:0;overflow:hidden;transition:max-height .35s cubic-bezier(.4,0,.2,1)}
+.card.open .card-body{max-height:2000px}
+
+.card-sections{padding:0 18px 18px;border-top:.5px solid #1a2040;padding-top:14px}
+.section-block{margin-bottom:14px}
+.section-block:last-child{margin-bottom:0}
+.section-title{font-family:Oxanium,monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:#4FC3F7;margin-bottom:6px;opacity:.8}
+.section-text{font-size:12px;color:#9ab0cc;line-height:1.75}
+.section-text b{color:#c8dcf0;font-weight:600}
+.section-sep{border:none;border-top:.5px solid #1a2040;margin:12px 0}
+
+.card-topics{padding:0 18px 14px;display:flex;flex-wrap:wrap;gap:5px}
+.topic-tag{font-family:Oxanium,monospace;font-size:9px;color:#4FC3F7;background:rgba(79,195,247,.06);border:.5px solid rgba(79,195,247,.2);border-radius:4px;padding:2px 8px;text-decoration:none;transition:.15s}
+.topic-tag:hover{background:rgba(79,195,247,.12);color:#fff}
+
+/* ── КАТЕГОРІЯ — кольори ── */
+.cat-history .card-cat{color:#FFB300}
+.cat-history .card-head{border-left:2px solid rgba(255,179,0,.3)}
+.cat-everyday .card-cat{color:#00E5CC}
+.cat-everyday .card-head{border-left:2px solid rgba(0,229,204,.3)}
+.cat-short .card-cat{color:#4FC3F7}
+.cat-short .card-head{border-left:2px solid rgba(79,195,247,.3)}
+.cat-magic .card-cat{color:#CE93D8}
+.cat-magic .card-head{border-left:2px solid rgba(206,147,216,.3)}
+.cat-nature .card-cat{color:#69F0AE}
+.cat-nature .card-head{border-left:2px solid rgba(105,240,174,.3)}
+.cat-body .card-cat{color:#FF7043}
+.cat-body .card-head{border-left:2px solid rgba(255,112,67,.3)}
+
+/* ── ПОРОЖНЬО ── */
+.empty{text-align:center;padding:60px 20px;color:#3a5070}
+.empty-icon{font-size:48px;display:block;margin-bottom:12px;opacity:.4}
+.empty-text{font-size:14px}
+
+/* ── FOOTER ── */
+.footer{padding:16px 40px;border-top:.5px solid #1e2240;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:40px}
+.footer-brand{font-family:Oxanium,monospace;font-size:10px;color:#7080b8;letter-spacing:2px}
+.footer-back{display:inline-flex;align-items:center;gap:6px;color:#4fc3f7;font-size:11px;text-decoration:none;transition:color .15s}
+.footer-back:hover{color:#fff}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  .hero{padding:12px 14px;gap:14px}
+  .brand-title{font-size:24px}
+  .filters{padding:10px 12px;gap:6px}
+  .search-wrap{margin-left:0;width:100%}
+  .search-input{width:100%}
+  .content{padding:16px 12px}
+  .cards-grid{grid-template-columns:1fr}
+  .footer{padding:12px 14px;flex-direction:column;align-items:flex-start;gap:8px}
+}
+@media(max-width:480px){
+  .brand-title{font-size:20px}
+  .mol{width:80px;height:80px}
+}
+</style>
+</head>
+<body>
+<div class="kr">
+
+<!-- HERO -->
+<div class="hero">
+  <div class="ver">v1.0.0</div>
+  <div class="mol">
+    <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <filter id="glow1"><feGaussianBlur stdDeviation="2.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        <filter id="glow2"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        <clipPath id="book-clip"><rect x="18" y="74" width="84" height="32" rx="3"/></clipPath>
+        <clipPath id="flask-big-clip"><path d="M44 52 L32 88 Q52 102 72 88 L60 52 Z"/></clipPath>
+        <clipPath id="flask-sm-clip"><path d="M74 56 L68 80 Q80 90 92 80 L86 56 Z"/></clipPath>
+      </defs>
+      <g class="drop-anim">
+
+        <!-- КНИГА -->
+        <rect x="18" y="76" width="84" height="30" rx="3" fill="rgba(79,195,247,0.07)" stroke="#4FC3F7" stroke-width="1" opacity="0.6"/>
+        <line x1="60" y1="76" x2="60" y2="106" stroke="#4FC3F7" stroke-width="0.5" opacity="0.3"/>
+        <rect x="21" y="79" width="36" height="2" rx="1" fill="#4FC3F7" opacity="0.2"/>
+        <rect x="21" y="83" width="28" height="1.5" rx="1" fill="#4FC3F7" opacity="0.15"/>
+        <rect x="21" y="87" width="32" height="1.5" rx="1" fill="#4FC3F7" opacity="0.15"/>
+        <rect x="63" y="79" width="34" height="2" rx="1" fill="#4FC3F7" opacity="0.2"/>
+        <rect x="63" y="83" width="24" height="1.5" rx="1" fill="#4FC3F7" opacity="0.15"/>
+        <rect x="63" y="87" width="30" height="1.5" rx="1" fill="#4FC3F7" opacity="0.15"/>
+        <!-- Корінець книги -->
+        <rect x="57" y="73" width="6" height="34" rx="1" fill="rgba(79,195,247,0.12)" stroke="#4FC3F7" stroke-width="0.5" opacity="0.5"/>
+
+        <!-- ВЕЛИКА КОЛБА (ліворуч) -->
+        <rect x="46" y="20" width="16" height="32" rx="1" fill="rgba(79,195,247,0.05)" stroke="#4FC3F7" stroke-width="1"/>
+        <line x1="46" y1="36" x2="62" y2="36" stroke="#4FC3F7" stroke-width="0.5" opacity="0.35"/>
+        <!-- Підставка -->
+        <path d="M43 52 L32 88 Q52 102 72 88 L61 52 Z" fill="rgba(79,195,247,0.04)" stroke="#4FC3F7" stroke-width="1" stroke-linejoin="round"/>
+        <!-- Рідина великої колби -->
+        <g clip-path="url(#flask-big-clip)">
+          <path fill="rgba(79,195,247,0.14)">
+            <animate attributeName="d" dur="3.2s" repeatCount="indefinite"
+              values="M28 72 Q42 68 52 72 Q62 76 76 72 L76 105 L28 105 Z;
+                      M28 72 Q42 76 52 72 Q62 68 76 72 L76 105 L28 105 Z;
+                      M28 72 Q42 68 52 72 Q62 76 76 72 L76 105 L28 105 Z"/>
+          </path>
+          <path fill="rgba(0,229,204,0.08)">
+            <animate attributeName="d" dur="2.6s" repeatCount="indefinite"
+              values="M28 78 Q44 75 52 78 Q60 81 76 78 L76 105 L28 105 Z;
+                      M28 78 Q44 81 52 78 Q60 75 76 78 L76 105 L28 105 Z;
+                      M28 78 Q44 75 52 78 Q60 81 76 78 L76 105 L28 105 Z"/>
+          </path>
+        </g>
+        <!-- Свічення великої колби -->
+        <ellipse cx="52" cy="82" rx="14" ry="5" fill="#4FC3F7" opacity="0.05" filter="url(#glow2)">
+          <animate attributeName="opacity" values="0.03;0.1;0.03" dur="4s" repeatCount="indefinite"/>
+        </ellipse>
+        <!-- Бульбашки великої колби -->
+        <circle cx="46" cy="88" r="2" fill="#4FC3F7" opacity="0" filter="url(#glow1)">
+          <animate attributeName="cy" values="88;58" dur="2.8s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0;0.7;0.7;0" dur="2.8s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="56" cy="92" r="1.5" fill="#00E5CC" opacity="0" filter="url(#glow1)">
+          <animate attributeName="cy" values="92;62" dur="3.5s" repeatCount="indefinite" begin="0.8s"/>
+          <animate attributeName="opacity" values="0;0.6;0.6;0" dur="3.5s" repeatCount="indefinite" begin="0.8s"/>
+        </circle>
+        <circle cx="50" cy="90" r="1.2" fill="#4FC3F7" opacity="0">
+          <animate attributeName="cy" values="90;60" dur="2.3s" repeatCount="indefinite" begin="1.6s"/>
+          <animate attributeName="opacity" values="0;0.5;0.5;0" dur="2.3s" repeatCount="indefinite" begin="1.6s"/>
+        </circle>
+
+        <!-- МАЛЕНЬКА КОЛБА (праворуч, молекулярна) -->
+        <rect x="76" y="28" width="12" height="28" rx="1" fill="rgba(79,195,247,0.04)" stroke="#4FC3F7" stroke-width="0.8" opacity="0.7"/>
+        <path d="M73 56 L67 82 Q80 92 93 82 L87 56 Z" fill="rgba(79,195,247,0.03)" stroke="#4FC3F7" stroke-width="0.8" stroke-linejoin="round" opacity="0.7"/>
+        <!-- Рідина маленької колби -->
+        <g clip-path="url(#flask-sm-clip)">
+          <path fill="rgba(79,195,247,0.18)" opacity="0.8">
+            <animate attributeName="d" dur="2.4s" repeatCount="indefinite"
+              values="M64 70 Q74 67 80 70 Q86 73 96 70 L96 95 L64 95 Z;
+                      M64 70 Q74 73 80 70 Q86 67 96 70 L96 95 L64 95 Z;
+                      M64 70 Q74 67 80 70 Q86 73 96 70 L96 95 L64 95 Z"/>
+          </path>
+        </g>
+
+        <!-- МОЛЕКУЛЯРНІ ЗВ'ЯЗКИ від маленької колби -->
+        <line x1="92" y1="68" x2="104" y2="56" stroke="#4FC3F7" stroke-width="0.7" opacity="0.4"/>
+        <line x1="104" y1="56" x2="110" y2="44" stroke="#4FC3F7" stroke-width="0.7" opacity="0.4"/>
+        <line x1="104" y1="56" x2="114" y2="62" stroke="#4FC3F7" stroke-width="0.7" opacity="0.3"/>
+        <!-- Атоми молекули -->
+        <circle cx="104" cy="56" r="6" fill="rgba(79,195,247,0.15)" stroke="#4FC3F7" stroke-width="0.8" filter="url(#glow1)"/>
+        <text x="104" y="59" text-anchor="middle" fill="#4FC3F7" font-size="5.5" font-weight="700" font-family="Oxanium,sans-serif" opacity="0.9">C</text>
+        <circle cx="110" cy="44" r="4.5" fill="rgba(0,229,204,0.15)" stroke="#00E5CC" stroke-width="0.7" filter="url(#glow1)"/>
+        <text x="110" y="47" text-anchor="middle" fill="#00E5CC" font-size="5" font-weight="700" font-family="Oxanium,sans-serif" opacity="0.9">H</text>
+        <circle cx="114" cy="62" r="4" fill="rgba(79,195,247,0.12)" stroke="#4FC3F7" stroke-width="0.7"/>
+        <text x="114" y="65" text-anchor="middle" fill="#4FC3F7" font-size="4.5" font-weight="700" font-family="Oxanium,sans-serif" opacity="0.8">O</text>
+
+        <!-- КРАПЛІ зверху великої колби -->
+        <circle cx="54" cy="15" r="3" fill="#4FC3F7" opacity="0" filter="url(#glow1)">
+          <animate attributeName="cy" values="15;22;22" dur="2s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0;0.8;0" dur="2s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="54" cy="15" r="2" fill="#00E5CC" opacity="0" filter="url(#glow1)">
+          <animate attributeName="cy" values="15;22;22" dur="2s" repeatCount="indefinite" begin="1s"/>
+          <animate attributeName="opacity" values="0;0.6;0" dur="2s" repeatCount="indefinite" begin="1s"/>
+        </circle>
+
+      </g>
+    </svg>
+  </div>
+  <div>
+    <div class="brand-label">Хімія, яка тебе оточує</div>
+    <div class="brand-title">Хім<span>арій</span></div>
+    <div class="brand-sub">Хімія навколо нас — парадокси, відкриття та таємниці звичайних речей</div>
+    <a href="index.html" class="back-btn">← Повернутись до Хімарію</a>
+  </div>
+</div>
+
+<!-- ФІЛЬТРИ + ПОШУК -->
+<div class="filters" id="filters-bar">
+  <button class="filter-btn active" data-cat="all" onclick="setFilter('all')">
+    🌍 Всі <span class="filter-count" id="cnt-all">76</span>
+  </button>
+  <button class="filter-btn" data-cat="history" onclick="setFilter('history')">
+    🏛️ Історія <span class="filter-count" id="cnt-history">0</span>
+  </button>
+  <button class="filter-btn" data-cat="everyday" onclick="setFilter('everyday')">
+    🏠 Побут <span class="filter-count" id="cnt-everyday">0</span>
+  </button>
+  <button class="filter-btn" data-cat="short" onclick="setFilter('short')">
+    ⚡ Факти <span class="filter-count" id="cnt-short">0</span>
+  </button>
+  <button class="filter-btn" data-cat="magic" onclick="setFilter('magic')">
+    🔮 Алхімія <span class="filter-count" id="cnt-magic">0</span>
+  </button>
+  <button class="filter-btn" data-cat="nature" onclick="setFilter('nature')">
+    🌿 Природа <span class="filter-count" id="cnt-nature">0</span>
+  </button>
+  <button class="filter-btn" data-cat="body" onclick="setFilter('body')">
+    🧬 Тіло <span class="filter-count" id="cnt-body">0</span>
+  </button>
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input class="search-input" type="text" placeholder="Пошук..." id="search-input" oninput="onSearch()">
+  </div>
+</div>
+
+<!-- КОНТЕНТ -->
+<div class="content">
+  <div class="results-meta" id="results-meta">Завантаження...</div>
+  <div class="cards-grid" id="cards-grid"></div>
+  <div class="empty" id="empty-state" style="display:none">
+    <span class="empty-icon">🔭</span>
+    <div class="empty-text">Нічого не знайдено. Спробуй інший запит.</div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-brand">CHIMARIUM · ХІМІЯ НАВКОЛО НАС</div>
+  <a href="index.html" class="footer-back">← Повернутись до Хімарію</a>
+</div>
+
+</div><!-- .kr -->
+
+<script>
+// ── ДАНІ ──────────────────────────────────────────────────────────────
+let ALL_DATA = [];
+let currentFilter = 'all';
+let currentSearch = '';
+
+const CAT_LABELS = {
+  history: 'Історія',
+  everyday: 'Побут',
+  short: 'Факт',
+  magic: 'Алхімія',
+  nature: 'Природа',
+  body: 'Тіло'
+};
+
+const TOPIC_LABELS = {
+  '1-1-atom':'Будова атому','1-2-periodic':'Періодичний закон','1-3-bond':'Хімічний зв\'язок',
+  '1-4-states':'Агрегатні стани','1-5-gases':'Газові закони','2-1-inorganic-classes':'Класи неорг. сполук',
+  '2-2-s-elements':'s-елементи','2-3-p-elements':'p-елементи','2-4-d-f-elements':'d,f-елементи',
+  '3-1-thermodynamics':'Термодинаміка','3-2-kinetics':'Кінетика','3-3-equilibrium':'Рівновага',
+  '3-4-electrochemistry':'Електрохімія','3-5-phase':'Фазові рівноваги','4-1-dissolving':'Розчинення',
+  '4-2-concentration':'Концентрація','4-3-electrolytes':'Електроліти','4-4-colligative':'Колігативні',
+  '4-5-colloids':'Колоїди','5-1-organic-basics':'Основи орг. хімії','5-2-hydrocarbons':'Вуглеводні',
+  '5-3-aromatics':'Ароматика','5-4-oxygen-compounds':'Оксигенвмісні','5-5-nitrogen-compounds':'Нітрогенвмісні',
+  '5-6-polymers':'Полімери','6-1-qualitative':'Якісний аналіз','6-2-titrimetry':'Титриметрія',
+  '6-3-instrumental':'Інструментальні методи'
+};
+
+// ── ЗАВАНТАЖЕННЯ ДАНИХ ─────────────────────────────────────────────
+async function loadData() {
+  try {
+    const r = await fetch('data/prinad.json');
+    ALL_DATA = await r.json();
+  } catch(e) {
+    // Якщо файл не знайдено — показати заглушку
+    document.getElementById('results-meta').textContent = '⚠️ Файл data/prinad.json не знайдено';
+    return;
+  }
+  updateCounts();
+  render();
+}
+
+// ── ЛІЧИЛЬНИКИ ─────────────────────────────────────────────────────
+function updateCounts() {
+  const cats = ['history','everyday','short','magic','nature','body'];
+  cats.forEach(c => {
+    const cnt = ALL_DATA.filter(d => d.category === c).length;
+    const el = document.getElementById('cnt-' + c);
+    if(el) el.textContent = cnt;
+  });
+  document.getElementById('cnt-all').textContent = ALL_DATA.length;
+}
+
+// ── ФІЛЬТР ─────────────────────────────────────────────────────────
+function setFilter(cat) {
+  currentFilter = cat;
+  document.querySelectorAll('.filter-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.cat === cat);
+  });
+  render();
+}
+
+// ── ПОШУК ──────────────────────────────────────────────────────────
+function onSearch() {
+  currentSearch = document.getElementById('search-input').value.toLowerCase().trim();
+  render();
+}
+
+// ── ФІЛЬТРАЦІЯ ─────────────────────────────────────────────────────
+function getFiltered() {
+  return ALL_DATA.filter(d => {
+    const catOk = currentFilter === 'all' || d.category === currentFilter;
+    if(!catOk) return false;
+    if(!currentSearch) return true;
+    const hay = [d.q, d.hint, ...(d.sections||[]).map(s=>s.title+' '+s.text)].join(' ').toLowerCase();
+    return hay.includes(currentSearch);
+  });
+}
+
+// ── РЕНДЕР ─────────────────────────────────────────────────────────
+function render() {
+  const data = getFiltered();
+  const grid = document.getElementById('cards-grid');
+  const empty = document.getElementById('empty-state');
+  const meta = document.getElementById('results-meta');
+
+  if(!data.length) {
+    grid.innerHTML = '';
+    empty.style.display = 'block';
+    meta.innerHTML = 'Знайдено <span>0</span> результатів';
+    return;
+  }
+
+  empty.style.display = 'none';
+
+  const total = currentFilter === 'all' ? ALL_DATA.length : ALL_DATA.filter(d=>d.category===currentFilter).length;
+  const catLabel = currentFilter === 'all' ? 'всі категорії' : CAT_LABELS[currentFilter] || currentFilter;
+  meta.innerHTML = `Показано <span>${data.length}</span> із <span>${total}</span> · ${catLabel}`;
+
+  grid.innerHTML = data.map(d => buildCard(d)).join('');
+}
+
+// ── ПОБУДОВА КАРТКИ ─────────────────────────────────────────────────
+function buildCard(d) {
+  const catLabel = CAT_LABELS[d.category] || d.category;
+
+  const sections = (d.sections||[]).map((s,i) => `
+    ${i>0 ? '<hr class="section-sep">' : ''}
+    <div class="section-block">
+      ${s.title ? `<div class="section-title">${s.title}</div>` : ''}
+      <div class="section-text">${s.text}</div>
+    </div>`).join('');
+
+  const topics = (d.topics||[]).map(t => {
+    const label = TOPIC_LABELS[t] || t;
+    return `<a class="topic-tag" href="index.html#topic-${t}" title="Відкрити тему в Хімарії">📖 ${label}</a>`;
+  }).join('');
+
+  return `
+    <div class="card cat-${d.category}" id="card-${d.id}" onclick="toggleCard('${d.id}')">
+      <div class="card-head">
+        <div class="card-icon">${d.icon}</div>
+        <div class="card-meta">
+          <div class="card-cat">${catLabel}</div>
+          <div class="card-q">${d.q}</div>
+          <div class="card-hint">${d.hint}</div>
+        </div>
+        <div class="card-toggle" id="toggle-${d.id}">▾</div>
+      </div>
+      <div class="card-body" id="body-${d.id}">
+        <div class="card-sections">${sections}</div>
+        ${topics ? `<div class="card-topics">${topics}</div>` : ''}
+      </div>
+    </div>`;
+}
+
+// ── РОЗГОРТАННЯ КАРТКИ ──────────────────────────────────────────────
+function toggleCard(id) {
+  const card = document.getElementById('card-' + id);
+  const wasOpen = card.classList.contains('open');
+
+  // Закриваємо всі інші
+  document.querySelectorAll('.card.open').forEach(c => c.classList.remove('open'));
+
+  if(!wasOpen) card.classList.add('open');
+}
+
+// ── СТАРТ ──────────────────────────────────────────────────────────
+loadData();
+</script>
+</body>
+</html>
