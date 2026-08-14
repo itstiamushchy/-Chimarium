@@ -1,5 +1,5 @@
-// data/elements.js — Хімарій v1.4.0
-// Дані перенесено з index.html + збагачено з довідника (72 елементи, H–Rn без лантаноїдів Ce–Lu)
+// data/elements.js — Хімарій v1.4.5
+// Повна таблиця Менделєєва: 118 елементів (H–Og)
 
 const CC={alkali:'#FF7043',alkaline:'#FFB300',transition:'#4FC3F7',posttrans:'#80DEEA',metalloid:'#A5D6A7',nonmetal:'#69F0AE',halogen:'#FF8A65',noble:'#CE93D8',lanthanide:'#F48FB1',actinide:'#FFCC02',unknown:'#546E7A'};
 const CU={alkali:'Лужний метал',alkaline:'Лужноземельний метал',transition:'Перехідний метал',posttrans:'Після-перехідний метал',metalloid:'Металоїд',nonmetal:'Неметал',halogen:'Галоген',noble:'Благородний газ',lanthanide:'Лантаноїд',actinide:'Актиноїд',unknown:'Невідомо'};
