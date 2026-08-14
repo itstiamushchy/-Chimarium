@@ -3,7 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Хімічний синтез · Хімарій v0.0.2</title>
+<title>Хімічний синтез · Хімарій v1.4.4</title>
+<!-- БАГ №24 ВИПРАВЛЕНО: Додано manifest та SW реєстрацію -->
+<link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0d0e1a">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -222,7 +224,7 @@ body{background:#0d0e1a;color:#fff;font-family:Inter,sans-serif;min-height:100vh
 
 <!-- HERO -->
 <div class="hero">
-  <div class="ver">v0.0.2</div>
+  <div class="ver">v1.4.4</div>
   <div class="mol">
     <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
       <defs>
@@ -438,7 +440,7 @@ body{background:#0d0e1a;color:#fff;font-family:Inter,sans-serif;min-height:100vh
 <!-- FOOTER -->
 <div class="footer">
   <div class="footer-copy">
-    © 2026 Хоменко Олексій Григорович · <a href="mailto:itstiamushchy@gmail.com">itstiamushchy@gmail.com</a> · ITS_tiamushchy · v0.0.2
+    © 2026 Хоменко Олексій Григорович · <a href="mailto:itstiamushchy@gmail.com">itstiamushchy@gmail.com</a> · ITS_tiamushchy · v1.4.4
   </div>
   <a href="index.html" class="footer-back">← Повернутись до основного Хімарію</a>
 </div>
@@ -520,10 +522,17 @@ function fmt(s) {
 }
 function fmtEq(s) {
   if (!s) return '';
-  return s.replace(/(\d+)/g, (m, n) => `<sub>${n}</sub>`)
+  // БАГ №26 ВИПРАВЛЕНО: додано форматування хімічних символів стану та умов реакції
+  return s
+    .replace(/(\d+)/g, (m, n) => `<sub>${n}</sub>`)
     .replace(/<=>|<->/g, '<span style="color:#5060a0"> ⇌ </span>')
     .replace(/->/g, '<span style="color:#5060a0"> → </span>')
-    .replace(/\+/g, ' <span style="color:#2e3870">+</span> ');
+    .replace(/\+/g, ' <span style="color:#2e3870">+</span> ')
+    .replace(/↑/g, '<span style="color:#69F0AE" title="газ">↑</span>')
+    .replace(/↓/g, '<span style="color:#FF8A65" title="осад">↓</span>')
+    .replace(/∆|Δ|\[t\°?\]|\bt°\b/g, '<span style="color:#FFB300" title="нагрівання">∆</span>')
+    .replace(/\[кат\.?\]|\[cat\]/gi, '<span style="color:#CE93D8" title="каталізатор">[кат.]</span>')
+    .replace(/\[hν\]|\[hv\]/gi, '<span style="color:#FFB300" title="світло">[hν]</span>');
 }
 function typeBadge(type, danger) {
   let h = '';
@@ -778,7 +787,7 @@ function renderMode1(cmp) {
       const d = routeNodeDepth(r);
       const dng = countDanger(r);
       const sc = scores[i];
-      h += `<button class="route-tab ${isOpt ? 'optimal' : ''} ${i === 0 ? 'on' : ''}" id="rtab-${i}" onclick="switchRoute(${i})">
+      h += `<button class="route-tab ${isOpt ? 'optimal' : ''} ${i === 0 ? 'on' : ''}" id="rtab-${i}" onclick="switchRoute(${i})" role="tab" aria-selected="${i === 0 ? 'true' : 'false'}" aria-label="Шлях ${i + 1}${isOpt ? ', оптимальний' : ''}">
         ${isOpt ? '<span class="opt-badge">⭐ ОПТИМАЛЬНИЙ</span>' : ''} Шлях ${i + 1}
         <span style="color:#5060a0;font-size:10px">${d} кр.${dng > 0 ? ` · ⚠️${dng}` : ''} · скор ${sc}</span>
       </button>`;
@@ -795,12 +804,16 @@ function renderMode1(cmp) {
 
   document.getElementById('results-area').innerHTML = h;
   document.getElementById('results-area').classList.add('vis');
-  nodeId = 0;
+  // БАГ №27 ВИПРАВЛЕНО: nodeId скидається лише у renderRoute — видалено дублюючий reset
   renderRoute(0);
 }
 
 function switchRoute(idx) {
-  document.querySelectorAll('.route-tab').forEach((t, i) => t.classList.toggle('on', i === idx));
+  // БАГ №38 ВИПРАВЛЕНО: оновлення aria-selected при перемиканні маршрутів
+  document.querySelectorAll('.route-tab').forEach((t, i) => {
+    t.classList.toggle('on', i === idx);
+    t.setAttribute('aria-selected', i === idx ? 'true' : 'false');
+  });
   renderRoute(idx);
 }
 
@@ -811,9 +824,14 @@ function renderRoute(idx) {
 }
 
 function toggleNode(id) {
-  document.getElementById(id)?.classList.toggle('expanded');
-  document.getElementById(id + '-tc')?.classList.toggle('vis');
-  document.getElementById(id + '-ch')?.classList.toggle('vis');
+  // БАГ №40 ВИПРАВЛЕНО: додано попередження якщо елемент не знайдений
+  const el = document.getElementById(id);
+  const tc = document.getElementById(id + '-tc');
+  const ch = document.getElementById(id + '-ch');
+  if (!el) { console.warn('[toggleNode] Element not found:', id); return; }
+  el.classList.toggle('expanded');
+  if (tc) tc.classList.toggle('vis');
+  if (ch) ch.classList.toggle('vis');
 }
 
 // ============================================================
@@ -836,14 +854,17 @@ function switchMode(mode) {
   document.getElementById('syn-input').value = '';
   document.getElementById('gw-section').classList.toggle('vis', isGlass);
   const searchWrap = document.querySelector('.search-wrap');
-  const synExamples = document.getElementById('examples-synth');
-  const prodExamples = document.getElementById('examples-prod');
   const secTitle = document.querySelector('.sec-title');
   if(searchWrap) searchWrap.style.display = isGlass ? 'none' : '';
   if(secTitle) secTitle.textContent = isGlass ? '🧪 Довідник лабораторного посуду · 20 позицій' : '⚗️ Аналіз реакцій · База Хімарій';
   document.getElementById('syn-input').placeholder = isSynth
     ? 'Цільова сполука: H2SO4, NaCl, NH3…'
     : 'Вихідна речовина: SO2, Ca, Na, Fe…';
+  // БАГ №25 ВИПРАВЛЕНО: gwInit ліниво ініціалізується лише при першому відкритті вкладки Посуд
+  if(isGlass && !window._gwInited){
+    gwInit();
+    window._gwInited = true;
+  }
 }
 
 function setEx(v) {
@@ -852,23 +873,39 @@ function setEx(v) {
 }
 
 async function doSearch() {
-  const raw   = document.getElementById('syn-input').value.trim();
+  // БАГ №37 ВИПРАВЛЕНО: нормалізуємо пробіли у введеній формулі (H2 SO4 → H2SO4)
+  const raw = document.getElementById('syn-input').value.trim().replace(/\s+/g, '');
   const errEl = document.getElementById('syn-error');
   errEl.classList.remove('vis');
   if (!raw) { errEl.textContent = 'Введіть формулу хімічної сполуки'; errEl.classList.add('vis'); return; }
 
   document.getElementById('results-area').innerHTML = '';
   document.getElementById('results-area').classList.remove('vis');
-  document.getElementById('syn-loading').classList.add('vis');
 
-  try { await loadDB(); }
-  catch (e) {
-    document.getElementById('syn-loading').classList.remove('vis');
+  const loadingEl = document.getElementById('syn-loading');
+  const spinLabel = loadingEl.querySelector('.spin-label');
+  loadingEl.classList.add('vis');
+  if (spinLabel) spinLabel.textContent = 'ЗАВАНТАЖЕННЯ БАЗИ (~3MB)';
+
+  // БАГ №28 ВИПРАВЛЕНО: тайм-аут 30 секунд з інформативним повідомленням
+  const timeoutId = setTimeout(() => {
+    loadingEl.classList.remove('vis');
+    errEl.textContent = '⏱ Перевищено час очікування (30с). Перевірте з\'єднання та спробуйте ще раз.';
+    errEl.classList.add('vis');
+  }, 30000);
+
+  try {
+    await loadDB();
+    clearTimeout(timeoutId);
+  } catch (e) {
+    clearTimeout(timeoutId);
+    loadingEl.classList.remove('vis');
     errEl.textContent = 'Помилка завантаження бази реакцій. Перевірте наявність data/rx_index.json та data/rx_flat.json.';
     errEl.classList.add('vis');
     return;
   }
-  document.getElementById('syn-loading').classList.remove('vis');
+  loadingEl.classList.remove('vis');
+  if (spinLabel) spinLabel.textContent = 'БУДУЮ ГРАФ РЕАКЦІЙ';
   nodeId = 0;
   if (currentMode === 'synth') renderMode1(raw);
   else renderMode2(raw);
@@ -1860,7 +1897,19 @@ function gwInit(){
 }
 
 // Прогріваємо індекс одразу після завантаження сторінки (тільки rx_index, ~250KB)
-window.addEventListener('load', () => { setTimeout(() => loadIndex().catch(() => {}), 300); gwInit(); });
+// БАГ №25 ВИПРАВЛЕНО: gwInit() викликається лише при переході на вкладку "Посуд",
+// а не завжди при завантаженні сторінки
+window.addEventListener('load', () => {
+  // Реєстрація Service Worker (БАГ №24)
+  if('serviceWorker' in navigator){
+    navigator.serviceWorker.register('service-worker.js')
+      .then(r=>console.log('[SW synthesis] Registered:', r.scope))
+      .catch(e=>console.log('[SW synthesis] Failed:', e));
+  }
+  // Прогрів індексу реакцій
+  setTimeout(() => loadIndex().catch(() => {}), 300);
+  // gwInit() НЕ викликається тут — лише при switchMode('glass')
+});
 </script>
 </body>
 </html>

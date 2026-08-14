@@ -6,7 +6,11 @@ const CACHE_STATIC = [
   './',
   './index.html',
   './manifest.json',
-  './reactions.json',
+  // БАГ №16 ВИПРАВЛЕНО: reactions.json не існує окремо (тільки rx_flat/rx_index для synthesis)
+  // БАГ №17 ВИПРАВЛЕНО: synthesis.html та pobut-khimiya.html додано для PWA офлайн
+  './synthesis.html',
+  './pobut-khimiya.html',
+  './reactions_filter.js',
   './reactions_tagged.json',
   './formulas.json',
   './glossary.json',

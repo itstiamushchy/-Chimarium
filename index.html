@@ -32,7 +32,7 @@ body{background:#0d0e1a;color:#ffffff;font-family:'Inter',sans-serif;min-height:
 /* HERO */
 .hero{position:relative;padding:24px 40px 20px;display:flex;align-items:center;gap:24px;border-bottom:0.5px solid rgba(79,195,247,0.15)}
 .mol{flex-shrink:0;width:72px;height:72px}.mol svg{width:100%;height:100%}
-.atom{animation:orbit 6s linear infinite;transform-origin:60px 60px}
+.atom{animation:orbit 6s linear infinite;transform-origin:60px 60px;transform-box:view-box}
 .atom:nth-child(2){animation-duration:9s;animation-direction:reverse}
 .atom:nth-child(3){animation-duration:12s}
 @keyframes orbit{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
@@ -956,9 +956,9 @@ select{color-scheme:dark}select option{background:#111224;color:#ffffff}
   <button class="nav-mobile-item" onclick="showPanel('reactions');closeMobileNav()">⚗️ Реакції</button>
   <button class="nav-mobile-item" onclick="showPanel('glossary');closeMobileNav()">📚 Глосарій</button>
   <div class="nav-mobile-section-label">Калькулятори</div>
-  <button class="nav-mobile-item" onclick="showPanel('calcs');closeMobileNav()">🔢 Всі калькулятори (116)</button>
+  <button class="nav-mobile-item" onclick="showPanel('calcs');closeMobileNav()">🔢 Всі калькулятори (<span id="mob-calcs-count">...</span>)</button>
   <div class="nav-mobile-section-label">Теми</div>
-  <button class="nav-mobile-item" onclick="showPanel('topics-hub');closeMobileNav()">📗 Всі теми (28)</button>
+  <button class="nav-mobile-item" onclick="showPanel('topics-hub');closeMobileNav()">📗 Всі теми (<span id="mob-topics-count">...</span>)</button>
   <div class="nav-mobile-section-label">Інше</div>
   <button class="nav-mobile-item" onclick="showPanel('test');closeMobileNav()">🎯 Тренажер</button>
   <button class="nav-mobile-item" onclick="showPanel('favorites');closeMobileNav()">⭐ Обрані</button>
@@ -982,15 +982,10 @@ select{color-scheme:dark}select option{background:#111224;color:#ffffff}
     </div>
   </div>
   <div class="nav-divider"></div>
-  <div class="nav-group" id="ng-calc">
-    <button class="nav-btn" onclick="showPanel('calcs');closeGroups()" id="nav-calcs-btn">🔢 Калькулятори</button>
-    <div class="dropdown" style="display:none"></div>
-  </div>
+  <!-- БАГ №10, №11 ВИПРАВЛЕНО: видалено порожні dropdown контейнери -->
+  <button class="nav-btn" onclick="showPanel('calcs');closeGroups()" id="nav-calcs-btn">🔢 Калькулятори</button>
   <div class="nav-divider"></div>
-  <div class="nav-group" id="ng-topics">
-    <button class="nav-btn" onclick="showPanel('topics-hub');closeGroups()" id="nav-topics-btn">📗 Теми</button>
-    <div class="dropdown" style="display:none"></div>
-  </div>
+  <button class="nav-btn" onclick="showPanel('topics-hub');closeGroups()" id="nav-topics-btn">📗 Теми</button>
   <div class="nav-divider"></div>
   <button class="nav-btn" id="nav-test-btn" onclick="showPanel('test');closeGroups()">🎯 Тренажер</button>
   <div class="nav-divider"></div>
@@ -2149,6 +2144,11 @@ function showPanel(id){
   if(id==='calcs') setTimeout(injectFavCalcs, 200);
   if(id==='sol_conc')initSolConc();
   if(id==='sol_prinad')renderSolPrinad();
+  // БАГ №6 ВИПРАВЛЕНО: ініціалізація панелі sol_gas
+  if(id==='sol_gas'){
+    const gasGrid = document.getElementById('gas-table-grid');
+    if(gasGrid && !gasGrid.hasChildNodes()) renderGasTable();
+  }
   if(id==='formulas')initFormulasPanel();
   if(id==='glossary')initGlossaryPanel();
   if(id==='reactions')initReactionsPanel();
@@ -3631,7 +3631,7 @@ window._calcPhEngine = function() {
 
     } else if (mode === 'weak_acid') {
       const raw = document.getElementById('wacid-name').value;
-      const [name, KaStr] = raw.split('|');
+      const [_acidName, KaStr] = raw.split('|');
       const Ka = parseFloat(KaStr);
       const C = parseFloat(document.getElementById('wacid-conc').value);
       if (!C || C <= 0 || !Ka) { _fallbackCalcPh(); return; }
@@ -3652,7 +3652,7 @@ window._calcPhEngine = function() {
 
     } else if (mode === 'weak_base') {
       const raw = document.getElementById('wbase-name').value;
-      const [name, KbStr] = raw.split('|');
+      const [_baseName, KbStr] = raw.split('|');
       const Kb = parseFloat(KbStr);
       const C = parseFloat(document.getElementById('wbase-conc').value);
       if (!C || C <= 0 || !Kb) { _fallbackCalcPh(); return; }
@@ -3763,8 +3763,11 @@ function _fallbackCalcPh() {
 }
 
 // ---- КРОК 13: ПЕРЕВІРКА — ТЕСТ pH ДВИЖКА ----
-// Тихий самотест при завантаженні: перевіряємо що Engine дає ті самі результати що й оригінальна логіка
+// БАГ №8 ВИПРАВЛЕНО: Тест запускається лише на localhost (режим розробки)
 (function selfTestPH() {
+  // Пропускаємо у продакшені для економії ресурсів
+  const isLocalhost = location.hostname === 'localhost' || location.hostname === '127.0.0.1' || location.protocol === 'file:';
+  if (!isLocalhost) return;
   const tests = [
     // [configId, unknown, inputs, expected, tolerance, label]
     ['pH_strong_acid',    'pH', { C: 0.1 },             1.0,   0.001, 'Сильна кислота 0.1 M → pH=1'],
@@ -4883,7 +4886,12 @@ function calcMix(){
     </div>`;
 }
 
-function previewMix(){}
+function previewMix(){
+  // Автоматичний попередній перегляд при зміні вибору речовин
+  const a = document.getElementById('mix-a')?.value;
+  const b = document.getElementById('mix-b')?.value;
+  if(a && b && a !== b) calcMix();
+}
 
 // ---- ПРИНАДА ----
 const PRINAD_DATA=[
@@ -7566,8 +7574,17 @@ function renderReactionsInline() {
 }
 
 function rxClick(eq, isDanger) {
-  if (!isDanger) return;
+  // БАГ №21 ВИПРАВЛЕНО: feedback для всіх реакцій, не тільки небезпечних
   const popup = document.getElementById('rx-popup');
+  if (!isDanger) {
+    // Для звичайних реакцій — короткий toast-повідомлення
+    document.getElementById('rx-popup-eq').textContent = eq;
+    document.getElementById('rx-popup-text').textContent = '✅ Реакція скопійована до буферу обміну';
+    popup.classList.add('vis');
+    navigator.clipboard?.writeText(eq).catch(()=>{});
+    setTimeout(() => popup.classList.remove('vis'), 2500);
+    return;
+  }
   document.getElementById('rx-popup-eq').textContent = eq;
   document.getElementById('rx-popup-text').textContent = getDangerText(eq);
   popup.classList.add('vis');
@@ -7581,15 +7598,23 @@ fetch('reactions_tagged.json').then(r=>r.json()).then(d=>{
   let _rxTotal=0; d.forEach(s=>s.subsections?.forEach(sub=>_rxTotal+=sub.reactions?.length||0));
   const _rxTotalEl=document.getElementById('rx-total'); if(_rxTotalEl)_rxTotalEl.textContent=_rxTotal;
   const _rxAllEl=document.getElementById('rx-all-count'); if(_rxAllEl)_rxAllEl.textContent=_rxTotal;
-  // Build filter index
+  // БАГ №9 ВИПРАВЛЕНО: Безпечна ініціалізація — перевіряємо чи reactions_filter.js завантажений
   if(typeof rxBuildIndex==='function'){
     rxBuildIndex(d);
+    // БАГ №2 ВИПРАВЛЕНО: Вставляємо CSS стилі фільтра з reactions_filter.js
+    if(typeof FILTER_CSS !== 'undefined' && !document.getElementById('rx-filter-css')){
+      const styleEl = document.createElement('style');
+      styleEl.id = 'rx-filter-css';
+      styleEl.textContent = FILTER_CSS;
+      document.head.appendChild(styleEl);
+    }
     document.getElementById('rx-filter-panel').style.display='';
     rxInitFilter(function(filtered){
-      // Wrap filtered results into _RX_DATA-compatible structure for renderReactions
       window._RX_FILTERED=filtered;
       renderReactions();
     });
+  } else {
+    console.warn('[Хімарій] reactions_filter.js не завантажений — фільтр реакцій недоступний');
   }
   if(document.getElementById('panel-reactions').classList.contains('active'))renderReactions();
 }).catch(()=>{});
@@ -7832,6 +7857,8 @@ function openTermPopup(termEl) {
       existing.classList.remove('open');
       _activeTermEl = null;
     } else {
+      // БАГ №15 ВИПРАВЛЕНО: скидаємо align-right перед переобчисленням позиції
+      existing.classList.remove('align-right');
       existing.classList.add('open');
       _activeTermEl = termEl;
       alignPopup(existing, termEl);
@@ -7897,13 +7924,9 @@ document.addEventListener('mouseout', function(e) {
 // ============================================================
 // Оновлена showPanel — ініціалізація нових панелей
 // ============================================================
-const _origShowPanel = showPanel;
-showPanel = function(id) {
-  _origShowPanel(id);
-  if (id === 'formulas') initFormulasPanel();
-  if (id === 'reactions') initReactionsPanel();
-  if (id === 'glossary') initGlossaryPanel();
-};
+// БАГ №5 ВИПРАВЛЕНО: подвійне перевизначення showPanel видалено.
+// initFormulasPanel, initReactionsPanel, initGlossaryPanel вже викликаються
+// в оригінальному showPanel (рядки 2152-2154) — дублювання усунено.
 
 // ---- ЗОВНІШНІ ТЕМИ (Блоки 1–6) ----
 // JSON-файли слід покласти поруч з khimariy.html.
@@ -7925,6 +7948,33 @@ if('serviceWorker' in navigator){
       .catch(e=>console.log('[SW] Registration failed:', e));
   });
 }
+
+// БАГ №35 ВИПРАВЛЕНО: Обробка ?panel= query параметра (manifest shortcuts)
+(function handlePanelQueryParam(){
+  try {
+    const params = new URLSearchParams(location.search);
+    const panel = params.get('panel');
+    if(panel && document.getElementById('panel-' + panel)){
+      // Затримка щоб дочекатись ініціалізації
+      setTimeout(() => showPanel(panel), 100);
+    }
+  } catch(e) {}
+})();
+
+// БАГ №7 ВИПРАВЛЕНО: Динамічні лічильники у мобільному меню
+(function updateMobileNavCounters(){
+  function setCount(){
+    const calcCount = (typeof CALCS_REGISTRY !== 'undefined') ? CALCS_REGISTRY.length : null;
+    const topicCount = (typeof ALL_TOPICS !== 'undefined') ? ALL_TOPICS.length : null;
+    const calcEl = document.getElementById('mob-calcs-count');
+    const topicEl = document.getElementById('mob-topics-count');
+    if(calcEl && calcCount !== null) calcEl.textContent = calcCount;
+    if(topicEl && topicCount !== null) topicEl.textContent = topicCount;
+  }
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', setCount);
+  } else { setCount(); }
+})();
 
 window._TOPIC_DATA = {
   "ph": {"id":"ph","title":"Кислотність розчину (pH)","icon":"🧪","color":"#69F0AE","version":"1.0","logic":{"title":"Теорія","icon":"📖","accentColor":"#4FC3F7","sections":[{"heading":"Що таке pH?","text":"pH (водневий показник) — міра кислотності або лужності розчину. Він визначає концентрацію іонів водню H⁺ у розчині. Шкала pH — від 0 до 14."},{"heading":"Дисоціація води","text":"Чиста вода частково дисоціює: H₂O ⇌ H⁺ + OH⁻. При 25°C: [H⁺] = [OH⁻] = 10⁻⁷ моль/л. Це і є нейтральне середовище — pH = 7."},{"heading":"Сильні та слабкі електроліти","text":"Сильні кислоти (HCl, HNO₃, H₂SO₄) повністю дисоціюють — [H⁺] = C. Слабкі кислоти (CH₃COOH, HCN) дисоціюють частково — потрібна константа дисоціації Ka."},{"heading":"Зв'язок pH та pOH","text":"При 25°C: pH + pOH = 14 (іонний добуток води Kw = 10⁻¹⁴). Якщо відомий pOH — pH знайти легко: pH = 14 − pOH."},{"heading":"Середовища за pH","items":["pH < 7 — кисле (надлишок H⁺)","pH = 7 — нейтральне","pH > 7 — лужне (надлишок OH⁻)"]}]},"formula":{"title":"Формули","icon":"📐","accentColor":"#00E5CC","expressions":[{"expr":"pH = −lg[H⁺]","name":"Основне визначення pH","desc":"[H⁺] — молярна концентрація іонів водню (моль/л). lg — десятковий логарифм.","example":"Якщо [H⁺] = 0.01 моль/л → pH = −lg(0.01) = −(−2) = 2"},{"expr":"[H⁺] = 10^(−pH)","name":"Концентрація H⁺ через pH","desc":"Зворотна формула — дозволяє знайти концентрацію, якщо відомий pH.","example":"pH = 3 → [H⁺] = 10⁻³ = 0.001 моль/л"},{"expr":"pH (сильна кислота) = −lg(C)","name":"Сильна кислота (повна дисоціація)","desc":"Сильна кислота повністю дисоціює, тому [H⁺] = C (концентрація кислоти).","example":"0.1 M HCl → pH = −lg(0.1) = 1"},{"expr":"pH (слабка кислота) = ½(pKa − lgC)","name":"Слабка кислота (наближена формула)","desc":"Ka — константа дисоціації кислоти. pKa = −lg(Ka). Формула точна при C/Ka > 100.","example":"0.1 M CH₃COOH, Ka=1.8×10⁻⁵ → pH ≈ ½(4.74 + 1) = 2.87"},{"expr":"pOH = −lg[OH⁻]; pH = 14 − pOH","name":"Основи (через pOH)","desc":"Для основ зручно спочатку знайти pOH, потім перейти до pH через суму 14.","example":"0.01 M NaOH → [OH⁻]=0.01 → pOH=2 → pH=12"},{"expr":"pH (буфер) = pKa + lg([A⁻]/[HA])","name":"Рівняння Гендерсона—Гасельбаха","desc":"[A⁻] — концентрація солі (спряженої основи), [HA] — концентрація слабкої кислоти.","example":"Ацетатний буфер: [CH₃COO⁻]=0.1, [CH₃COOH]=0.1 → pH = 4.74 + lg(1) = 4.74"}]},"calculator":{"title":"Калькулятор","icon":"⚙️","accentColor":"#FFB300","targetPanel":"ph","description":"Розрахуйте pH для різних типів кислот, основ та буферних розчинів у вбудованому калькуляторі.","modes":[{"id":"acid","label":"Сильна кислота","hint":"HCl, HNO₃, H₂SO₄ — повна дисоціація","example":{"label":"0.01 M HCl","value":0.01}},{"id":"weak_acid","label":"Слабка кислота","hint":"CH₃COOH, HCN — часткова дисоціація","example":{"label":"0.1 M CH₃COOH","value":0.1}},{"id":"base","label":"Сильна основа","hint":"NaOH, KOH — повна дисоціація","example":{"label":"0.001 M NaOH","value":0.001}}],"quickValues":[{"label":"0.001 моль/л","value":0.001,"comment":"pH = 3 (HCl)"},{"label":"0.01 моль/л","value":0.01,"comment":"pH = 2 (HCl)"},{"label":"0.1 моль/л","value":0.1,"comment":"pH = 1 (HCl)"}]},"reference":{"title":"Довідник","icon":"📚","accentColor":"#CE93D8","knownValues":[{"name":"Шлунковий сік","ph":"1.5–2.0","color":"#e53935"},{"name":"Лимонний сік","ph":"2.0–3.0","color":"#e57335"},{"name":"Оцет (9%)","ph":"2.9","color":"#e5a535"},{"name":"Кава","ph":"5.0","color":"#c5e535"},{"name":"Дощова вода","ph":"5.6","color":"#c5e535"},{"name":"Чиста вода","ph":"7.0","color":"#35c5e5"},{"name":"Кров людини","ph":"7.35–7.45","color":"#3574e5"},{"name":"Мило","ph":"9.0–10.0","color":"#7335e5"},{"name":"Аміак (побут.)","ph":"11.0","color":"#b535e5"},{"name":"Відбілювач","ph":"12.5","color":"#b535e5"}],"indicators":[{"name":"Лакмус","acidColor":"Червоний","baseColor":"Синій","range":"pH < 7 / pH > 7"},{"name":"Фенолфталеїн","acidColor":"Безбарвний","baseColor":"Малиновий","range":"pH 8.2–10"},{"name":"Метилоранж","acidColor":"Червоний","baseColor":"Жовтий","range":"pH 3.1–4.4"}],"facts":["Кров людини підтримує pH у вузькому діапазоні 7.35–7.45 завдяки трьом буферним системам.","Зменшення pH океану з 8.2 до 8.1 — це зростання [H⁺] на 25%. Загроза для коралів.","Свіжий лимонний сік має pH ~2 — майже як шлунковий сік!","Людська шкіра має pH ~4.5–5.5 (слабко кисла). Це захисний «кислотний мантель»."]}},

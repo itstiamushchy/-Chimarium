@@ -96,7 +96,7 @@ const FILTER_UI_HTML = `
 
   <div style="display:flex;align-items:center;gap:10px;margin-top:6px">
     <span id="rx-count" style="font-size:11px;color:#4FC3F7;font-family:'Oxanium',monospace"></span>
-    <button id="rx-clear" style="font-size:10px;padding:3px 10px;background:#1e2240;border:0.5px solid #4FC3F7;border-radius:4px;color:#4FC3F7;cursor:pointer;display:none">✕ Скинути</button>
+    <button id="rx-filter-clear" style="font-size:10px;padding:3px 10px;background:#1e2240;border:0.5px solid #4FC3F7;border-radius:4px;color:#4FC3F7;cursor:pointer;display:none">✕ Скинути</button>
   </div>
 </div>`;
 
@@ -138,14 +138,14 @@ function rxInitFilter(renderFn) {
       if (idx >= 0) { arr.splice(idx,1); btn.classList.remove('active'); }
       else          { arr.push(val);     btn.classList.add('active'); }
     }
-    if (e.target.id === 'rx-clear') {
+    if (e.target.id === 'rx-filter-clear') {
       Object.keys(state).forEach(k => state[k] = []);
       document.querySelectorAll('.rx-fbtn.active').forEach(b => b.classList.remove('active'));
     }
     const results = rxFilter(state);
     const hasFilter = Object.values(state).some(a => a.length);
     document.getElementById('rx-filter-count').textContent = hasFilter ? `${results.length} реакцій` : '';
-    document.getElementById('rx-clear').style.display = hasFilter ? '' : 'none';
+    document.getElementById('rx-filter-clear').style.display = hasFilter ? '' : 'none';
     renderFn(results);
   });
 }
