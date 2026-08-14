@@ -21,7 +21,12 @@ def clean(s):
     return s.strip()
 
 def parse_eq(eq):
-    for sep in [' <=> ', ' -> ', ' → ', ' <-> ']:
+    import re as _re
+    eq = _re.sub(r'\s*--\([^)]*\)-->\s*', ' -> ', eq)
+    eq = _re.sub(r'\s*-->\s*', ' -> ', eq)
+    eq = _re.sub(r'\s*<--\s*', ' -> ', eq)
+    eq = _re.sub(r'\s*\([^)]{5,}\)\s*$', '', eq).strip()
+    for sep in [' <=> ', ' -> ', ' → ', ' <-> ', ' --> ', ' <-- ']:
         if sep in eq:
             p = eq.split(sep, 1)
             left  = [clean(x) for x in p[0].split('+')]

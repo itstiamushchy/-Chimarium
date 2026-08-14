@@ -1,19 +1,94 @@
-// Хімарій v1.4.4 — Service Worker
+// Хімарій v1.4.5 — Service Worker
 // Кеш: офлайн-доступ до всіх ресурсів
+// ВИПРАВЛЕНО БАГ №18: додано шрифти (fonts/*.woff2) до CACHE_STATIC
+// ВИПРАВЛЕНО БАГ №19: додано 56 таблиць (data/tables/*.js) до CACHE_STATIC
+// ВИПРАВЛЕНО БАГ №20: додано data/pp-substances.js до CACHE_STATIC
 
-const CACHE_NAME = 'khimariy-v1.4.4';
+const CACHE_NAME = 'khimariy-v1.4.5';
 const CACHE_STATIC = [
   './',
   './index.html',
   './manifest.json',
-  // БАГ №16 ВИПРАВЛЕНО: reactions.json не існує окремо (тільки rx_flat/rx_index для synthesis)
-  // БАГ №17 ВИПРАВЛЕНО: synthesis.html та pobut-khimiya.html додано для PWA офлайн
   './synthesis.html',
   './pobut-khimiya.html',
   './reactions_filter.js',
   './reactions_tagged.json',
   './formulas.json',
   './glossary.json',
+  // Дані елементів і анімація
+  './data/elements.js',
+  './data/atom-animation.js',
+  './data/calc-registry.js',
+  './data/pp-substances.js',
+  // Шрифти (локальні — БАГ №18 ВИПРАВЛЕНО)
+  './fonts/inter-cyrillic-300-normal.woff2',
+  './fonts/inter-cyrillic-400-normal.woff2',
+  './fonts/inter-cyrillic-500-normal.woff2',
+  './fonts/inter-cyrillic-600-normal.woff2',
+  './fonts/inter-latin-300-normal.woff2',
+  './fonts/inter-latin-400-normal.woff2',
+  './fonts/inter-latin-500-normal.woff2',
+  './fonts/inter-latin-600-normal.woff2',
+  './fonts/oxanium-latin-400-normal.woff2',
+  './fonts/oxanium-latin-700-normal.woff2',
+  './fonts/oxanium-latin-900-normal.woff2',
+  // Таблиці (56 файлів — БАГ №19 ВИПРАВЛЕНО)
+  './data/tables/activity.js',
+  './data/tables/atomic_spectra.js',
+  './data/tables/azeotropes.js',
+  './data/tables/bonds.js',
+  './data/tables/buffers.js',
+  './data/tables/colloid_properties.js',
+  './data/tables/colloids.js',
+  './data/tables/complexes.js',
+  './data/tables/constants.js',
+  './data/tables/cooling.js',
+  './data/tables/critical.js',
+  './data/tables/cryoscopy.js',
+  './data/tables/crystal.js',
+  './data/tables/density.js',
+  './data/tables/density_basic.js',
+  './data/tables/desiccants.js',
+  './data/tables/df_elements.js',
+  './data/tables/dissociation.js',
+  './data/tables/electrochemical.js',
+  './data/tables/electronegativity.js',
+  './data/tables/eluotropic.js',
+  './data/tables/enthalpy_phase.js',
+  './data/tables/gravimetric.js',
+  './data/tables/indicators.js',
+  './data/tables/ion_separation.js',
+  './data/tables/ir.js',
+  './data/tables/kinetic.js',
+  './data/tables/ksp.js',
+  './data/tables/mass_spec.js',
+  './data/tables/mass_transfer.js',
+  './data/tables/melting.js',
+  './data/tables/nmr.js',
+  './data/tables/nomenclature.js',
+  './data/tables/optical.js',
+  './data/tables/organic_constants.js',
+  './data/tables/organic_pka.js',
+  './data/tables/oxidation.js',
+  './data/tables/pharma_pka.js',
+  './data/tables/phase_diagrams.js',
+  './data/tables/phase_states.js',
+  './data/tables/physical_constants.js',
+  './data/tables/polymers.js',
+  './data/tables/potentials.js',
+  './data/tables/qualitative.js',
+  './data/tables/radii.js',
+  './data/tables/redox_indicators.js',
+  './data/tables/reference_constants.js',
+  './data/tables/solubility.js',
+  './data/tables/solvents.js',
+  './data/tables/sp_elements.js',
+  './data/tables/spectroscopy.js',
+  './data/tables/thermo2.js',
+  './data/tables/thermodynamics.js',
+  './data/tables/units.js',
+  './data/tables/vapor.js',
+  './data/tables/viscosity.js',
   // Калькулятори
   './data/calcs/formula_configs.js',
   './data/calcs/group_1_atom.js',
@@ -62,7 +137,7 @@ const FONT_CACHE = 'khimariy-fonts-v1';
 
 // ===== INSTALL =====
 self.addEventListener('install', event => {
-  console.log('[SW] Installing Хімарій v1.4.4...');
+  console.log('[SW] Installing Хімарій v1.4.5...');
   event.waitUntil(
     caches.open(CACHE_NAME).then(cache => {
       // Cache only files that are likely to exist — ignore 404s

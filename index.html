@@ -2,8 +2,9 @@
 <html lang="uk">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Хімарій v1.4.4 · ITS_tiamushchy</title>
+<meta name="description" content="Хімарій — інтерактивний хімічний довідник: таблиця Менделєєва, 7900+ реакцій, 116 калькуляторів, 28 тем, глосарій.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Хімарій v1.4.5 · ITS_tiamushchy</title>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0d0e1a">
 <meta name="mobile-web-app-capable" content="yes">
@@ -923,7 +924,7 @@ select{color-scheme:dark}select option{background:#111224;color:#ffffff}
 
 <!-- HERO -->
 <div class="hero">
-  <div class="ver">v1.4.4</div>
+  <div class="ver">v1.4.5</div>
   <div class="mol">
     <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
       <defs><filter id="glow"><feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
@@ -1871,7 +1872,7 @@ select{color-scheme:dark}select option{background:#111224;color:#ffffff}
 
 <div class="footer">
   <span class="fcopy">© 2026 Хоменко Олексій Григорович · itstiamushchy@gmail.com</span>
-  <span class="fplat">ITS_tiamushchy · v1.4.4</span>
+  <span class="fplat">ITS_tiamushchy · v1.4.5</span>
 </div>
 </div>
 
@@ -5108,27 +5109,7 @@ const TABLES_REGISTRY=[
     icon:'📋',
     desc:'Розчинність солей, кислот і основ у воді. 13 катіонів × 9 аніонів.',
     topic:'4-3-electrolytes',
-    action:()=>{
-      // Показуємо вміст таблиці у поточній панелі
-      const c=document.getElementById('tables-content');
-      if(c.querySelector('#sol-table'))return; // вже відрендерено
-      c.innerHTML=`
-        <button class="sol-mode-btn" style="margin-bottom:14px" onclick="initTablesPanel()">← Назад до таблиць</button>
-        <div class="sec-title" style="font-size:16px;margin-bottom:10px">📋 Таблиця розчинності</div>
-        <div class="sol-legend">
-          <div class="sol-leg-item"><span class="sol-leg-badge" style="color:#00E5CC">Р</span>Розчинна (> 1 г/100 мл)</div>
-          <div class="sol-leg-item"><span class="sol-leg-badge" style="color:#FF5252">Н</span>Нерозчинна (< 0.01 г/100 мл)</div>
-          <div class="sol-leg-item"><span class="sol-leg-badge" style="color:#FFB300">М</span>Малорозчинна (0.01–1 г/100 мл)</div>
-          <div class="sol-leg-item"><span class="sol-leg-badge" style="color:#CE93D8">Р*</span>Розчиняється з реакцією (кислоти, луги)</div>
-          <div class="sol-leg-item"><span class="sol-leg-badge" style="color:#546E7A">—</span>Не існує або розкладається водою</div>
-        </div>
-        <div class="sol-table-wrap"><table class="sol-table" id="sol-table"></table></div>
-        <div class="sol-expl-box" id="sol-expl-box">
-          <div class="sol-expl-empty">👆 Клацніть на клітинку таблиці, щоб побачити пояснення</div>
-        </div>`;
-      solTableInited=false;
-      initSolTable();
-    },
+    action:()=>{ TABLE_SOLUBILITY.render('tables-content'); },
     group:'Розчини'
 },
   {
@@ -7263,7 +7244,7 @@ function setFmCat(cat, btn) {
 }
 
 // ============================================================
-// РЕАКЦІЇ v1.4.4
+// РЕАКЦІЇ v1.4.5
 // ============================================================
 // Danger info map: які речовини небезпечні і чому
 const DANGER_INFO = {
