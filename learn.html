@@ -38,42 +38,63 @@ body{background:#0d0e1a;color:#fff;font-family:Inter,sans-serif;min-height:100vh
 .back-btn{display:inline-flex;align-items:center;gap:7px;padding:7px 16px;background:#111224;border:.5px solid rgba(105,240,174,.2);border-radius:20px;color:#69F0AE;font-size:12px;font-family:Inter,sans-serif;text-decoration:none;transition:.18s;margin-top:8px}
 .back-btn:hover{background:#1a1f3a;border-color:#69F0AE;color:#fff}
 
-/* ── ФІЛЬТРИ ── */
-.filters{padding:12px 40px;border-bottom:.5px solid rgba(105,240,174,.1);display:flex;align-items:center;gap:6px;flex-wrap:wrap;background:#0a0c1a}
-.filter-btn{padding:6px 14px;font-size:11px;font-weight:500;color:#7080b8;cursor:pointer;border:.5px solid #1e2240;border-radius:16px;background:#111224;transition:.18s;font-family:Inter,sans-serif;white-space:nowrap}
-.filter-btn:hover{color:#c0d0f0;border-color:#2e3260}
-.filter-btn.active{color:#69F0AE;border-color:#69F0AE;background:rgba(105,240,174,.06)}
-
-/* ── СПИСОК ТИПІВ (хаб) ── */
+/* ── ХАБ: секції + типи ── */
 .hub{padding:28px 40px}
 .hub-meta{font-family:Oxanium,monospace;font-size:10px;color:#5a7a6a;letter-spacing:1px;margin-bottom:20px;text-transform:uppercase}
 .hub-meta span{color:#69F0AE}
-.hub-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px}
-.type-card{background:#0e1122;border:.5px solid #1e2240;border-radius:12px;padding:16px 18px;cursor:pointer;transition:.2s;display:flex;align-items:center;gap:14px}
+
+.section{margin-bottom:16px;border:.5px solid #1e2240;border-radius:14px;overflow:hidden;background:#0c0e1e}
+.section-header{padding:16px 20px;display:flex;align-items:center;gap:14px;cursor:pointer;user-select:none;transition:.2s;border-bottom:.5px solid transparent}
+.section-header:hover{background:#111428}
+.section.open .section-header{border-bottom:.5px solid rgba(105,240,174,.1);background:#0e1228}
+.section-icon{font-size:20px;flex-shrink:0}
+.section-info{flex:1}
+.section-title{font-family:Oxanium,monospace;font-size:14px;font-weight:700;color:#c0d8e0;margin-bottom:2px}
+.section-count{font-family:Oxanium,monospace;font-size:9px;color:#4a6a5a;letter-spacing:1px}
+.section-count span{color:#69F0AE}
+.section-arrow{font-size:14px;color:#69F0AE;opacity:.5;transition:transform .25s}
+.section.open .section-arrow{transform:rotate(90deg)}
+.section-body{max-height:0;overflow:hidden;transition:max-height .35s cubic-bezier(.4,0,.2,1)}
+.section.open .section-body{max-height:2000px}
+.section-grid{padding:12px 16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:8px}
+
+.type-card{background:#0e1122;border:.5px solid #1e2240;border-radius:10px;padding:14px 16px;cursor:pointer;transition:.2s;display:flex;align-items:center;gap:12px}
 .type-card:hover{border-color:#69F0AE;background:#111a26;transform:translateY(-1px)}
-.type-card-num{font-family:Oxanium,monospace;font-size:11px;color:#3a5040;min-width:28px}
+.type-card-num{font-family:Oxanium,monospace;font-size:10px;color:#3a5040;min-width:24px}
 .type-card-body{flex:1}
-.type-card-title{font-size:13px;font-weight:600;color:#c0d8cc;margin-bottom:3px}
-.type-card-topic{font-family:Oxanium,monospace;font-size:9px;color:#3a6050;letter-spacing:1px}
-.type-card-arrow{color:#69F0AE;font-size:16px;opacity:.5}
+.type-card-title{font-size:13px;font-weight:600;color:#c0d8cc;margin-bottom:2px}
+.type-card-count{font-family:Oxanium,monospace;font-size:9px;color:#3a6050;letter-spacing:1px}
+.type-card-arrow{color:#69F0AE;font-size:14px;opacity:.5}
+
+/* ── ЕКРАН ТИПУ (список задач) ── */
+.type-screen{display:none;padding:28px 40px}
+.type-screen.active{display:block}
+.type-header{margin-bottom:20px}
+.type-header-title{font-family:Oxanium,monospace;font-size:20px;font-weight:700;color:#fff;margin-bottom:4px}
+.type-header-sub{font-size:11px;color:#5a7a6a}
+.task-list{display:flex;flex-direction:column;gap:8px}
+.task-list-item{display:flex;align-items:center;gap:14px;padding:14px 18px;background:#0e1122;border:.5px solid #1e2240;border-radius:10px;cursor:pointer;transition:.2s}
+.task-list-item:hover{border-color:#69F0AE;background:#111a26}
+.task-list-item.is-example{border-left:3px solid #69F0AE}
+.task-list-num{font-family:Oxanium,monospace;font-size:11px;color:#3a5040;min-width:28px}
+.task-list-label{font-size:9px;font-family:Oxanium,monospace;letter-spacing:1px;color:#69F0AE;background:rgba(105,240,174,.08);border:.5px solid rgba(105,240,174,.2);border-radius:3px;padding:1px 6px;margin-left:6px}
+.task-list-condition{flex:1;font-size:13px;color:#c0d8cc;line-height:1.5}
+.task-list-arrow{color:#69F0AE;font-size:14px;opacity:.5}
 
 /* ── ЕКРАН ЗАДАЧІ ── */
 .task-screen{display:none;padding:28px 40px}
 .task-screen.active{display:block}
 
-/* Хлібні крихти */
-.breadcrumb{display:flex;align-items:center;gap:8px;margin-bottom:24px;font-size:12px;color:#5a7a6a}
+.breadcrumb{display:flex;align-items:center;gap:8px;margin-bottom:24px;font-size:12px;color:#5a7a6a;flex-wrap:wrap}
 .breadcrumb a{color:#69F0AE;text-decoration:none;cursor:pointer}
 .breadcrumb a:hover{color:#fff}
 .breadcrumb-sep{opacity:.4}
 
-/* Прогрес */
 .task-progress{margin-bottom:20px}
 .progress-label{font-family:Oxanium,monospace;font-size:9px;color:#5a7a6a;letter-spacing:1px;margin-bottom:6px;text-transform:uppercase}
 .progress-bar{height:3px;background:#1e2240;border-radius:2px;overflow:hidden}
 .progress-fill{height:100%;background:linear-gradient(90deg,#69F0AE,#4FC3F7);border-radius:2px;transition:width .4s}
 
-/* Заголовок задачі */
 .task-header{margin-bottom:20px}
 .task-type-badge{display:inline-block;font-family:Oxanium,monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:#69F0AE;background:rgba(105,240,174,.08);border:.5px solid rgba(105,240,174,.2);border-radius:4px;padding:2px 10px;margin-bottom:10px}
 .task-title{font-family:Oxanium,monospace;font-size:20px;font-weight:700;color:#fff;margin-bottom:4px}
@@ -109,7 +130,6 @@ body{background:#0d0e1a;color:#fff;font-family:Inter,sans-serif;min-height:100vh
 .task-block-label{font-family:Oxanium,monospace;font-size:9px;letter-spacing:2px;color:#4FC3F7;text-transform:uppercase;margin-bottom:10px}
 .task-condition{font-size:14px;color:#e0ecff;line-height:1.65;margin-bottom:20px;padding:14px 16px;background:#080e1a;border-radius:8px;border:.5px solid #1a2240}
 
-/* Поле відповіді */
 .answer-row{display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap}
 .answer-input{background:#080e1a;border:.5px solid #2a3560;border-radius:8px;color:#fff;font-family:Oxanium,monospace;font-size:16px;padding:10px 14px;width:160px;outline:none;transition:.2s}
 .answer-input:focus{border-color:#4FC3F7}
@@ -120,7 +140,6 @@ body{background:#0d0e1a;color:#fff;font-family:Inter,sans-serif;min-height:100vh
 .btn-check:hover{background:rgba(105,240,174,.2);color:#fff}
 .btn-check:disabled{opacity:.4;cursor:not-allowed}
 
-/* Підказки */
 .hints-section{margin-top:4px}
 .btn-hint{background:none;border:.5px solid #2a3560;border-radius:8px;padding:8px 16px;color:#5a7a9a;font-size:12px;cursor:pointer;transition:.18s;font-family:Inter,sans-serif;display:flex;align-items:center;gap:6px;margin-bottom:8px}
 .btn-hint:hover{border-color:#4FC3F7;color:#4FC3F7}
@@ -128,7 +147,6 @@ body{background:#0d0e1a;color:#fff;font-family:Inter,sans-serif;min-height:100vh
 .hint-card strong{color:#4FC3F7}
 @keyframes fadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
 
-/* Результат */
 .result-block{display:none;margin-top:16px;border-radius:10px;padding:16px;animation:fadeIn .3s ease}
 .result-block.correct{background:rgba(105,240,174,.06);border:.5px solid rgba(105,240,174,.25)}
 .result-block.wrong{background:rgba(255,82,82,.05);border:.5px solid rgba(255,82,82,.2)}
@@ -139,14 +157,12 @@ body{background:#0d0e1a;color:#fff;font-family:Inter,sans-serif;min-height:100vh
 .result-explain{font-size:13px;color:#8ab8a0;line-height:1.75}
 .result-explain b{color:#c0d8cc}
 
-/* Кнопки навігації */
 .nav-btns{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap}
 .btn-next{background:linear-gradient(135deg,rgba(105,240,174,.18),rgba(105,240,174,.08));border:.5px solid #69F0AE;border-radius:8px;padding:10px 28px;color:#69F0AE;font-family:Oxanium,monospace;font-size:12px;cursor:pointer;letter-spacing:1px;transition:.18s}
 .btn-next:hover{background:rgba(105,240,174,.25);color:#fff}
 .btn-back-hub{background:none;border:.5px solid #2a3560;border-radius:8px;padding:10px 20px;color:#5a7a9a;font-size:12px;cursor:pointer;transition:.18s;font-family:Inter,sans-serif}
 .btn-back-hub:hover{border-color:#69F0AE;color:#69F0AE}
 
-/* Посилання на тему */
 .topic-refs{margin-top:16px;display:flex;flex-wrap:wrap;gap:6px}
 .topic-ref{font-family:Oxanium,monospace;font-size:9px;color:#4FC3F7;background:rgba(79,195,247,.06);border:.5px solid rgba(79,195,247,.18);border-radius:4px;padding:2px 8px;text-decoration:none;transition:.15s}
 .topic-ref:hover{background:rgba(79,195,247,.12);color:#fff}
@@ -160,9 +176,10 @@ body{background:#0d0e1a;color:#fff;font-family:Inter,sans-serif;min-height:100vh
 /* ── RESPONSIVE ── */
 @media(max-width:768px){
   .hero{padding:12px 14px;gap:14px}.brand-title{font-size:24px}
-  .filters{padding:10px 12px}
-  .hub{padding:16px 12px}.task-screen{padding:16px 12px}
-  .hub-grid{grid-template-columns:1fr}
+  .hub{padding:16px 12px}
+  .type-screen{padding:16px 12px}
+  .task-screen{padding:16px 12px}
+  .section-grid{grid-template-columns:1fr;padding:10px 12px}
   .answer-input{width:130px}
   .footer{padding:12px 14px;flex-direction:column;align-items:flex-start}
 }
@@ -174,7 +191,7 @@ body{background:#0d0e1a;color:#fff;font-family:Inter,sans-serif;min-height:100vh
 
 <!-- HERO -->
 <div class="hero">
-  <div class="ver">v1.0.0</div>
+  <div class="ver">v2.0.0</div>
   <div class="mol">
     <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
       <defs>
@@ -182,27 +199,22 @@ body{background:#0d0e1a;color:#fff;font-family:Inter,sans-serif;min-height:100vh
         <filter id="glow2"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
       </defs>
       <g class="drop-anim">
-        <!-- Олівець/ручка -->
         <rect x="52" y="18" width="10" height="55" rx="2" fill="rgba(105,240,174,0.08)" stroke="#69F0AE" stroke-width="1" opacity="0.8"/>
         <polygon points="52,73 62,73 57,88" fill="#69F0AE" opacity="0.7"/>
         <rect x="52" y="18" width="10" height="10" rx="2" fill="rgba(255,100,100,0.3)" stroke="#ff7070" stroke-width="0.7"/>
-        <!-- Лінії рядків -->
         <line x1="38" y1="35" x2="50" y2="35" stroke="#69F0AE" stroke-width="0.6" opacity="0.4"/>
         <line x1="38" y1="42" x2="50" y2="42" stroke="#69F0AE" stroke-width="0.6" opacity="0.3"/>
         <line x1="38" y1="49" x2="50" y2="49" stroke="#69F0AE" stroke-width="0.6" opacity="0.2"/>
         <line x1="64" y1="35" x2="80" y2="35" stroke="#69F0AE" stroke-width="0.6" opacity="0.4"/>
         <line x1="64" y1="42" x2="78" y2="42" stroke="#69F0AE" stroke-width="0.6" opacity="0.3"/>
         <line x1="64" y1="49" x2="76" y2="49" stroke="#69F0AE" stroke-width="0.6" opacity="0.2"/>
-        <!-- Формула H2O -->
         <text x="57" y="105" text-anchor="middle" fill="#69F0AE" font-size="9" font-family="Oxanium,monospace" opacity="0.6">H₂O</text>
-        <!-- Атоми -->
         <circle cx="30" cy="60" r="7" fill="rgba(105,240,174,0.1)" stroke="#69F0AE" stroke-width="0.8" filter="url(#glow1)"/>
         <text x="30" y="64" text-anchor="middle" fill="#69F0AE" font-size="6" font-weight="700" font-family="Oxanium,monospace">Na</text>
         <circle cx="88" cy="60" r="6" fill="rgba(79,195,247,0.1)" stroke="#4FC3F7" stroke-width="0.8" filter="url(#glow1)"/>
         <text x="88" y="64" text-anchor="middle" fill="#4FC3F7" font-size="6" font-weight="700" font-family="Oxanium,monospace">Cl</text>
         <line x1="37" y1="60" x2="50" y2="60" stroke="#69F0AE" stroke-width="0.7" opacity="0.3"/>
         <line x1="64" y1="60" x2="81" y2="60" stroke="#4FC3F7" stroke-width="0.7" opacity="0.3"/>
-        <!-- Блиск -->
         <ellipse cx="57" cy="90" rx="16" ry="4" fill="#69F0AE" opacity="0.04" filter="url(#glow2)">
           <animate attributeName="opacity" values="0.02;0.08;0.02" dur="3s" repeatCount="indefinite"/>
         </ellipse>
@@ -217,46 +229,52 @@ body{background:#0d0e1a;color:#fff;font-family:Inter,sans-serif;min-height:100vh
   </div>
 </div>
 
-<!-- ФІЛЬТРИ -->
-<div class="filters" id="filters-bar">
-  <button class="filter-btn active" data-group="all" onclick="setGroup('all')">📚 Всі типи</button>
-  <button class="filter-btn" data-group="basic" onclick="setGroup('basic')">⚗️ Базові</button>
-  <button class="filter-btn" data-group="solutions" onclick="setGroup('solutions')">🧪 Розчини</button>
-  <button class="filter-btn" data-group="reactions" onclick="setGroup('reactions')">🔥 Реакції</button>
-  <button class="filter-btn" data-group="advanced" onclick="setGroup('advanced')">🎓 Поглиблені</button>
-</div>
-
-<!-- ХАБ — список типів задач -->
+<!-- ═══ ХАБ — секції з типами ═══ -->
 <div class="hub" id="hub-screen">
   <div class="hub-meta" id="hub-meta">Завантаження...</div>
-  <div class="hub-grid" id="hub-grid"></div>
+  <div id="hub-sections"></div>
 </div>
 
-<!-- ЕКРАН ЗАДАЧІ -->
+<!-- ═══ ЕКРАН ТИПУ — список задач ═══ -->
+<div class="type-screen" id="type-screen">
+  <div class="breadcrumb">
+    <a onclick="showHub()">📚 Задачник</a>
+    <span class="breadcrumb-sep">›</span>
+    <span id="ts-section-name"></span>
+    <span class="breadcrumb-sep">›</span>
+    <span id="ts-type-name"></span>
+  </div>
+  <div class="type-header">
+    <div class="type-header-title" id="ts-title"></div>
+    <div class="type-header-sub" id="ts-sub"></div>
+  </div>
+  <div class="task-list" id="ts-list"></div>
+</div>
+
+<!-- ═══ ЕКРАН ЗАДАЧІ ═══ -->
 <div class="task-screen" id="task-screen">
 
-  <!-- Хлібні крихти -->
   <div class="breadcrumb">
-    <a onclick="showHub()">📚 Всі типи</a>
+    <a onclick="showHub()">📚 Задачник</a>
     <span class="breadcrumb-sep">›</span>
-    <span id="bc-title"></span>
+    <a id="bc-type" onclick="backToType()"></a>
+    <span class="breadcrumb-sep">›</span>
+    <span id="bc-task"></span>
   </div>
 
-  <!-- Прогрес -->
   <div class="task-progress">
     <div class="progress-label">Прогрес — <span id="prog-text"></span></div>
     <div class="progress-bar"><div class="progress-fill" id="prog-fill"></div></div>
   </div>
 
-  <!-- Заголовок -->
   <div class="task-header">
     <div class="task-type-badge" id="t-badge"></div>
     <div class="task-title" id="t-title"></div>
     <a class="task-topic-link" id="t-topic-link" href="index.html" target="_blank">📖 Відкрити тему в довіднику</a>
   </div>
 
-  <!-- ПРИКЛАД -->
-  <div class="example-block" id="example-block">
+  <!-- ПРИКЛАД (показується тільки якщо є) -->
+  <div class="example-block" id="example-block" style="display:none">
     <div class="example-header" onclick="toggleExample()">
       <span class="example-icon">📘</span>
       <span class="example-label">Розбір прикладу</span>
@@ -277,7 +295,6 @@ body{background:#0d0e1a;color:#fff;font-family:Inter,sans-serif;min-height:100vh
     <div class="task-block-label">🎯 Твоя задача</div>
     <div class="task-condition" id="t-condition"></div>
 
-    <!-- Поле відповіді -->
     <div class="answer-row">
       <input class="answer-input" type="text" id="answer-input"
              placeholder="Відповідь..."
@@ -286,23 +303,19 @@ body{background:#0d0e1a;color:#fff;font-family:Inter,sans-serif;min-height:100vh
       <button class="btn-check" id="btn-check" onclick="checkAnswer()">Перевірити</button>
     </div>
 
-    <!-- Підказки -->
     <div class="hints-section" id="hints-section"></div>
 
-    <!-- Результат -->
     <div class="result-block" id="result-block">
       <div class="result-icon" id="result-icon"></div>
       <div class="result-title" id="result-title"></div>
       <div class="result-explain" id="result-explain"></div>
     </div>
 
-    <!-- Посилання на теми -->
     <div class="topic-refs" id="topic-refs"></div>
 
-    <!-- Навігація -->
     <div class="nav-btns" id="nav-btns" style="display:none">
       <button class="btn-next" onclick="nextTask()">Наступна задача →</button>
-      <button class="btn-back-hub" onclick="showHub()">← До списку типів</button>
+      <button class="btn-back-hub" onclick="backToType()">← До списку задач</button>
     </div>
   </div>
 
@@ -316,17 +329,35 @@ body{background:#0d0e1a;color:#fff;font-family:Inter,sans-serif;min-height:100vh
 </div><!-- .kr -->
 
 <script>
-// ── КОНФІГ ГРУП ──────────────────────────────────────────────────────
-const GROUPS = {
-  basic:     ['mr','mass-fraction-element','mol-mass','gas-volume','avogadro','gas-density'],
-  solutions: ['mass-fraction-solution','molarity','solution-density','molarity-mixing','crystallohydrate','mixing-rule'],
-  reactions: ['reaction-mass','impurities','excess-deficit','practical-yield','mixture','solution-reaction','plate-reaction'],
-  advanced:  ['thermochemical','formula-by-fractions','formula-by-combustion','ecological','unknown-element']
-};
-
-const GROUP_LABELS = {
-  basic:'Базові',solutions:'Розчини',reactions:'Реакції',advanced:'Поглиблені'
-};
+// ═══════════════════════════════════════════════════════════════
+// КОНФІГ — 6 розділів
+// ═══════════════════════════════════════════════════════════════
+const SECTIONS = [
+  {
+    id: 'formula', icon: '🧮', title: 'A. Формули',
+    types: ['a-mr','a-mass-fraction','a-mol-mass','a-avogadro','a-formula-frac','a-formula-comb','a-unknown-elem']
+  },
+  {
+    id: 'gas', icon: '💨', title: 'B. Гази',
+    types: ['b-gas-volume','b-gas-density','b-gas-mix']
+  },
+  {
+    id: 'solution', icon: '🧪', title: 'C. Розчини',
+    types: ['c-mass-fraction','c-molarity','c-density','c-mixing','c-dilution','c-crystallohydrate','c-mixing-rule']
+  },
+  {
+    id: 'reaction', icon: '🔥', title: 'D. Реакції',
+    types: ['d-stoich','d-excess','d-impurities','d-yield','d-chain','d-plate','d-solution-rxn','d-mixture']
+  },
+  {
+    id: 'physchem', icon: '⚡', title: 'E. Фізхім',
+    types: ['e-thermo','e-kinetics','e-equilibrium','e-electrolysis','e-ecological']
+  },
+  {
+    id: 'combo', icon: '🧩', title: 'F. Комбіновані',
+    types: ['f-combo','f-cryptogram']
+  }
+];
 
 const TOPIC_LABELS = {
   '1-1-atom':'Будова атому','1-2-periodic':'Періодичний закон',
@@ -343,16 +374,21 @@ const TOPIC_LABELS = {
   '5-6-polymers':'Полімери','6-1-qualitative':'Якісний аналіз'
 };
 
-// ── СТАН ─────────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════
+// СТАН
+// ═══════════════════════════════════════════════════════════════
 let ALL_TASKS = [];
-let filteredTasks = [];
+let currentType = null;
+let currentSectionId = null;
+let currentTypeTasks = [];
 let currentTaskIndex = 0;
 let currentTask = null;
 let hintsShown = 0;
 let answered = false;
-let currentGroup = 'all';
 
-// ── ЗАВАНТАЖЕННЯ ─────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════
+// ЗАВАНТАЖЕННЯ
+// ═══════════════════════════════════════════════════════════════
 async function loadTasks() {
   try {
     const r = await fetch('data/tasks.json');
@@ -361,111 +397,203 @@ async function loadTasks() {
     document.getElementById('hub-meta').textContent = '⚠️ Файл data/tasks.json не знайдено';
     return;
   }
-  setGroup('all');
-}
-
-// ── ГРУПА / ФІЛЬТР ───────────────────────────────────────────────────
-function setGroup(g) {
-  currentGroup = g;
-  document.querySelectorAll('.filter-btn').forEach(b =>
-    b.classList.toggle('active', b.dataset.group === g));
-
-  if (g === 'all') {
-    filteredTasks = ALL_TASKS;
-  } else {
-    const types = GROUPS[g] || [];
-    filteredTasks = ALL_TASKS.filter(t => types.includes(t.type));
-  }
   renderHub();
 }
 
-// ── ХАБ ──────────────────────────────────────────────────────────────
-function renderHub() {
-  const meta = document.getElementById('hub-meta');
-  const grid = document.getElementById('hub-grid');
-  const label = currentGroup === 'all' ? 'всі типи' : GROUP_LABELS[currentGroup];
-  meta.innerHTML = `Показано <span>${filteredTasks.length}</span> типів задач · ${label}`;
-
-  grid.innerHTML = filteredTasks.map((t, i) => `
-    <div class="type-card" onclick="startTask(${ALL_TASKS.indexOf(t)})">
-      <div class="type-card-num">${String(i+1).padStart(2,'0')}</div>
-      <div class="type-card-body">
-        <div class="type-card-title">${t.title}</div>
-        <div class="type-card-topic">${TOPIC_LABELS[t.topic] || t.topic}</div>
-      </div>
-      <div class="type-card-arrow">›</div>
-    </div>`).join('');
+// ═══════════════════════════════════════════════════════════════
+// УТИЛІТИ
+// ═══════════════════════════════════════════════════════════════
+function getTasksByType(typeId) {
+  return ALL_TASKS.filter(t => t.type === typeId);
 }
 
-// ── ПОКАЗАТИ ХАБ ─────────────────────────────────────────────────────
+function getTypeTitle(typeId) {
+  const t = ALL_TASKS.find(x => x.type === typeId);
+  return t ? t.title : typeId;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ХАБ — секції з типами
+// ═══════════════════════════════════════════════════════════════
+function renderHub() {
+  const totalTypes = new Set(ALL_TASKS.map(t => t.type)).size;
+  document.getElementById('hub-meta').innerHTML =
+    '<span>' + ALL_TASKS.length + '</span> задач · <span>' + totalTypes + '</span> типів · 6 розділів';
+
+  const container = document.getElementById('hub-sections');
+  let html = '';
+
+  SECTIONS.forEach(function(sec, si) {
+    const typesWithTasks = sec.types.filter(function(t) { return getTasksByType(t).length > 0; });
+    let totalInSection = 0;
+    sec.types.forEach(function(t) { totalInSection += getTasksByType(t).length; });
+    const isEmpty = typesWithTasks.length === 0;
+
+    html += '<div class="section' + (si === 0 ? ' open' : '') + '" id="sec-' + sec.id + '">';
+    html += '<div class="section-header" onclick="toggleSection(\'' + sec.id + '\')">';
+    html += '<div class="section-icon">' + sec.icon + '</div>';
+    html += '<div class="section-info">';
+    html += '<div class="section-title">' + sec.title + '</div>';
+    html += '<div class="section-count">';
+    if (isEmpty) {
+      html += 'Поки порожній — скоро буде';
+    } else {
+      html += '<span>' + typesWithTasks.length + '</span> типів · <span>' + totalInSection + '</span> задач';
+    }
+    html += '</div></div>';
+    html += '<div class="section-arrow">▶</div>';
+    html += '</div>';
+    html += '<div class="section-body"><div class="section-grid">';
+
+    typesWithTasks.forEach(function(typeId, ti) {
+      const count = getTasksByType(typeId).length;
+      html += '<div class="type-card" onclick="openType(\'' + typeId + '\',\'' + sec.id + '\')">';
+      html += '<div class="type-card-num">' + String(ti + 1).padStart(2, '0') + '</div>';
+      html += '<div class="type-card-body">';
+      html += '<div class="type-card-title">' + getTypeTitle(typeId) + '</div>';
+      html += '<div class="type-card-count">' + count + ' задач</div>';
+      html += '</div>';
+      html += '<div class="type-card-arrow">›</div>';
+      html += '</div>';
+    });
+
+    html += '</div></div></div>';
+  });
+
+  container.innerHTML = html;
+}
+
+function toggleSection(id) {
+  document.getElementById('sec-' + id).classList.toggle('open');
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ЕКРАН ТИПУ — список задач
+// ═══════════════════════════════════════════════════════════════
+function openType(typeId, sectionId) {
+  currentType = typeId;
+  currentSectionId = sectionId;
+  currentTypeTasks = getTasksByType(typeId);
+
+  var sec = null;
+  for (var i = 0; i < SECTIONS.length; i++) {
+    if (SECTIONS[i].id === sectionId) { sec = SECTIONS[i]; break; }
+  }
+
+  document.getElementById('hub-screen').style.display = 'none';
+  document.getElementById('task-screen').classList.remove('active');
+  document.getElementById('type-screen').classList.add('active');
+
+  document.getElementById('ts-section-name').textContent = sec ? sec.title : '';
+  document.getElementById('ts-type-name').textContent = getTypeTitle(typeId);
+  document.getElementById('ts-title').textContent = getTypeTitle(typeId);
+  document.getElementById('ts-sub').textContent = currentTypeTasks.length + ' задач';
+
+  var list = document.getElementById('ts-list');
+  var lhtml = '';
+  currentTypeTasks.forEach(function(t, i) {
+    var hasEx = !!t.example;
+    var cond = t.task ? t.task.condition : (t.example ? t.example.condition : '—');
+    lhtml += '<div class="task-list-item' + (hasEx ? ' is-example' : '') + '" onclick="startTask(' + i + ')">';
+    lhtml += '<div class="task-list-num">' + String(i + 1).padStart(2, '0') + '</div>';
+    lhtml += '<div class="task-list-condition">';
+    lhtml += cond;
+    if (hasEx) lhtml += '<span class="task-list-label">з прикладом</span>';
+    lhtml += '</div>';
+    lhtml += '<div class="task-list-arrow">›</div>';
+    lhtml += '</div>';
+  });
+  list.innerHTML = lhtml;
+
+  window.scrollTo(0, 0);
+}
+
+function backToType() {
+  if (currentType && currentSectionId) {
+    openType(currentType, currentSectionId);
+  } else {
+    showHub();
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ПОКАЗАТИ ХАБ
+// ═══════════════════════════════════════════════════════════════
 function showHub() {
   document.getElementById('hub-screen').style.display = 'block';
+  document.getElementById('type-screen').classList.remove('active');
   document.getElementById('task-screen').classList.remove('active');
-  document.getElementById('filters-bar').style.display = 'flex';
-  // Відкрити приклад при поверненні
-  document.getElementById('example-block').classList.remove('open');
+  window.scrollTo(0, 0);
 }
 
-// ── СТАРТ ЗАДАЧІ ─────────────────────────────────────────────────────
-function startTask(globalIndex) {
-  currentTask = ALL_TASKS[globalIndex];
-  currentTaskIndex = globalIndex;
+// ═══════════════════════════════════════════════════════════════
+// СТАРТ ЗАДАЧІ
+// ═══════════════════════════════════════════════════════════════
+function startTask(indexInType) {
+  currentTaskIndex = indexInType;
+  currentTask = currentTypeTasks[indexInType];
   hintsShown = 0;
   answered = false;
 
-  document.getElementById('hub-screen').style.display = 'none';
-  document.getElementById('filters-bar').style.display = 'none';
+  document.getElementById('type-screen').classList.remove('active');
   document.getElementById('task-screen').classList.add('active');
 
   renderTask();
   window.scrollTo(0, 0);
 }
 
-// ── РЕНДЕР ЗАДАЧІ ────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════
+// РЕНДЕР ЗАДАЧІ
+// ═══════════════════════════════════════════════════════════════
 function renderTask() {
-  const t = currentTask;
-  const ex = t.example;
-  const task = t.task;
+  var t = currentTask;
+  var ex = t.example || null;
+  var task = t.task;
 
-  // Хлібні крихти і прогрес
-  document.getElementById('bc-title').textContent = t.title;
-  const pos = filteredTasks.findIndex(x => x.id === t.id);
-  const total = filteredTasks.length;
-  document.getElementById('prog-text').textContent =
-    pos >= 0 ? `${pos+1} з ${total}` : t.title;
-  document.getElementById('prog-fill').style.width =
-    pos >= 0 ? `${((pos+1)/total)*100}%` : '0%';
+  // Хлібні крихти
+  document.getElementById('bc-type').textContent = t.title;
+  document.getElementById('bc-task').textContent = 'Задача ' + (currentTaskIndex + 1);
+
+  // Прогрес
+  var total = currentTypeTasks.length;
+  document.getElementById('prog-text').textContent = (currentTaskIndex + 1) + ' з ' + total;
+  document.getElementById('prog-fill').style.width = (((currentTaskIndex + 1) / total) * 100) + '%';
 
   // Заголовок
   document.getElementById('t-badge').textContent = t.title;
-  document.getElementById('t-title').textContent = ex.condition;
-  const tLink = document.getElementById('t-topic-link');
-  tLink.href = `index.html#topic-${t.topic}`;
+  document.getElementById('t-title').textContent = task.condition;
+  document.getElementById('t-topic-link').href = 'index.html#topic-' + t.topic;
 
-  // Приклад
-  document.getElementById('ex-condition').innerHTML = ex.condition;
-  document.getElementById('ex-intro').innerHTML = ex.intro;
-  document.getElementById('ex-conclusion').innerHTML = ex.conclusion;
+  // Приклад — показати тільки якщо є
+  var exBlock = document.getElementById('example-block');
+  if (ex) {
+    exBlock.style.display = 'block';
+    exBlock.classList.add('open');
+    document.getElementById('ex-condition').innerHTML = ex.condition;
+    document.getElementById('ex-intro').innerHTML = ex.intro;
+    document.getElementById('ex-conclusion').innerHTML = ex.conclusion;
 
-  const stepsEl = document.getElementById('ex-steps');
-  stepsEl.innerHTML = ex.steps.map((s, i) => `
-    <div class="step">
-      <div class="step-num">${i+1}</div>
-      <div class="step-body">
-        <div class="step-action">${s.action}</div>
-        <div class="step-why">${s.why}</div>
-        <div class="step-result">${s.result}</div>
-      </div>
-    </div>`).join('');
-
-  // Відкрити приклад за замовчуванням
-  document.getElementById('example-block').classList.add('open');
+    var shtml = '';
+    ex.steps.forEach(function(s, i) {
+      shtml += '<div class="step">';
+      shtml += '<div class="step-num">' + (i + 1) + '</div>';
+      shtml += '<div class="step-body">';
+      shtml += '<div class="step-action">' + s.action + '</div>';
+      shtml += '<div class="step-why">' + s.why + '</div>';
+      shtml += '<div class="step-result">' + s.result + '</div>';
+      shtml += '</div></div>';
+    });
+    document.getElementById('ex-steps').innerHTML = shtml;
+  } else {
+    exBlock.style.display = 'none';
+    exBlock.classList.remove('open');
+  }
 
   // Задача
   document.getElementById('t-condition').innerHTML = task.condition;
 
   // Відповідь
-  const inp = document.getElementById('answer-input');
+  var inp = document.getElementById('answer-input');
   inp.value = '';
   inp.className = 'answer-input';
   inp.disabled = false;
@@ -477,36 +605,36 @@ function renderTask() {
   renderHints();
 
   // Результат — сховати
-  const rb = document.getElementById('result-block');
+  var rb = document.getElementById('result-block');
   rb.style.display = 'none';
   rb.className = 'result-block';
 
-  // Кнопки навігації — сховати
+  // Навігація — сховати
   document.getElementById('nav-btns').style.display = 'none';
 
   // Посилання на теми
-  const refs = document.getElementById('topic-refs');
-  const topics = t.topics || [t.topic];
-  refs.innerHTML = topics.map(tp =>
-    `<a class="topic-ref" href="index.html#topic-${tp}" target="_blank">📖 ${TOPIC_LABELS[tp] || tp}</a>`
-  ).join('');
+  var refs = document.getElementById('topic-refs');
+  var topics = t.topics || [t.topic];
+  var rhtml = '';
+  topics.forEach(function(tp) {
+    rhtml += '<a class="topic-ref" href="index.html#topic-' + tp + '" target="_blank">📖 ' + (TOPIC_LABELS[tp] || tp) + '</a>';
+  });
+  refs.innerHTML = rhtml;
 }
 
-// ── ПІДКАЗКИ ─────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════
+// ПІДКАЗКИ
+// ═══════════════════════════════════════════════════════════════
 function renderHints() {
-  const hints = currentTask.task.hints || [];
-  const sec = document.getElementById('hints-section');
+  var hints = currentTask.task.hints || [];
+  var sec = document.getElementById('hints-section');
+  var html = '';
 
-  let html = '';
-  // Показані підказки
-  for (let i = 0; i < hintsShown; i++) {
-    html += `<div class="hint-card"><strong>Підказка ${i+1}:</strong> ${hints[i]}</div>`;
+  for (var i = 0; i < hintsShown; i++) {
+    html += '<div class="hint-card"><strong>Підказка ' + (i + 1) + ':</strong> ' + hints[i] + '</div>';
   }
-  // Кнопка наступної підказки
   if (hintsShown < hints.length && !answered) {
-    html += `<button class="btn-hint" onclick="showHint()">
-      💡 Підказка ${hintsShown + 1} з ${hints.length}
-    </button>`;
+    html += '<button class="btn-hint" onclick="showHint()">💡 Підказка ' + (hintsShown + 1) + ' з ' + hints.length + '</button>';
   }
   sec.innerHTML = html;
 }
@@ -518,18 +646,19 @@ function showHint() {
   }
 }
 
-// ── ПЕРЕВІРКА ВІДПОВІДІ ──────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════
+// ПЕРЕВІРКА ВІДПОВІДІ
+// ═══════════════════════════════════════════════════════════════
 function checkAnswer() {
   if (answered) return;
-  const inp = document.getElementById('answer-input');
-  const raw = inp.value.trim().replace(',', '.');
-  const userVal = parseFloat(raw);
-  const task = currentTask.task;
+  var inp = document.getElementById('answer-input');
+  var raw = inp.value.trim().replace(',', '.');
+  var userVal = parseFloat(raw);
+  var task = currentTask.task;
 
-  // Для текстових відповідей (формули)
   if (typeof task.answer === 'string') {
-    const correct = raw.toLowerCase().replace(/\s/g,'') ===
-                    task.answer.toLowerCase().replace(/\s/g,'');
+    var correct = raw.toLowerCase().replace(/\s/g, '') ===
+                  task.answer.toLowerCase().replace(/\s/g, '');
     showResult(correct, task);
     inp.className = 'answer-input ' + (correct ? 'correct' : 'wrong');
   } else {
@@ -538,7 +667,7 @@ function checkAnswer() {
       inp.placeholder = 'Введи число!';
       return;
     }
-    const correct = Math.abs(userVal - task.answer) <= (task.tolerance || 0.01);
+    var correct = Math.abs(userVal - task.answer) <= (task.tolerance || 0.01);
     showResult(correct, task);
     inp.className = 'answer-input ' + (correct ? 'correct' : 'wrong');
   }
@@ -547,40 +676,42 @@ function checkAnswer() {
   inp.disabled = true;
   document.getElementById('btn-check').disabled = true;
   document.getElementById('nav-btns').style.display = 'flex';
-
-  // Сховати кнопку підказки
   renderHints();
 }
 
 function showResult(correct, task) {
-  const rb = document.getElementById('result-block');
+  var rb = document.getElementById('result-block');
   rb.style.display = 'block';
   rb.className = 'result-block ' + (correct ? 'correct' : 'wrong');
 
   document.getElementById('result-icon').textContent = correct ? '✅' : '❌';
   document.getElementById('result-title').textContent = correct
     ? 'Правильно! Чудова робота!'
-    : `Не зовсім. Правильна відповідь: ${task.answer}${task.unit ? ' ' + task.unit : ''}`;
+    : 'Не зовсім. Правильна відповідь: ' + task.answer + (task.unit ? ' ' + task.unit : '');
   document.getElementById('result-explain').innerHTML = task.explain;
 }
 
-// ── НАСТУПНА ЗАДАЧА ──────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════
+// НАСТУПНА ЗАДАЧА
+// ═══════════════════════════════════════════════════════════════
 function nextTask() {
-  const pos = filteredTasks.findIndex(x => x.id === currentTask.id);
-  if (pos < filteredTasks.length - 1) {
-    const next = filteredTasks[pos + 1];
-    startTask(ALL_TASKS.indexOf(next));
+  if (currentTaskIndex < currentTypeTasks.length - 1) {
+    startTask(currentTaskIndex + 1);
   } else {
-    showHub();
+    backToType();
   }
 }
 
-// ── ПРИКЛАД TOGGLE ───────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════
+// ПРИКЛАД TOGGLE
+// ═══════════════════════════════════════════════════════════════
 function toggleExample() {
   document.getElementById('example-block').classList.toggle('open');
 }
 
-// ── СТАРТ ────────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════
+// СТАРТ
+// ═══════════════════════════════════════════════════════════════
 loadTasks();
 </script>
 </body>
