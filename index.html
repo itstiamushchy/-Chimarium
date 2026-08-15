@@ -926,6 +926,15 @@ select{color-scheme:dark}select option{background:#111224;color:#ffffff}
 .navkolo-banner-arrow{font-size:18px;color:#4FC3F7;opacity:.7;flex-shrink:0;transition:transform .2s}
 .navkolo-banner:hover .navkolo-banner-arrow{transform:translateX(4px)}
 @media(max-width:600px){.navkolo-banner{padding:9px 14px;gap:10px}.navkolo-banner-title{font-size:11px}.navkolo-banner-sub{font-size:10px}}
+.learn-banner{display:flex;align-items:center;gap:14px;padding:10px 40px;background:linear-gradient(90deg,rgba(105,240,174,.07) 0%,rgba(105,240,174,.04) 50%,rgba(105,240,174,.07) 100%);border-bottom:.5px solid rgba(105,240,174,.18);text-decoration:none;transition:background .2s;cursor:pointer}
+.learn-banner:hover{background:linear-gradient(90deg,rgba(105,240,174,.13) 0%,rgba(105,240,174,.09) 50%,rgba(105,240,174,.13) 100%)}
+.learn-banner-icon{font-size:22px;flex-shrink:0}
+.learn-banner-text{flex:1;display:flex;flex-direction:column;gap:1px}
+.learn-banner-title{font-family:'Oxanium',monospace;font-size:12px;font-weight:700;color:#69F0AE;letter-spacing:.5px}
+.learn-banner-sub{font-size:11px;color:#8090b8}
+.learn-banner-arrow{font-size:18px;color:#69F0AE;opacity:.7;flex-shrink:0;transition:transform .2s}
+.learn-banner:hover .learn-banner-arrow{transform:translateX(4px)}
+@media(max-width:600px){.learn-banner{padding:9px 14px;gap:10px}.learn-banner-title{font-size:11px}.learn-banner-sub{font-size:10px}}
 </style>
 </head>
 <body>
@@ -974,6 +983,7 @@ select{color-scheme:dark}select option{background:#111224;color:#ffffff}
   <button class="nav-mobile-item" onclick="showPanel('favorites');closeMobileNav()">⭐ Обрані</button>
   <a class="nav-mobile-item" href="synthesis.html" style="text-decoration:none;display:block;width:100%;text-align:left">⚗️ Хімічний синтез</a>
   <a class="nav-mobile-item" href="navkolo.html" style="text-decoration:none;display:block;width:100%;text-align:left">🌍 Хімія навколо нас</a>
+  <a class="nav-mobile-item" href="learn.html" style="text-decoration:none;display:block;width:100%;text-align:left">🧮 Задачник</a>
 </div>
 
 <!-- NAV -->
@@ -1005,6 +1015,8 @@ select{color-scheme:dark}select option{background:#111224;color:#ffffff}
   <a class="nav-btn" href="synthesis.html" style="text-decoration:none">⚗️ Хімічний синтез</a>
   <div class="nav-divider"></div>
   <a class="nav-btn" href="navkolo.html" style="text-decoration:none">🌍 Хімія навколо нас</a>
+  <div class="nav-divider"></div>
+  <a class="nav-btn" href="learn.html" style="text-decoration:none">🧮 Задачник</a>
   <div class="gsearch-wrap">
     <button class="gsearch-btn" onclick="openGSearch()" title="Глобальний пошук (/)">
       🔍 Пошук <span class="gsearch-shortcut">/</span>
@@ -1030,6 +1042,16 @@ select{color-scheme:dark}select option{background:#111224;color:#ffffff}
     <span class="navkolo-banner-sub">76 парадоксів, відкриттів та таємниць звичайних речей</span>
   </div>
   <div class="navkolo-banner-arrow">→</div>
+</a>
+
+<!-- BANNER: ЗАДАЧНИК -->
+<a href="learn.html" class="learn-banner" id="learn-banner">
+  <div class="learn-banner-icon">🧮</div>
+  <div class="learn-banner-text">
+    <span class="learn-banner-title">Задачник</span>
+    <span class="learn-banner-sub">24 типи задач — приклади, підказки, пояснення</span>
+  </div>
+  <div class="learn-banner-arrow">→</div>
 </a>
 
 <!-- GLOBAL SEARCH OVERLAY -->
