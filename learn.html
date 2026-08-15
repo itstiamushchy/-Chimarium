@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Хімарій — Задачник</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0d0e1a">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<style>
+@font-face{font-family:Oxanium;font-style:normal;font-weight:400;font-display:swap;src:url('fonts/oxanium-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:Oxanium;font-style:normal;font-weight:700;font-display:swap;src:url('fonts/oxanium-latin-700-normal.woff2') format('woff2')}
+@font-face{font-family:Oxanium;font-style:normal;font-weight:900;font-display:swap;src:url('fonts/oxanium-latin-900-normal.woff2') format('woff2')}
+@font-face{font-family:Inter;font-style:normal;font-weight:300;font-display:swap;src:url('fonts/inter-latin-300-normal.woff2') format('woff2')}
+@font-face{font-family:Inter;font-style:normal;font-weight:400;font-display:swap;src:url('fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:Inter;font-style:normal;font-weight:500;font-display:swap;src:url('fonts/inter-latin-500-normal.woff2') format('woff2')}
+@font-face{font-family:Inter;font-style:normal;font-weight:600;font-display:swap;src:url('fonts/inter-latin-600-normal.woff2') format('woff2')}
+@font-face{font-family:Inter;font-style:normal;font-weight:300;font-display:swap;src:url('fonts/inter-cyrillic-300-normal.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:Inter;font-style:normal;font-weight:400;font-display:swap;src:url('fonts/inter-cyrillic-400-normal.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:Inter;font-style:normal;font-weight:500;font-display:swap;src:url('fonts/inter-cyrillic-500-normal.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:Inter;font-style:normal;font-weight:600;font-display:swap;src:url('fonts/inter-cyrillic-600-normal.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0d0e1a;color:#fff;font-family:Inter,sans-serif;min-height:100vh}
+.kr{max-width:1400px;margin:0 auto}
+
+/* ── HERO ── */
+.hero{position:relative;padding:24px 40px 20px;display:flex;align-items:center;gap:24px;border-bottom:.5px solid rgba(105,240,174,.15)}
+.mol{flex-shrink:0;width:108px;height:108px}.mol svg{width:100%;height:100%}
+.drop-anim{animation:3s ease-in-out infinite dropPulse}
+@keyframes dropPulse{0%,100%{opacity:.9;transform:scale(1)}50%{opacity:1;transform:scale(1.05)}}
+.brand-label{font-family:Oxanium,monospace;font-size:9px;letter-spacing:4px;color:#69F0AE;text-transform:uppercase;margin-bottom:4px;opacity:.8}
+.brand-title{font-family:Oxanium,monospace;font-size:34px;font-weight:900;color:#fff;line-height:1;letter-spacing:-1px;margin-bottom:2px}
+.brand-title span{color:#69F0AE}
+.brand-sub{font-size:11px;color:#c0d0f0;font-weight:300}
+.ver{position:absolute;top:10px;right:16px;font-family:Oxanium,monospace;font-size:9px;color:#90a0cc;letter-spacing:2px}
+.back-btn{display:inline-flex;align-items:center;gap:7px;padding:7px 16px;background:#111224;border:.5px solid rgba(105,240,174,.2);border-radius:20px;color:#69F0AE;font-size:12px;font-family:Inter,sans-serif;text-decoration:none;transition:.18s;margin-top:8px}
+.back-btn:hover{background:#1a1f3a;border-color:#69F0AE;color:#fff}
+
+/* ── ФІЛЬТРИ ── */
+.filters{padding:12px 40px;border-bottom:.5px solid rgba(105,240,174,.1);display:flex;align-items:center;gap:6px;flex-wrap:wrap;background:#0a0c1a}
+.filter-btn{padding:6px 14px;font-size:11px;font-weight:500;color:#7080b8;cursor:pointer;border:.5px solid #1e2240;border-radius:16px;background:#111224;transition:.18s;font-family:Inter,sans-serif;white-space:nowrap}
+.filter-btn:hover{color:#c0d0f0;border-color:#2e3260}
+.filter-btn.active{color:#69F0AE;border-color:#69F0AE;background:rgba(105,240,174,.06)}
+
+/* ── СПИСОК ТИПІВ (хаб) ── */
+.hub{padding:28px 40px}
+.hub-meta{font-family:Oxanium,monospace;font-size:10px;color:#5a7a6a;letter-spacing:1px;margin-bottom:20px;text-transform:uppercase}
+.hub-meta span{color:#69F0AE}
+.hub-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px}
+.type-card{background:#0e1122;border:.5px solid #1e2240;border-radius:12px;padding:16px 18px;cursor:pointer;transition:.2s;display:flex;align-items:center;gap:14px}
+.type-card:hover{border-color:#69F0AE;background:#111a26;transform:translateY(-1px)}
+.type-card-num{font-family:Oxanium,monospace;font-size:11px;color:#3a5040;min-width:28px}
+.type-card-body{flex:1}
+.type-card-title{font-size:13px;font-weight:600;color:#c0d8cc;margin-bottom:3px}
+.type-card-topic{font-family:Oxanium,monospace;font-size:9px;color:#3a6050;letter-spacing:1px}
+.type-card-arrow{color:#69F0AE;font-size:16px;opacity:.5}
+
+/* ── ЕКРАН ЗАДАЧІ ── */
+.task-screen{display:none;padding:28px 40px}
+.task-screen.active{display:block}
+
+/* Хлібні крихти */
+.breadcrumb{display:flex;align-items:center;gap:8px;margin-bottom:24px;font-size:12px;color:#5a7a6a}
+.breadcrumb a{color:#69F0AE;text-decoration:none;cursor:pointer}
+.breadcrumb a:hover{color:#fff}
+.breadcrumb-sep{opacity:.4}
+
+/* Прогрес */
+.task-progress{margin-bottom:20px}
+.progress-label{font-family:Oxanium,monospace;font-size:9px;color:#5a7a6a;letter-spacing:1px;margin-bottom:6px;text-transform:uppercase}
+.progress-bar{height:3px;background:#1e2240;border-radius:2px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,#69F0AE,#4FC3F7);border-radius:2px;transition:width .4s}
+
+/* Заголовок задачі */
+.task-header{margin-bottom:20px}
+.task-type-badge{display:inline-block;font-family:Oxanium,monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:#69F0AE;background:rgba(105,240,174,.08);border:.5px solid rgba(105,240,174,.2);border-radius:4px;padding:2px 10px;margin-bottom:10px}
+.task-title{font-family:Oxanium,monospace;font-size:20px;font-weight:700;color:#fff;margin-bottom:4px}
+.task-topic-link{font-size:11px;color:#4FC3F7;text-decoration:none;opacity:.7;transition:.15s}
+.task-topic-link:hover{opacity:1}
+
+/* ── ПРИКЛАД ── */
+.example-block{background:#0a1410;border:.5px solid rgba(105,240,174,.15);border-radius:12px;margin-bottom:20px;overflow:hidden}
+.example-header{padding:14px 18px;border-bottom:.5px solid rgba(105,240,174,.1);display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none}
+.example-icon{font-size:18px}
+.example-label{font-family:Oxanium,monospace;font-size:10px;letter-spacing:2px;color:#69F0AE;text-transform:uppercase;flex:1}
+.example-toggle{font-size:12px;color:#69F0AE;transition:transform .25s}
+.example-block.open .example-toggle{transform:rotate(90deg)}
+.example-body{max-height:0;overflow:hidden;transition:max-height .4s cubic-bezier(.4,0,.2,1)}
+.example-block.open .example-body{max-height:3000px}
+.example-inner{padding:18px}
+
+.example-condition{background:#0d1a12;border-left:3px solid #69F0AE;border-radius:0 8px 8px 0;padding:12px 16px;margin-bottom:16px;font-size:13px;color:#c0d8cc;line-height:1.6}
+.example-intro{font-size:13px;color:#8ab8a0;line-height:1.7;margin-bottom:16px;font-style:italic}
+
+.step{display:flex;gap:12px;margin-bottom:12px}
+.step-num{font-family:Oxanium,monospace;font-size:11px;color:#69F0AE;background:rgba(105,240,174,.1);border:.5px solid rgba(105,240,174,.2);border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.step-body{flex:1}
+.step-action{font-size:13px;color:#e0f0e8;line-height:1.6;margin-bottom:4px;font-weight:500}
+.step-why{font-size:12px;color:#6a9880;line-height:1.6;padding-left:10px;border-left:2px solid rgba(105,240,174,.15)}
+.step-result{font-family:Oxanium,monospace;font-size:11px;color:#69F0AE;background:rgba(105,240,174,.06);border-radius:4px;padding:3px 8px;display:inline-block;margin-top:4px}
+
+.example-conclusion{background:#0a1f14;border:.5px solid rgba(105,240,174,.12);border-radius:8px;padding:12px 16px;margin-top:16px;font-size:12px;color:#7aaa88;line-height:1.7}
+.example-conclusion::before{content:"💡 ";opacity:.7}
+
+/* ── ЗАДАЧА ── */
+.task-block{background:#0e1122;border:.5px solid #1e2240;border-radius:12px;padding:20px}
+.task-block-label{font-family:Oxanium,monospace;font-size:9px;letter-spacing:2px;color:#4FC3F7;text-transform:uppercase;margin-bottom:10px}
+.task-condition{font-size:14px;color:#e0ecff;line-height:1.65;margin-bottom:20px;padding:14px 16px;background:#080e1a;border-radius:8px;border:.5px solid #1a2240}
+
+/* Поле відповіді */
+.answer-row{display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+.answer-input{background:#080e1a;border:.5px solid #2a3560;border-radius:8px;color:#fff;font-family:Oxanium,monospace;font-size:16px;padding:10px 14px;width:160px;outline:none;transition:.2s}
+.answer-input:focus{border-color:#4FC3F7}
+.answer-input.correct{border-color:#69F0AE;background:#080f0a}
+.answer-input.wrong{border-color:#ff5252;background:#100808}
+.answer-unit{font-family:Oxanium,monospace;font-size:12px;color:#5a7a9a}
+.btn-check{background:linear-gradient(135deg,rgba(105,240,174,.15),rgba(105,240,174,.08));border:.5px solid #69F0AE;border-radius:8px;padding:10px 24px;color:#69F0AE;font-family:Oxanium,monospace;font-size:12px;cursor:pointer;letter-spacing:1px;transition:.18s}
+.btn-check:hover{background:rgba(105,240,174,.2);color:#fff}
+.btn-check:disabled{opacity:.4;cursor:not-allowed}
+
+/* Підказки */
+.hints-section{margin-top:4px}
+.btn-hint{background:none;border:.5px solid #2a3560;border-radius:8px;padding:8px 16px;color:#5a7a9a;font-size:12px;cursor:pointer;transition:.18s;font-family:Inter,sans-serif;display:flex;align-items:center;gap:6px;margin-bottom:8px}
+.btn-hint:hover{border-color:#4FC3F7;color:#4FC3F7}
+.hint-card{background:#080d18;border:.5px solid rgba(79,195,247,.15);border-radius:8px;padding:11px 14px;margin-bottom:8px;font-size:12px;color:#8aaccc;line-height:1.7;animation:fadeIn .3s ease}
+.hint-card strong{color:#4FC3F7}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+
+/* Результат */
+.result-block{display:none;margin-top:16px;border-radius:10px;padding:16px;animation:fadeIn .3s ease}
+.result-block.correct{background:rgba(105,240,174,.06);border:.5px solid rgba(105,240,174,.25)}
+.result-block.wrong{background:rgba(255,82,82,.05);border:.5px solid rgba(255,82,82,.2)}
+.result-icon{font-size:22px;margin-bottom:8px}
+.result-title{font-family:Oxanium,monospace;font-size:13px;font-weight:700;margin-bottom:8px}
+.result-block.correct .result-title{color:#69F0AE}
+.result-block.wrong .result-title{color:#ff7070}
+.result-explain{font-size:13px;color:#8ab8a0;line-height:1.75}
+.result-explain b{color:#c0d8cc}
+
+/* Кнопки навігації */
+.nav-btns{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap}
+.btn-next{background:linear-gradient(135deg,rgba(105,240,174,.18),rgba(105,240,174,.08));border:.5px solid #69F0AE;border-radius:8px;padding:10px 28px;color:#69F0AE;font-family:Oxanium,monospace;font-size:12px;cursor:pointer;letter-spacing:1px;transition:.18s}
+.btn-next:hover{background:rgba(105,240,174,.25);color:#fff}
+.btn-back-hub{background:none;border:.5px solid #2a3560;border-radius:8px;padding:10px 20px;color:#5a7a9a;font-size:12px;cursor:pointer;transition:.18s;font-family:Inter,sans-serif}
+.btn-back-hub:hover{border-color:#69F0AE;color:#69F0AE}
+
+/* Посилання на тему */
+.topic-refs{margin-top:16px;display:flex;flex-wrap:wrap;gap:6px}
+.topic-ref{font-family:Oxanium,monospace;font-size:9px;color:#4FC3F7;background:rgba(79,195,247,.06);border:.5px solid rgba(79,195,247,.18);border-radius:4px;padding:2px 8px;text-decoration:none;transition:.15s}
+.topic-ref:hover{background:rgba(79,195,247,.12);color:#fff}
+
+/* ── FOOTER ── */
+.footer{padding:16px 40px;border-top:.5px solid #1e2240;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:40px}
+.footer-brand{font-family:Oxanium,monospace;font-size:10px;color:#7080b8;letter-spacing:2px}
+.footer-back{display:inline-flex;align-items:center;gap:6px;color:#69F0AE;font-size:11px;text-decoration:none;transition:color .15s}
+.footer-back:hover{color:#fff}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  .hero{padding:12px 14px;gap:14px}.brand-title{font-size:24px}
+  .filters{padding:10px 12px}
+  .hub{padding:16px 12px}.task-screen{padding:16px 12px}
+  .hub-grid{grid-template-columns:1fr}
+  .answer-input{width:130px}
+  .footer{padding:12px 14px;flex-direction:column;align-items:flex-start}
+}
+@media(max-width:480px){.brand-title{font-size:20px}.mol{width:80px;height:80px}}
+</style>
+</head>
+<body>
+<div class="kr">
+
+<!-- HERO -->
+<div class="hero">
+  <div class="ver">v1.0.0</div>
+  <div class="mol">
+    <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <filter id="glow1"><feGaussianBlur stdDeviation="2.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        <filter id="glow2"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      </defs>
+      <g class="drop-anim">
+        <!-- Олівець/ручка -->
+        <rect x="52" y="18" width="10" height="55" rx="2" fill="rgba(105,240,174,0.08)" stroke="#69F0AE" stroke-width="1" opacity="0.8"/>
+        <polygon points="52,73 62,73 57,88" fill="#69F0AE" opacity="0.7"/>
+        <rect x="52" y="18" width="10" height="10" rx="2" fill="rgba(255,100,100,0.3)" stroke="#ff7070" stroke-width="0.7"/>
+        <!-- Лінії рядків -->
+        <line x1="38" y1="35" x2="50" y2="35" stroke="#69F0AE" stroke-width="0.6" opacity="0.4"/>
+        <line x1="38" y1="42" x2="50" y2="42" stroke="#69F0AE" stroke-width="0.6" opacity="0.3"/>
+        <line x1="38" y1="49" x2="50" y2="49" stroke="#69F0AE" stroke-width="0.6" opacity="0.2"/>
+        <line x1="64" y1="35" x2="80" y2="35" stroke="#69F0AE" stroke-width="0.6" opacity="0.4"/>
+        <line x1="64" y1="42" x2="78" y2="42" stroke="#69F0AE" stroke-width="0.6" opacity="0.3"/>
+        <line x1="64" y1="49" x2="76" y2="49" stroke="#69F0AE" stroke-width="0.6" opacity="0.2"/>
+        <!-- Формула H2O -->
+        <text x="57" y="105" text-anchor="middle" fill="#69F0AE" font-size="9" font-family="Oxanium,monospace" opacity="0.6">H₂O</text>
+        <!-- Атоми -->
+        <circle cx="30" cy="60" r="7" fill="rgba(105,240,174,0.1)" stroke="#69F0AE" stroke-width="0.8" filter="url(#glow1)"/>
+        <text x="30" y="64" text-anchor="middle" fill="#69F0AE" font-size="6" font-weight="700" font-family="Oxanium,monospace">Na</text>
+        <circle cx="88" cy="60" r="6" fill="rgba(79,195,247,0.1)" stroke="#4FC3F7" stroke-width="0.8" filter="url(#glow1)"/>
+        <text x="88" y="64" text-anchor="middle" fill="#4FC3F7" font-size="6" font-weight="700" font-family="Oxanium,monospace">Cl</text>
+        <line x1="37" y1="60" x2="50" y2="60" stroke="#69F0AE" stroke-width="0.7" opacity="0.3"/>
+        <line x1="64" y1="60" x2="81" y2="60" stroke="#4FC3F7" stroke-width="0.7" opacity="0.3"/>
+        <!-- Блиск -->
+        <ellipse cx="57" cy="90" rx="16" ry="4" fill="#69F0AE" opacity="0.04" filter="url(#glow2)">
+          <animate attributeName="opacity" values="0.02;0.08;0.02" dur="3s" repeatCount="indefinite"/>
+        </ellipse>
+      </g>
+    </svg>
+  </div>
+  <div>
+    <div class="brand-label">Розрахункові задачі</div>
+    <div class="brand-title">Хім<span>арій</span></div>
+    <div class="brand-sub">Задачник — від простого до складного, крок за кроком</div>
+    <a href="index.html" class="back-btn">← Повернутись до Хімарію</a>
+  </div>
+</div>
+
+<!-- ФІЛЬТРИ -->
+<div class="filters" id="filters-bar">
+  <button class="filter-btn active" data-group="all" onclick="setGroup('all')">📚 Всі типи</button>
+  <button class="filter-btn" data-group="basic" onclick="setGroup('basic')">⚗️ Базові</button>
+  <button class="filter-btn" data-group="solutions" onclick="setGroup('solutions')">🧪 Розчини</button>
+  <button class="filter-btn" data-group="reactions" onclick="setGroup('reactions')">🔥 Реакції</button>
+  <button class="filter-btn" data-group="advanced" onclick="setGroup('advanced')">🎓 Поглиблені</button>
+</div>
+
+<!-- ХАБ — список типів задач -->
+<div class="hub" id="hub-screen">
+  <div class="hub-meta" id="hub-meta">Завантаження...</div>
+  <div class="hub-grid" id="hub-grid"></div>
+</div>
+
+<!-- ЕКРАН ЗАДАЧІ -->
+<div class="task-screen" id="task-screen">
+
+  <!-- Хлібні крихти -->
+  <div class="breadcrumb">
+    <a onclick="showHub()">📚 Всі типи</a>
+    <span class="breadcrumb-sep">›</span>
+    <span id="bc-title"></span>
+  </div>
+
+  <!-- Прогрес -->
+  <div class="task-progress">
+    <div class="progress-label">Прогрес — <span id="prog-text"></span></div>
+    <div class="progress-bar"><div class="progress-fill" id="prog-fill"></div></div>
+  </div>
+
+  <!-- Заголовок -->
+  <div class="task-header">
+    <div class="task-type-badge" id="t-badge"></div>
+    <div class="task-title" id="t-title"></div>
+    <a class="task-topic-link" id="t-topic-link" href="index.html" target="_blank">📖 Відкрити тему в довіднику</a>
+  </div>
+
+  <!-- ПРИКЛАД -->
+  <div class="example-block" id="example-block">
+    <div class="example-header" onclick="toggleExample()">
+      <span class="example-icon">📘</span>
+      <span class="example-label">Розбір прикладу</span>
+      <span class="example-toggle">▶</span>
+    </div>
+    <div class="example-body">
+      <div class="example-inner">
+        <div class="example-condition" id="ex-condition"></div>
+        <div class="example-intro" id="ex-intro"></div>
+        <div id="ex-steps"></div>
+        <div class="example-conclusion" id="ex-conclusion"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ЗАДАЧА -->
+  <div class="task-block">
+    <div class="task-block-label">🎯 Твоя задача</div>
+    <div class="task-condition" id="t-condition"></div>
+
+    <!-- Поле відповіді -->
+    <div class="answer-row">
+      <input class="answer-input" type="text" id="answer-input"
+             placeholder="Відповідь..."
+             onkeydown="if(event.key==='Enter')checkAnswer()">
+      <span class="answer-unit" id="answer-unit"></span>
+      <button class="btn-check" id="btn-check" onclick="checkAnswer()">Перевірити</button>
+    </div>
+
+    <!-- Підказки -->
+    <div class="hints-section" id="hints-section"></div>
+
+    <!-- Результат -->
+    <div class="result-block" id="result-block">
+      <div class="result-icon" id="result-icon"></div>
+      <div class="result-title" id="result-title"></div>
+      <div class="result-explain" id="result-explain"></div>
+    </div>
+
+    <!-- Посилання на теми -->
+    <div class="topic-refs" id="topic-refs"></div>
+
+    <!-- Навігація -->
+    <div class="nav-btns" id="nav-btns" style="display:none">
+      <button class="btn-next" onclick="nextTask()">Наступна задача →</button>
+      <button class="btn-back-hub" onclick="showHub()">← До списку типів</button>
+    </div>
+  </div>
+
+</div><!-- .task-screen -->
+
+<div class="footer">
+  <div class="footer-brand">CHIMARIUM · ЗАДАЧНИК</div>
+  <a href="index.html" class="footer-back">← Повернутись до Хімарію</a>
+</div>
+
+</div><!-- .kr -->
+
+<script>
+// ── КОНФІГ ГРУП ──────────────────────────────────────────────────────
+const GROUPS = {
+  basic:     ['mr','mass-fraction-element','mol-mass','gas-volume','avogadro','gas-density'],
+  solutions: ['mass-fraction-solution','molarity','solution-density','molarity-mixing','crystallohydrate','mixing-rule'],
+  reactions: ['reaction-mass','impurities','excess-deficit','practical-yield','mixture','solution-reaction','plate-reaction'],
+  advanced:  ['thermochemical','formula-by-fractions','formula-by-combustion','ecological','unknown-element']
+};
+
+const GROUP_LABELS = {
+  basic:'Базові',solutions:'Розчини',reactions:'Реакції',advanced:'Поглиблені'
+};
+
+const TOPIC_LABELS = {
+  '1-1-atom':'Будова атому','1-2-periodic':'Періодичний закон',
+  '1-3-bond':'Хімічний зв\'язок','1-4-states':'Агрегатні стани',
+  '1-5-gases':'Газові закони','2-1-inorganic-classes':'Класи неорг. сполук',
+  '2-2-s-elements':'s-елементи','2-3-p-elements':'p-елементи',
+  '2-4-d-f-elements':'d,f-елементи','3-1-thermodynamics':'Термодинаміка',
+  '3-2-kinetics':'Кінетика','3-3-equilibrium':'Рівновага',
+  '3-4-electrochemistry':'Електрохімія','3-5-phase':'Фазові рівноваги',
+  '4-1-dissolving':'Розчинення','4-2-concentration':'Концентрація',
+  '4-3-electrolytes':'Електроліти','4-5-colloids':'Колоїди',
+  '5-1-organic-basics':'Основи орг. хімії','5-2-hydrocarbons':'Вуглеводні',
+  '5-4-oxygen-compounds':'Оксигенвмісні','5-5-nitrogen-compounds':'Нітрогенвмісні',
+  '5-6-polymers':'Полімери','6-1-qualitative':'Якісний аналіз'
+};
+
+// ── СТАН ─────────────────────────────────────────────────────────────
+let ALL_TASKS = [];
+let filteredTasks = [];
+let currentTaskIndex = 0;
+let currentTask = null;
+let hintsShown = 0;
+let answered = false;
+let currentGroup = 'all';
+
+// ── ЗАВАНТАЖЕННЯ ─────────────────────────────────────────────────────
+async function loadTasks() {
+  try {
+    const r = await fetch('data/tasks.json');
+    ALL_TASKS = await r.json();
+  } catch(e) {
+    document.getElementById('hub-meta').textContent = '⚠️ Файл data/tasks.json не знайдено';
+    return;
+  }
+  setGroup('all');
+}
+
+// ── ГРУПА / ФІЛЬТР ───────────────────────────────────────────────────
+function setGroup(g) {
+  currentGroup = g;
+  document.querySelectorAll('.filter-btn').forEach(b =>
+    b.classList.toggle('active', b.dataset.group === g));
+
+  if (g === 'all') {
+    filteredTasks = ALL_TASKS;
+  } else {
+    const types = GROUPS[g] || [];
+    filteredTasks = ALL_TASKS.filter(t => types.includes(t.type));
+  }
+  renderHub();
+}
+
+// ── ХАБ ──────────────────────────────────────────────────────────────
+function renderHub() {
+  const meta = document.getElementById('hub-meta');
+  const grid = document.getElementById('hub-grid');
+  const label = currentGroup === 'all' ? 'всі типи' : GROUP_LABELS[currentGroup];
+  meta.innerHTML = `Показано <span>${filteredTasks.length}</span> типів задач · ${label}`;
+
+  grid.innerHTML = filteredTasks.map((t, i) => `
+    <div class="type-card" onclick="startTask(${ALL_TASKS.indexOf(t)})">
+      <div class="type-card-num">${String(i+1).padStart(2,'0')}</div>
+      <div class="type-card-body">
+        <div class="type-card-title">${t.title}</div>
+        <div class="type-card-topic">${TOPIC_LABELS[t.topic] || t.topic}</div>
+      </div>
+      <div class="type-card-arrow">›</div>
+    </div>`).join('');
+}
+
+// ── ПОКАЗАТИ ХАБ ─────────────────────────────────────────────────────
+function showHub() {
+  document.getElementById('hub-screen').style.display = 'block';
+  document.getElementById('task-screen').classList.remove('active');
+  document.getElementById('filters-bar').style.display = 'flex';
+  // Відкрити приклад при поверненні
+  document.getElementById('example-block').classList.remove('open');
+}
+
+// ── СТАРТ ЗАДАЧІ ─────────────────────────────────────────────────────
+function startTask(globalIndex) {
+  currentTask = ALL_TASKS[globalIndex];
+  currentTaskIndex = globalIndex;
+  hintsShown = 0;
+  answered = false;
+
+  document.getElementById('hub-screen').style.display = 'none';
+  document.getElementById('filters-bar').style.display = 'none';
+  document.getElementById('task-screen').classList.add('active');
+
+  renderTask();
+  window.scrollTo(0, 0);
+}
+
+// ── РЕНДЕР ЗАДАЧІ ────────────────────────────────────────────────────
+function renderTask() {
+  const t = currentTask;
+  const ex = t.example;
+  const task = t.task;
+
+  // Хлібні крихти і прогрес
+  document.getElementById('bc-title').textContent = t.title;
+  const pos = filteredTasks.findIndex(x => x.id === t.id);
+  const total = filteredTasks.length;
+  document.getElementById('prog-text').textContent =
+    pos >= 0 ? `${pos+1} з ${total}` : t.title;
+  document.getElementById('prog-fill').style.width =
+    pos >= 0 ? `${((pos+1)/total)*100}%` : '0%';
+
+  // Заголовок
+  document.getElementById('t-badge').textContent = t.title;
+  document.getElementById('t-title').textContent = ex.condition;
+  const tLink = document.getElementById('t-topic-link');
+  tLink.href = `index.html#topic-${t.topic}`;
+
+  // Приклад
+  document.getElementById('ex-condition').innerHTML = ex.condition;
+  document.getElementById('ex-intro').innerHTML = ex.intro;
+  document.getElementById('ex-conclusion').innerHTML = ex.conclusion;
+
+  const stepsEl = document.getElementById('ex-steps');
+  stepsEl.innerHTML = ex.steps.map((s, i) => `
+    <div class="step">
+      <div class="step-num">${i+1}</div>
+      <div class="step-body">
+        <div class="step-action">${s.action}</div>
+        <div class="step-why">${s.why}</div>
+        <div class="step-result">${s.result}</div>
+      </div>
+    </div>`).join('');
+
+  // Відкрити приклад за замовчуванням
+  document.getElementById('example-block').classList.add('open');
+
+  // Задача
+  document.getElementById('t-condition').innerHTML = task.condition;
+
+  // Відповідь
+  const inp = document.getElementById('answer-input');
+  inp.value = '';
+  inp.className = 'answer-input';
+  inp.disabled = false;
+  document.getElementById('answer-unit').textContent = task.unit || '';
+  document.getElementById('btn-check').disabled = false;
+
+  // Підказки
+  hintsShown = 0;
+  renderHints();
+
+  // Результат — сховати
+  const rb = document.getElementById('result-block');
+  rb.style.display = 'none';
+  rb.className = 'result-block';
+
+  // Кнопки навігації — сховати
+  document.getElementById('nav-btns').style.display = 'none';
+
+  // Посилання на теми
+  const refs = document.getElementById('topic-refs');
+  const topics = t.topics || [t.topic];
+  refs.innerHTML = topics.map(tp =>
+    `<a class="topic-ref" href="index.html#topic-${tp}" target="_blank">📖 ${TOPIC_LABELS[tp] || tp}</a>`
+  ).join('');
+}
+
+// ── ПІДКАЗКИ ─────────────────────────────────────────────────────────
+function renderHints() {
+  const hints = currentTask.task.hints || [];
+  const sec = document.getElementById('hints-section');
+
+  let html = '';
+  // Показані підказки
+  for (let i = 0; i < hintsShown; i++) {
+    html += `<div class="hint-card"><strong>Підказка ${i+1}:</strong> ${hints[i]}</div>`;
+  }
+  // Кнопка наступної підказки
+  if (hintsShown < hints.length && !answered) {
+    html += `<button class="btn-hint" onclick="showHint()">
+      💡 Підказка ${hintsShown + 1} з ${hints.length}
+    </button>`;
+  }
+  sec.innerHTML = html;
+}
+
+function showHint() {
+  if (hintsShown < currentTask.task.hints.length) {
+    hintsShown++;
+    renderHints();
+  }
+}
+
+// ── ПЕРЕВІРКА ВІДПОВІДІ ──────────────────────────────────────────────
+function checkAnswer() {
+  if (answered) return;
+  const inp = document.getElementById('answer-input');
+  const raw = inp.value.trim().replace(',', '.');
+  const userVal = parseFloat(raw);
+  const task = currentTask.task;
+
+  // Для текстових відповідей (формули)
+  if (typeof task.answer === 'string') {
+    const correct = raw.toLowerCase().replace(/\s/g,'') ===
+                    task.answer.toLowerCase().replace(/\s/g,'');
+    showResult(correct, task);
+    inp.className = 'answer-input ' + (correct ? 'correct' : 'wrong');
+  } else {
+    if (isNaN(userVal)) {
+      inp.style.borderColor = '#ff5252';
+      inp.placeholder = 'Введи число!';
+      return;
+    }
+    const correct = Math.abs(userVal - task.answer) <= (task.tolerance || 0.01);
+    showResult(correct, task);
+    inp.className = 'answer-input ' + (correct ? 'correct' : 'wrong');
+  }
+
+  answered = true;
+  inp.disabled = true;
+  document.getElementById('btn-check').disabled = true;
+  document.getElementById('nav-btns').style.display = 'flex';
+
+  // Сховати кнопку підказки
+  renderHints();
+}
+
+function showResult(correct, task) {
+  const rb = document.getElementById('result-block');
+  rb.style.display = 'block';
+  rb.className = 'result-block ' + (correct ? 'correct' : 'wrong');
+
+  document.getElementById('result-icon').textContent = correct ? '✅' : '❌';
+  document.getElementById('result-title').textContent = correct
+    ? 'Правильно! Чудова робота!'
+    : `Не зовсім. Правильна відповідь: ${task.answer}${task.unit ? ' ' + task.unit : ''}`;
+  document.getElementById('result-explain').innerHTML = task.explain;
+}
+
+// ── НАСТУПНА ЗАДАЧА ──────────────────────────────────────────────────
+function nextTask() {
+  const pos = filteredTasks.findIndex(x => x.id === currentTask.id);
+  if (pos < filteredTasks.length - 1) {
+    const next = filteredTasks[pos + 1];
+    startTask(ALL_TASKS.indexOf(next));
+  } else {
+    showHub();
+  }
+}
+
+// ── ПРИКЛАД TOGGLE ───────────────────────────────────────────────────
+function toggleExample() {
+  document.getElementById('example-block').classList.toggle('open');
+}
+
+// ── СТАРТ ────────────────────────────────────────────────────────────
+loadTasks();
+</script>
+</body>
+</html>
